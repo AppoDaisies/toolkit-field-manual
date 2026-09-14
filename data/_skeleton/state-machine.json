@@ -1,0 +1,67 @@
+{
+  "id": "state-machine",
+  "name": "StateMachine",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/StateMachine/StateMachine.cs",
+  "src_lines": [
+    8,
+    52
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Plain C# state machine, not a MonoBehaviour — call Tick() yourself from an owning MonoBehaviour's Update(). Kept framework-free on purpose: no reflection, no attribute-based transitions, so it's easy to trace and edit.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "CurrentState",
+      "sig": "public IState CurrentState { get; private set; }",
+      "kind": "property",
+      "name": "CurrentState",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetState(IState)",
+      "sig": "public void SetState(IState newState)",
+      "kind": "method",
+      "name": "SetState",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick()",
+      "sig": "public void Tick()",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsInState<T>()",
+      "sig": "public bool IsInState<T>() where T : IState => CurrentState is T",
+      "kind": "method",
+      "name": "IsInState",
+      "static": false,
+      "comment": "Sugar for AddTransition conditions and outside checks alike, e.g. AddTransition(chase, attack, () => stateMachine.IsInState<ChaseState>() && inRange)."
+    },
+    {
+      "id": "AddTransition(IState, IState, Func<bool>)",
+      "sig": "public void AddTransition(IState from, IState to, Func<bool> condition)",
+      "kind": "method",
+      "name": "AddTransition",
+      "static": false,
+      "comment": "Optional helper: register \"if condition true, switch to this state\" checked every Tick before the state runs. Skip this entirely and call SetState() manually from your own game logic if you'd rather not use rule-based transitions."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo"
+  ]
+}

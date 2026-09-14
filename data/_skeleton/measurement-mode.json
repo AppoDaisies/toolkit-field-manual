@@ -1,0 +1,24 @@
+{
+  "id": "measurement-mode",
+  "name": "MeasurementMode",
+  "cat": "EditorTools",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgMeasuringTapeTab.cs",
+  "src_lines": [
+    11,
+    11
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "3D = always raycast real scene colliders — a click that misses geometry is REJECTED rather than guessed at, so every recorded point is a true, camera-independent world position. 2D = always project onto a FIXED world plane (never the camera's current view), so points stay consistent no matter how you orbit/pan the Scene view between clicks.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

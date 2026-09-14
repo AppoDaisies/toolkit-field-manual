@@ -1,0 +1,24 @@
+{
+  "id": "prefab-spacing-mode",
+  "name": "PrefabSpacingMode",
+  "cat": "PathBuilder",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.PathBuilder",
+  "src_file": "PathBuilder/PathBuilder.cs",
+  "src_lines": [
+    10,
+    10
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

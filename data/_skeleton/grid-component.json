@@ -1,0 +1,172 @@
+{
+  "id": "grid-component",
+  "name": "GridComponent",
+  "cat": "Grid",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.GridSystem",
+  "src_file": "Grid/Core/GridComponent.cs",
+  "src_lines": [
+    12,
+    107
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Grid System"
+  },
+  "src_typeComment": "The foundation of the Grid Toolkit: drop on an empty GameObject, set width/height/cell size, and you immediately get a visualized grid plus world<->cell conversion — nothing else to wire up. Other grid tools (GridPlacer, GridPathfinder) reference this component rather than duplicating the conversion math.",
+  "src_serialized": [
+    {
+      "name": "width",
+      "type": "int",
+      "default": "10",
+      "tooltip": "Number of cells along each axis.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "height",
+      "type": "int",
+      "default": "10",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "cellSize",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "World-space size of one cell.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "plane",
+      "type": "GridPlane",
+      "default": "GridPlane.XZ",
+      "tooltip": "Which world plane the grid lies on: XZ for a 3D top-down/isometric ground plane, XY for a 2D game.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "allowDiagonalNeighbors",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Whether diagonal cells count as neighbors by default (8-directional) or not (4-directional). GetNeighborCells() can still override this per call — GridPathfinder has its own allowDiagonals toggle for exactly that.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "drawGizmo",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Draws grid lines in the Scene view.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "gizmoColor",
+      "type": "Color",
+      "default": "new Color(0f, 1f, 1f, 0.5f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Occupancy",
+      "sig": "public Grid<GameObject> Occupancy { get; private set; }",
+      "kind": "property",
+      "name": "Occupancy",
+      "static": false,
+      "comment": "Tracks which GameObject (if any) occupies each cell — GridPlacer writes to this, GridPathfinder reads it."
+    },
+    {
+      "id": "Width",
+      "sig": "public int Width => width",
+      "kind": "property",
+      "name": "Width",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Height",
+      "sig": "public int Height => height",
+      "kind": "property",
+      "name": "Height",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CellSize",
+      "sig": "public float CellSize => cellSize",
+      "kind": "property",
+      "name": "CellSize",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AllowDiagonalNeighbors",
+      "sig": "public bool AllowDiagonalNeighbors => allowDiagonalNeighbors",
+      "kind": "property",
+      "name": "AllowDiagonalNeighbors",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CellToWorldCenter(int, int)",
+      "sig": "public Vector3 CellToWorldCenter(int x, int y)",
+      "kind": "method",
+      "name": "CellToWorldCenter",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "WorldToCell(Vector3, out int, out int)",
+      "sig": "public bool WorldToCell(Vector3 worldPosition, out int x, out int y)",
+      "kind": "method",
+      "name": "WorldToCell",
+      "static": false,
+      "comment": "Returns false (with x/y still populated) if the world position falls outside the grid's bounds."
+    },
+    {
+      "id": "GetNeighborCells(int, int)",
+      "sig": "public IEnumerable<(int x, int y)> GetNeighborCells(int x, int y) => GetNeighborCells(x, y, allowDiagonalNeighbors)",
+      "kind": "method",
+      "name": "GetNeighborCells",
+      "static": false,
+      "comment": "Shared adjacency rule for any grid tool that needs neighboring cells (GridPathfinder, or your own range/AoE/flood-fill logic) instead of each one hand-rolling its own 4-vs-8-directional loop. Doesn't filter by walkability/bounds — callers decide what \"blocked\" or \"out of range\" means for them."
+    },
+    {
+      "id": "GetNeighborCells(int, int)",
+      "sig": "public IEnumerable<(int x, int y)> GetNeighborCells(int x, int y, bool includeDiagonals)",
+      "kind": "method",
+      "name": "GetNeighborCells",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GridToolkit_Demo"
+  ]
+}

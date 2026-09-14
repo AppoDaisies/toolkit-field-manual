@@ -1,0 +1,28 @@
+{
+  "id": "float-variable",
+  "name": "FloatVariable",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/Variables/FloatVariable.cs",
+  "src_lines": [
+    6,
+    6
+  ],
+  "src_base": "ScriptableVariable<float>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Variables/Float Variable\""
+  },
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ScriptableObjectToolkit_Demo"
+  ]
+}

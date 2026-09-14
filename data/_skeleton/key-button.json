@@ -1,0 +1,95 @@
+{
+  "id": "key-button",
+  "name": "KeyButton",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/KeyButton.cs",
+  "src_lines": [
+    12,
+    43
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Button)"
+    ],
+    "addComponentMenu": "Toolkit/Kiosk/Key Button"
+  },
+  "src_typeComment": "One key on a VirtualKeyboard — pairs a lowercase/uppercase character with a Button. VirtualKeyboard owns the shift-state logic; this just relabels itself and reports clicks.",
+  "src_serialized": [
+    {
+      "name": "lowercaseChar",
+      "type": "string",
+      "default": "\"a\"",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "uppercaseChar",
+      "type": "string",
+      "default": "\"A\"",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "label",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "LowercaseChar",
+      "sig": "public string LowercaseChar => lowercaseChar",
+      "kind": "property",
+      "name": "LowercaseChar",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UppercaseChar",
+      "sig": "public string UppercaseChar => uppercaseChar",
+      "kind": "property",
+      "name": "UppercaseChar",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Clicked",
+      "sig": "public event Action<KeyButton> Clicked",
+      "kind": "event",
+      "name": "Clicked",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetShiftState(bool)",
+      "sig": "public void SetShiftState(bool shiftActive)",
+      "kind": "method",
+      "name": "SetShiftState",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "id": "turn-manager",
+  "name": "TurnManager",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/TurnManager.cs",
+  "src_lines": [
+    18,
+    164
+  ],
+  "src_base": "Singleton<TurnManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Combat/Turn Manager"
+  },
+  "src_typeComment": "Singleton battle director: register combatants (TurnBasedActor self-registers), call StartBattle(), and this runs the whole turn loop — rebuilding initiative order each round, auto-resolving AI turns via UtilityAIBrain, and pausing for player-controlled actors until your UI calls SubmitPlayerAction(). No custom state code needed — the turn flow itself is the one thing this toolkit uses StateMachine's spirit for at the battle level (Idle/ActorTurnAI/WaitingForPlayerInput/BattleOver) without literally needing the StateMachine class, since the flow is simple enough as a plain state enum + a few methods.",
+  "src_serialized": [
+    {
+      "name": "aiThinkDelay",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Seconds an AI turn pauses before executing, so its action doesn't happen instantly/invisibly.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnRoundStarted = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<TurnBasedActor>()",
+      "sig": "public UnityEvent<TurnBasedActor> OnTurnStarted = new UnityEvent<TurnBasedActor>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<TurnBasedActor, ActionDefinition, TurnBasedActor>()",
+      "sig": "public UnityEvent<TurnBasedActor, ActionDefinition, TurnBasedActor> OnActionExecuted = new UnityEvent<TurnBasedActor, ActionDefinition, TurnBasedActor>(); // actor, action, primary target",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<bool>()",
+      "sig": "public UnityEvent<bool> OnBattleEnded = new UnityEvent<bool>(); // true = allies won",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "State",
+      "sig": "public BattleState State { get; private set; } = BattleState.Idle",
+      "kind": "property",
+      "name": "State",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentActor",
+      "sig": "public TurnBasedActor CurrentActor { get; private set; }",
+      "kind": "property",
+      "name": "CurrentActor",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "RegisterActor(TurnBasedActor)",
+      "sig": "public void RegisterActor(TurnBasedActor actor)",
+      "kind": "method",
+      "name": "RegisterActor",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnregisterActor(TurnBasedActor)",
+      "sig": "public void UnregisterActor(TurnBasedActor actor)",
+      "kind": "method",
+      "name": "UnregisterActor",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "StartBattle()",
+      "sig": "public void StartBattle() => StartRound()",
+      "kind": "method",
+      "name": "StartBattle",
+      "static": false,
+      "comment": "Call this once every combatant has registered (i.e. from a Start(), not an Awake())."
+    },
+    {
+      "id": "SubmitPlayerAction(ActionDefinition, TurnBasedActor)",
+      "sig": "public void SubmitPlayerAction(ActionDefinition action, TurnBasedActor target)",
+      "kind": "method",
+      "name": "SubmitPlayerAction",
+      "static": false,
+      "comment": "Call from your UI when State == WaitingForPlayerInput. `target` is ignored for Self/AllEnemies/ AllAllies action types, since those resolve their own target set automatically."
+    },
+    {
+      "id": "GetEnemiesOf(TurnBasedActor)",
+      "sig": "public List<TurnBasedActor> GetEnemiesOf(TurnBasedActor actor)",
+      "kind": "method",
+      "name": "GetEnemiesOf",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetAlliesOf(TurnBasedActor)",
+      "sig": "public List<TurnBasedActor> GetAlliesOf(TurnBasedActor actor)",
+      "kind": "method",
+      "name": "GetAlliesOf",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TurnBasedCombat_Demo"
+  ]
+}

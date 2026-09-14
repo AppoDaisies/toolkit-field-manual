@@ -1,0 +1,11 @@
+{
+  "id": "ease-type",
+  "summary": "Enum naming the 13 easing curves EasingFunctions.Evaluate can apply, from Linear to OutBounce.",
+  "problem": "Easing is a choice a designer makes, not a formula a programmer hard-codes, so the curve needs to be a value you can put on a serialized field and pick from an Inspector dropdown. This enum is that value. It covers the four families that cover almost every real requirement — Quad and Cubic for plain acceleration, Back for anticipation and overshoot, Elastic and Bounce for springy arrivals — each in the In (slow start), Out (slow finish) and InOut (slow at both ends) flavours where they make sense. Note the set is deliberately incomplete: there is no InBounce, InOutBounce or InOutElastic, so do not assume symmetry when porting values from another tweening library.",
+  "useCases": [
+    "A [SerializeField] EaseType on a UI animation component, so the curve is picked in the Inspector rather than recompiled.",
+    "Storing the curve choice in a ScriptableObject preset shared by every toast, modal and tooltip in the project.",
+    "Passing an ease choice through a tween API: Tween.To(..., EaseType.OutCubic).",
+    "Driving a shader parameter or camera move with the same named curve the UI uses, so motion feels consistent across systems."
+  ]
+}

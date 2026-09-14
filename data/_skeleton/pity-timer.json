@@ -1,0 +1,88 @@
+{
+  "id": "pity-timer",
+  "name": "PityTimer",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Probability/PityTimer.cs",
+  "src_lines": [
+    11,
+    40
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Bad-luck protection (\"pity timer\"): each failed roll increases the effective chance, guaranteeing a success within guaranteedAfter attempts instead of letting pure independent rolls occasionally streak far longer than feels fair — the classic gacha/loot-box design pattern. Plain C# class (not a MonoBehaviour) so a system with several independent pity counters (e.g. one per loot table) can just hold a field of these rather than needing a GameObject per counter.",
+  "src_serialized": [
+    {
+      "name": "baseChance",
+      "type": "float",
+      "default": "0.05f",
+      "tooltip": "Base chance of success on any single roll, before pity increases it.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "guaranteedAfter",
+      "type": "int",
+      "default": "20",
+      "tooltip": "A roll is guaranteed to succeed once this many consecutive failures have accumulated.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "FailCount",
+      "sig": "public int FailCount { get; private set; }",
+      "kind": "property",
+      "name": "FailCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PityTimer()",
+      "sig": "public PityTimer() { }",
+      "kind": "ctor",
+      "name": "PityTimer",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PityTimer(float, int)",
+      "sig": "public PityTimer(float baseChance, int guaranteedAfter)",
+      "kind": "ctor",
+      "name": "PityTimer",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Roll()",
+      "sig": "public bool Roll()",
+      "kind": "method",
+      "name": "Roll",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Reset()",
+      "sig": "public void Reset() => FailCount = 0",
+      "kind": "method",
+      "name": "Reset",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

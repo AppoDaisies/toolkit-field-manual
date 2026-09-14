@@ -1,0 +1,180 @@
+{
+  "id": "spline-path",
+  "name": "SplinePath",
+  "cat": "PathBuilder",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PathBuilder",
+  "src_file": "PathBuilder/SplinePath.cs",
+  "src_lines": [
+    16,
+    142
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Path Builder/Spline Path"
+  },
+  "src_typeComment": "The shared, re-editable path/spline core: a list of points authored in this object's LOCAL space (so moving or rotating the object moves the whole path), evaluated as a Catmull-Rom curve via SplineUtils. Genuinely independent of PathBuilder — drop this alone on an object with SplineFollower for a patrol path, a camera path, anything that just needs to move something smoothly through hand-placed points. PathBuilder additionally requires one of these on the same object to generate prefabs/meshes along it.  Edited via the Scene view: select this object (or a PathBuilder on the same object) to get click-to-add / drag-to-move / click-to-remove point editing — see PathBuilder/Editor/SplinePathSceneEditing.",
+  "src_serialized": [
+    {
+      "name": "points",
+      "type": "List<Vector3>",
+      "default": "new List<Vector3>()",
+      "tooltip": "Points along the path, in this object's LOCAL space. Edit via the Scene view (Ctrl+Click to add, drag to move, Alt+Click a point to remove) or directly here.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "tension",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "0 = a smooth curve through every point (standard Catmull-Rom). 1 = dead-straight segments between points, still passing through every one. In between loosens/tightens how far the curve bulges past a straight line.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "lengthSamplesPerSegment",
+      "type": "int",
+      "default": "20",
+      "tooltip": "Samples per segment used when measuring the path's length. Higher is more accurate but slower to rebuild. Rebuilt automatically only when points/tension/transform actually change, never per-frame.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "PointCount",
+      "sig": "public int PointCount => points.Count",
+      "kind": "property",
+      "name": "PointCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tension",
+      "sig": "public float Tension { get => tension; set { tension = Mathf.Clamp01(value); InvalidateCache(); } }",
+      "kind": "property",
+      "name": "Tension",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetLocalPoint(int)",
+      "sig": "public Vector3 GetLocalPoint(int index) => points[index]",
+      "kind": "method",
+      "name": "GetLocalPoint",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetWorldPoint(int)",
+      "sig": "public Vector3 GetWorldPoint(int index) => transform.TransformPoint(points[index])",
+      "kind": "method",
+      "name": "GetWorldPoint",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetLocalPoint(int, Vector3)",
+      "sig": "public void SetLocalPoint(int index, Vector3 localPosition)",
+      "kind": "method",
+      "name": "SetLocalPoint",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AddPoint(Vector3)",
+      "sig": "public void AddPoint(Vector3 localPosition)",
+      "kind": "method",
+      "name": "AddPoint",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "InsertPoint(int, Vector3)",
+      "sig": "public void InsertPoint(int index, Vector3 localPosition)",
+      "kind": "method",
+      "name": "InsertPoint",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "RemovePoint(int)",
+      "sig": "public void RemovePoint(int index)",
+      "kind": "method",
+      "name": "RemovePoint",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ClearPoints()",
+      "sig": "public void ClearPoints()",
+      "kind": "method",
+      "name": "ClearPoints",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "InvalidateCache()",
+      "sig": "public void InvalidateCache() => cachedPointCount = -1",
+      "kind": "method",
+      "name": "InvalidateCache",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "EvaluateWorld(float)",
+      "sig": "public Vector3 EvaluateWorld(float t) => transform.TransformPoint(SplineUtils.Evaluate(points, t, tension))",
+      "kind": "method",
+      "name": "EvaluateWorld",
+      "static": false,
+      "comment": "Evaluates the path in WORLD space at t in [0,1]."
+    },
+    {
+      "id": "EvaluateTangentWorld(float)",
+      "sig": "public Vector3 EvaluateTangentWorld(float t) => transform.TransformDirection(SplineUtils.EvaluateTangent(points, t, tension))",
+      "kind": "method",
+      "name": "EvaluateTangentWorld",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetLength()",
+      "sig": "public float GetLength()",
+      "kind": "method",
+      "name": "GetLength",
+      "static": false,
+      "comment": "Total path length in WORLD units (the length table is built from world points, so this stays correct under any transform scale/rotation rather than only being right when the object is unscaled)."
+    },
+    {
+      "id": "GetPointAtDistance(float)",
+      "sig": "public Vector3 GetPointAtDistance(float distance)",
+      "kind": "method",
+      "name": "GetPointAtDistance",
+      "static": false,
+      "comment": "Returns the WORLD position at a given distance along the path (0 = start, GetLength() = end; clamped outside that range). This is what makes constant-speed following and even prefab/mesh spacing possible — see SplineFollower and PathBuilder."
+    },
+    {
+      "id": "GetTangentAtDistance(float)",
+      "sig": "public Vector3 GetTangentAtDistance(float distance)",
+      "kind": "method",
+      "name": "GetTangentAtDistance",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PathBuilder_Demo"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "json-helper",
+  "name": "JsonHelper",
+  "cat": "Persistence",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Persistence",
+  "src_file": "Persistence/JsonHelper/JsonHelper.cs",
+  "src_lines": [
+    13,
+    58
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Newtonsoft Json.NET wrapper — use this instead of SaveSystem/JsonUtility when your data has Dictionaries, interfaces, or polymorphic types that Unity's built-in JsonUtility can't serialize. REQUIRES the \"Newtonsoft Json\" package: Window > Package Manager > Add package by name > com.unity.nuget.newtonsoft-json. Kept as its own isolated tool so unrelated tools (like SaveSystem) don't force that package on a project that doesn't need it.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ToJson<T>(T, bool)",
+      "sig": "public static string ToJson<T>(T data, bool prettyPrint = true)",
+      "kind": "method",
+      "name": "ToJson",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "FromJson<T>(string)",
+      "sig": "public static T FromJson<T>(string json)",
+      "kind": "method",
+      "name": "FromJson",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SaveToFile<T>(string, T)",
+      "sig": "public static bool SaveToFile<T>(string fileName, T data)",
+      "kind": "method",
+      "name": "SaveToFile",
+      "static": true,
+      "comment": "Returns false on failure (disk full, permissions) instead of letting an unhandled exception crash the caller."
+    },
+    {
+      "id": "LoadFromFile<T>(string)",
+      "sig": "public static T LoadFromFile<T>(string fileName)",
+      "kind": "method",
+      "name": "LoadFromFile",
+      "static": true,
+      "comment": "Returns default(T) if the file doesn't exist, or fails to read/parse (e.g. corrupted by a crash mid-write)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Persistence_Demo"
+  ]
+}

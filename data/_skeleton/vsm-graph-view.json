@@ -1,0 +1,105 @@
+{
+  "id": "vsm-graph-view",
+  "name": "VSMGraphView",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine.EditorTools",
+  "src_file": "AI/VisualStateMachine/Editor/VSMGraphView.cs",
+  "src_lines": [
+    12,
+    128
+  ],
+  "src_base": "GraphView",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "The actual graph canvas: renders VSMNode/VSMTransition data as draggable nodes and connectable edges, and writes every structural edit (new/removed node, new/removed transition) straight back into the VisualStateMachineAsset via the owning window.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SelectedNode",
+      "sig": "public VSMGraphNode SelectedNode { get; private set; }",
+      "kind": "property",
+      "name": "SelectedNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SelectedEdge",
+      "sig": "public Edge SelectedEdge { get; private set; }",
+      "kind": "property",
+      "name": "SelectedEdge",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnSelectionChanged",
+      "sig": "public Action OnSelectionChanged",
+      "kind": "field",
+      "name": "OnSelectionChanged",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "VSMGraphView(VisualStateMachineEditorWindow)",
+      "sig": "public VSMGraphView(VisualStateMachineEditorWindow window)",
+      "kind": "ctor",
+      "name": "VSMGraphView",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PopulateFromAsset(VisualStateMachineAsset)",
+      "sig": "public void PopulateFromAsset(VisualStateMachineAsset newAsset)",
+      "kind": "method",
+      "name": "PopulateFromAsset",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AddGraphNode(VSMNode)",
+      "sig": "public void AddGraphNode(VSMNode node) => AddElement(new VSMGraphNode(node))",
+      "kind": "method",
+      "name": "AddGraphNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetCompatiblePorts(Port, NodeAdapter)",
+      "sig": "public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)",
+      "kind": "method",
+      "name": "GetCompatiblePorts",
+      "static": false,
+      "comment": "Only output-to-input, across two different nodes — otherwise a node could \"transition to itself\" via a same-node loopback, which the data model doesn't have a meaningful way to represent."
+    },
+    {
+      "id": "AddToSelection(ISelectable)",
+      "sig": "public override void AddToSelection(ISelectable selectable)",
+      "kind": "method",
+      "name": "AddToSelection",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "RemoveFromSelection(ISelectable)",
+      "sig": "public override void RemoveFromSelection(ISelectable selectable)",
+      "kind": "method",
+      "name": "RemoveFromSelection",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ClearSelection()",
+      "sig": "public override void ClearSelection()",
+      "kind": "method",
+      "name": "ClearSelection",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

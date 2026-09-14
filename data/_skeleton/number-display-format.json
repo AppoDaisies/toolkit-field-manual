@@ -1,0 +1,32 @@
+{
+  "id": "number-display-format",
+  "name": "NumberDisplayFormat",
+  "cat": "UI",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/NumberCounter/AnimatedNumberCounter.cs",
+  "src_lines": [
+    8,
+    17
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Integer",
+    "Decimal1",
+    "Decimal2",
+    "Grouped",
+    "Compact",
+    "Currency",
+    "Percentage"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

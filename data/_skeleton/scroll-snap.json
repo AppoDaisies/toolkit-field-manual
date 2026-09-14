@@ -1,0 +1,113 @@
+{
+  "id": "scroll-snap",
+  "name": "ScrollSnap",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/ScrollSnap/ScrollSnap.cs",
+  "src_lines": [
+    12,
+    145
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IBeginDragHandler",
+    "IEndDragHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(ScrollRect)"
+    ],
+    "addComponentMenu": "Toolkit/Scroll Snap"
+  },
+  "src_typeComment": "Drop on the same GameObject as a ScrollRect whose Content uses a Horizontal or Vertical Layout Group with evenly-sized items. Dragging works exactly like a normal ScrollRect; releasing the drag eases to the nearest item automatically.",
+  "src_serialized": [
+    {
+      "name": "horizontal",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, snaps along the horizontal axis; otherwise vertical.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "snapSpeed",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "How quickly the scroll eases into the snapped position.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnSnapped",
+      "sig": "public event System.Action<int> OnSnapped",
+      "kind": "event",
+      "name": "OnSnapped",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ItemCount",
+      "sig": "public int ItemCount => scrollRect != null ? scrollRect.content.childCount : 0",
+      "kind": "property",
+      "name": "ItemCount",
+      "static": false,
+      "comment": "For anything that wants to know the page count without reaching into the ScrollRect itself — e.g. Toolkit.UI.PaginationDots.BindToScrollSnap()."
+    },
+    {
+      "id": "OnBeginDrag(PointerEventData)",
+      "sig": "public void OnBeginDrag(PointerEventData eventData) => isSnapping = false",
+      "kind": "method",
+      "name": "OnBeginDrag",
+      "static": false,
+      "comment": "Without this, grabbing the scroll again mid-snap would leave LateUpdate still forcibly animating toward the old target every frame, fighting the user's new drag input."
+    },
+    {
+      "id": "OnEndDrag(PointerEventData)",
+      "sig": "public void OnEndDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnEndDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SnapTo(int)",
+      "sig": "public void SnapTo(int index)",
+      "kind": "method",
+      "name": "SnapTo",
+      "static": false,
+      "comment": "Call this directly for a \"next/previous\" button instead of dragging."
+    },
+    {
+      "id": "ComputeCenteredNormalizedPosition(int)",
+      "sig": "public Vector2 ComputeCenteredNormalizedPosition(int index)",
+      "kind": "method",
+      "name": "ComputeCenteredNormalizedPosition",
+      "static": false,
+      "comment": "Centres the chosen item in the VIEWPORT.  The old version was `index / (itemCount - 1)`, which only centres an item when the viewport is exactly one item wide. With a viewport several items across it just distributes items along the scroll range, so the selected one lands wherever it happens to fall — the \"does not snap the selected to middle\" bug. The correct mapping accounts for the fact that normalized scroll 0..1 spans (content - viewport), not the whole content: take the item's own centre, subtract half a viewport to put it in the middle, then divide by the actual scrollable distance."
+    },
+    {
+      "id": "GetNearestItemIndex()",
+      "sig": "public int GetNearestItemIndex()",
+      "kind": "method",
+      "name": "GetNearestItemIndex",
+      "static": false,
+      "comment": "Finds the item whose centre is closest to the VIEWPORT's centre, by measuring actual positions rather than inverting the old normalized-position approximation — which, like SnapTo, only lined up when the viewport was exactly one item wide, so releasing a drag could pick a neighbour of the item actually under the middle."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo",
+    "UIExtras_Demo"
+  ]
+}

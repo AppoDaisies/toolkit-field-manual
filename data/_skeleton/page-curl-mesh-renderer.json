@@ -1,0 +1,101 @@
+{
+  "id": "page-curl-mesh-renderer",
+  "name": "PageCurlMeshRenderer",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/World/PageCurlMeshRenderer.cs",
+  "src_lines": [
+    12,
+    85
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "ICurlSurface"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(MeshFilter), typeof(MeshRenderer)"
+    ],
+    "addComponentMenu": "Toolkit/Page Curl/Page Curl Mesh Renderer (3D)"
+  },
+  "src_typeComment": "3D world-space equivalent of PageCurlGraphic — builds a real procedural Mesh instead of a UI mesh, using the same shared PageCurlMeshBuilder. Needs a material using the Toolkit/PageCurl/Unlit shader (or any shader that multiplies _MainTex by vertex color) for the self-shadow tint to actually show up — Unity's Standard shader ignores vertex colors by default. Requires pivot-equivalent alignment: this object's own local origin must be the hinge edge (localX = 0), same convention as PageCurlGraphic's rect.xMin.",
+  "src_serialized": [
+    {
+      "name": "pageWidth",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "pageHeight",
+      "type": "float",
+      "default": "1.4f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "gridColumns",
+      "type": "int",
+      "default": "24",
+      "tooltip": "Grid density for the curl mesh — higher looks smoother but costs more vertices/triangles.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "gridRows",
+      "type": "int",
+      "default": "16",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "shadowDarkness",
+      "type": "float",
+      "default": "0.45f",
+      "tooltip": "Brightness multiplier applied to the page's underside as it curls past the halfway point.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetTexture(Texture)",
+      "sig": "public void SetTexture(Texture texture) => InstanceMaterial.mainTexture = texture",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetCurlProgress(float)",
+      "sig": "public void SetCurlProgress(float t)",
+      "kind": "method",
+      "name": "SetCurlProgress",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

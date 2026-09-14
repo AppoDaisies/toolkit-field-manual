@@ -1,0 +1,72 @@
+{
+  "id": "shader-transition-manager",
+  "name": "ShaderTransitionManager",
+  "cat": "Tweening",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Tweening",
+  "src_file": "Tweening/Fade/ShaderTransitionManager.cs",
+  "src_lines": [
+    14,
+    128
+  ],
+  "src_base": "Singleton<ShaderTransitionManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tweening/Shader Transition Manager"
+  },
+  "src_typeComment": "Shader-driven alternative to FadeManager for a fancier screen transition (radial wipe, dissolve/burn, or any other custom shader that exposes a \"_Progress\" float) instead of a flat color fade. Kept as a SEPARATE component rather than folded into FadeManager — FadeManager stays simple/dependency-free (just a UI Image + a color), this one requires the caller to actually assign a transition material.",
+  "src_serialized": [
+    {
+      "name": "transitionMaterial",
+      "type": "Material",
+      "default": null,
+      "tooltip": "A material using a shader with a \\\"_Progress\\\" float property — e.g. Toolkit/ScreenTransitions/RadialWipe or Toolkit/ScreenTransitions/DissolveTransition. Required; there's no sensible auto-created default the way FadeManager has a flat color.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetTransitionMaterial(Material)",
+      "sig": "public void SetTransitionMaterial(Material material)",
+      "kind": "method",
+      "name": "SetTransitionMaterial",
+      "static": false,
+      "comment": "Swaps which transition shader/material is active — e.g. a game using a radial wipe for most scene changes but a dissolve/burn for a specific \"corrupted\" moment can share one manager instead of needing a second ShaderTransitionManager (which Singleton<T> wouldn't allow two of anyway)."
+    },
+    {
+      "id": "TransitionOut(float, Action)",
+      "sig": "public TweenHandle TransitionOut(float duration, Action onComplete = null)",
+      "kind": "method",
+      "name": "TransitionOut",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TransitionIn(float, Action)",
+      "sig": "public TweenHandle TransitionIn(float duration, Action onComplete = null)",
+      "kind": "method",
+      "name": "TransitionIn",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TransitionOutThenIn(float, float, Action, Action)",
+      "sig": "public void TransitionOutThenIn(float outDuration, float inDuration, Action midpointAction, Action onComplete = null)",
+      "kind": "method",
+      "name": "TransitionOutThenIn",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VFXShaders_Demo"
+  ]
+}

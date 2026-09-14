@@ -1,0 +1,53 @@
+{
+  "id": "scriptable-object-table-window",
+  "name": "ScriptableObjectTableWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/ScriptableObjectTableView/Editor/ScriptableObjectTableWindow.cs",
+  "src_lines": [
+    20,
+    129
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/ScriptableObject Table View"
+    ]
+  },
+  "src_typeComment": "Toolkit/ScriptableObject Table View: select several ScriptableObject assets of the SAME concrete type in the Project window and see/edit every one of them side by side as spreadsheet rows — including dragging in a different Object/ScriptableObject reference directly in a cell, which just works because every cell is drawn with Unity's own SerializedProperty field drawer (the same one the normal Inspector uses), not a hand-rolled per-type renderer. Deliberately kept SEPARATE from EditorTools/CsvTableEditor — that tool edits plain CSV files, this one edits real asset objects through the normal serialization pipeline (full Undo support, proper asset dirtying, no export/import round-trip).  Known limitation: a field that draws as a multi-line block in the normal Inspector (a List<T>, a nested [Serializable] class) still does that here too — it expands vertically inside its cell rather than collapsing into a compact one-line summary, which looks fine for one or two such fields but gets messy with several. This tool is at its best comparing mostly scalar/reference fields side by side.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<ScriptableObjectTableWindow>(\"SO Table View\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Refresh()",
+      "sig": "public void Refresh()",
+      "kind": "method",
+      "name": "Refresh",
+      "static": false,
+      "comment": "Public (not just wired to selection-changed) so a self-test can exercise it directly without needing to fake an actual Project-window selection."
+    },
+    {
+      "id": "CollectFieldNames(SerializedObject)",
+      "sig": "public static string[] CollectFieldNames(SerializedObject serializedObject)",
+      "kind": "method",
+      "name": "CollectFieldNames",
+      "static": true,
+      "comment": "Walks the FIRST object's visible serialized properties (skipping m_Script, the header field every ScriptableObject carries) to get the column set — the same top-level property walk DrawDefaultInspector uses internally, just collected once into names instead of drawn immediately."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "EditorTools/ScriptableObjectTableView/Editor/ScriptableObjectTableWindowSelfTest.cs",
+  "src_demoScene": []
+}

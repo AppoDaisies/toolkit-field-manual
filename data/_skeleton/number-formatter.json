@@ -1,0 +1,51 @@
+{
+  "id": "number-formatter",
+  "name": "NumberFormatter",
+  "cat": "Formatting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Formatters",
+  "src_file": "Formatting/Number/NumberFormatter.cs",
+  "src_lines": [
+    5,
+    40
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ToGrouped(long)",
+      "sig": "public static string ToGrouped(long value) => value.ToString(\"N0\", CultureInfo.InvariantCulture)",
+      "kind": "method",
+      "name": "ToGrouped",
+      "static": true,
+      "comment": "1234567 -> \"1,234,567\" — culture-invariant so it doesn't silently switch to periods for thousands separators on a machine with a different locale."
+    },
+    {
+      "id": "ToCompact(long)",
+      "sig": "public static string ToCompact(long value)",
+      "kind": "method",
+      "name": "ToCompact",
+      "static": true,
+      "comment": "1200 -> \"1.2K\", 3400000 -> \"3.4M\", 999 -> \"999\" — common compact score/currency display."
+    },
+    {
+      "id": "ToOrdinal(int)",
+      "sig": "public static string ToOrdinal(int value)",
+      "kind": "method",
+      "name": "ToOrdinal",
+      "static": true,
+      "comment": "1 -> \"1st\", 2 -> \"2nd\", 3 -> \"3rd\", 4 -> \"4th\", 11 -> \"11th\" (the 11-13 exception to the usual rule), -1 -> \"-1st\" (suffix is chosen from the magnitude — C#'s % returns negative results for negative operands, so checking value % 10 directly would never match cases 1/2/3 for a negative input)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

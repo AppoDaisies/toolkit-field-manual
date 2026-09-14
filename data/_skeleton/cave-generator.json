@@ -1,0 +1,35 @@
+{
+  "id": "cave-generator",
+  "name": "CaveGenerator",
+  "cat": "ProceduralGeneration",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ProceduralGeneration",
+  "src_file": "ProceduralGeneration/Cave/CaveGenerator.cs",
+  "src_lines": [
+    11,
+    66
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Cellular-automata cave generation — a REFERENCE/SKELETON implementation (grid size, fill probability, iterations, and seed are the only knobs). Randomly seeds a grid with walls at fillProbability, then repeatedly smooths it with the classic \"4-5 rule\": a cell becomes a wall if 5+ of its 8 neighbors are walls, becomes floor if 3 or fewer are, and is left unchanged at exactly 4 — turning the grid's initial random noise into organic, cave-like open areas. Consume the output as:  bool[,] cave = CaveGenerator.Generate(60, 40, fillProbability: 0.45f, iterations: 4, seed: 42); if (cave[x, y]) /* true = wall — place rock/collider geometry here */",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Generate(int, int, float, int, int)",
+      "sig": "public static bool[,] Generate(int width, int height, float fillProbability, int iterations, int seed)",
+      "kind": "method",
+      "name": "Generate",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ProceduralGeneration_Demo"
+  ]
+}

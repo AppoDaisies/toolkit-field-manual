@@ -1,0 +1,180 @@
+{
+  "id": "cursor-pan-camera",
+  "name": "CursorPanCamera",
+  "cat": "Camera",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.CameraTools",
+  "src_file": "Camera/CursorPanCamera/CursorPanCamera.cs",
+  "src_lines": [
+    15,
+    114
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Cursor Pan Camera"
+  },
+  "src_typeComment": "Plug-and-play top-down/isometric camera panning, two independent styles in one component: - Edge Pan (MOBA/RTS-style, e.g. League of Legends' default camera): move the cursor to the edge of the screen and the camera pans in that direction, continuously, for as long as it stays there. - Drag Pan (mobile-map / MOBA middle-mouse style, e.g. Google Maps or League's Alt+drag): hold a mouse button and drag — the camera moves in the OPPOSITE direction of the cursor's movement, like you're grabbing and dragging the world itself rather than steering the camera directly. Both are plain toggles (enableEdgePan / enableDragPan) so you can run either alone or both together — while a drag is active it takes priority over edge-panning, so the two never fight each other in the same frame.",
+  "src_serialized": [
+    {
+      "name": "enableEdgePan",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Move the cursor to the edge of the screen to pan the camera in that direction.",
+      "header": "Edge Pan (MOBA/RTS-style)",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "edgeThickness",
+      "type": "float",
+      "default": "20f",
+      "tooltip": "How close to the screen edge (in pixels) the cursor must be before edge-panning kicks in.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "edgePanSpeed",
+      "type": "float",
+      "default": "20f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "requireCursorInWindow",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, edge-panning stops while the cursor has left the game window entirely (e.g. dragged onto a second monitor) — without this, the camera would keep panning forever since the cursor can never move back into a window it isn't in.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "enableDragPan",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Hold dragButton and move the mouse to pan the camera in the OPPOSITE direction of the mouse movement, like dragging a map.",
+      "header": "Drag Pan (grab-and-drag, mobile-map / MOBA style)",
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "dragButton",
+      "type": "int",
+      "default": "2",
+      "tooltip": "0 = Left click, 1 = Right click, 2 = Middle click.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "dragPanSpeed",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "panOnGroundPlaneXZ",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Pans along the world XZ (ground) plane — the usual choice for a top-down/isometric camera. Turn off for a 2D/side-scrolling camera, which pans along its own local XY plane instead.",
+      "header": "Movement",
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "useBounds",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "panBoundsMin",
+      "type": "Vector2",
+      "default": "new Vector2(-1000f, -1000f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "panBoundsMax",
+      "type": "Vector2",
+      "default": "new Vector2(1000f, 1000f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 10,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ComputeEdgePanDirection(Vector2, float, float)",
+      "sig": "public Vector2 ComputeEdgePanDirection(Vector2 mousePosition, float screenWidth, float screenHeight)",
+      "kind": "method",
+      "name": "ComputeEdgePanDirection",
+      "static": false,
+      "comment": "Public, pure logic (no Input/Screen dependency) — which edge(s) the cursor is touching, given a screen position and dimensions. Update() just feeds it the real Input.mousePosition/Screen.width/ Screen.height every frame."
+    },
+    {
+      "id": "ComputeDragPanDelta(Vector2, Vector2)",
+      "sig": "public Vector2 ComputeDragPanDelta(Vector2 currentMousePosition, Vector2 previousPosition)",
+      "kind": "method",
+      "name": "ComputeDragPanDelta",
+      "static": false,
+      "comment": "Public, pure logic — the actual \"opposite direction\" math. Dragging the cursor RIGHT should move the camera/world LEFT (as if you grabbed a point on the ground and are pulling it toward you), hence the negation."
+    },
+    {
+      "id": "IsCursorInWindow(Vector2)",
+      "sig": "public bool IsCursorInWindow(Vector2 mousePosition)",
+      "kind": "method",
+      "name": "IsCursorInWindow",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ToWorldOffset(Vector2)",
+      "sig": "public Vector3 ToWorldOffset(Vector2 panAmount)",
+      "kind": "method",
+      "name": "ToWorldOffset",
+      "static": false,
+      "comment": "Projects a 2D pan amount onto whichever plane this camera actually moves along."
+    },
+    {
+      "id": "ClampToBounds(Vector3)",
+      "sig": "public Vector3 ClampToBounds(Vector3 position)",
+      "kind": "method",
+      "name": "ClampToBounds",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Camera/CursorPanCamera/Editor/CursorPanCameraSelfTest.cs",
+  "src_demoScene": [
+    "Raycasting_Demo"
+  ]
+}

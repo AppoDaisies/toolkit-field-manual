@@ -1,0 +1,72 @@
+{
+  "id": "world-space-ui-follow",
+  "name": "WorldSpaceUIFollow",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/WorldSpaceUIFollow/WorldSpaceUIFollow.cs",
+  "src_lines": [
+    9,
+    54
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RectTransform)"
+    ],
+    "addComponentMenu": "Toolkit/World Space UI Follow"
+  },
+  "src_typeComment": "Drop on a UI element (Image, Text, a whole health-bar panel) parented under a Canvas, assign a world Transform to follow — great for health bars, floating damage numbers, name tags.",
+  "src_serialized": [
+    {
+      "name": "worldTarget",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "World-space transform this UI element tracks.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "worldOffset",
+      "type": "Vector3",
+      "default": "new Vector3(0f, 2f, 0f)",
+      "tooltip": "Extra world-space offset added to the target's position before projecting to screen (e.g. above a character's head).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "worldCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Camera used to project world position to screen. Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "hideWhenBehindCamera",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Hides this element automatically when the target is behind the camera.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

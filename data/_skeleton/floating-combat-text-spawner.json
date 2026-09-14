@@ -1,0 +1,128 @@
+{
+  "id": "floating-combat-text-spawner",
+  "name": "FloatingCombatTextSpawner",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FloatingCombatText/FloatingCombatTextSpawner.cs",
+  "src_lines": [
+    22,
+    137
+  ],
+  "src_base": "Singleton<FloatingCombatTextSpawner>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Floating Combat Text Spawner"
+  },
+  "src_typeComment": "Plug-and-play \"floating combat text\" — damage/heal/miss/status numbers that pop up over a world-space hit point, drift, and fade (the classic RPG/action-game hit-feedback). A Singleton, same pattern as Toolkit.Tweening.FadeManager/ShaderTransitionManager: call FloatingCombatTextSpawner.Instance. SpawnDamage(...) from ANYWHERE (a Health/Combat script) with no manual Canvas wiring — it builds its own overlay canvas + pool the first time it's used.  `presets` IS the style dropdown: each entry is tagged with a CombatTextStyle and is fully editable right in the Inspector (color, size, motion, duration, drift) — add your own entries for new categories rather than editing code. Pooled via the existing Toolkit.Core.ObjectPool, same reuse trick as FlyToUIEffect.  Deliberately a ONE-SHOT screen-space conversion at spawn time, not continuous world tracking — correct for this tool's short (roughly 1 second) lifetime, and much simpler. If you need text that keeps following a moving target for longer than that, use Toolkit.UI.WorldSpaceUIFollow instead.",
+  "src_serialized": [
+    {
+      "name": "textPrefab",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "Optional custom prefab (needs a TMP_Text + FloatingCombatText component). Leave empty to auto-build a plain default at runtime.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "worldCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Camera used to convert the world hit point to screen space. Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "poolPrewarm",
+      "type": "int",
+      "default": "8",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "spawnJitterRadius",
+      "type": "float",
+      "default": "12f",
+      "tooltip": "Random screen-space scatter so several simultaneous hits don't perfectly overlap.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "presets",
+      "type": "CombatTextPreset[]",
+      "default": "BuildDefaultPresets()",
+      "tooltip": "The style presets Spawn()/SpawnDamage()/SpawnHeal()/SpawnMiss()/SpawnStatus() look up by CombatTextStyle. Edit freely, or add new CombatTextStyle values with their own entries.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Spawn(string, Vector3, CombatTextStyle)",
+      "sig": "public void Spawn(string text, Vector3 worldPosition, CombatTextStyle style)",
+      "kind": "method",
+      "name": "Spawn",
+      "static": false,
+      "comment": "The general-purpose entry point — any style, any string."
+    },
+    {
+      "id": "SpawnDamage(float, Vector3, bool)",
+      "sig": "public void SpawnDamage(float amount, Vector3 worldPosition, bool isCritical = false)",
+      "kind": "method",
+      "name": "SpawnDamage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SpawnHeal(float, Vector3)",
+      "sig": "public void SpawnHeal(float amount, Vector3 worldPosition)",
+      "kind": "method",
+      "name": "SpawnHeal",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SpawnMiss(Vector3)",
+      "sig": "public void SpawnMiss(Vector3 worldPosition)",
+      "kind": "method",
+      "name": "SpawnMiss",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SpawnStatus(string, Vector3)",
+      "sig": "public void SpawnStatus(string label, Vector3 worldPosition)",
+      "kind": "method",
+      "name": "SpawnStatus",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "FindPreset(CombatTextStyle)",
+      "sig": "public CombatTextPreset FindPreset(CombatTextStyle style)",
+      "kind": "method",
+      "name": "FindPreset",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "HitboxCombat_Demo"
+  ]
+}

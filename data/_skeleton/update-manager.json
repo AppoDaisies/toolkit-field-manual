@@ -1,0 +1,45 @@
+{
+  "id": "update-manager",
+  "name": "UpdateManager",
+  "cat": "Optimization",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Optimization",
+  "src_file": "Optimization/UpdateManager/UpdateManager.cs",
+  "src_lines": [
+    11,
+    47
+  ],
+  "src_base": "Singleton<UpdateManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Optimization/Update Manager"
+  },
+  "src_typeComment": "Singleton central Update() loop: Register(this) in OnEnable, Unregister(this) in OnDisable, implement ITickable instead of writing your own Update(). Add this ONE component to the scene once; nothing else needs wiring — any ITickable anywhere can call UpdateManager.Instance.Register() on itself.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Register(ITickable)",
+      "sig": "public void Register(ITickable tickable)",
+      "kind": "method",
+      "name": "Register",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Unregister(ITickable)",
+      "sig": "public void Unregister(ITickable tickable)",
+      "kind": "method",
+      "name": "Unregister",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Optimization_Demo"
+  ]
+}

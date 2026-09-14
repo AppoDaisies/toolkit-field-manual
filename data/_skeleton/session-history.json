@@ -1,0 +1,33 @@
+{
+  "id": "session-history",
+  "name": "SessionHistory",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorTools.SessionRecorder",
+  "src_file": "EditorTools/SessionRecorder/Editor/SessionHistoryData.cs",
+  "src_lines": [
+    25,
+    28
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "List<SessionEntry>()",
+      "sig": "public List<SessionEntry> entries = new List<SessionEntry>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

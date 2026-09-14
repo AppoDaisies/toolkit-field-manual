@@ -1,0 +1,28 @@
+{
+  "id": "background-matte-window",
+  "name": "BackgroundMatteWindow",
+  "cat": "BackgroundMatte",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.BackgroundMatte",
+  "src_file": "BackgroundMatte/Editor/BackgroundMatteWindow.cs",
+  "src_lines": [
+    17,
+    224
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": true,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Tools/Toolkit/Background Matte"
+    ]
+  },
+  "src_typeComment": "<summary> General-purpose batch tool: point it at a folder of images, it mattes each one's background transparent (see BackgroundMatteProcessor for the how/why) and writes the results to an output folder. No book/PDF/spine assumptions - copy this whole folder into any project that needs \"remove a roughly solid background from a batch of photos/scans\" and it works standalone. </summary>",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

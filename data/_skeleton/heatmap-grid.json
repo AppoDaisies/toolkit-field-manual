@@ -1,0 +1,97 @@
+{
+  "id": "heatmap-grid",
+  "name": "HeatmapGrid",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/HeatmapGrid.cs",
+  "src_lines": [
+    45,
+    199
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "The computation half of the Heatmap tab, kept free of any Scene-view/GUI dependency so it's directly testable: given a region and a cell size, produce a COMPLETE grid of cells with their density values.  Design decisions worth knowing: - The grid is defined by a movable REGION (centre + X/Y/Z size), not inferred from where objects happen to be. So the grid is always a full, continuous rectangle you position over the area you're inspecting — and the region's Y size doubles as the height slice, which is why there's no separate height-range setting. - EVERY cell in the region is returned, including empty ones, so the overlay reads as one continuous grid rather than floating islands of colour. - An object counts if it has a Renderer OR a Collider — bare GameObjects, empties and pivots are ignored, since they aren't \"level content\". - An object affects EVERY cell its bounds overlap horizontally, since level geometry isn't grid-aligned and a crate straddling two cells really does occupy both. ObjectCount therefore counts it in each overlapped cell, while BoundsVolume SPLITS its volume across them by footprint share (so the grid's total volume still equals the real total). The height slice still uses the bounds CENTRE, so an object belongs to exactly one storey.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "MaxCells",
+      "sig": "public const int MaxCells = 10000",
+      "kind": "const",
+      "name": "MaxCells",
+      "static": false,
+      "comment": "Guard against a huge region with a tiny cell size asking for millions of quads — exactly the editor overhead this hub is meant to avoid."
+    },
+    {
+      "id": "ColumnCount(float, float)",
+      "sig": "public static int ColumnCount(float sizeX, float cellSize) => Mathf.Max(1, Mathf.CeilToInt(sizeX / Mathf.Max(0.01f, cellSize)))",
+      "kind": "method",
+      "name": "ColumnCount",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "RowCount(float, float)",
+      "sig": "public static int RowCount(float sizeZ, float cellSize) => Mathf.Max(1, Mathf.CeilToInt(sizeZ / Mathf.Max(0.01f, cellSize)))",
+      "kind": "method",
+      "name": "RowCount",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "GridPlaneY(Vector3, Vector3)",
+      "sig": "public static float GridPlaneY(Vector3 regionCenter, Vector3 regionSize) => regionCenter.y - regionSize.y * 0.5f",
+      "kind": "method",
+      "name": "GridPlaneY",
+      "static": true,
+      "comment": "The grid plane sits at the BOTTOM of the region, so positioning the box over a floor puts the grid on that floor rather than floating at its middle."
+    },
+    {
+      "id": "CellCenter(int, int, Vector3, Vector3, float)",
+      "sig": "public static Vector3 CellCenter(int column, int row, Vector3 regionCenter, Vector3 regionSize, float cellSize)",
+      "kind": "method",
+      "name": "CellCenter",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Build(IEnumerable<GameObject>, Vector3, Vector3, float, LayerMask, HeatmapMetric, out float)",
+      "sig": "public static List<HeatmapCell> Build(IEnumerable<GameObject> objects, Vector3 regionCenter, Vector3 regionSize, float cellSize, LayerMask layerMask, HeatmapMetric metric, out float actualMaxValue)",
+      "kind": "method",
+      "name": "Build",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "OverlapArea(Bounds, int, int, float, float, float)",
+      "sig": "public static float OverlapArea(Bounds bounds, int column, int row, float minX, float minZ, float cellSize)",
+      "kind": "method",
+      "name": "OverlapArea",
+      "static": true,
+      "comment": "XZ area shared between an object's bounds and one cell — the weight used to split its volume."
+    },
+    {
+      "id": "TryGetBounds(GameObject, out Bounds)",
+      "sig": "public static bool TryGetBounds(GameObject go, out Bounds bounds)",
+      "kind": "method",
+      "name": "TryGetBounds",
+      "static": true,
+      "comment": "Renderer bounds preferred (that's the visual footprint, which is what \"visually heavy\" means); falls back to collider bounds for objects that collide but don't render."
+    },
+    {
+      "id": "ColorFor(float, float, float)",
+      "sig": "public static Color ColorFor(float value, float densityMax, float alpha)",
+      "kind": "method",
+      "name": "ColorFor",
+      "static": true,
+      "comment": "Green (sparse) -> yellow -> red (dense), normalised against an EXPLICIT densityMax rather than whatever the busiest cell happens to hold. Auto-scaling to the scene's own maximum meant a level containing a single object painted that cell fully red, which said nothing useful — with a fixed scale, \"red\" means a density YOU chose and stays comparable between scenes.  Routed through yellow rather than lerping green straight to red, because a direct lerp passes through a muddy brown at the midpoint that's genuinely hard to read against level geometry."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "EditorTools/LevelTransformGuidance/Editor/HeatmapGridSelfTest.cs",
+  "src_demoScene": []
+}

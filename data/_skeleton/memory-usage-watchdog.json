@@ -1,0 +1,108 @@
+{
+  "id": "memory-usage-watchdog",
+  "name": "MemoryUsageWatchdog",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/MemoryUsageWatchdog.cs",
+  "src_lines": [
+    12,
+    61
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Kiosk/Memory Usage Watchdog"
+  },
+  "src_typeComment": "On-device memory monitor — periodically samples total allocated memory and fires OnThresholdExceeded (optionally running an automatic cleanup) when it crosses a limit, without needing the Editor Profiler attached. Aimed at exactly the failure mode a 24/7 kiosk with lots of image/video assets tends to hit: memory that creeps up over a long session because nothing ever explicitly unloads.",
+  "src_serialized": [
+    {
+      "name": "checkInterval",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "Seconds between memory checks.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "thresholdMB",
+      "type": "float",
+      "default": "1024f",
+      "tooltip": "Total allocated memory (MB) that triggers OnThresholdExceeded and, if enabled, an automatic cleanup.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "autoCleanupOnThreshold",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, automatically runs Cleanup() when the threshold is exceeded.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnThresholdExceeded = new UnityEvent<float>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnMemorySampled = new UnityEvent<float>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetCurrentUsageMB()",
+      "sig": "public static float GetCurrentUsageMB() => Profiler.GetTotalAllocatedMemoryLong() / (1024f * 1024f)",
+      "kind": "method",
+      "name": "GetCurrentUsageMB",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Public so a self-test can drive the check interval with exact time increments without needing Play mode."
+    },
+    {
+      "id": "CheckNow()",
+      "sig": "public void CheckNow()",
+      "kind": "method",
+      "name": "CheckNow",
+      "static": false,
+      "comment": "Runs a check immediately, bypassing the interval timer — e.g. right before loading a large batch of assets."
+    },
+    {
+      "id": "Cleanup()",
+      "sig": "public void Cleanup()",
+      "kind": "method",
+      "name": "Cleanup",
+      "static": false,
+      "comment": "Frees unreferenced assets and forces a GC pass — the standard, blunt \"reclaim what we can\" response. Genuinely expensive (can cause a multi-frame hitch), so it's deliberately NOT called every check — only when the threshold is actually crossed, or when called manually."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

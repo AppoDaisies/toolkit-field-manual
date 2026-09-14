@@ -1,0 +1,75 @@
+{
+  "id": "flow-field",
+  "name": "FlowField",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Pathfinding/FlowField/FlowField.cs",
+  "src_lines": [
+    12,
+    94
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "The actual flow-field algorithm — plain C# (no MonoBehaviour), so it's independently testable and reusable outside a scene context. Computes ONE shared field per goal cell via a uniform-cost breadth-first wave outward from the goal, then derives each cell's flow direction by pointing toward its lowest-cost neighbor. Many agents then each read GetDirection() for their own cell every frame — nobody runs an individual pathfind, which is the whole point versus per-agent A*/Dijkstra when a large number of agents share the same destination (RTS units, a Tower Defense swarm).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Width",
+      "sig": "public int Width { get; }",
+      "kind": "property",
+      "name": "Width",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Height",
+      "sig": "public int Height { get; }",
+      "kind": "property",
+      "name": "Height",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "FlowField(bool[,])",
+      "sig": "public FlowField(bool[,] obstacles)",
+      "kind": "ctor",
+      "name": "FlowField",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Compute(Vector2Int)",
+      "sig": "public void Compute(Vector2Int goal)",
+      "kind": "method",
+      "name": "Compute",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetDirection(Vector2Int)",
+      "sig": "public Vector2 GetDirection(Vector2Int cell) => InBounds(cell) ? directions[cell.x, cell.y] : Vector2.zero",
+      "kind": "method",
+      "name": "GetDirection",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetCost(Vector2Int)",
+      "sig": "public float GetCost(Vector2Int cell) => InBounds(cell) ? costToGoal[cell.x, cell.y] : float.MaxValue",
+      "kind": "method",
+      "name": "GetCost",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Pathfinding_Demo"
+  ]
+}

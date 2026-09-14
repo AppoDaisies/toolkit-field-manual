@@ -1,0 +1,41 @@
+{
+  "id": "player-prefs-entry",
+  "name": "PlayerPrefsEntry",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/PlayerPrefsEditor/Editor/PlayerPrefsEditorWindow.cs",
+  "src_lines": [
+    14,
+    18
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "key",
+      "sig": "public string key",
+      "kind": "field",
+      "name": "key",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "type",
+      "sig": "public PlayerPrefsValueType type",
+      "kind": "field",
+      "name": "type",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,33 @@
+{
+  "id": "read-only-drawer",
+  "name": "ReadOnlyDrawer",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorAttributes.Editor",
+  "src_file": "EditorTools/AttributeDrawers/Editor/ReadOnlyDrawer.cs",
+  "src_lines": [
+    8,
+    18
+  ],
+  "src_base": "PropertyDrawer",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "GetPropertyHeight(SerializedProperty, GUIContent)",
+      "sig": "public override float GetPropertyHeight(SerializedProperty property, GUIContent label)",
+      "kind": "method",
+      "name": "GetPropertyHeight",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

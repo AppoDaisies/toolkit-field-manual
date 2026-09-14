@@ -1,0 +1,49 @@
+{
+  "id": "hit-data",
+  "name": "HitData",
+  "cat": "Combat",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/HitData.cs",
+  "src_lines": [
+    7,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Everything one hit carries — shared by melee (Hitbox), hitscan, and projectile attacks, so a Hurtbox only ever needs to understand ONE hit shape regardless of which attack type dealt it.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "damage",
+      "sig": "public float damage",
+      "kind": "field",
+      "name": "damage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "knockback",
+      "sig": "public Vector3 knockback; // world-space force vector, already scaled — apply as-is, don't re-normalize",
+      "kind": "field",
+      "name": "knockback",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "source",
+      "sig": "public GameObject source",
+      "kind": "field",
+      "name": "source",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

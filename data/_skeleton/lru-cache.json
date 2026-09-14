@@ -1,0 +1,73 @@
+{
+  "id": "lru-cache",
+  "name": "LruCache<TKey, TValue>",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/LruCache.cs",
+  "src_lines": [
+    10,
+    78
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Minimal generic LRU cache — plain C#, no Unity dependency, so it's usable (and testable) standalone of any specific asset type. TryGet touches an entry (marks it most-recently-used); Add evicts the least- recently-used entry via onEvicted once Count exceeds capacity — the caller decides what \"evicted\" means (e.g. Destroy a Texture2D). Used by StreamingAssetLoader, but has no dependency on it.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "LruCache(int, Action<TKey, TValue>)",
+      "sig": "public LruCache(int capacity, Action<TKey, TValue> onEvicted = null)",
+      "kind": "ctor",
+      "name": "LruCache",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Count",
+      "sig": "public int Count => values.Count",
+      "kind": "property",
+      "name": "Count",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ContainsKey(TKey)",
+      "sig": "public bool ContainsKey(TKey key) => values.ContainsKey(key)",
+      "kind": "method",
+      "name": "ContainsKey",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TryGet(TKey, out TValue)",
+      "sig": "public bool TryGet(TKey key, out TValue value)",
+      "kind": "method",
+      "name": "TryGet",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Add(TKey, TValue)",
+      "sig": "public void Add(TKey key, TValue value)",
+      "kind": "method",
+      "name": "Add",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Clear()",
+      "sig": "public void Clear()",
+      "kind": "method",
+      "name": "Clear",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

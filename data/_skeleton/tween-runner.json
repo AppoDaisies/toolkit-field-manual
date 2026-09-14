@@ -1,0 +1,26 @@
+{
+  "id": "tween-runner",
+  "name": "TweenRunner",
+  "cat": "Tweening",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Tweening",
+  "src_file": "Tweening/Core/TweenRunner.cs",
+  "src_lines": [
+    10,
+    22
+  ],
+  "src_base": "Singleton<TweenRunner>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tweening/Tween Runner"
+  },
+  "src_typeComment": "Central driver for every active TweenHandle — one Update() loop for the whole project instead of a MonoBehaviour per tween. Auto-created on first use via Singleton<T>; nothing to add to a scene manually.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

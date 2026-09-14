@@ -1,0 +1,78 @@
+{
+  "id": "page-curl-drag-handler",
+  "name": "PageCurlDragHandler",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/UI/PageCurlDragHandler.cs",
+  "src_lines": [
+    10,
+    39
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IBeginDragHandler",
+    "IDragHandler",
+    "IEndDragHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Page Curl/Page Curl Drag Handler (UI)"
+  },
+  "src_typeComment": "Drop on the RectTransform covering ONE page's drag zone (e.g. the right page's RawImage) — dragging across it turns the book. Use two of these, one per page, with `forward` set accordingly: true on the right page's zone (forward turn), false on the left page's zone (backward turn).",
+  "src_serialized": [
+    {
+      "name": "book",
+      "type": "BookPageCurl",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "forward",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "True if this zone is the right page (drag turns forward); false for the left page (drag turns backward).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnBeginDrag(PointerEventData)",
+      "sig": "public void OnBeginDrag(PointerEventData eventData) => book.BeginDragTurn(forward)",
+      "kind": "method",
+      "name": "OnBeginDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnDrag(PointerEventData)",
+      "sig": "public void OnDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnEndDrag(PointerEventData)",
+      "sig": "public void OnEndDrag(PointerEventData eventData) => book.EndDragTurn()",
+      "kind": "method",
+      "name": "OnEndDrag",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

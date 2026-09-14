@@ -1,0 +1,45 @@
+{
+  "id": "game-event",
+  "name": "GameEvent",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/Events/GameEvent.cs",
+  "src_lines": [
+    10,
+    15
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Events/Game Event\""
+  },
+  "src_typeComment": "Decoupled event: any script calls Raise() on this asset; any number of GameEventListener components anywhere react — the raiser never needs a reference to the listeners, and vice versa. Create one asset per distinct event (e.g. \"OnPlayerDied\", \"OnLevelComplete\") and drag it into both sides.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "OnRaised",
+      "sig": "public event Action OnRaised",
+      "kind": "event",
+      "name": "OnRaised",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Raise()",
+      "sig": "public void Raise() => OnRaised?.Invoke()",
+      "kind": "method",
+      "name": "Raise",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ScriptableObjectToolkit_Demo"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "id": "candidate-action",
+  "name": "CandidateAction",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/UtilityAIBrain.cs",
+  "src_lines": [
+    10,
+    18
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "action",
+      "sig": "public ActionDefinition action",
+      "kind": "field",
+      "name": "action",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "baseWeight",
+      "sig": "public float baseWeight = 1f",
+      "kind": "field",
+      "name": "baseWeight",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "targetingMode",
+      "sig": "public TargetingMode targetingMode = TargetingMode.LowestHealthPercent",
+      "kind": "field",
+      "name": "targetingMode",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

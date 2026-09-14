@@ -1,0 +1,33 @@
+{
+  "id": "button-attribute-editor",
+  "name": "ButtonAttributeEditor",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorAttributes.Editor",
+  "src_file": "EditorTools/AttributeDrawers/Editor/ButtonAttributeEditor.cs",
+  "src_lines": [
+    16,
+    33
+  ],
+  "src_base": "UnityEditor.Editor",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Applies to every MonoBehaviour's Inspector: draws the normal fields, then adds a button for each parameterless method marked [Button]. No per-script custom Editor needed — this one covers everything automatically. Note: this registers globally for MonoBehaviour, so it's the Inspector shown for any script that doesn't already have its own more specific [CustomEditor] (Unity always prefers the most specific match, so scripts with their own custom Editor are unaffected).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "OnInspectorGUI()",
+      "sig": "public override void OnInspectorGUI()",
+      "kind": "method",
+      "name": "OnInspectorGUI",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

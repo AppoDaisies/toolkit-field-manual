@@ -1,0 +1,90 @@
+{
+  "id": "grass-bend-emitter",
+  "name": "GrassBendEmitter",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Grass/GrassBendEmitter.cs",
+  "src_lines": [
+    13,
+    83
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Grass Bend Emitter"
+  },
+  "src_typeComment": "Drop this on a character/object walking through grass — it publishes its own position into a GLOBAL array every GrassWind-shaded renderer in the scene reads (see GrassInclude.cginc), so any number of grass patches react with zero per-patch wiring. This is a deliberate divergence from RippleEmitter's per-renderer MaterialPropertyBlock approach: a ripple emitter lives ON the one surface it affects, but a grass field is typically many separate renderers and the walker is a DIFFERENT object from all of them — a global array is what lets one emitter affect every patch in the level at once.",
+  "src_serialized": [
+    {
+      "name": "bendRadius",
+      "type": "float",
+      "default": "1.2f",
+      "tooltip": "How far from this object grass starts bending away.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "bendStrength",
+      "type": "float",
+      "default": "0.4f",
+      "tooltip": "Peak horizontal push a blade standing right at this object gets. Combined across every active emitter by taking the LARGEST value among them — see the class comment on Publish().",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "MaxInfluencers",
+      "sig": "public const int MaxInfluencers = 8",
+      "kind": "const",
+      "name": "MaxInfluencers",
+      "static": false,
+      "comment": "Must match TOOLKIT_MAX_GRASS_INFLUENCERS in GrassInclude.cginc."
+    },
+    {
+      "id": "Publish()",
+      "sig": "public static void Publish()",
+      "kind": "method",
+      "name": "Publish",
+      "static": true,
+      "comment": "Public — not gated behind Update() — so a self-test can drive this deterministically without waiting on a real frame, same reasoning as every other \"public Tick-equivalent\" in this toolkit."
+    },
+    {
+      "id": "ActiveEmitterCountForTest",
+      "sig": "public static int ActiveEmitterCountForTest => ActiveEmitters.Count",
+      "kind": "property",
+      "name": "ActiveEmitterCountForTest",
+      "static": true,
+      "comment": "Test-only accessors — reading GLOBAL shader state back isn't otherwise observable from a script in a way a self-test can assert against."
+    },
+    {
+      "id": "PublishedSlotForTest(int)",
+      "sig": "public static Vector4 PublishedSlotForTest(int index) => PositionsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ResetPublishGuardForTest()",
+      "sig": "public static void ResetPublishGuardForTest() => lastPublishedFrame = -1",
+      "kind": "method",
+      "name": "ResetPublishGuardForTest",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/Grass/Editor/GrassBendEmitterSelfTest.cs",
+  "src_demoScene": [
+    "Grass_Demo"
+  ]
+}

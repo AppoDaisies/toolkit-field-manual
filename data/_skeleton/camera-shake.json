@@ -1,0 +1,78 @@
+{
+  "id": "camera-shake",
+  "name": "CameraShake",
+  "cat": "Camera",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.CameraTools",
+  "src_file": "Camera/CameraShake/CameraShake.cs",
+  "src_lines": [
+    9,
+    71
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Camera Shake"
+  },
+  "src_typeComment": "Trauma-based screen shake: call AddTrauma(0..1) on impact (hit, explosion, landing) instead of setting a shake duration/strength directly — trauma decays on its own and stacks naturally from multiple hits. Runs in LateUpdate so it layers on top of whatever already positioned the camera this frame (e.g. SmoothFollowCamera).",
+  "src_serialized": [
+    {
+      "name": "maxOffset",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Maximum world-space offset applied at full trauma (trauma = 1).",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "maxRoll",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Maximum rotation in degrees applied at full trauma.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "traumaDecayPerSecond",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "How quickly trauma decays back to 0 per second.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "noiseSpeed",
+      "type": "float",
+      "default": "25f",
+      "tooltip": "How fast the Perlin noise is sampled — higher shakes more erratically.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "AddTrauma(float)",
+      "sig": "public void AddTrauma(float amount)",
+      "kind": "method",
+      "name": "AddTrauma",
+      "static": false,
+      "comment": "Adds shake strength, clamped to 1. Call with a bigger value for bigger impacts (e.g. 0.3 for a hit, 1 for an explosion)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CameraToolkit_Demo"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "input-device-monitor-runner",
+  "name": "InputDeviceMonitorRunner",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/InputGlyph/InputDeviceMonitorRunner.cs",
+  "src_lines": [
+    22,
+    55
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "The actual per-frame polling behind InputDeviceMonitor — split into its own MonoBehaviour (rather than living on the static InputDeviceMonitor class itself) since a static class can't have Update()/OnEnable().  Two detection paths, both always compiled in, so this works whether or not the project has the Input System package installed: - Legacy (always active): Input.anyKeyDown / mouse-delta for keyboard&mouse, and KeyCode.JoystickButton0 through 19 for gamepad — that specific range works with ZERO Input Manager axis configuration (no project-specific setup needed), unlike stick/trigger movement, which legacy Input can't reliably read without pre-authored axes. So legacy gamepad detection only catches button presses, not stick movement — an honest, deliberate scope limit, not an oversight. - New Input System (only compiled when the package is present): subscribes to InputSystem.onEvent directly, which reports the exact device that produced each real input event — Keyboard/Mouse vs Gamepad — far more precise than polling, and does catch stick/trigger movement too.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

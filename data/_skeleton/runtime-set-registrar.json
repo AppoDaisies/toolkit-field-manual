@@ -1,0 +1,39 @@
+{
+  "id": "runtime-set-registrar",
+  "name": "RuntimeSetRegistrar",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/RuntimeSets/RuntimeSetRegistrar.cs",
+  "src_lines": [
+    8,
+    15
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Runtime Sets/Runtime Set Registrar"
+  },
+  "src_typeComment": "Drop on anything that should register itself in a GameObjectRuntimeSet while active — an enemy, pickup, or any spawned instance you want a live count/list of.",
+  "src_serialized": [
+    {
+      "name": "runtimeSet",
+      "type": "GameObjectRuntimeSet",
+      "default": null,
+      "tooltip": "The runtime set asset this object adds itself to while enabled, and removes itself from when disabled/destroyed.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ScriptableObjectToolkit_Demo"
+  ]
+}

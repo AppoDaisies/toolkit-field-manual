@@ -1,0 +1,41 @@
+{
+  "id": "tab-entry",
+  "name": "TabEntry",
+  "cat": "UI",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/TabGroup/TabGroup.cs",
+  "src_lines": [
+    9,
+    15
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "button",
+      "sig": "public Button button",
+      "kind": "field",
+      "name": "button",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "panel",
+      "sig": "public GameObject panel",
+      "kind": "field",
+      "name": "panel",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

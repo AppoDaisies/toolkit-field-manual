@@ -1,0 +1,50 @@
+{
+  "id": "tmp-link-handler",
+  "name": "TMPLinkHandler",
+  "cat": "TMPEffects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.TMPEffects",
+  "src_file": "TMPEffects/LinkHandler/TMPLinkHandler.cs",
+  "src_lines": [
+    14,
+    46
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IPointerClickHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "TMP Effects/Link Handler"
+  },
+  "src_typeComment": "Drop on a TMP_Text (UI or 3D world-space) that contains rich-text links, e.g. \"Read our <link=\\\"terms\\\">Terms</link>\". Detects clicks/taps on link-tagged text and fires OnLinkClicked with the link's ID string. For 3D world-space TextMeshPro (no parent Canvas), the camera rendering the scene needs a Physics Raycaster component for OnPointerClick to fire at all.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "UnityEvent<string>()",
+      "sig": "public UnityEvent<string> OnLinkClicked = new UnityEvent<string>(); // the link ID from <link=\"id\">...</link>",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnPointerClick(PointerEventData)",
+      "sig": "public void OnPointerClick(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnPointerClick",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TMPEffects_Demo"
+  ]
+}

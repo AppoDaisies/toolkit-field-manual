@@ -1,0 +1,59 @@
+{
+  "id": "ltg-heatmap-tab",
+  "name": "LtgHeatmapTab",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgHeatmapTab.cs",
+  "src_lines": [
+    24,
+    292
+  ],
+  "src_base": null,
+  "src_implements": [
+    "ILtgTab"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Heatmap tab: a density grid laid over a REGION of the level. Answers a whole-level distribution question — \"is my level evenly built?\" — as opposed to the Clipping tab's per-object correctness question. Over-decorated areas and barren dead zones are near-impossible to notice while zoomed in placing individual props, and both matter: barren patches read as unfinished, dense clusters hurt readability and are where draw calls concentrate.  The grid is a MOVABLE, SIZED region (centre + X/Y/Z), dragged with a Scene-view handle — you position it over the area you're inspecting instead of guessing at extents, and the region's Y size doubles as the height slice for stacked levels. The whole rectangle is always drawn, empty cells included, so it reads as one continuous grid.  It does DOUBLE DUTY on purpose: cell size is entered in a unit you choose (shared with the Measuring Tape tab), so a corridor spanning three 2-metre cells reads as 6 metres wide without measuring.  Performance discipline (standing requirement for every tab in this hub): the grid is CACHED and only rebuilt on demand or when the hierarchy actually changes — never per repaint, and it never forces continuous Scene-view repaints.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Title",
+      "sig": "public string Title => \"Heatmap\"",
+      "kind": "property",
+      "name": "Title",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IconName",
+      "sig": "public string IconName => \"d_GridLayoutGroup Icon\"",
+      "kind": "property",
+      "name": "IconName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Activate()",
+      "sig": "public void Activate()",
+      "kind": "method",
+      "name": "Activate",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Deactivate()",
+      "sig": "public void Deactivate()",
+      "kind": "method",
+      "name": "Deactivate",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

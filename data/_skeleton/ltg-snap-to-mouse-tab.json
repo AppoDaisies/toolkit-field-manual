@@ -1,0 +1,75 @@
+{
+  "id": "ltg-snap-to-mouse-tab",
+  "name": "LtgSnapToMouseTab",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgSnapToMouseTab.cs",
+  "src_lines": [
+    13,
+    92
+  ],
+  "src_base": null,
+  "src_implements": [
+    "ILtgTab"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Snap To Mouse tab: with a GameObject selected, hover the Scene view and press a key — the selected object teleports to whatever real geometry the mouse currently points at. A one-shot action (not a held-key drag, not click-to-place) — press the key, the object jumps once, done.  3D-only, always raycasts real scene colliders — same reasoning as the Measuring Tape's 3D mode: a fixed-plane fallback would let the snap land somewhere with no real surface under it, defeating the point of a PLACEMENT tool (a measuring point can be abstract; a snapped-to prop shouldn't float).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Title",
+      "sig": "public string Title => \"Snap To Mouse\"",
+      "kind": "property",
+      "name": "Title",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IconName",
+      "sig": "public string IconName => \"d_MoveTool\"",
+      "kind": "property",
+      "name": "IconName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Activate()",
+      "sig": "public void Activate() => SceneView.duringSceneGui += OnSceneGUI",
+      "kind": "method",
+      "name": "Activate",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Deactivate()",
+      "sig": "public void Deactivate() => SceneView.duringSceneGui -= OnSceneGUI",
+      "kind": "method",
+      "name": "Deactivate",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TrySnapSelectedObjectToMouse(Vector2)",
+      "sig": "public bool TrySnapSelectedObjectToMouse(Vector2 mouseScreenPosition)",
+      "kind": "method",
+      "name": "TrySnapSelectedObjectToMouse",
+      "static": false,
+      "comment": "Public so a self-test — or a hotkey/menu item bound differently later — can trigger a snap without a real Scene-view Event. Returns false (does nothing) if there's no selection or no collider under the given screen point, exactly like Measuring Tape's 3D mode rejects a miss rather than guessing."
+    },
+    {
+      "id": "SnapTransform(Transform, Vector3, Vector3, bool)",
+      "sig": "public static void SnapTransform(Transform target, Vector3 worldPoint, Vector3 surfaceNormal, bool alignRotation)",
+      "kind": "method",
+      "name": "SnapTransform",
+      "static": true,
+      "comment": "The actual transform math, pulled out as a static function so a self-test can drive it directly with synthetic points/normals — same reasoning as every other \"extract the pure logic\" split in this toolkit (LocomotionStateMachine.ClassifyState, DecalMeshBuilder.Build, ...): HandleUtility and a live Scene-view camera aren't available/meaningful in a headless batch-mode test."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "EditorTools/LevelTransformGuidance/Editor/LtgSnapToMouseTabSelfTest.cs",
+  "src_demoScene": []
+}

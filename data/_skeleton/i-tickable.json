@@ -1,0 +1,35 @@
+{
+  "id": "i-tickable",
+  "name": "ITickable",
+  "cat": "Optimization",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.Optimization",
+  "src_file": "Optimization/UpdateManager/ITickable.cs",
+  "src_lines": [
+    6,
+    9
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implement this and register with UpdateManager instead of using your own MonoBehaviour Update() — dozens/hundreds of separate Update() calls each cost a native-to-managed call; one manager ticking a plain C# list is measurably cheaper at scale (mob swarms, bullet-hell projectiles, large crowds).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Tick(float)",
+      "sig": "void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Optimization_Demo"
+  ]
+}

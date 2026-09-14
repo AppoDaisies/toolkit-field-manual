@@ -1,0 +1,51 @@
+{
+  "id": "action-command",
+  "name": "ActionCommand",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/UndoRedo/ICommand.cs",
+  "src_lines": [
+    16,
+    29
+  ],
+  "src_base": null,
+  "src_implements": [
+    "ICommand"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Wraps two plain delegates as an ICommand — covers the common case without writing a new class per action type.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ActionCommand(Action, Action)",
+      "sig": "public ActionCommand(Action execute, Action undo)",
+      "kind": "ctor",
+      "name": "ActionCommand",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Execute()",
+      "sig": "public void Execute() => executeAction?.Invoke()",
+      "kind": "method",
+      "name": "Execute",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Undo()",
+      "sig": "public void Undo() => undoAction?.Invoke()",
+      "kind": "method",
+      "name": "Undo",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

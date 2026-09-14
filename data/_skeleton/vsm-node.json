@@ -1,0 +1,73 @@
+{
+  "id": "vsm-node",
+  "name": "VSMNode",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine",
+  "src_file": "AI/VisualStateMachine/VSMNode.cs",
+  "src_lines": [
+    9,
+    17
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One state in the graph. Purely data — the graph editor renders/edits this, VisualStateMachineRunner executes it. isAnyState marks the special \"Any State\" node (Animator's concept): it originates transitions checked regardless of the current state, and never itself becomes the active state.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "NewGuid()",
+      "sig": "public string id = System.Guid.NewGuid().ToString()",
+      "kind": "method",
+      "name": "NewGuid",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "name",
+      "sig": "public string name = \"New State\"",
+      "kind": "field",
+      "name": "name",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "position",
+      "sig": "public Vector2 position",
+      "kind": "field",
+      "name": "position",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Color(0.25f, 0.45f, 0.75f)",
+      "sig": "public Color color = new Color(0.25f, 0.45f, 0.75f)",
+      "kind": "method",
+      "name": "Color",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "isEntry",
+      "sig": "public bool isEntry",
+      "kind": "field",
+      "name": "isEntry",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "isAnyState",
+      "sig": "public bool isAnyState",
+      "kind": "field",
+      "name": "isAnyState",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

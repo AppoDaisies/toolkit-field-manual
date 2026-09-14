@@ -1,0 +1,107 @@
+{
+  "id": "planar-reflection",
+  "name": "PlanarReflection",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Water/Reflection/PlanarReflection.cs",
+  "src_lines": [
+    18,
+    175
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Planar Reflection"
+  },
+  "src_typeComment": "Real planar reflections for a flat water surface (mirrors, wet floors) — a second camera renders the scene MIRRORED across this object's own plane (transform.position/up) into a low-res RenderTexture, which the water shader then samples via screen-space UV (see PlanarReflectionInclude.cginc). This is the classic Built-in RP technique (the same one Unity's old \"Water\" Standard Asset used): compose the main camera's view matrix with a reflection matrix rather than deriving position/rotation separately, and use an OBLIQUE near-clip plane so geometry behind the water surface never appears in its own reflection.  Deliberately NOT GrabPass — this renders its OWN small, controlled RenderTexture once per frame (see [[unitytools-toolkit-conventions]] / the GrabPass explanation this was built alongside), not a full- screen copy for every reflective object.",
+  "src_serialized": [
+    {
+      "name": "reflectionMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "What gets rendered INTO the reflection. Exclude UI, water itself, and anything expensive that wouldn't be missed at a glance.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "textureSize",
+      "type": "int",
+      "default": "512",
+      "tooltip": "Resolution of the reflection RenderTexture — the actual cost lever. Low is fine; a blurry/soft reflection reads as realistic anyway (real water is rarely a perfect mirror).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "clipPlaneOffset",
+      "type": "float",
+      "default": "0.07f",
+      "tooltip": "Pushes the clip plane very slightly along the surface normal, avoiding a thin sliver of self-intersection artifacts right at the water line.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "updateEveryNFrames",
+      "type": "int",
+      "default": "1",
+      "tooltip": "Re-renders the reflection every N frames instead of every frame — 1 = every frame (smoothest, priciest), higher trades smoothness for cost. Water rarely needs a perfectly current reflection.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "disablePixelLightsWhileRendering",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Temporarily drops the quality-settings pixel light count to 0 while rendering the reflection — a real, well-established cost cut for a scene reflection that doesn't need per-pixel lighting fidelity.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "PlaneEquation(Vector3, Vector3, float, float)",
+      "sig": "public static Vector4 PlaneEquation(Vector3 position, Vector3 normal, float sideSign, float offset)",
+      "kind": "method",
+      "name": "PlaneEquation",
+      "static": true,
+      "comment": "A plane through `position` with unit `normal`, expressed as (a, b, c, d) for ax+by+cz+d=0, nudged slightly along the normal by `offset` and flipped by `sideSign` (matches CameraSpacePlane's signature so both can build a consistent plane representation)."
+    },
+    {
+      "id": "CameraSpacePlane(Camera, Vector3, Vector3, float, float)",
+      "sig": "public static Vector4 CameraSpacePlane(Camera camera, Vector3 position, Vector3 normal, float sideSign, float offset)",
+      "kind": "method",
+      "name": "CameraSpacePlane",
+      "static": true,
+      "comment": "The same plane, but expressed in `camera`'s own view space — what Camera.CalculateObliqueMatrix needs to clip a projection to exactly that plane."
+    },
+    {
+      "id": "CalculateReflectionMatrix(Vector4)",
+      "sig": "public static Matrix4x4 CalculateReflectionMatrix(Vector4 plane)",
+      "kind": "method",
+      "name": "CalculateReflectionMatrix",
+      "static": true,
+      "comment": "The 4x4 matrix that reflects any world-space point/vector across the given plane. Composed with a camera's own worldToCameraMatrix (reflectionCamera.worldToCameraMatrix = source.worldToCameraMatrix * this), it turns that camera's view into the mirrored view a reflection needs — standard Householder reflection extended to a general plane via the plane's own (a,b,c,d) equation."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/Water/Reflection/Editor/PlanarReflectionSelfTest.cs",
+  "src_demoScene": [
+    "Water_Demo"
+  ]
+}

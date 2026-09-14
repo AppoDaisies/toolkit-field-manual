@@ -1,0 +1,37 @@
+{
+  "id": "greybox-placer-window",
+  "name": "GreyboxPlacerWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/GreyboxPlacer/Editor/GreyboxPlacerWindow.cs",
+  "src_lines": [
+    12,
+    95
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Greybox Placer"
+    ]
+  },
+  "src_typeComment": "Window > Toolkit > Greybox Placer: click in the Scene view (in Edit mode, not Play mode) to stamp grid-snapped blocks for fast 3D level blockouts. This is deliberately NOT a ProBuilder replacement — it stamps whole prefabs/primitives, it doesn't edit meshes (no vertices/faces/extrude/boolean). Use this for the rough \"shape of the level\" pass, then ProBuilder (or real art) for anything beyond simple stamped blocks. Requires a collider somewhere in the scene (e.g. a ground plane) for the placement raycast to hit.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<GreyboxPlacerWindow>(\"Greybox Placer\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

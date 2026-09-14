@@ -1,0 +1,49 @@
+{
+  "id": "inventory-slot",
+  "name": "InventorySlot",
+  "cat": "Inventory",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Inventory",
+  "src_file": "Inventory/InventoryContainer.cs",
+  "src_lines": [
+    10,
+    16
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "item",
+      "sig": "public ItemDefinition item",
+      "kind": "field",
+      "name": "item",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "quantity",
+      "sig": "public int quantity",
+      "kind": "field",
+      "name": "quantity",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsEmpty",
+      "sig": "public bool IsEmpty => item == null || quantity <= 0",
+      "kind": "property",
+      "name": "IsEmpty",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,53 @@
+{
+  "id": "action-definition",
+  "name": "ActionDefinition",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/ActionDefinition.cs",
+  "src_lines": [
+    12,
+    22
+  ],
+  "src_base": "GameDataAsset",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Combat/Action Definition\""
+  },
+  "src_typeComment": "A usable combat action (attack, heal, skill) as a ScriptableObject asset instead of hardcoded logic — add a new action to the game by creating an asset, no code changes. Depends on Toolkit.Persistence.GameDataAsset (for the Id) — copy that tool's folder too if moving Combat standalone.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "displayName",
+      "sig": "public string displayName = \"Attack\"",
+      "kind": "field",
+      "name": "displayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "effectAmount",
+      "sig": "public float effectAmount = -10f",
+      "kind": "field",
+      "name": "effectAmount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "targetType",
+      "sig": "public ActionTargetType targetType = ActionTargetType.SingleEnemy",
+      "kind": "field",
+      "name": "targetType",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TurnBasedCombat_Demo"
+  ]
+}

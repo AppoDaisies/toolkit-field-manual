@@ -1,0 +1,100 @@
+{
+  "id": "td-game-manager",
+  "name": "TDGameManager",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDGameManager.cs",
+  "src_lines": [
+    12,
+    54
+  ],
+  "src_base": "Singleton<TDGameManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tower Defense/TD Game Manager"
+  },
+  "src_typeComment": "Central Tower Defense state: base health (lives) and the shared currency wallet, plus win/lose. TDEnemy reports here (via Instance) on reaching the base or being killed; assign a WaveSpawner and surviving its last wave (with the base still alive) fires OnVictory automatically.",
+  "src_serialized": [
+    {
+      "name": "baseHealth",
+      "type": "Health",
+      "default": null,
+      "tooltip": "Base/core health — reaching 0 ends the game as a loss.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "wallet",
+      "type": "CurrencyWallet",
+      "default": null,
+      "tooltip": "Wallet that tower kills add currency to, and tower placement spends from.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "waveSpawner",
+      "type": "WaveSpawner",
+      "default": null,
+      "tooltip": "Optional — if assigned, all waves completing (with the base still alive) triggers OnVictory.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnVictory = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnGameOver = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "DamageBase(float)",
+      "sig": "public void DamageBase(float amount) => baseHealth?.TakeDamage(amount)",
+      "kind": "method",
+      "name": "DamageBase",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GrantCurrency(CurrencyDefinition, int)",
+      "sig": "public void GrantCurrency(CurrencyDefinition currency, int amount) => wallet?.Add(currency, amount)",
+      "kind": "method",
+      "name": "GrantCurrency",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TrySpendCurrency(CurrencyDefinition, int)",
+      "sig": "public bool TrySpendCurrency(CurrencyDefinition currency, int amount) => wallet != null && wallet.TrySpend(currency, amount)",
+      "kind": "method",
+      "name": "TrySpendCurrency",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

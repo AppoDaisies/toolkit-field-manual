@@ -1,0 +1,80 @@
+{
+  "id": "cooldown-ability-slot",
+  "name": "CooldownAbilitySlot",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Ability/CooldownAbilitySlot.cs",
+  "src_lines": [
+    10,
+    45
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Gameplay/Cooldown Ability Slot"
+  },
+  "src_typeComment": "Wraps CountdownTimer for the extremely common \"ability on cooldown\" pattern: call TryUse() when the player presses the button, wire OnCooldownProgress to a UI radial/fill bar (pairs with RadialProgressBar).",
+  "src_serialized": [
+    {
+      "name": "cooldownDuration",
+      "type": "float",
+      "default": "3f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnUsed = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnReady = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnCooldownProgress = new UnityEvent<float>(); // 0 (just used) -> 1 (ready)",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsReady",
+      "sig": "public bool IsReady => !timer.IsRunning",
+      "kind": "property",
+      "name": "IsReady",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TryUse()",
+      "sig": "public bool TryUse()",
+      "kind": "method",
+      "name": "TryUse",
+      "static": false,
+      "comment": "Returns false without doing anything if still on cooldown."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

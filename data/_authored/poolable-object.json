@@ -1,0 +1,78 @@
+{
+  "id": "poolable-object",
+  "summary": "Optional companion component giving pooled prefabs spawn/despawn events, a self-release timer, and a double-release guard.",
+  "problem": "A pooled object is reused, not rebuilt, so two things are missing compared with Instantiate/Destroy: there is no constructor moment to reset state in, and there is no Destroy call to hang cleanup off. PoolableObject supplies both as OnSpawned/OnDespawned events, adds an optional self-release countdown for fire-and-forget effects, and carries a back-reference to its pool so the object can retire itself without anyone holding a pool reference. It is entirely optional — ObjectPool works on plain prefabs — but its IsPooled flag is also the only thing standing between you and a double-release bug.",
+  "params": [
+    {
+      "field": "autoReleaseDelay",
+      "why": "Seconds after spawning before the object returns itself to its pool. 0 disables the timer and the object stays out until something calls Release().",
+      "tuning": "Set it slightly longer than the visual it drives — a particle system's total duration including lifetime, or an animation clip's length. Too short and the effect pops out mid-play; too long and you need a bigger pool for the same spawn rate."
+    }
+  ],
+  "workedExample": {
+    "setup": "A muzzle-flash prefab carrying PoolableObject with autoReleaseDelay = 0.25, spawned from an ObjectPool in a game running at 60 fps.",
+    "inputs": [
+      {
+        "name": "autoReleaseDelay",
+        "value": "0.25"
+      },
+      {
+        "name": "frame step",
+        "value": "1/60 s"
+      }
+    ],
+    "steps": [
+      "ObjectPool.Get() activates the instance and calls NotifySpawned(), which sets IsPooled = false, and because autoReleaseDelay > 0 sets releaseTimer = 0.25 and countingDown = true, then fires OnSpawned.",
+      "Update subtracts Time.deltaTime each frame while countingDown. After 15 frames it has subtracted 15 x (1/60) = 0.25, so releaseTimer reaches 0. (Real deltaTime is never exactly 1/60, so in practice it fires on the first frame at or past 0.25 s of accumulated scaled time.)",
+      "releaseTimer <= 0, so countingDown is cleared and Release() runs.",
+      "Release() finds SourcePool non-null — ObjectPool assigned it in CreateInstance — and calls SourcePool.Release(gameObject), which deactivates the instance, reparents it to poolParent, calls NotifyDespawned() (IsPooled = true, OnDespawned fires) and pushes it back on the stack.",
+      "Because the countdown uses Time.deltaTime, it is scaled time: at Time.timeScale = 0.5 the same 0.25 s of game time takes 30 frames and 0.5 s of wall clock, and at timeScale 0 it never completes."
+    ],
+    "result": "The flash returns itself to the pool 0.25 s of scaled time after spawning, with no caller bookkeeping and no Destroy — roughly 15 frames at 60 fps, or 0.5 s of wall clock under half-speed slow motion.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Timed visual effects — muzzle flashes, impact sparks, dust puffs — that should disappear on their own via autoReleaseDelay.",
+    "Resetting reused state: an OnSpawned handler that restores health, zeroes Rigidbody velocity and clears a TrailRenderer.",
+    "An enemy or projectile that retires itself on death by calling Release() instead of Destroy(gameObject), with no reference to the pool.",
+    "Any prefab that two different systems could retire (a bullet that both hits a wall and times out), where the IsPooled guard prevents a double-release."
+  ],
+  "usage": {
+    "code": "private void Awake()\n{\n    var poolable = GetComponent<PoolableObject>();\n    poolable.OnSpawned   += () => { health = maxHealth; body.velocity = Vector3.zero; };\n    poolable.OnDespawned += () => trail.Clear();\n}\n\nprivate void Die() => GetComponent<PoolableObject>().Release();",
+    "codeNote": "Subscribe once, in Awake — Awake runs at Instantiate time (i.e. during prewarm), not on every spawn, so the handlers are attached exactly once for the life of the instance."
+  },
+  "apiNotes": {
+    "OnSpawned": "Raised at the end of NotifySpawned(), which ObjectPool.Get() calls after the GameObject has already been activated and positioned. This is the reset hook that replaces a constructor for pooled objects.",
+    "OnDespawned": "Raised at the end of NotifyDespawned(), which ObjectPool.Release() calls after deactivating and reparenting the instance. Use it for cleanup that must not wait for the next spawn — clearing a trail, stopping a looping sound.",
+    "SourcePool": "Set by ObjectPool.CreateInstance() on every instance it makes, so the object always knows where to go home. It is a plain public setter with no validation, which also lets you retarget an instance to a different pool — and lets a mis-wired object have no pool at all.",
+    "IsPooled": "True only while the instance is sitting inactive in its pool. ObjectPool.Release() reads it to reject a double-release, which would otherwise push the same instance onto the stack twice and let two later Get() calls hand out the same live object. Note it is false on a prewarmed instance that has never been spawned.",
+    "NotifySpawned()": "Called by ObjectPool, not by you: clears IsPooled, arms the auto-release countdown if autoReleaseDelay > 0, then fires OnSpawned. Calling it yourself desynchronises IsPooled from whether the instance is actually on the pool's stack.",
+    "NotifyDespawned()": "Called by ObjectPool, not by you: sets IsPooled, cancels any countdown in progress, then fires OnDespawned.",
+    "Release()": "The one method meant for your own code. Routes to SourcePool.Release(gameObject) when a pool is known, and falls back to Destroy(gameObject) when SourcePool is null — so it is always a safe replacement for Destroy, even on an instance that was never pooled."
+  },
+  "gotchas": [
+    {
+      "title": "A prewarmed instance has IsPooled == false while it sits in the pool",
+      "body": "IsPooled only becomes true inside NotifyDespawned, which only runs on an actual Release. Instances created by Prewarm go straight onto the stack having never been spawned, so they report IsPooled false. The double-release guard therefore does not protect an instance that has never been handed out — Release()-ing one of those pushes it onto the stack a second time."
+    },
+    {
+      "title": "Release() destroys the object when SourcePool is null",
+      "body": "That fallback is deliberate (it makes Release a drop-in for Destroy), but it means a prefab that was Instantiated directly rather than obtained from a pool silently goes back to Instantiate/Destroy churn, with no warning in the console. If you see GC spikes despite pooling, check that the instances really came from ObjectPool.Get()."
+    },
+    {
+      "title": "The auto-release timer is scaled time and only runs while active",
+      "body": "The countdown subtracts Time.deltaTime from Update, so Time.timeScale = 0 freezes it indefinitely — a UI effect spawned over a paused menu will hang forever. Update also does not run on a deactivated GameObject, which is exactly why a manual Release mid-countdown is safe (NotifyDespawned clears the flag anyway)."
+    },
+    {
+      "title": "autoReleaseDelay is sampled at spawn, not read continuously",
+      "body": "NotifySpawned copies it into releaseTimer once. Changing the field on a live instance does not shorten or extend the countdown already in flight; it takes effect from the next spawn."
+    },
+    {
+      "title": "Event handlers accumulate if you subscribe on spawn",
+      "body": "There is no clear or unsubscribe step anywhere in the lifecycle — an instance that is spawned and released 200 times keeps whatever handlers it has. Subscribing to OnSpawned from inside an OnSpawned handler, or from a script that runs on every spawn, stacks duplicates that all fire. Subscribe in Awake."
+    }
+  ],
+  "seeAlso": [
+    "ObjectPool"
+  ]
+}

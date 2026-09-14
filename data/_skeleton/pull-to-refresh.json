@@ -1,0 +1,147 @@
+{
+  "id": "pull-to-refresh",
+  "name": "PullToRefresh",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/PullToRefresh/PullToRefresh.cs",
+  "src_lines": [
+    40,
+    140
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IEndDragHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(ScrollRect)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Pull To Refresh"
+  },
+  "src_typeComment": "Plug-and-play \"pull down at the top of a list to reload\" gesture — the same one Twitter/Instagram/Mail apps use: you're already scrolled to the very top of a list, you keep dragging further down anyway, and if you pull past a threshold and let go, OnRefreshTriggered fires (call your real data-reload code from there). Call EndRefresh() yourself once that finishes, to hide the spinner and snap the list back.  How it actually detects the gesture: Unity's ScrollRect already does a small elastic \"rubber-band\" stretch on its own when you drag past a content boundary, IF Movement Type is set to Elastic (the default) — content.anchoredPosition.y goes slightly POSITIVE while you're doing that at the top, where it's normally 0 or negative. This just reads that existing overshoot on drag-release and reacts to it once it passes pullThreshold — no custom drag physics of its own, just watching a number Unity is already computing.  Three ways to supply the visual indicator, tried in this order: 1) refreshIndicator — a fully hand-built RectTransform (any hierarchy, any animation) for total control. 2) refreshIndicatorPrefab — a prefab/template instantiated once as a child, for a custom animated spinner without needing to pre-place it in this exact scene. 3) refreshIndicatorSprite — the simplest option: just drop in a sprite and this builds a plain Image for you, positioned via indicatorAnchor/indicatorOffset.",
+  "src_serialized": [
+    {
+      "name": "pullThreshold",
+      "type": "float",
+      "default": "80f",
+      "tooltip": "How far past the top (in UI units) the user must pull before releasing triggers a refresh.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "refreshIndicator",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "Fully hand-built indicator (any hierarchy). Takes priority over the sprite/prefab options below if assigned.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "refreshIndicatorPrefab",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "Instantiated as the indicator if refreshIndicator is empty. Takes priority over refreshIndicatorSprite.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "refreshIndicatorSprite",
+      "type": "Sprite",
+      "default": null,
+      "tooltip": "Simplest option — auto-builds a plain Image with this sprite if neither refreshIndicator nor refreshIndicatorPrefab is set.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "indicatorAnchor",
+      "type": "RefreshIndicatorAnchor",
+      "default": "RefreshIndicatorAnchor.Top",
+      "tooltip": "Where the auto-built (sprite or prefab) indicator is anchored within this component's own rect. Ignored for a manually-assigned refreshIndicator.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "indicatorSize",
+      "type": "Vector2",
+      "default": "new Vector2(32f, 32f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "indicatorOffset",
+      "type": "Vector2",
+      "default": "Vector2.zero",
+      "tooltip": "Extra offset applied on top of indicatorAnchor's base position.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "snapBackDuration",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnRefreshTriggered = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsRefreshing",
+      "sig": "public bool IsRefreshing { get; private set; }",
+      "kind": "property",
+      "name": "IsRefreshing",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnEndDrag(PointerEventData)",
+      "sig": "public void OnEndDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnEndDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "EndRefresh()",
+      "sig": "public void EndRefresh()",
+      "kind": "method",
+      "name": "EndRefresh",
+      "static": false,
+      "comment": "Call once your real refresh work (network call, DB query, whatever OnRefreshTriggered kicked off) is done — hides the indicator and eases the list back to its normal resting position."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/PullToRefresh/Editor/PullToRefreshSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

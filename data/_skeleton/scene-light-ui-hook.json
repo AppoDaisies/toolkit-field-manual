@@ -1,0 +1,58 @@
+{
+  "id": "scene-light-ui-hook",
+  "name": "SceneLightUIHook",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/LightingEffects/SceneLightUIHook.cs",
+  "src_lines": [
+    11,
+    47
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Scene Light UI Hook"
+  },
+  "src_typeComment": "Drop ANYWHERE in the scene (once) to publish the scene's main Directional Light's direction as a GLOBAL shader value, which Toolkit/UI/Lighting Effects' Scene Light mode reads to fake-light UI elements as if they were flat cards facing the camera. Without this, Scene Light mode's light direction defaults to zero, which reads as flat/shadowed everywhere — not an error, just nothing to react to.",
+  "src_serialized": [
+    {
+      "name": "directionalLight",
+      "type": "Light",
+      "default": null,
+      "tooltip": "Leave empty to auto-find the first enabled Directional Light in the scene.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "updateEveryFrame",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Turn off if the light never rotates at runtime, to skip needless per-frame work.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "PublishDirection()",
+      "sig": "public void PublishDirection()",
+      "kind": "method",
+      "name": "PublishDirection",
+      "static": false,
+      "comment": "Public so a self-test (or a script that just changed which light is assigned) can push an update without waiting for the next Update tick."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UILightingEffects_Demo"
+  ]
+}

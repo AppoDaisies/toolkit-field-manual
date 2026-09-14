@@ -1,0 +1,97 @@
+{
+  "id": "qr-version-info",
+  "name": "QrVersionInfo",
+  "cat": "Kiosk",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.Kiosk.QrCode",
+  "src_file": "Kiosk/QrCode/QrVersionInfo.cs",
+  "src_lines": [
+    8,
+    48
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": true,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Capacity/EC tables for versions 1-4 at Error Correction Level M only (ISO/IEC 18004 Table 9) — deliberately bounded scope (versions 1-4 cover up to 78 alphanumeric / 62 byte characters, comfortably enough for a URL or short kiosk message) rather than implementing the full version 1-40 x 4-EC-level matrix, since each additional version/level needs its own verified capacity+block-count entry and the risk of a transcription error compounds with every entry added.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Version",
+      "sig": "public readonly int Version",
+      "kind": "field",
+      "name": "Version",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Size",
+      "sig": "public readonly int Size; // modules per side",
+      "kind": "field",
+      "name": "Size",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TotalCodewords",
+      "sig": "public readonly int TotalCodewords",
+      "kind": "field",
+      "name": "TotalCodewords",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NumBlocks",
+      "sig": "public readonly int NumBlocks",
+      "kind": "field",
+      "name": "NumBlocks",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "EccCodewordsPerBlock",
+      "sig": "public readonly int EccCodewordsPerBlock",
+      "kind": "field",
+      "name": "EccCodewordsPerBlock",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "DataCodewordsPerBlock",
+      "sig": "public readonly int DataCodewordsPerBlock; // uniform across all blocks — true for versions 1-4 at level M",
+      "kind": "field",
+      "name": "DataCodewordsPerBlock",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TotalDataCodewords",
+      "sig": "public int TotalDataCodewords => NumBlocks * DataCodewordsPerBlock",
+      "kind": "property",
+      "name": "TotalDataCodewords",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Get(int)",
+      "sig": "public static QrVersionInfo Get(int version) => Table[version - 1]",
+      "kind": "method",
+      "name": "Get",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SmallestVersionFor(int)",
+      "sig": "public static int SmallestVersionFor(int requiredDataBits)",
+      "kind": "method",
+      "name": "SmallestVersionFor",
+      "static": true,
+      "comment": "Picks the smallest version (1-4) whose data capacity fits the given number of bits, or -1 if even version 4 isn't big enough."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

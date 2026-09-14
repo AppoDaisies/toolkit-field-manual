@@ -1,0 +1,24 @@
+{
+  "id": "fake-light-influence-mode",
+  "name": "FakeLightInfluenceMode",
+  "cat": "Rendering",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/FakeLight/FakeLight.cs",
+  "src_lines": [
+    24,
+    24
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "A stand-in for a real Light where a full Light component's cost isn't wanted — Built-in RP has no cheap built-in \"fake point light\" of its own. Two independent, combinable behaviours (as scoped: \"explore light influence\" alongside the sprite, not instead of it): - Sprite: a camera-facing glow quad at this position, so the LIGHT SOURCE ITSELF reads as lit (a torch flame, a magic orb) without a real Light casting anything. - Influence: tints nearby real renderers' ALBEDO (not emission — see note below) toward this light's colour, falling off with distance, so SURROUNDING geometry also reads as lit. This is the part the sprite alone can't do.  Why albedo (_Color) and not _EmissionColor for influence: emission only renders if the target material already has the _EMISSION keyword + non-black GI flags enabled, which most materials don't by default — that would make the effect SILENTLY do nothing on an unprepared material, exactly the class of bug this toolkit's self-tests exist to catch. Tinting _Color works on any Standard-shader material with zero setup.  KNOWN LIMITATION, accepted rather than solved: if two FakeLights' influence radii overlap the same renderer, whichever rescans last wins — there's no central accumulator blending multiple lights' contributions together. A real multi-light accumulation system is a much bigger tool than this. UniformTint vs PerPixel — see the Influence header's tooltip for the tradeoff.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

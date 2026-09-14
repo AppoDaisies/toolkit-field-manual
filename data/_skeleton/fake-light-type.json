@@ -1,0 +1,24 @@
+{
+  "id": "fake-light-type",
+  "name": "FakeLightType",
+  "cat": "Rendering",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/FakeLight/FakeLight.cs",
+  "src_lines": [
+    29,
+    29
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Point: omnidirectional, falls off with distance only (the original behaviour). Spot: also restricted to a cone along the light's own forward direction — both the influence (per-pixel or uniform) AND the optional visible Beam mesh respect this.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

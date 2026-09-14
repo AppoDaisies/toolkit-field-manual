@@ -1,0 +1,42 @@
+{
+  "id": "mesh-renderer-texture-display",
+  "name": "MeshRendererTextureDisplay",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/World/MeshRendererTextureDisplay.cs",
+  "src_lines": [
+    10,
+    25
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "ITextureDisplay"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Page Curl/Mesh Renderer Texture Display (3D)"
+  },
+  "src_typeComment": "Thin ITextureDisplay wrapper around a Renderer, for a 3D book's static (non-curling) backing pages — drop on a flat Quad. Uses .material (not sharedMaterial) so each page slot gets its own texture without affecting the source material asset.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SetTexture(Texture)",
+      "sig": "public void SetTexture(Texture texture)",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

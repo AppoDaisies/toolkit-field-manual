@@ -1,0 +1,48 @@
+{
+  "id": "game-event-listener",
+  "name": "GameEventListener",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/Events/GameEventListener.cs",
+  "src_lines": [
+    9,
+    25
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Events/Game Event Listener"
+  },
+  "src_typeComment": "Drop on anything that should react to a GameEvent asset — assign the event and wire the response in the Inspector, no code needed for simple cases.",
+  "src_serialized": [
+    {
+      "name": "gameEvent",
+      "type": "GameEvent",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent response = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ScriptableObjectToolkit_Demo"
+  ]
+}

@@ -1,0 +1,526 @@
+/* Field Manual - shared renderer and page behaviour.
+ *
+ * Data contract (both are plain <script src> globals, never fetch()):
+ *   FM_INDEX = { categories: [{id, code, title, blurb, count, written}],
+ *                entries:    [{id, cat, name, kind, summary, search}] }
+ *   FM_DATA[cat] = { entries: [ <full entry> ] }
+ *
+ * Why globals and not fetch(): a category page opened straight off disk (file://)
+ * cannot fetch a sibling JSON file - the browser blocks it as cross-origin. Since
+ * these pages get previewed locally before every push, fetch would break that loop
+ * constantly. A <script src> works identically from disk and from GitHub Pages.
+ */
+(function () {
+  "use strict";
+
+  var idx = window.FM_INDEX || { categories: [], entries: [] };
+  var data = window.FM_DATA || {};
+  var page = document.body.getAttribute("data-page") || "hub";
+  var curCat = document.body.getAttribute("data-cat") || null;
+  var root = document.body.getAttribute("data-root") || "";
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function el(html) {
+    var d = document.createElement("div");
+    d.innerHTML = html.trim();
+    return d.firstChild;
+  }
+  var byId = {};
+  idx.entries.forEach(function (e) { byId[e.id] = e; });
+  var byName = {};
+  idx.entries.forEach(function (e) { byName[e.name.replace(/<.*>/, "")] = e; });
+
+  /* ---------- cross-link resolution ----------
+     A link target is a TYPE NAME. It resolves to a documented entry, or it degrades
+     to plain code text. It must never render as a dead <a>. */
+  function linkFor(typeName) {
+    var e = byName[String(typeName).replace(/<.*>/, "")];
+    if (!e) return '<code class="chip dead">' + esc(typeName) + "</code>";
+    var href = (e.cat === curCat && page === "category")
+      ? "#" + e.id
+      : root + "c/" + e.cat + ".html#" + e.id;
+    return '<a class="chip" href="' + href + '">' + esc(e.name) + "</a>";
+  }
+  function chipStrip(label, names) {
+    if (!names || !names.length) return "";
+    return '<div class="chipstrip"><span class="chiplabel">' + esc(label) + "</span>" +
+      names.map(linkFor).join("") + "</div>";
+  }
+
+  /* ---------- shared section renderers ---------- */
+  function label(t) { return '<div class="tool-section-label">' + esc(t) + "</div>"; }
+  function prose(t) { return t ? "<p>" + esc(t) + "</p>" : ""; }
+  function code(src, note) {
+    if (!src) return "";
+    return '<div class="codewrap"><pre class="impl">' + esc(src) +
+      '</pre><button class="copybtn" type="button">copy</button></div>' +
+      (note ? '<p class="tool-desc">' + esc(note) + "</p>" : "");
+  }
+  function bullets(arr, cls) {
+    if (!arr || !arr.length) return "";
+    return '<ul class="' + (cls || "uses") + '">' +
+      arr.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+  }
+  function callouts(arr) {
+    if (!arr || !arr.length) return "";
+    return arr.map(function (g) {
+      var title = g.title ? "<strong>" + esc(g.title) + "</strong> — " : "";
+      return '<div class="caveat">' + title + esc(g.body || g) + "</div>";
+    }).join("");
+  }
+  function paramTable(params, serialized) {
+    if (!serialized || !serialized.length) return "";
+    var notes = {};
+    (params || []).forEach(function (p) { notes[p.field] = p; });
+    var rows = serialized.map(function (s) {
+      var n = notes[s.name] || {};
+      var why = n.why || s.tooltip || "";
+      // NOT .pdef - that class is white-space:nowrap for short type/default tokens, and
+      // tuning advice is a full sentence, so it overflowed the table off the page.
+      var tuning = n.tuning ? '<div class="ptuning">' + esc(n.tuning) + "</div>" : "";
+      return "<tr><td class=\"pname\">" + esc(s.name) + "</td>" +
+        '<td class="ptype">' + esc(s.type) + "</td>" +
+        '<td class="pdef">' + esc(s.default == null ? "-" : s.default) +
+        (s.range ? " <span>[" + esc(s.range) + "]</span>" : "") + "</td>" +
+        "<td>" + esc(why) + tuning + "</td></tr>";
+    }).join("");
+    // The type/default cells are white-space:nowrap, so the table has a min-content width that
+    // exceeds a phone viewport. Without this wrapper it was simply CLIPPED - and the column that
+    // got cut is "What it controls", the one worth reading.
+    return '<div class="tablewrap"><table class="paramtable"><thead><tr><th>Field</th><th>Type</th>' +
+      "<th>Default</th><th>What it controls</th></tr></thead><tbody>" + rows +
+      "</tbody></table></div>";
+  }
+  function apiList(members, notes) {
+    if (!members || !members.length) return "";
+    notes = notes || {};
+    var items = members.map(function (m) {
+      var gloss = notes[m.id] || m.comment || "";
+      return '<li><code class="sig">' + esc(m.sig) + "</code>" +
+        (gloss ? " — " + esc(gloss) : "") + "</li>";
+    }).join("");
+    return '<ul class="api-list">' + items + "</ul>";
+  }
+  function worked(w) {
+    if (!w) return "";
+    if (w.na) return '<p class="tool-desc">' + esc(w.na) + "</p>";
+    var inputs = (w.inputs || []).map(function (i) {
+      return "<li><code>" + esc(i.name) + "</code> = <code>" + esc(i.value) + "</code></li>";
+    }).join("");
+    var steps = (w.steps || []).map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("");
+    return '<div class="worked">' +
+      (w.setup ? "<p>" + esc(w.setup) + "</p>" : "") +
+      (inputs ? "<ul>" + inputs + "</ul>" : "") +
+      (steps ? "<ol>" + steps + "</ol>" : "") +
+      (w.result ? '<div class="result">' + esc(w.result) + "</div>" : "") +
+      (w.verifiedBy ? '<div class="verified">verified by: ' + esc(w.verifiedBy) + "</div>" : "") +
+      "</div>";
+  }
+  function keyed(obj, fn) {
+    if (!obj) return "";
+    var keys = Object.keys(obj);
+    if (!keys.length) return "";
+    return '<ul class="api-list">' + keys.map(fn).join("") + "</ul>";
+  }
+
+  /* ---------- entry body, dispatched on entryKind ---------- */
+  function renderBody(e) {
+    var out = [];
+    var kind = e.entryKind || "tool";
+
+    if (e.src_attributes && e.src_attributes.addComponentMenu) {
+      out.push('<div class="tool-menu"><span class="mlabel">Add Component:</span> <code>' +
+        esc(e.src_attributes.addComponentMenu) + "</code></div>");
+    }
+    if (e.src_attributes && e.src_attributes.menuItem) {
+      // A class can register several menu items (a window plus an Assets/ context-menu variant), so the
+      // extractor hoists them from the decorated static methods into a list.
+      var menus = e.src_attributes.menuItem;
+      if (typeof menus === "string") menus = [menus];
+      out.push('<div class="tool-menu"><span class="mlabel">Menu:</span> ' +
+        menus.map(function (m) { return "<code>" + esc(m) + "</code>"; }).join(" ") + "</div>");
+    }
+    out.push('<div class="tool-ns">' + esc(e.src_ns || "") +
+      ' <span class="tool-path">— ' + esc(e.src_file || "") + "</span></div>");
+
+    if (e.problem) { out.push(label("Problem it solves")); out.push(prose(e.problem)); }
+    if (kind === "contract" && e.purpose) { out.push(label("What this contract is for")); out.push(prose(e.purpose)); }
+    if (kind === "contract" && e.whenToImplement) { out.push(label("When you implement it")); out.push(prose(e.whenToImplement)); }
+    if (kind === "editor" && e.whereToFind) { out.push(label("Where to find it")); out.push(prose(e.whereToFind)); }
+
+    if (kind === "tool" || kind === "editor") {
+      var pt = paramTable(e.params, e.src_serialized);
+      // An EditorWindow's [SerializeField]s are not Inspector tuning knobs - they are the window's own
+      // state, and the reason they are serialized at all is that Unity restores them across a domain
+      // reload and a window close. Labelling them "Parameters" implied something a user sets from outside.
+      if (pt) { out.push(label(kind === "editor" ? "Window state (persists across reloads)" : "Parameters")); out.push(pt); }
+    }
+    if (kind === "data" && e.fields) {
+      out.push(label("Fields"));
+      out.push(keyed(e.fields, function (k) {
+        var f = e.fields[k];
+        return '<li><code class="sig">' + esc(k) + "</code> — " + esc(f.meaning || f) + "</li>";
+      }));
+    }
+    if (kind === "contract" && e.memberContracts) {
+      out.push(label("Members you must implement"));
+      out.push(keyed(e.memberContracts, function (k) {
+        var m = e.memberContracts[k];
+        // The authored text already opens with "Must not ...", so prefixing another "Must not:" here
+        // produced a visible "Must not: Must not assume ..." on every member. The constraint gets its own
+        // block instead - same treatment as a gotcha, because it is the same kind of content.
+        var must = m.mustNot ? '<div class="mustnot">' + esc(m.mustNot) + "</div>" : "";
+        return '<li><code class="sig">' + esc(k) + "</code> — " + esc(m.contract || m) + must + "</li>";
+      }));
+    }
+    if (kind === "contract" && e.calledBy) {
+      out.push(label("Who calls it"));
+      out.push(prose(e.calledBy));
+    }
+
+    if (e.workedExample) { out.push(label("Worked example")); out.push(worked(e.workedExample)); }
+    if (e.walkthrough && e.walkthrough.length) {
+      out.push(label("Walkthrough"));
+      out.push("<ol>" + e.walkthrough.map(function (s) {
+        return "<li>" + esc(s.step) + (s.whatYouSee ? " — <em>" + esc(s.whatYouSee) + "</em>" : "") + "</li>";
+      }).join("") + "</ol>");
+    }
+    if (e.useCases && e.useCases.length) { out.push(label("Use cases")); out.push(bullets(e.useCases)); }
+
+    if (e.usage) { out.push(label("How to use")); out.push(code(e.usage.code, e.usage.codeNote)); }
+    if (e.minimalImpl) { out.push(label("Minimal implementation")); out.push(code(e.minimalImpl.code, e.minimalImpl.note)); }
+    if (e.wiring) { out.push(label("How the host picks it up")); out.push(code(e.wiring.code, e.wiring.note)); }
+    if (e.extendGuide) { out.push(label("Extending / modifying")); out.push(prose(e.extendGuide)); }
+
+    var api = apiList(e.src_members, e.apiNotes);
+    if (api) { out.push(label("Key API")); out.push(api); }
+
+    if (e.gotchas && e.gotchas.length) { out.push(label("Gotchas")); out.push(callouts(e.gotchas)); }
+
+    var rel = "";
+    rel += chipStrip("Implements", e.src_implements);
+    rel += chipStrip("Extension points", e.src_extensionPoints);
+    if (kind === "contract") {
+      // e.src_usedBy mixes the type that DRIVES the interface (StateMachine calling Enter/Tick/Exit) with
+      // the types that IMPLEMENT it (RacingAIController). For an implementer those are opposite facts, so
+      // authored `drivenBy` names the callers and everything else falls through as an implementer.
+      var drivers = e.drivenBy || [];
+      var impls = (e.src_usedBy || []).filter(function (n) { return drivers.indexOf(n) === -1; });
+      rel += chipStrip("Driven by", drivers);
+      rel += chipStrip("Implemented by", impls);
+    } else {
+      rel += chipStrip("Used by", e.src_usedBy);
+    }
+    rel += chipStrip("See also", e.seeAlso);
+    if (rel) { out.push(label("Related")); out.push(rel); }
+
+    var demos = e.src_demoScene;
+    if (typeof demos === "string") demos = [demos];
+    if (demos && demos.length) {
+      out.push('<div class="tool-menu"><span class="mlabel">Shown in demo scene' +
+        (demos.length > 1 ? "s" : "") + ":</span> " +
+        demos.map(function (d) { return "<code>" + esc(d) + "</code>"; }).join(" ") + "</div>");
+    }
+    return out.join("");
+  }
+
+  function badgesFor(e) {
+    var b = [];
+    var base = e.src_base || "";
+    var t = base === "MonoBehaviour" ? ["MonoBehaviour", "type-mono"]
+      : base === "ScriptableObject" ? ["ScriptableObject", "type-so"]
+      : e.src_typeKind === "interface" ? ["Interface", "type-plain"]
+      : e.src_static ? ["Static", "type-static"]
+      : [e.src_typeKind === "struct" ? "Struct" : "Plain C#", "type-plain"];
+    b.push('<span class="badge ' + t[1] + '">' + t[0] + "</span>");
+    if (!e.src_runtime) b.push('<span class="badge">Editor only</span>');
+    if (e.src_selfTest) b.push('<span class="badge">Self-tested</span>');
+    if (e.status === "skeleton") b.push('<span class="statuspill">skeleton</span>');
+    return b.join("");
+  }
+
+  function renderEntry(e) {
+    var searchText = (e.name + " " + (e.src_ns || "") + " " + (e.summary || "") + " " +
+      (e.src_members || []).map(function (m) { return m.id; }).join(" ") + " " +
+      (e.src_serialized || []).map(function (s) { return s.name; }).join(" ")).toLowerCase();
+    return '<details class="entry" id="' + esc(e.id) + '" data-search="' + esc(searchText) + '">' +
+      '<summary><span class="entry-name">' + esc(e.name) + "</span>" +
+      '<span class="entry-summary">' + esc(e.summary || e.src_typeComment || "") + "</span>" +
+      '<span class="tool-badges">' + badgesFor(e) + "</span>" +
+      '<a class="entry-anchor" href="#' + esc(e.id) + '" title="Link to this entry">#</a>' +
+      "</summary><div class=\"entry-body\">" + renderBody(e) + "</div></details>";
+  }
+
+  /* ---------- page builders ---------- */
+  function groupSlug(title) {
+    return "g-" + String(title).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  function buildCategoryPage() {
+    var host = document.getElementById("entries");
+    if (!host) return;
+    var d = data[curCat];
+    if (!d || !d.entries || !d.entries.length) {
+      host.innerHTML = '<div class="empty-state">No entries in this category yet.</div>';
+      return;
+    }
+
+    // A category with fewer than ~6 entries ships no groups and renders flat - a heading above one
+    // row is noise. build.py decides that, not this file.
+    var groups = d.groups || [];
+    if (!groups.length) {
+      host.innerHTML = d.entries.map(renderEntry).join("");
+      return;
+    }
+
+    var byId = {};
+    d.entries.forEach(function (e) { byId[e.id] = e; });
+
+    // Jump strip: on a 50-entry page the group names are the fastest way in, and they double as
+    // an at-a-glance table of contents.
+    var strip = '<nav class="groupjump" aria-label="Groups in this category">' +
+      groups.map(function (g) {
+        return '<a href="#' + groupSlug(g.title) + '">' + esc(g.title) +
+          '<span class="gcount">' + g.ids.length + "</span></a>";
+      }).join("") + "</nav>";
+
+    var sections = groups.map(function (g) {
+      var rows = g.ids.map(function (id) {
+        return byId[id] ? renderEntry(byId[id]) : "";
+      }).join("");
+      return '<section class="tgroup" data-group="' + esc(g.title) + '">' +
+        '<h2 class="tgroup-head" id="' + groupSlug(g.title) + '">' + esc(g.title) +
+        '<span class="gcount">' + g.ids.length + "</span></h2>" + rows + "</section>";
+    }).join("");
+
+    host.innerHTML = strip + sections;
+  }
+
+  function buildHub() {
+    var host = document.getElementById("cats");
+    if (!host) return;
+    host.innerHTML = '<div class="catgrid">' + idx.categories.map(function (c) {
+      return '<a class="catcard" href="' + root + "c/" + c.id + '.html">' +
+        '<span class="catcode">' + esc(c.code) + "</span>" +
+        "<h3>" + esc(c.title) + "</h3>" +
+        (c.blurb ? "<p>" + esc(c.blurb) + "</p>" : "") +
+        '<p class="n">' + c.count + " entr" + (c.count === 1 ? "y" : "ies") +
+        (c.written < c.count ? " - " + c.written + " written" : "") + "</p></a>";
+    }).join("") + "</div>";
+  }
+
+  function buildNav() {
+    var nav = document.getElementById("catnav");
+    if (!nav) return;
+    var d = data[curCat];
+    var subs = (d && d.groups) || [];
+    nav.innerHTML = idx.categories.map(function (c) {
+      var isActive = c.id === curCat;
+      var row = '<a href="' + root + "c/" + c.id + '.html"' + (isActive ? ' class="active"' : "") + ">" +
+        '<span class="navcode">' + esc(c.code) + "</span>" +
+        '<span class="navtitle">' + esc(c.title) + "</span>" +
+        '<span class="navcount">' + c.count + "</span></a>";
+      // Only the category you are ON expands. Nesting all 31 at once would make the sidebar
+      // longer than the page it is navigating.
+      if (isActive && subs.length) {
+        row += '<div class="navsubs">' + subs.map(function (g) {
+          return '<a class="navsub" href="#' + groupSlug(g.title) + '">' + esc(g.title) +
+            '<span class="navcount">' + g.ids.length + "</span></a>";
+        }).join("") + "</div>";
+      }
+      return row;
+    }).join("");
+  }
+
+  /* ---------- search ----------
+     With collapsed rows, a filter that matches text inside a CLOSED body and shows
+     nothing reads as broken - so on a category page every match is force-opened. */
+  function wireSearch() {
+    var input = document.getElementById("filter");
+    var status = document.getElementById("filterStatus");
+    var results = document.getElementById("searchResults");
+    if (!input) return;
+
+    function run() {
+      var q = input.value.trim().toLowerCase();
+
+      if (page === "category") {
+        var nodes = Array.prototype.slice.call(document.querySelectorAll(".entry"));
+        var sections = Array.prototype.slice.call(document.querySelectorAll(".tgroup"));
+        var jump = document.querySelector(".groupjump");
+        if (!q) {
+          nodes.forEach(function (n) { n.hidden = false; });
+          sections.forEach(function (sec) { sec.hidden = false; });
+          if (jump) jump.hidden = false;
+          if (status) status.textContent = "";
+          var es = document.getElementById("emptyState");
+          if (es) es.hidden = true;
+          return;
+        }
+        var hits = 0;
+        nodes.forEach(function (n) {
+          var match = (n.getAttribute("data-search") || "").indexOf(q) > -1;
+          n.hidden = !match;
+          if (match) { n.open = true; hits++; }
+        });
+        // A group heading left standing over zero visible rows reads as a broken filter.
+        sections.forEach(function (sec) {
+          var any = Array.prototype.slice.call(sec.querySelectorAll(".entry"))
+            .some(function (n) { return !n.hidden; });
+          sec.hidden = !any;
+        });
+        if (jump) jump.hidden = true;
+        if (status) status.textContent = hits + " of " + nodes.length + ' match "' + input.value + '"';
+        var empty = document.getElementById("emptyState");
+        if (empty) empty.hidden = hits !== 0;
+        return;
+      }
+
+      if (!results) return;
+      if (!q) { results.innerHTML = ""; if (status) status.textContent = ""; return; }
+      var found = idx.entries.filter(function (e) { return e.search.indexOf(q) > -1; });
+      if (status) status.textContent = found.length + " of " + idx.entries.length + " match";
+      if (!found.length) {
+        results.innerHTML = '<div class="empty-state">Nothing matches "' + esc(input.value) + '".</div>';
+        return;
+      }
+      results.innerHTML = found.slice(0, 60).map(function (e) {
+        return '<a class="sresult" href="' + root + "c/" + e.cat + ".html#" + e.id + '">' +
+          '<span class="sname">' + esc(e.name) + '</span> <span class="scat">' + esc(e.cat) + "</span>" +
+          '<div class="sdesc">' + esc(e.summary || "") + "</div></a>";
+      }).join("");
+    }
+
+    input.addEventListener("input", run);
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key === "/" && document.activeElement !== input) { ev.preventDefault(); input.focus(); }
+      if (ev.key === "Escape" && document.activeElement === input) { input.value = ""; run(); input.blur(); }
+    });
+  }
+
+  /* ---------- deep links ----------
+     Arriving at c/ui.html#scroll-snap must OPEN that entry, not just scroll near it. */
+  function openFromHash() {
+    var id = decodeURIComponent((location.hash || "").slice(1));
+    if (!id) return;
+    var target = document.getElementById(id);
+    if (!target) return;
+    if (target.tagName.toLowerCase() === "details") target.open = true;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+  }
+
+  function wireEntryHash() {
+    document.addEventListener("toggle", function (ev) {
+      var t = ev.target;
+      if (!t || !t.classList || !t.classList.contains("entry")) return;
+      if (t.open) {
+        if (history.replaceState) history.replaceState(null, "", "#" + t.id);
+      } else if (location.hash === "#" + t.id) {
+        if (history.replaceState) history.replaceState(null, "", location.pathname + location.search);
+      }
+    }, true);
+    window.addEventListener("hashchange", openFromHash);
+  }
+
+  function wireExpandAll() {
+    function setAll(open) {
+      Array.prototype.forEach.call(document.querySelectorAll(".entry"), function (n) { n.open = open; });
+    }
+    var ex = document.getElementById("expandAll");
+    var co = document.getElementById("collapseAll");
+    if (ex) ex.addEventListener("click", function () { setAll(true); });
+    if (co) co.addEventListener("click", function () { setAll(false); });
+  }
+
+  function wireCopy() {
+    document.addEventListener("click", function (ev) {
+      var b = ev.target;
+      if (!b || !b.classList || !b.classList.contains("copybtn")) return;
+      var pre = b.parentNode.querySelector("pre");
+      if (!pre) return;
+      var txt = pre.textContent;
+      var done = function () {
+        b.textContent = "copied";
+        b.classList.add("done");
+        setTimeout(function () { b.textContent = "copy"; b.classList.remove("done"); }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(done, function () {});
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = txt; document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  }
+
+  /* ---------- theme ----------
+     The three-way CSS (light default / prefers-color-scheme / [data-theme]) already
+     existed; only the control was missing, so the attribute hooks were dead code. */
+  function wireTheme() {
+    var btn = document.getElementById("themeBtn");
+    if (!btn) return;
+    function current() {
+      return document.documentElement.getAttribute("data-theme") || "auto";
+    }
+    function paint() {
+      var c = current();
+      btn.textContent = c === "auto" ? "theme: auto" : c === "dark" ? "theme: dark" : "theme: light";
+    }
+    btn.addEventListener("click", function () {
+      var order = ["auto", "light", "dark"];
+      var next = order[(order.indexOf(current()) + 1) % 3];
+      if (next === "auto") document.documentElement.removeAttribute("data-theme");
+      else document.documentElement.setAttribute("data-theme", next);
+      try {
+        if (next === "auto") localStorage.removeItem("fm-theme");
+        else localStorage.setItem("fm-theme", next);
+      } catch (e) {}
+      paint();
+    });
+    paint();
+  }
+
+  function wireDrawer() {
+    var burger = document.getElementById("burger");
+    var side = document.querySelector(".sidebar");
+    var scrim = document.getElementById("scrim");
+    if (!burger || !side) return;
+    function set(open) {
+      side.classList.toggle("open", open);
+      if (scrim) scrim.classList.toggle("open", open);
+    }
+    burger.addEventListener("click", function () { set(!side.classList.contains("open")); });
+    if (scrim) scrim.addEventListener("click", function () { set(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+  }
+
+  function counts() {
+    var t = document.getElementById("totalCount");
+    var c = document.getElementById("catCount");
+    var w = document.getElementById("writtenCount");
+    if (t) t.textContent = idx.entries.length;
+    if (c) c.textContent = idx.categories.length;
+    if (w) {
+      var written = idx.categories.reduce(function (a, x) { return a + (x.written || 0); }, 0);
+      w.textContent = written;
+    }
+  }
+
+  buildNav();
+  if (page === "hub") buildHub(); else buildCategoryPage();
+  counts();
+  wireSearch();
+  wireEntryHash();
+  wireExpandAll();
+  wireCopy();
+  wireTheme();
+  wireDrawer();
+  openFromHash();
+})();

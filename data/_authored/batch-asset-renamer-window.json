@@ -1,0 +1,83 @@
+{
+  "id": "batch-asset-renamer-window",
+  "summary": "Renames every selected asset or GameObject in one pass, with optional deterministic numbering and a preview.",
+  "problem": "Renaming forty sprites to Tile_1 … Tile_40 by hand is twenty minutes of F2 and typos, and Unity offers nothing for it. The awkward part is not the loop, it is that the same selection has to behave sensibly from two completely different windows: Project-window assets live on disk and rename through AssetDatabase, Hierarchy GameObjects are ordinary serialized objects. Those two paths differ in what undo means, in whether duplicate names are even legal, and in what a failed rename costs you — which is why this is a window with a preview and a confirmation rather than a one-line menu command.",
+  "whereToFind": "Toolkit ▸ Batch Asset Renamer. The window docks like any other; it repaints itself whenever the selection changes, so you can leave it open and click around the Project window or Hierarchy and watch the preview follow along. It reads the current selection live — there is nothing to drag into it.",
+  "params": [
+    {
+      "field": "newName",
+      "why": "The base name every selected item gets. With numbering off, all of them get exactly this.",
+      "tuning": "Left blank, the window shows 'Enter a new name to see a preview' and the rename button does not appear at all, so an empty field can never fire a rename."
+    },
+    {
+      "field": "useNumbering",
+      "why": "Appends ' - 1', ' - 2', … to the base name instead of giving every item the identical name.",
+      "tuning": "Worth leaving on for assets. Without it, Unity's own AssetDatabase disambiguation silently appends ' 1'/' 2' with a different separator, and Hierarchy GameObjects get no disambiguation at all — sibling GameObjects are allowed to share a name, so you end up with forty objects called the same thing."
+    },
+    {
+      "field": "startingNumber",
+      "why": "First index used when numbering is on; only shown in the window when useNumbering is ticked.",
+      "tuning": "Set it to continue an existing run — rename a second batch starting at 41 and it joins the first cleanly. Nothing stops a negative or zero start."
+    }
+  ],
+  "walkthrough": [
+    {
+      "step": "Open Toolkit ▸ Batch Asset Renamer and select nothing.",
+      "whatYouSee": "'0 asset(s) selected in the Project window' and a help box telling you to select something. The window is never blank or ambiguous about why it is idle."
+    },
+    {
+      "step": "Select several assets in the Project window.",
+      "whatYouSee": "The header count updates immediately, without clicking into the window, because OnEnable subscribes to Selection.selectionChanged and repaints."
+    },
+    {
+      "step": "Select GameObjects in the Hierarchy instead.",
+      "whatYouSee": "The wording flips to 'item(s) selected in Hierarchy'. The window decided that from EditorUtility.IsPersistent, not from which window has focus — anything not living on disk means you are working in the scene."
+    },
+    {
+      "step": "Type a base name and tick Add Numbering.",
+      "whatYouSee": "A scrolling old → new preview list appears, capped at 300px high. The order is the CURRENT names sorted alphabetically, not the order you clicked, so the same selection always numbers the same way."
+    },
+    {
+      "step": "Press Rename.",
+      "whatYouSee": "A confirmation dialog whose wording depends on the source: a Hierarchy rename says it CAN be undone with Ctrl+Z, a Project rename says it does NOT go through the undo stack. Cancel does nothing at all."
+    },
+    {
+      "step": "Press Ctrl+Z after a Hierarchy rename.",
+      "whatYouSee": "Every renamed object reverts in a single undo step, not one per object — the loop is wrapped in Undo.SetCurrentGroupName plus Undo.CollapseUndoOperations."
+    }
+  ],
+  "useCases": [
+    "Normalising an imported art pack whose files arrived as texture_001_final_v2 and similar.",
+    "Numbering a set of level pieces, waypoints or spawn markers so they read in order in the Hierarchy.",
+    "Renaming a batch of ScriptableObject assets after a naming-convention change, where the alternative is F2 forty times.",
+    "Renumbering a second batch onto the end of an existing run by setting Starting Number."
+  ],
+  "apiNotes": {
+    "ShowWindow()": "The [MenuItem] entry point. Calling it from your own editor code opens or focuses the same dockable window.",
+    "BuildNewNames(int)": "Deliberately public rather than private-and-wired-to-the-button, so the naming logic can be unit-tested without a GUI. Returns the array the preview displays and the rename then applies, so what you see really is what runs.",
+    "SetPreviewState(string, bool, int)": "Sets the three window fields from code. Useful for scripting a rename or for driving the window from a test."
+  },
+  "gotchas": [
+    {
+      "title": "A Project-window rename cannot be undone with Ctrl+Z",
+      "body": "AssetDatabase.RenameAsset does not participate in Unity's undo stack — asset operations generally do not. The confirmation dialog says so explicitly, and that dialog is the only safety net: once confirmed, getting the old names back means renaming them back by hand or reverting in version control. Hierarchy GameObjects are the opposite case, because a GameObject name is an ordinary serialized property and Undo.RecordObject covers it fully."
+    },
+    {
+      "title": "Numbering follows alphabetical order, not click order",
+      "body": "Selection.objects reports items in whatever order Unity happened to register the clicks, which a person cannot predict or reproduce. Both selection paths therefore sort by current name before numbering. That makes the result deterministic, but it also means you cannot impose an arbitrary order by clicking in the order you want — rename to a sortable intermediate name first if you need a specific sequence."
+    },
+    {
+      "title": "Hierarchy selection wins whenever both windows have something highlighted",
+      "body": "GetSelectionKind returns Hierarchy as soon as ANY selected GameObject is non-persistent, even if the Project window still shows an earlier highlight. Unity's Selection always reflects the window you interacted with most recently, so this matches what you just clicked — but the header text is the thing to read before pressing Rename, not the coloured highlight in either window."
+    },
+    {
+      "title": "A prefab asset's root counts as Project, not Hierarchy",
+      "body": "EditorUtility.IsPersistent is true for a prefab ASSET's own root GameObject, so selecting prefabs in the Project window takes the AssetDatabase path — the no-undo path — even though they are GameObjects. An instance of that prefab sitting in an open scene is non-persistent and takes the Hierarchy path instead."
+    },
+    {
+      "title": "Individual asset renames can fail quietly",
+      "body": "RenameProjectSelection skips anything with an empty asset path and ignores the string AssetDatabase.RenameAsset returns, which is an error message when the rename is rejected (an illegal character, a name collision). Nothing is logged, so a batch can come back partially applied with no indication of which items were refused. Check the result in the Project window rather than assuming."
+    }
+  ],
+  "seeAlso": ["BulkHierarchyToolsWindow", "FindReferencesWindow", "ScriptableObjectTableWindow"]
+}

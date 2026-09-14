@@ -1,0 +1,97 @@
+{
+  "id": "find-references-window",
+  "name": "FindReferencesWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/FindReferences/Editor/FindReferencesWindow.cs",
+  "src_lines": [
+    17,
+    161
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Find References",
+      "Assets/Toolkit/Find References In Project"
+    ]
+  },
+  "src_typeComment": "Toolkit/Find References: \"what actually uses this?\" before you rename/delete/refactor it. Drag any asset (or a scene object, for the scene search) into the target field, then search either or both: - Search Open Scene(s): walks every GameObject in every currently loaded scene and inspects each component's serialized fields directly (via SerializedObject/SerializedProperty), so it finds real Inspector-wired references, not a fragile text/name match. - Search Project Assets: uses AssetDatabase.GetDependencies(path, recursive: false) on every prefab/ material/ScriptableObject/scene/controller/clip in the project — Unity's own dependency database, not a raw text search through .prefab/.asset YAML, so it's both fast and accurate.",
+  "src_serialized": [
+    {
+      "name": "target",
+      "type": "Object",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SceneReference",
+      "sig": "public struct SceneReference",
+      "kind": "property",
+      "name": "SceneReference",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<FindReferencesWindow>(\"Find References\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SearchScenes()",
+      "sig": "public void SearchScenes()",
+      "kind": "method",
+      "name": "SearchScenes",
+      "static": false,
+      "comment": "Public (not just called from OnGUI) so this is directly unit-testable without needing a real window."
+    },
+    {
+      "id": "SearchProject()",
+      "sig": "public void SearchProject()",
+      "kind": "method",
+      "name": "SearchProject",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SceneResults",
+      "sig": "public IReadOnlyList<SceneReference> SceneResults => sceneResults",
+      "kind": "property",
+      "name": "SceneResults",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ProjectResults",
+      "sig": "public IReadOnlyList<Object> ProjectResults => projectResults",
+      "kind": "property",
+      "name": "ProjectResults",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTarget(Object)",
+      "sig": "public void SetTarget(Object newTarget) => target = newTarget",
+      "kind": "method",
+      "name": "SetTarget",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

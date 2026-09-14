@@ -1,0 +1,101 @@
+{
+  "id": "locomotion-state-machine",
+  "name": "LocomotionStateMachine",
+  "cat": "Controller",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Controller",
+  "src_file": "Controller/Locomotion/LocomotionStateMachine.cs",
+  "src_lines": [
+    16,
+    99
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(CharacterController)"
+    ],
+    "addComponentMenu": "Toolkit/Controller/Locomotion State Machine"
+  },
+  "src_typeComment": "Purely OBSERVATIONAL — this classifies locomotion state by watching an existing Toolkit/Controller/KinematicCharacterController's own CharacterController (velocity, grounded) and an optional LedgeClimbController's IsClimbing flag; it never drives movement itself. That split is the whole point of \"the setup, not the finished system\": movement logic stays exactly where it already is, and this is the single place an animation system would hook in later (OnStateChanged), without needing to touch the movement code at all when a real animation set eventually exists.",
+  "src_serialized": [
+    {
+      "name": "walkSpeedThreshold",
+      "type": "float",
+      "default": "0.1f",
+      "tooltip": "Horizontal speed above which the state is considered Walking rather than Idle.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "runSpeedThreshold",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "Horizontal speed above which the state is considered Running rather than Walking.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<LocomotionState, LocomotionState>()",
+      "sig": "public UnityEvent<LocomotionState, LocomotionState> OnStateChanged = new UnityEvent<LocomotionState, LocomotionState>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentState",
+      "sig": "public LocomotionState CurrentState { get; private set; } = LocomotionState.Idle",
+      "kind": "property",
+      "name": "CurrentState",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NormalizedSpeed",
+      "sig": "public float NormalizedSpeed { get; private set; }",
+      "kind": "property",
+      "name": "NormalizedSpeed",
+      "static": false,
+      "comment": "Calibrated to match LocomotionAnimatorGeneratorWindow's generated blend tree, whose Speed parameter places Idle at 0, Walk at 1, Run at 2 — so an Animator driver can feed this straight into Animator.SetFloat(\"Speed\", ...) every frame and get correctly-blended locomotion without having to duplicate the walk/run threshold math itself."
+    },
+    {
+      "id": "Tick()",
+      "sig": "public void Tick()",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "The actual classification logic, pulled out of Update() so a self-test can drive it deterministically by directly moving the CharacterController first, rather than needing a live Update loop."
+    },
+    {
+      "id": "ComputeNormalizedSpeed(float, float, float)",
+      "sig": "public static float ComputeNormalizedSpeed(float horizontalSpeed, float walkThreshold, float runThreshold)",
+      "kind": "method",
+      "name": "ComputeNormalizedSpeed",
+      "static": true,
+      "comment": "Pulled out as a pure static function for the same testability reason as ClassifyState below. Maps 0..walkThreshold to 0..1 and walkThreshold..runThreshold to 1..2, clamping at 2 beyond the run threshold — the blend tree has no child past \"Run\" so there is nothing further to blend toward."
+    },
+    {
+      "id": "ClassifyState(bool, bool, float, float, float, float)",
+      "sig": "public static LocomotionState ClassifyState(bool isClimbing, bool isGrounded, float verticalVelocity, float horizontalSpeed, float walkThreshold, float runThreshold)",
+      "kind": "method",
+      "name": "ClassifyState",
+      "static": true,
+      "comment": "The actual decision logic, pulled out as a pure static function — CharacterController.velocity is READ-ONLY and only updated by an actual Move() call under a real Time.deltaTime, which makes it impractical to drive deterministically outside Play mode. This is what a self-test exercises directly with synthetic inputs instead, covering every state and boundary the live version can't be reliably puppeted into."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Controller/Locomotion/Editor/LocomotionStateMachineSelfTest.cs",
+  "src_demoScene": [
+    "LedgeClimb_Demo"
+  ]
+}

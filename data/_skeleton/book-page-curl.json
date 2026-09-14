@@ -1,0 +1,172 @@
+{
+  "id": "book-page-curl",
+  "name": "BookPageCurl",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/Core/BookPageCurl.cs",
+  "src_lines": [
+    18,
+    204
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Page Curl/Book Page Curl"
+  },
+  "src_typeComment": "Plug-and-play book controller: works for BOTH a UI book (PageCurlGraphic + RawImageTextureDisplay) and a 3D world-space book (PageCurlMeshRenderer + MeshRendererTextureDisplay) unchanged, since it only ever talks to its surfaces through ICurlSurface/ITextureDisplay. Setup: assign a page list, a left/right static backing surface (shows the flat, non-turning spread), ONE curling overlay surface reused for both directions, and a hingeAnchor Transform marking the book's spine position/rotation.  currentPageIndex always refers to the page currently shown on the RIGHT; the left page is currentPageIndex - 1. Turning forward moves the right page to become the new left page (revealing the next page on the right); turning backward is the mirror image.",
+  "src_serialized": [
+    {
+      "name": "pages",
+      "type": "List<PageContent>",
+      "default": "new List<PageContent>()",
+      "tooltip": "Pages in order. currentPageIndex starts pointing at pages[0] as the initial right page.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "leftBackingBehaviour",
+      "type": "MonoBehaviour",
+      "default": null,
+      "tooltip": "Shows the static left page of the current spread. Must implement ITextureDisplay (RawImageTextureDisplay for UI, MeshRendererTextureDisplay for 3D).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "rightBackingBehaviour",
+      "type": "MonoBehaviour",
+      "default": null,
+      "tooltip": "Shows the static right page of the current spread. Must implement ITextureDisplay.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "curlSurfaceBehaviour",
+      "type": "MonoBehaviour",
+      "default": null,
+      "tooltip": "The ONE animated curling page, reused for both forward and backward turns. Must implement ICurlSurface (PageCurlGraphic for UI, PageCurlMeshRenderer for 3D).",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "hingeAnchor",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Marks the book's spine position/rotation. The curl surface is moved here and mirrored (localScale.x flipped) at the start of every turn.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "flipDuration",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": "How long an auto-animated (button-driven) turn takes, in seconds.",
+      "header": "Turn Feel",
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "dragCommitThreshold",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Fraction of the page (0-1) that must be dragged before releasing commits the turn instead of springing back.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnPageTurned = new UnityEvent<int>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentPageIndex",
+      "sig": "public int CurrentPageIndex => currentPageIndex",
+      "kind": "property",
+      "name": "CurrentPageIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PageCount",
+      "sig": "public int PageCount => pages.Count",
+      "kind": "property",
+      "name": "PageCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsTurning",
+      "sig": "public bool IsTurning => isTurning",
+      "kind": "property",
+      "name": "IsTurning",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NextPage()",
+      "sig": "public void NextPage()",
+      "kind": "method",
+      "name": "NextPage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PreviousPage()",
+      "sig": "public void PreviousPage()",
+      "kind": "method",
+      "name": "PreviousPage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "BeginDragTurn(bool)",
+      "sig": "public void BeginDragTurn(bool forward)",
+      "kind": "method",
+      "name": "BeginDragTurn",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "DragTo(float)",
+      "sig": "public void DragTo(float t01)",
+      "kind": "method",
+      "name": "DragTo",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "EndDragTurn()",
+      "sig": "public void EndDragTurn()",
+      "kind": "method",
+      "name": "EndDragTurn",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

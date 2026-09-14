@@ -1,0 +1,57 @@
+{
+  "id": "qr-galois-field",
+  "name": "QrGaloisField",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk.QrCode",
+  "src_file": "Kiosk/QrCode/QrGaloisField.cs",
+  "src_lines": [
+    8,
+    85
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "GF(256) arithmetic (primitive polynomial x^8+x^4+x^3+x^2+1 = 0x11D, generator element 2) — the finite field QR codes' Reed-Solomon error correction is defined over (ISO/IEC 18004 Annex A). Log/antilog tables turn multiplication into an add-then-lookup instead of a slow bit-by-bit polynomial multiply. Public (not internal) specifically so the Editor-folder self-test — a different default assembly in this no-asmdef project — can call it directly and verify it against a real published reference.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Multiply(int, int)",
+      "sig": "public static int Multiply(int a, int b)",
+      "kind": "method",
+      "name": "Multiply",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Exp(int)",
+      "sig": "public static int Exp(int power) => ExpTable[power]",
+      "kind": "method",
+      "name": "Exp",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "BuildGeneratorPolynomial(int)",
+      "sig": "public static int[] BuildGeneratorPolynomial(int degree)",
+      "kind": "method",
+      "name": "BuildGeneratorPolynomial",
+      "static": true,
+      "comment": "Builds the generator polynomial for `degree` EC codewords: the product of (x + 2^i) for i = 0..degree-1, as coefficients ordered HIGH-degree-first (index 0 = the x^degree term, which is always 1 — monic). This ordering matches ComputeEcc's remainder algorithm below, which reads data codewords MSB-first."
+    },
+    {
+      "id": "ComputeEcc(byte[], int)",
+      "sig": "public static byte[] ComputeEcc(byte[] dataCodewords, int eccCount)",
+      "kind": "method",
+      "name": "ComputeEcc",
+      "static": true,
+      "comment": "Computes the Reed-Solomon EC codewords for one block of data codewords — polynomial long division of the data (shifted left by `eccCount` zero codewords) by the generator polynomial; the remainder IS the EC codewords. This is the standard systematic-encoding \"LFSR simulation\" algorithm."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

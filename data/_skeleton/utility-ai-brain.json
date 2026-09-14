@@ -1,0 +1,51 @@
+{
+  "id": "utility-ai-brain",
+  "name": "UtilityAIBrain",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/UtilityAIBrain.cs",
+  "src_lines": [
+    25,
+    91
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TurnBasedActor)"
+    ],
+    "addComponentMenu": "Toolkit/Combat/Utility AI Brain"
+  },
+  "src_typeComment": "Drop alongside TurnBasedActor to make it AI-controlled: on its turn, TurnManager calls ChooseAction(), which scores every candidate action against the current battle state and returns the best one. Add a new enemy behavior by adding a CandidateAction entry in the Inspector — no code needed for simple cases.",
+  "src_serialized": [
+    {
+      "name": "candidates",
+      "type": "List<CandidateAction>",
+      "default": "new List<CandidateAction>()",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "public(ActionDefinition, TurnBasedActor)",
+      "sig": "public (ActionDefinition action, TurnBasedActor target) ChooseAction(TurnBasedActor self, IReadOnlyList<TurnBasedActor> enemies, IReadOnlyList<TurnBasedActor> allies)",
+      "kind": "method",
+      "name": "public",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TurnBasedCombat_Demo"
+  ]
+}

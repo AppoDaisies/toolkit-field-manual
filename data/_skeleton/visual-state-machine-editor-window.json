@@ -1,0 +1,61 @@
+{
+  "id": "visual-state-machine-editor-window",
+  "name": "VisualStateMachineEditorWindow",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine.EditorTools",
+  "src_file": "AI/VisualStateMachine/Editor/VisualStateMachineEditorWindow.cs",
+  "src_lines": [
+    18,
+    406
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/AI/Open Visual State Machine Editor"
+    ]
+  },
+  "src_typeComment": "Node-graph editor for VisualStateMachineAsset — double-click an asset to open it (or Toolkit/AI/Open Visual State Machine Editor with one selected). Functional-first scope, per design: drag out State/Any-State nodes (grid-snapped, colored per-node for readability), connect ports to create transitions, edit a selected transition's conditions and a selected node's name/color/entry-flag in the side panel, manage parameters from the toolbar. Every edit writes straight back into the asset and marks it dirty — there is no separate Save step to forget.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "OnOpenAsset(int, int)",
+      "sig": "public static bool OnOpenAsset(int instanceId, int line)",
+      "kind": "method",
+      "name": "OnOpenAsset",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "OpenFromMenu()",
+      "sig": "public static void OpenFromMenu()",
+      "kind": "method",
+      "name": "OpenFromMenu",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Load(VisualStateMachineAsset)",
+      "sig": "public void Load(VisualStateMachineAsset newAsset)",
+      "kind": "method",
+      "name": "Load",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnGraphDataChanged()",
+      "sig": "public void OnGraphDataChanged()",
+      "kind": "method",
+      "name": "OnGraphDataChanged",
+      "static": false,
+      "comment": "Called by VSMGraphView whenever it deletes nodes/edges (Delete key, etc.) so the underlying asset data and the sidebar both stay in sync with what's actually left in the graph."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

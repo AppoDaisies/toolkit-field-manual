@@ -1,0 +1,161 @@
+{
+  "id": "fly-to-ui-effect",
+  "name": "FlyToUIEffect",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FlyToUI/FlyToUIEffect.cs",
+  "src_lines": [
+    23,
+    146
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RectTransform)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Fly To UI Effect"
+  },
+  "src_typeComment": "Plug-and-play \"reward fly\" feedback — the classic mobile-game \"coins arc from a pickup toward the wallet icon, then vanish\" effect. Answers the obvious performance question up front, two ways: 1) Pools icon instances via the EXISTING Toolkit.Core.ObjectPool instead of Instantiate/Destroy — repeated bursts over time reuse already-arrived instances instead of churning fresh GameObjects. 2) SpawnBurst caps how many icons are EVER visually spawned for one burst (maxVisualIcons) — a \"500 coins\" reward doesn't need 500 live objects on screen at once; cap the visual count and let a counter absorb the rest (add up the actual amount yourself in OnBurstComplete/OnIconArrived). Pooling alone can't reduce PEAK CONCURRENT instances for one genuinely simultaneous burst — only the visual cap can.",
+  "src_serialized": [
+    {
+      "name": "iconPrefab",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "The icon spawned per flying item (e.g. a coin Image), as a prefab or scene template. A CanvasGroup is added automatically if missing, for the fade-out.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "poolPrewarm",
+      "type": "int",
+      "default": "10",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "flightDuration",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "burstStagger",
+      "type": "float",
+      "default": "0.04f",
+      "tooltip": "Delay between each icon's launch within a burst, in seconds.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "scatterRadius",
+      "type": "float",
+      "default": "40f",
+      "tooltip": "Random scatter radius applied to each icon's start position before it arcs to the target — 0 disables scatter.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "arcHeight",
+      "type": "float",
+      "default": "80f",
+      "tooltip": "How high the arc bulges above a straight line to the target, in UI units.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "ease",
+      "type": "EaseType",
+      "default": "EaseType.InQuad",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "defaultMaxVisualIcons",
+      "type": "int",
+      "default": "12",
+      "tooltip": "Hard cap on how many icons a single SpawnBurst call will ever create, regardless of the requested count.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnIconArrived = new UnityEvent<int>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnBurstComplete = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PendingInBurst",
+      "sig": "public int PendingInBurst => pendingInBurst",
+      "kind": "property",
+      "name": "PendingInBurst",
+      "static": false,
+      "comment": "How many icons are still in flight from the most recent SpawnBurst — set synchronously the moment SpawnBurst is called (before any staggered coroutine actually runs), so it's a reliable way to confirm the visual cap took effect immediately, without needing to wait for icons to arrive."
+    },
+    {
+      "id": "Spawn(Vector2, RectTransform, Action)",
+      "sig": "public void Spawn(Vector2 startScreenPosition, RectTransform target, Action onArrived = null)",
+      "kind": "method",
+      "name": "Spawn",
+      "static": false,
+      "comment": "startScreenPosition/target are resolved via screen space, so either UI or world-space origins work — see SpawnBurstFromWorld for a world-position convenience overload."
+    },
+    {
+      "id": "SpawnBurstFromWorld(Vector3, Camera, RectTransform, int, int)",
+      "sig": "public void SpawnBurstFromWorld(Vector3 worldPosition, Camera worldCamera, RectTransform target, int logicalCount, int maxVisualIcons = -1)",
+      "kind": "method",
+      "name": "SpawnBurstFromWorld",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SpawnBurst(Vector2, RectTransform, int, int)",
+      "sig": "public void SpawnBurst(Vector2 startScreenPosition, RectTransform target, int logicalCount, int maxVisualIcons = -1)",
+      "kind": "method",
+      "name": "SpawnBurst",
+      "static": false,
+      "comment": "Spawns min(logicalCount, maxVisualIcons) icons from the same start position, staggered, all converging on target — pass the real reward amount as logicalCount even for huge rewards; only the capped visual count actually gets instantiated. maxVisualIcons &lt;= 0 uses defaultMaxVisualIcons."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/FlyToUI/Editor/FlyToUIEffectSelfTest.cs",
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

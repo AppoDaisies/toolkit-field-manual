@@ -1,0 +1,44 @@
+{
+  "id": "noise-utils",
+  "name": "NoiseUtils",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Noise/NoiseUtils.cs",
+  "src_lines": [
+    9,
+    39
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Thin convenience layer over Unity's built-in Mathf.PerlinNoise — a single octave of Perlin noise looks fairly uniform/smooth; layering several octaves at increasing frequency and decreasing amplitude (aka Fractal Brownian Motion) gives the more natural, detailed look most \"noise-driven\" effects actually want (camera shake, wind sway, terrain-ish variation).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Fbm(float, float, int, float, float)",
+      "sig": "public static float Fbm(float x, float y, int octaves = 4, float lacunarity = 2f, float gain = 0.5f)",
+      "kind": "method",
+      "name": "Fbm",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Fbm1D(float, int, float, float)",
+      "sig": "public static float Fbm1D(float x, int octaves = 4, float lacunarity = 2f, float gain = 0.5f)",
+      "kind": "method",
+      "name": "Fbm1D",
+      "static": true,
+      "comment": "1D convenience overload (e.g. Fbm1D(time) for a wandering value) — samples 2D Perlin along a fixed second axis, since Unity has no native 1D Perlin function."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo",
+    "ProceduralGeneration_Demo"
+  ]
+}

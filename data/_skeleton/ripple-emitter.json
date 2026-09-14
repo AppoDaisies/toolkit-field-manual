@@ -1,0 +1,89 @@
+{
+  "id": "ripple-emitter",
+  "name": "RippleEmitter",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Water/Ripple/RippleEmitter.cs",
+  "src_lines": [
+    13,
+    99
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Ripple Emitter"
+  },
+  "src_typeComment": "Drop this on ANY GameObject whose Renderer uses a shader that includes RippleInclude.cginc — every shader in Rendering/Water/ (Realistic, Stylized, 2D) already does. It drives the shared _RippleImpacts array via a MaterialPropertyBlock, so it never touches (or needs to know) which specific shader is assigned: dragging this same component onto a Stylized-water object instead of a Realistic-water one \"just works\", because the two shaders agree on the same property names rather than knowing about each other or about this component.",
+  "src_serialized": [
+    {
+      "name": "rippleSpeed",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "World units/second the ring expands outward.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "rippleWidth",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Thickness of the expanding ring, in world units.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "rippleLifetime",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "Seconds before a ripple fully fades out.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "rippleHeight",
+      "type": "float",
+      "default": "0.05f",
+      "tooltip": "Peak vertical displacement / normal-perturbation strength.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ActiveImpactCount",
+      "sig": "public int ActiveImpactCount { get; private set; }",
+      "kind": "property",
+      "name": "ActiveImpactCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AddImpact(Vector3)",
+      "sig": "public void AddImpact(Vector3 worldPosition)",
+      "kind": "method",
+      "name": "AddImpact",
+      "static": false,
+      "comment": "Call this from a footstep event, a rain droplet spawner, a TriggerEventRelay.OnEnter — anything that has a world position and a moment something touched the water. Impacts are stored in a ring buffer: once more than MaxRipples land within one lifetime, the OLDEST slot is silently reused rather than the array growing unbounded."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/Water/Ripple/Editor/RippleEmitterSelfTest.cs",
+  "src_demoScene": [
+    "Water_Demo"
+  ]
+}

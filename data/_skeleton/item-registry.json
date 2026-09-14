@@ -1,0 +1,26 @@
+{
+  "id": "item-registry",
+  "name": "ItemRegistry",
+  "cat": "Inventory",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Inventory",
+  "src_file": "Inventory/ItemRegistry.cs",
+  "src_lines": [
+    9,
+    9
+  ],
+  "src_base": "GameDataRegistry<ItemDefinition>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Inventory/Item Registry\""
+  },
+  "src_typeComment": "A concrete registry so [CreateAssetMenu] works (Unity doesn't allow it on a generic type directly), same reasoning as GameDataRegistry<T>'s own doc comment.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

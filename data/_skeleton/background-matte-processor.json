@@ -1,0 +1,41 @@
+{
+  "id": "background-matte-processor",
+  "name": "BackgroundMatteProcessor",
+  "cat": "BackgroundMatte",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.BackgroundMatte",
+  "src_file": "BackgroundMatte/Editor/BackgroundMatteProcessor.cs",
+  "src_lines": [
+    28,
+    306
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": true,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "<summary> General-purpose background alpha-matting: makes a roughly solid-colored background transparent on any photographed/scanned image, without ever cropping pixels away. Split out of a book-page-scan importer; this version has no book/spine-specific assumptions - copy this file (and its window) into any project as-is.  Good fits: product photography on a seamless backdrop, scanned physical props/cards/documents on a plain surface, cleaning up photographed art on white paper. Background is found by flood-filling inward from whichever image edges you allow seeding from, using color distance to a reference color (auto-sampled from the corners, or set manually) rather than just luminance, so colored backdrops work too, not just near-black/near-white.  Real limits: the background must actually touch the seeded edges (an \"island\" of background surrounded by subject won't be found), and the subject must not itself touch a seeded edge (a tightly-cropped subject photo will get eaten into). For an edge that should never be matted (e.g. a book's spine, or a deliberately-touching seam), turn that border's seeding off. </summary>",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Options",
+      "sig": "public struct Options",
+      "kind": "property",
+      "name": "Options",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "MatteBackground(Texture2D, Options, List<string>, string)",
+      "sig": "public static Texture2D MatteBackground(Texture2D source, Options opts, List<string> warnings, string label)",
+      "kind": "method",
+      "name": "MatteBackground",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

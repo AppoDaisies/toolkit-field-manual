@@ -1,0 +1,52 @@
+{
+  "id": "scriptable-variable",
+  "name": "ScriptableVariable<T>",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/Variables/ScriptableVariable.cs",
+  "src_lines": [
+    15,
+    34
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Base for SO-based shared value containers (\"SO Variables\"): instead of a hard singleton reference, multiple independent scripts read/write the SAME value by pointing at the SAME asset — a health bar UI and the player's damage logic can both reference one \"PlayerHealth\" FloatVariable asset without ever referencing each other directly. Unity doesn't allow [CreateAssetMenu] on a generic type, so this is abstract — see FloatVariable/IntVariable/BoolVariable for the ready-to-use concrete assets.  Note: with default Editor settings (domain reload enabled), a variable asset's value resets to its saved default each time you exit Play mode, so this behaves like ordinary runtime state, not a permanent record — use SaveSystem/JsonHelper for anything that needs to persist across sessions.",
+  "src_serialized": [
+    {
+      "name": "value",
+      "type": "T",
+      "default": null,
+      "tooltip": "The value other scripts read/write through this asset.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnValueChanged",
+      "sig": "public event Action<T> OnValueChanged",
+      "kind": "event",
+      "name": "OnValueChanged",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Value",
+      "sig": "public T Value",
+      "kind": "property",
+      "name": "Value",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

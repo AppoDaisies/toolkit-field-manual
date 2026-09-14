@@ -1,0 +1,122 @@
+{
+  "id": "vision-cone",
+  "name": "VisionCone",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/VisionCone/VisionCone.cs",
+  "src_lines": [
+    11,
+    113
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Vision Cone"
+  },
+  "src_typeComment": "Drop on an enemy/guard and it detects Transforms on targetMask within range + field-of-view angle, with a raycast occlusion check against obstacleMask so hiding behind a wall actually works. Genre-agnostic: stealth games use this directly; racing/sports AI can ignore it entirely and just use SteeringBehaviors.",
+  "src_serialized": [
+    {
+      "name": "eye",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Where the cone originates — assign an eye/head transform, or leave empty to use this object's position.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "fieldOfViewAngle",
+      "type": "float",
+      "default": "90f",
+      "tooltip": "Full field-of-view angle in degrees (e.g. 90 = 45 degrees either side of forward).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "range",
+      "type": "float",
+      "default": "12f",
+      "tooltip": "Maximum detection distance.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "targetMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Layers that count as detectable targets.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "obstacleMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Layers that block line of sight (walls, etc). A target behind one of these isn't seen even if inside the cone.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "scanInterval",
+      "type": "float",
+      "default": "0.2f",
+      "tooltip": "How often (seconds) to re-scan. 0 = every frame.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<Transform>()",
+      "sig": "public UnityEvent<Transform> OnTargetSpotted = new UnityEvent<Transform>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<Transform>()",
+      "sig": "public UnityEvent<Transform> OnTargetLost = new UnityEvent<Transform>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "VisibleTargets",
+      "sig": "public IReadOnlyList<Transform> VisibleTargets => visibleTargets",
+      "kind": "property",
+      "name": "VisibleTargets",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CanSee(Transform)",
+      "sig": "public bool CanSee(Transform target)",
+      "kind": "method",
+      "name": "CanSee",
+      "static": false,
+      "comment": "Public so you can also ad-hoc query \"can I see this specific transform right now\" outside the regular scan."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo"
+  ]
+}

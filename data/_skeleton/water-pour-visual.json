@@ -1,0 +1,118 @@
+{
+  "id": "water-pour-visual",
+  "name": "WaterPourVisual",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Watering/WaterPourVisual.cs",
+  "src_lines": [
+    11,
+    160
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Water Pour Visual"
+  },
+  "src_typeComment": "Two independent, combinable ways to SHOW a water pour — particles alone are cheap and read clearly as droplets; the shader stream alone is smoother and stays perfectly continuous even at very low pour rates where sparse particles would look broken up; both together give the densest look. This component only ever DRAWS whatever pour state it's handed via SetPour — it has no tilt/input logic of its own, so it stays reusable by anything that can compute a pour rate and an arc (typically WateringCanController).",
+  "src_serialized": [
+    {
+      "name": "waterColor",
+      "type": "Color",
+      "default": "new Color(0.55f, 0.75f, 0.95f, 0.85f)",
+      "tooltip": "Tint applied to both the particles and the stream.",
+      "header": "Common",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "enableParticles",
+      "type": "bool",
+      "default": "true",
+      "tooltip": null,
+      "header": "Particles — droplet stream",
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "maxEmissionRate",
+      "type": "float",
+      "default": "60f",
+      "tooltip": "Particles emitted per second at full pour rate (rate 1).",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "particleSize",
+      "type": "float",
+      "default": "0.05f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "particleSpeed",
+      "type": "float",
+      "default": "3f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "enableStream",
+      "type": "bool",
+      "default": "true",
+      "tooltip": null,
+      "header": "Stream — smooth curved shader stream",
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "streamWidth",
+      "type": "float",
+      "default": "0.05f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "scrollSpeed",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "How fast the flow texture scrolls along the stream — higher reads as faster-moving water.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetPour(bool, float, Vector3[])",
+      "sig": "public void SetPour(bool isPouring, float rate01, Vector3[] arcPoints)",
+      "kind": "method",
+      "name": "SetPour",
+      "static": false,
+      "comment": "Called every frame by whatever is driving the pour — typically WateringCanController — so this component never has to know about tilt or input itself."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "WateringCan_Demo"
+  ]
+}

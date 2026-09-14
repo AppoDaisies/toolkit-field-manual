@@ -1,0 +1,66 @@
+{
+  "id": "easing-functions",
+  "summary": "One static Evaluate(EaseType, float) implementing 13 standard easing curves, with no tween-engine dependency.",
+  "problem": "Linear motion reads as mechanical; the fix is almost always an easing curve, and the same handful of formulas get retyped (usually slightly wrong) in every project. This class is the canonical set as plain float maths — no coroutines, no tween handles, no components. That matters because the same curve is needed in places a tween library cannot reach: a shader parameter, a camera rig's own update loop, a procedural mesh deformation, a progress bar driven by download bytes rather than time. You call Evaluate with a normalized progress value and get back a shaped progress value; what you do with it is your business.",
+  "workedExample": {
+    "setup": "OutCubic — the workhorse \"arrives gently\" curve — sampled across a one-second move.",
+    "inputs": [
+      {
+        "name": "type",
+        "value": "EaseType.OutCubic"
+      },
+      {
+        "name": "formula",
+        "value": "1 - Mathf.Pow(1 - t, 3)"
+      }
+    ],
+    "steps": [
+      "t = 0.25:  1 - (0.75)^3 = 1 - 0.421875 = 0.578125",
+      "t = 0.50:  1 - (0.50)^3 = 1 - 0.125    = 0.875",
+      "t = 0.75:  1 - (0.25)^3 = 1 - 0.015625 = 0.984375",
+      "t = 1.00:  1 - 0        = 1",
+      "For contrast, OutBack at t = 0.75 with its constants c1 = 1.70158 and c3 = 2.70158, and t1 = t - 1 = -0.25: 1 + 2.70158*(-0.015625) + 1.70158*(0.0625) = 1 - 0.042212 + 0.106349 = 1.064137"
+    ],
+    "result": "A one-second OutCubic move is already 57.8% complete after a quarter of a second and 98.4% complete after three quarters — the motion is front-loaded and settles softly. OutBack, by contrast, deliberately returns 1.064 at t = 0.75, overshooting the target by 6.4% before easing back to 1.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Shaping a manually driven lerp: Vector3.Lerp(a, b, EasingFunctions.Evaluate(ease, elapsed / duration)).",
+    "A pop-in for a UI panel using OutBack, where the slight overshoot past full scale is the whole effect.",
+    "Feeding a shader property (dissolve amount, fresnel strength) a non-linear ramp without an AnimationCurve asset.",
+    "Camera moves and dolly transitions that must feel hand-animated rather than mechanical.",
+    "Anywhere a designer's chosen EaseType value needs to become an actual number."
+  ],
+  "usage": {
+    "code": "float k = EasingFunctions.Evaluate(EaseType.OutBack, elapsed / duration);\ntransform.localScale = Vector3.LerpUnclamped(Vector3.zero, Vector3.one, k);",
+    "codeNote": "LerpUnclamped, not Lerp — Back, Elastic and Bounce return values outside [0,1] on purpose, and plain Lerp would silently flatten the overshoot that is the point of the curve."
+  },
+  "apiNotes": {
+    "Evaluate(EaseType, float)": "Switches on the enum and returns the shaped value. Any case not explicitly handled (including EaseType.Linear) falls through to `default: return t`, so t comes back untouched and unclamped."
+  },
+  "gotchas": [
+    {
+      "title": "Nothing is clamped, on either side",
+      "body": "Evaluate never clamps its input or its output. Pass t = 1.5 to InQuad and you get 2.25. Divide elapsed by duration without a Mathf.Clamp01 and an overshooting final frame will send whatever you are driving past its target. Clamp the input yourself if your t can exceed 1."
+    },
+    {
+      "title": "Back, Elastic and Bounce leave the [0,1] range deliberately",
+      "body": "OutBack peaks at roughly 1.064; InBack dips below 0; Elastic does both repeatedly. Never feed these results straight into something that must stay in range — a Color channel, a CanvasGroup alpha, a normalized shader property — without clamping at the consumer. Use Mathf.LerpUnclamped / Vector3.LerpUnclamped where you WANT the overshoot."
+    },
+    {
+      "title": "The enum is not a symmetric set",
+      "body": "Only OutBounce exists (no InBounce, no InOutBounce), and Elastic has In and Out but no InOut. If you are porting eases from another library by name, three of the combinations you might expect simply are not there."
+    },
+    {
+      "title": "Elastic special-cases exact 0 and 1",
+      "body": "ElasticIn and ElasticOut return t unchanged when t == 0f or t == 1f, guarding the Pow/Sin terms at the boundaries. Because that is an exact float comparison, a t of 0.9999999 takes the normal path — which is fine, the formula is continuous there, but do not rely on the special case firing for near-boundary values."
+    }
+  ],
+  "seeAlso": [
+    "EaseType",
+    "Tween",
+    "TweenExtensions",
+    "MathUtils",
+    "StatCurves"
+  ]
+}

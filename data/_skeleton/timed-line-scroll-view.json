@@ -1,0 +1,169 @@
+{
+  "id": "timed-line-scroll-view",
+  "name": "TimedLineScrollView",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/TimedLineScrollView/TimedLineScrollView.cs",
+  "src_lines": [
+    30,
+    228
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(ScrollRect)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Timed Line Scroll View"
+  },
+  "src_typeComment": "Plug-and-play auto-scrolling, timeline-synced multi-line text — the \"current line glides into view and lights up while the rest dim\" look popularized by synced song-lyrics displays in music apps, equally useful for a teleprompter script, a subtitle track, or any multi-line text that should auto-advance alongside audio/video/a timeline instead of the viewer manually scrolling.  Distinct from Toolkit.TMPEffects.TMPTimedHighlighter (the SAME timeline-driven idea, different addressing): that one highlights WORDS within one block of text; this one advances between whole LINES, each its own TMP_Text instance, auto-scrolling the container to keep the current one centered — a different enough data model and rendering technique to warrant its own component.",
+  "src_serialized": [
+    {
+      "name": "linePrefab",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": "Template cloned once per line. Needs a TMP_Text component.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "lines",
+      "type": "List<TimedLine>",
+      "default": "new List<TimedLine>()",
+      "tooltip": "One entry per line, in ascending startTime order. Populate via the Inspector, SetLines(), SetLinesEvenlySpread(), or LoadLinesFromJson().",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "scrollDuration",
+      "type": "float",
+      "default": "0.4f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "scrollEase",
+      "type": "EaseType",
+      "default": "EaseType.OutQuad",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "activeColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "inactiveColor",
+      "type": "Color",
+      "default": "new Color(1f, 1f, 1f, 0.35f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "activeFontScale",
+      "type": "float",
+      "default": "1.15f",
+      "tooltip": "The active (current) line's font size multiplies by this — 1 disables the size pop entirely.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "audioSource",
+      "type": "AudioSource",
+      "default": null,
+      "tooltip": "Optional — if assigned, playback time is read from this automatically every frame instead of needing manual SetPlaybackTime() calls.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CurrentLineIndex",
+      "sig": "public int CurrentLineIndex => currentIndex",
+      "kind": "property",
+      "name": "CurrentLineIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetLines(IEnumerable<TimedLine>)",
+      "sig": "public void SetLines(IEnumerable<TimedLine> newLines)",
+      "kind": "method",
+      "name": "SetLines",
+      "static": false,
+      "comment": "Replaces the whole line list and rebuilds the displayed line instances — e.g. loading a new song's lyrics or a new script."
+    },
+    {
+      "id": "SetLinesEvenlySpread(IEnumerable<string>, float)",
+      "sig": "public void SetLinesEvenlySpread(IEnumerable<string> lineTexts, float totalDuration)",
+      "kind": "method",
+      "name": "SetLinesEvenlySpread",
+      "static": false,
+      "comment": "Quick-start helper for when you don't have real per-line timestamps yet — spreads the given lines evenly across totalDuration. Replace with SetLines()/LoadLinesFromJson() once you have real timing data (e.g. from a synced-lyrics file)."
+    },
+    {
+      "id": "LoadLinesFromJson(string)",
+      "sig": "public void LoadLinesFromJson(string json)",
+      "kind": "method",
+      "name": "LoadLinesFromJson",
+      "static": false,
+      "comment": "Accepts either {\"lines\":[{\"text\":\"...\",\"startTime\":0}, ...]} or a bare [...] array (JsonUtility can't parse a top-level array directly, so a bare array is auto-wrapped) — same convention as TMPTimedHighlighter.LoadTimingsFromJson."
+    },
+    {
+      "id": "SetPlaybackTime(float)",
+      "sig": "public void SetPlaybackTime(float time)",
+      "kind": "method",
+      "name": "SetPlaybackTime",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ResetScroll()",
+      "sig": "public void ResetScroll()",
+      "kind": "method",
+      "name": "ResetScroll",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetLineIndexAtTime(float)",
+      "sig": "public int GetLineIndexAtTime(float time)",
+      "kind": "method",
+      "name": "GetLineIndexAtTime",
+      "static": false,
+      "comment": "Public, pure logic (no TMP dependency) — mirrors TMPTimedHighlighter.GetWordIndexAtTime for the same reason: fully verifiable without needing a real, laid-out TMP font."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/TimedLineScrollView/Editor/TimedLineScrollViewSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

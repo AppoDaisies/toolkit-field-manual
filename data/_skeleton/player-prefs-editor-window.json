@@ -1,0 +1,61 @@
+{
+  "id": "player-prefs-editor-window",
+  "name": "PlayerPrefsEditorWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/PlayerPrefsEditor/Editor/PlayerPrefsEditorWindow.cs",
+  "src_lines": [
+    44,
+    231
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/PlayerPrefs Editor"
+    ]
+  },
+  "src_typeComment": "Toolkit/PlayerPrefs Editor: UnityEngine.PlayerPrefs has NO \"list all keys\" method, which makes a normal editor window impossible to build against it directly. On Windows, PlayerPrefs actually live in the registry under HKCU\\Software\\<Company>\\<Product>, one value per key (named \"<key>_h<hash>\" — Unity appends a project-specific hash suffix to every key).  This tool reads THAT registry key purely to DISCOVER which keys exist (enumerate value names, strip the hash suffix) — it never parses Unity's undocumented on-disk VALUE format itself. Every actual read or write of a value goes through the real UnityEngine.PlayerPrefs API, which is guaranteed correct since it's Unity's own code doing the encoding/decoding, not a reverse-engineered guess at an undocumented binary layout — getting that wrong on a WRITE could silently corrupt real save data, which isn't a risk worth taking when the actual API is sitting right there to use instead.  Editor-only and WINDOWS-SPECIFIC by choice — macOS stores PlayerPrefs in a .plist and Linux in a config file, each needing its own discovery method this tool doesn't attempt.  The one place a real guess is unavoidable: distinguishing an Int/Float/String key from the registry alone, since PlayerPrefs.GetInt/GetFloat/GetString each need the CALLER to already know the type. CONFIRMED BY TESTING (not assumed): PlayerPrefs.SetInt AND PlayerPrefs.SetFloat both write a plain RegistryValueKind.DWord — Unity stores a float's raw 4 bytes reinterpreted as the DWord's bit pattern rather than tagging it Binary, so DWord alone CANNOT tell Int and Float apart; this is a routine ambiguity affecting every float key, not a rare edge case. Classified by value kind (DWord -> Int as a default guess, Binary -> String) with a manual \"type\" dropdown per row that is the ONLY reliable way to correctly view/edit a float key — flip it once and the row re-reads through PlayerPrefs.GetFloat instead, showing the real value.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow()",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Refresh()",
+      "sig": "public void Refresh() => entries = DiscoverKeys()",
+      "kind": "method",
+      "name": "Refresh",
+      "static": false,
+      "comment": "Public (not just wired to the Refresh button) so a self-test can drive it directly."
+    },
+    {
+      "id": "DiscoverKeys()",
+      "sig": "public static List<PlayerPrefsEntry> DiscoverKeys()",
+      "kind": "method",
+      "name": "DiscoverKeys",
+      "static": true,
+      "comment": "Enumerates every registry VALUE NAME under this project's PlayerPrefs registry key and strips Unity's \"_h<hash>\" suffix to recover the original key name."
+    },
+    {
+      "id": "DiscoverKeys()",
+      "sig": "public static List<PlayerPrefsEntry> DiscoverKeys() => new List<PlayerPrefsEntry>()",
+      "kind": "method",
+      "name": "DiscoverKeys",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "EditorTools/PlayerPrefsEditor/Editor/PlayerPrefsEditorWindowSelfTest.cs",
+  "src_demoScene": []
+}

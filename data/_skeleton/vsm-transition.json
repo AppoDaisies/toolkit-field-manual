@@ -1,0 +1,57 @@
+{
+  "id": "vsm-transition",
+  "name": "VSMTransition",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine",
+  "src_file": "AI/VisualStateMachine/VSMTransition.cs",
+  "src_lines": [
+    6,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "NewGuid()",
+      "sig": "public string id = System.Guid.NewGuid().ToString()",
+      "kind": "method",
+      "name": "NewGuid",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "fromNodeId",
+      "sig": "public string fromNodeId",
+      "kind": "field",
+      "name": "fromNodeId",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "toNodeId",
+      "sig": "public string toNodeId",
+      "kind": "field",
+      "name": "toNodeId",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "List<VSMCondition>()",
+      "sig": "public List<VSMCondition> conditions = new List<VSMCondition>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

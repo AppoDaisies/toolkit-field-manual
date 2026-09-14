@@ -1,0 +1,61 @@
+{
+  "id": "singleton",
+  "summary": "Abstract generic base giving a MonoBehaviour a static Instance, a duplicate guard, and optional DontDestroyOnLoad.",
+  "problem": "Some objects genuinely should exist exactly once — the audio manager, the input manager, the tween runner — and every script that needs one should be able to say so without a serialized reference dragged in per scene. Singleton<T> supplies the three pieces that pattern always needs: a static Instance that finds or creates the object on first access, an Awake that destroys any second copy that sneaks into a scene, and a serialized opt-in for surviving scene loads. Inherit as `public class GameManager : Singleton<GameManager>` and the whole thing is 45 lines. It is convenient and it hides real lifecycle sharp edges — read the gotchas before you lean on it.",
+  "params": [
+    {
+      "field": "persistAcrossScenes",
+      "why": "When true, Awake calls DontDestroyOnLoad(gameObject) so this object and its children survive every subsequent scene load.",
+      "tuning": "True for genuinely global services (audio, input, save data); false for managers that are meaningfully per-scene, or you end up with a stale manager holding references to objects from a scene that no longer exists. Note that an auto-created instance always gets false, because there is no Inspector to set it on."
+    }
+  ],
+  "workedExample": {
+    "na": "Singleton<T> has no numeric behaviour to trace — it is a lifetime and ownership rule, not a calculation. Its interesting cases are all ordering ones (who registers first, what happens to the duplicate, what Instance returns during shutdown), and those are covered member by member in the gotchas below."
+  },
+  "useCases": [
+    "A game or round manager that scene code and UI both need to reach without a wiring step.",
+    "Input managers: LegacyInputManager and NewInputSystemManager both derive from this so any script can poll the active scheme.",
+    "Services that should materialise on first use rather than be placed by hand — TweenRunner is auto-created this way so a tween call from any script just works.",
+    "A settings or save manager that must outlive scene loads, using persistAcrossScenes.",
+    "An update aggregator such as UpdateManager, where the whole point is one Update loop rather than hundreds."
+  ],
+  "usage": {
+    "code": "public class GameManager : Singleton<GameManager>\n{\n    protected override void Awake()\n    {\n        base.Awake();   // registers the instance, or destroys this duplicate\n        // your own setup here\n    }\n}\n// elsewhere:  GameManager.Instance.StartRound();",
+    "codeNote": "Instance is a public static T property on the base class (it does not appear in the member table below — an extractor gap, not a missing API). Its getter returns null while quitting, otherwise returns the cached instance, otherwise FindObjectOfType<T>(), otherwise creates a new GameObject named after T and AddComponents T onto it."
+  },
+  "gotchas": [
+    {
+      "title": "Instance silently manufactures a GameObject when none exists",
+      "body": "If the cached instance is null and FindObjectOfType finds nothing, the getter does `new GameObject(typeof(T).Name)` and AddComponent<T>() — with no log line. That object gets persistAcrossScenes = false (there is no Inspector to say otherwise), so it dies at the next scene load and the following access quietly creates another one. Several toolkit managers (FadeManager, ShaderTransitionManager, SettingsManager) carry explicit lazy-init code precisely because of this behaviour."
+    },
+    {
+      "title": "FindObjectOfType does not see inactive objects",
+      "body": "A singleton you placed in the scene but left disabled is invisible to the getter, so touching Instance creates a second one. Enable the original later and its Awake sees instance != this — and destroys it. Never ship a disabled singleton and expect Instance to find it."
+    },
+    {
+      "title": "The duplicate guard destroys the whole GameObject",
+      "body": "Awake's losing branch is `Destroy(gameObject)`, not Destroy(this). Everything else on that object, and every child of it, goes with the duplicate component. Put a singleton on its own dedicated GameObject, never bolted onto a character or a UI root."
+    },
+    {
+      "title": "A subclass that forgets base.Awake() silently breaks the pattern",
+      "body": "Awake is protected virtual. Declaring `private void Awake()` in your subclass hides it rather than overriding it, so nothing registers the instance, the duplicate guard never runs and persistAcrossScenes is ignored — with no compiler error. Always `protected override void Awake()` and call base.Awake() first. The same applies to OnApplicationQuit."
+    },
+    {
+      "title": "isQuitting is a static that is never reset to false",
+      "body": "OnApplicationQuit latches it, and from then on Instance returns null forever — a deliberate guard against resurrecting a manager during teardown, so anything touching Instance from OnDestroy/OnApplicationQuit must null-check. The sting is in the Editor: Unity also calls OnApplicationQuit when you leave Play mode, so with Domain Reload disabled (Enter Play Mode Options) the flag and the stale instance reference survive into the next Play session and Instance returns null from the very first frame. Keep Domain Reload on, or reset both statics from a [RuntimeInitializeOnLoadMethod]."
+    },
+    {
+      "title": "The constraint is `where T : MonoBehaviour`, not `where T : Singleton<T>`",
+      "body": "Nothing stops you writing `class Foo : Singleton<Bar>`. It compiles, and then `instance = this as T` evaluates to null, so Foo's Awake registers nothing, the duplicate guard is inert, and the first Foo.Instance access auto-creates a stray Bar GameObject. Always pass your own type as T."
+    },
+    {
+      "title": "DontDestroyOnLoad only works on a root GameObject",
+      "body": "persistAcrossScenes calls DontDestroyOnLoad(gameObject), which Unity only honours for objects at the root of the hierarchy. A singleton nested under a scene-organising parent will still be destroyed on load, and the next Instance access will auto-create a replacement. Keep persistent singletons unparented."
+    }
+  ],
+  "seeAlso": [
+    "TweenRunner",
+    "SettingsManager",
+    "UpdateManager"
+  ]
+}

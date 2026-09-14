@@ -1,0 +1,69 @@
+{
+  "id": "dissolve-effect",
+  "name": "DissolveEffect",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Dissolve/DissolveEffect.cs",
+  "src_lines": [
+    12,
+    46
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Dissolve Effect"
+  },
+  "src_typeComment": "Drop alongside a Renderer using the Toolkit/Dissolve/Dissolve shader — call PlayDissolveOut() (e.g. on death) or PlayDissolveIn() (e.g. on spawn) to animate the shader's _DissolveAmount over time. Uses .material (not sharedMaterial) so each instance animates independently without affecting others sharing the same source material asset.",
+  "src_serialized": [
+    {
+      "name": "duration",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "Seconds the dissolve animation takes.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "destroyOnDissolveOut",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Destroys this GameObject when a dissolve-out finishes.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "PlayDissolveOut()",
+      "sig": "public void PlayDissolveOut() => Play(0f, 1f, destroyOnDissolveOut)",
+      "kind": "method",
+      "name": "PlayDissolveOut",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PlayDissolveIn()",
+      "sig": "public void PlayDissolveIn() => Play(1f, 0f, false)",
+      "kind": "method",
+      "name": "PlayDissolveIn",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VFXShaders_Demo"
+  ]
+}

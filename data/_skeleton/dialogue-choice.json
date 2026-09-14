@@ -1,0 +1,57 @@
+{
+  "id": "dialogue-choice",
+  "name": "DialogueChoice",
+  "cat": "Dialogue",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Dialogue",
+  "src_file": "Dialogue/DialogueNode.cs",
+  "src_lines": [
+    30,
+    41
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "choiceText",
+      "sig": "public string choiceText",
+      "kind": "field",
+      "name": "choiceText",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "nextNode",
+      "sig": "public DialogueNode nextNode",
+      "kind": "field",
+      "name": "nextNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "requiredBlackboardKey",
+      "sig": "public string requiredBlackboardKey",
+      "kind": "field",
+      "name": "requiredBlackboardKey",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "requiredValue",
+      "sig": "public bool requiredValue = true",
+      "kind": "field",
+      "name": "requiredValue",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

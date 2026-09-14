@@ -1,0 +1,35 @@
+{
+  "id": "easing-functions",
+  "name": "EasingFunctions",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Easing/EasingFunctions.cs",
+  "src_lines": [
+    16,
+    87
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Standard easing formulas. t is expected in [0, 1]; the result usually is too (Back/Elastic/Bounce overshoot on purpose). Kept as plain math, not tied to any tween engine, so it can drive UI animation, camera moves, or shader parameters.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Evaluate(EaseType, float)",
+      "sig": "public static float Evaluate(EaseType type, float t)",
+      "kind": "method",
+      "name": "Evaluate",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

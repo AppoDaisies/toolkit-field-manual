@@ -1,0 +1,131 @@
+{
+  "id": "tmp-timed-highlighter",
+  "name": "TMPTimedHighlighter",
+  "cat": "TMPEffects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.TMPEffects",
+  "src_file": "TMPEffects/TimedHighlighter/TMPTimedHighlighter.cs",
+  "src_lines": [
+    32,
+    179
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "TMP Effects/Timed Highlighter"
+  },
+  "src_typeComment": "Timed word highlighting — reveals/highlights words on a timeline (karaoke lyrics, voiced dialogue captions, timed subtitles). A SEPARATE component from TMPWordHighlighter on purpose: TMPWordHighlighter addresses words by literal text match (every occurrence of \"gold\" gets the same static color); this addresses words by POSITION IN THE TEXT against a timeline, which is a genuinely different addressing scheme and behavior model, not just a variant. Reuses the exact same vertex-coloring technique (TMP_TextInfo/characterInfo -&gt; colors32 -&gt; UpdateGeometry), so both tools stay consistent, without either needing to know about the other.  REQUIRES TMP Essential Resources to actually render anything — if you haven't already imported them for this project, do it once via Window > TextMeshPro > Import TMP Essential Resources. Without that, TMP text has no font assigned and this component's highlighting silently does nothing (it degrades gracefully rather than throwing, but nothing will visibly happen until the font is available).",
+  "src_serialized": [
+    {
+      "name": "baseColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "highlightColor",
+      "type": "Color",
+      "default": "Color.yellow",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "keepPreviousHighlighted",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, words already reached stay highlighted (progressive reveal, the usual karaoke look). If false, only the single current word is highlighted at a time.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "timings",
+      "type": "List<WordTiming>",
+      "default": "new List<WordTiming>()",
+      "tooltip": "One entry per word in the text, in reading order. Populate via the Inspector, SetTimings(), LoadTimingsFromJson(), or SetTimingsEvenlySpread().",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "audioSource",
+      "type": "AudioSource",
+      "default": null,
+      "tooltip": "Optional — if assigned, playback time is read from this automatically every frame instead of needing manual SetPlaybackTime() calls.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetTimings(IEnumerable<WordTiming>)",
+      "sig": "public void SetTimings(IEnumerable<WordTiming> newTimings)",
+      "kind": "method",
+      "name": "SetTimings",
+      "static": false,
+      "comment": "Replaces the whole timing list — e.g. after loading a new line of dialogue/lyrics."
+    },
+    {
+      "id": "SetTimingsEvenlySpread(float)",
+      "sig": "public void SetTimingsEvenlySpread(float totalDuration)",
+      "kind": "method",
+      "name": "SetTimingsEvenlySpread",
+      "static": false,
+      "comment": "Quick-start helper when you don't have real per-word timing data yet — spreads the CURRENT text's words evenly across totalDuration. Replace with SetTimings()/LoadTimingsFromJson() once you have real timing data (e.g. from a voice-line's actual word timestamps)."
+    },
+    {
+      "id": "LoadTimingsFromJson(string)",
+      "sig": "public void LoadTimingsFromJson(string json)",
+      "kind": "method",
+      "name": "LoadTimingsFromJson",
+      "static": false,
+      "comment": "Accepts either {\"words\":[{\"startTime\":0,\"endTime\":0.4}, ...]} or a bare [{\"startTime\":0,...}, ...] array — JsonUtility can't parse a top-level array directly, so a bare array is auto-wrapped."
+    },
+    {
+      "id": "SetPlaybackTime(float)",
+      "sig": "public void SetPlaybackTime(float time)",
+      "kind": "method",
+      "name": "SetPlaybackTime",
+      "static": false,
+      "comment": "Public so a self-test — or a project's own custom playback driver (a timeline, a subtitle system) — can advance the highlight directly instead of needing a real AudioSource."
+    },
+    {
+      "id": "ResetHighlight()",
+      "sig": "public void ResetHighlight()",
+      "kind": "method",
+      "name": "ResetHighlight",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetWordIndexAtTime(float)",
+      "sig": "public int GetWordIndexAtTime(float time) => FindCurrentWordIndex(time)",
+      "kind": "method",
+      "name": "GetWordIndexAtTime",
+      "static": false,
+      "comment": "Public so the timing decision itself (given a time, which word index is \"current\") can be verified directly — this pure logic doesn't need any real TMP text rendering, unlike ApplyWordColors, which needs an actual font asset to produce real character/word geometry."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "TMPEffects/TimedHighlighter/Editor/TMPTimedHighlighterSelfTest.cs",
+  "src_demoScene": [
+    "TMPEffects_Demo"
+  ]
+}

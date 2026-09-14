@@ -1,0 +1,41 @@
+{
+  "id": "vsm-parameter",
+  "name": "VSMParameter",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine",
+  "src_file": "AI/VisualStateMachine/VSMParameter.cs",
+  "src_lines": [
+    9,
+    13
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "name",
+      "sig": "public string name = \"NewParameter\"",
+      "kind": "field",
+      "name": "name",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "type",
+      "sig": "public VSMParameterType type = VSMParameterType.Bool",
+      "kind": "field",
+      "name": "type",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

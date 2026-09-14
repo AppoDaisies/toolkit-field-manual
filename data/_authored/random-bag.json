@@ -1,0 +1,70 @@
+{
+  "id": "random-bag",
+  "summary": "Shuffle-bag draw: every item comes out exactly once before any of them repeats, which removes unlucky streaks.",
+  "problem": "Uniform independent rolls are fair in the long run and infuriating in the short run. Draw from four enemy types 20 times and you will routinely see the same one three or four times running, and players read that as broken rather than unlucky. The shuffle bag — best known as Tetris's 7-bag randomizer — trades a little unpredictability for a guarantee: fill a bag with one of each item, draw without replacement until it is empty, then refill. Within any cycle the distribution is exactly uniform, the sequence is still unpredictable, and the pathological streak is impossible.",
+  "workedExample": {
+    "setup": "A three-item bag drawn six times — two complete cycles.",
+    "inputs": [
+      {
+        "name": "items",
+        "value": "[\"A\", \"B\", \"C\"]"
+      }
+    ],
+    "steps": [
+      "The constructor copies the items and calls Refill(), so bag = [A, B, C].",
+      "Draw 1: Random.Range(0, 3) picks an index, the item is removed. Say B. bag = [A, C].",
+      "Draw 2: Random.Range(0, 2). Say C. bag = [A].",
+      "Draw 3: only one entry left, so A is forced. bag = [] (empty).",
+      "Draw 4: bag.Count == 0, so Refill() restores [A, B, C] and the draw proceeds. Say C.",
+      "Draws 5 and 6 empty the bag again, in some order, over the remaining A and B."
+    ],
+    "result": "Across those six draws each of A, B and C appears exactly twice, no matter what the RNG did. The order within a cycle is free, but the counts are not. Note the C at draws 3-adjacent positions: the longest possible run of one item is 2 — the last draw of one bag followed by the first draw of the next.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Falling-piece games: the classic 7-bag tetromino randomizer, so a player never waits ten pieces for an I.",
+    "Enemy or wave composition, so every enemy type appears before any repeats.",
+    "Card, question or prompt decks in a quiz or party game — no duplicate question until the deck is exhausted.",
+    "Ambient barks, idle animations and music tracks, where a repeat two lines apart is immediately noticeable.",
+    "Loot from a small curated pool where every item should appear in a predictable cadence."
+  ],
+  "usage": {
+    "code": "private readonly RandomBag<string> pieces =\n    new RandomBag<string>(new[] { \"I\", \"O\", \"T\", \"S\", \"Z\", \"J\", \"L\" });\n\nstring next = pieces.Draw();",
+    "codeNote": "Draw() is the whole API — it refills automatically when the bag empties, so there is nothing to reset or poll."
+  },
+  "apiNotes": {
+    "Draw()": "Refills first if the bag is empty, then removes and returns one item at a random index. Always returns something; the constructor already guaranteed the source list is non-empty."
+  },
+  "gotchas": [
+    {
+      "title": "Duplicate entries are the only way to weight it",
+      "body": "This is not a weighted picker. A bag built from [A, A, B] does give A twice as often as B per cycle, and that is the mechanism — there is no weight parameter. For fine-grained or runtime-adjustable weights use ProbabilityUtils.WeightedPick instead, and accept the streaks that come with it."
+    },
+    {
+      "title": "The maximum run length is 2, not 1",
+      "body": "An item drawn last from one bag can be drawn first from the next. If even a back-to-back double must be impossible, you need extra logic on top — reshuffle when the refilled bag's first pick matches the previous draw, or peek and swap."
+    },
+    {
+      "title": "The contents are fixed at construction",
+      "body": "The constructor copies the input into its own private List, so mutating the collection you passed in afterwards has no effect, and there is no Add/Remove/Refill API exposed. To change what is in the bag, build a new RandomBag — accepting that the current cycle's guarantee is discarded."
+    },
+    {
+      "title": "You cannot see how much is left",
+      "body": "The remaining-items list is private with no count or peek accessor, so a 'next piece' preview or a '3 of 7 left' UI has to track Draw() calls itself. Keep your own counter modulo the item count if you need that."
+    },
+    {
+      "title": "Uses the global UnityEngine.Random stream",
+      "body": "Draw order is not reproducible from a seed you control and is perturbed by any other code consuming UnityEngine.Random in the same frame. There is no SeededRandom overload; a deterministic bag would have to be written separately."
+    },
+    {
+      "title": "Empty input throws at construction",
+      "body": "ArgumentException from the constructor, which is the right place for it — the failure surfaces where the mistake was made rather than at the first Draw() deep in gameplay. Just be aware that building bags from a filtered collection can throw if the filter matches nothing."
+    }
+  ],
+  "seeAlso": [
+    "ProbabilityUtils",
+    "PityTimer",
+    "SeededRandom",
+    "ObjectPool"
+  ]
+}

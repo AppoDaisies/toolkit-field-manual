@@ -1,0 +1,85 @@
+{
+  "id": "pity-timer",
+  "summary": "Bad-luck protection: each failed roll raises the effective chance until a success is guaranteed.",
+  "problem": "Independent random rolls produce streaks, and streaks feel like cheating even when the maths is honest. At a 5% drop rate, roughly one player in three still has nothing after 20 attempts and one in a hundred has nothing after 90 — and those are the players who post about it. A pity timer keeps the headline odds but puts a hard ceiling on the worst case: every failure nudges the chance up, and after a set number of failures the next roll simply succeeds. It is a plain C# class rather than a MonoBehaviour so a loot system can hold a dozen independent counters (one per table, one per rarity tier) as ordinary fields without spawning a GameObject for each.",
+  "params": [
+    {
+      "field": "baseChance",
+      "why": "The success chance on a roll with no accumulated failures — the floor the escalation builds from.",
+      "tuning": "Set it BELOW your advertised drop rate. Because every subsequent roll is strictly more likely than this, the observed rate always comes out higher than baseChance. For a '5% drop' that actually measures near 5%, start noticeably lower and simulate."
+    },
+    {
+      "field": "guaranteedAfter",
+      "why": "The hard ceiling: once this many consecutive failures have accumulated, the next roll succeeds outright. It also sets how fast the chance ramps, since the escalation is FailCount / guaranteedAfter.",
+      "tuning": "Pick it from the player experience you want to cap, not from the maths — 'nobody should ever go more than 20 pulls dry'. Small values (under about 5) make the ramp so steep that baseChance barely matters; 1 or 0 make every roll succeed."
+    }
+  ],
+  "workedExample": {
+    "setup": "The default configuration — a 5% base chance with a 20-attempt guarantee — traced as failures accumulate.",
+    "inputs": [
+      {
+        "name": "baseChance",
+        "value": "0.05"
+      },
+      {
+        "name": "guaranteedAfter",
+        "value": "20"
+      }
+    ],
+    "steps": [
+      "Below the guarantee, chance = baseChance + (1 - baseChance) * FailCount / guaranteedAfter.",
+      "FailCount 0:  0.05 + 0.95 * 0/20  = 0.05    (5%)",
+      "FailCount 1:  0.05 + 0.95 * 1/20  = 0.0975  (9.75%)",
+      "FailCount 5:  0.05 + 0.95 * 5/20  = 0.2875  (28.75%)",
+      "FailCount 10: 0.05 + 0.95 * 10/20 = 0.525   (52.5%)",
+      "FailCount 19: the branch `FailCount >= guaranteedAfter — 1` fires first, so chance is forced to 1.0 — the formula's own 0.9525 is never used.",
+      "On a success FailCount resets to 0; on a failure it increments."
+    ],
+    "result": "The 20th roll after 19 straight failures always succeeds, so no player can ever go more than 20 attempts without a hit. Note the halfway point is already better than a coin flip — the average number of rolls per success is far below 20, and the realised drop rate is well above the 5% baseChance.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Gacha and loot-box pulls where a published pity count is part of the design contract with players.",
+    "Rare enemy drops, so a farming session cannot run dry indefinitely.",
+    "Critical-hit or dodge chances in a combat system, to smooth out runs that feel unfair.",
+    "Procedural events (a wandering merchant, a treasure room) that should show up eventually rather than statistically.",
+    "Any tuned probability where the worst case, not the average, is what generates complaints."
+  ],
+  "usage": {
+    "code": "[SerializeField] private PityTimer legendaryDrop = new PityTimer(0.02f, 50);\n\nvoid OnEnemyKilled()\n{\n    if (legendaryDrop.Roll()) SpawnLegendary();\n    else Debug.Log($\"{legendaryDrop.FailCount} kills since the last legendary\");\n}",
+    "codeNote": "The two-argument constructor is the only way to configure it in code — baseChance and guaranteedAfter are private [SerializeField] with no setters. Declared as a serialized field, it also shows up in the Inspector because the class is [System.Serializable]."
+  },
+  "apiNotes": {
+    "FailCount": "Consecutive failures since the last success. Read-only from outside (private setter) — useful for a '12 / 20 to guaranteed' UI readout.",
+    "Roll()": "Computes the escalated chance, rolls it via ProbabilityUtils.Chance, then either resets FailCount to 0 (success) or increments it (failure). One call per attempt — calling it twice rolls twice.",
+    "Reset()": "Zeroes FailCount. The only mutator besides Roll(); use it when a new pity cycle should start (a new banner, a new season, a difficulty change)."
+  },
+  "gotchas": [
+    {
+      "title": "The realised drop rate is always higher than baseChance",
+      "body": "Every roll after the first uses a chance strictly greater than baseChance, and the guarantee caps the tail. So if a design document says '5% drop rate', typing 0.05 into baseChance produces something meaningfully more generous. Decide whether baseChance or the observed rate is the number you are balancing against, and simulate a few thousand rolls to check."
+    },
+    {
+      "title": "FailCount cannot be saved or restored",
+      "body": "It is an auto-property with a private setter, and it is not a serialized field — so it does not survive a domain reload, does not round-trip through a save file, and there is no API to set it. baseChance and guaranteedAfter (both [SerializeField]) DO persist, which makes the asymmetry easy to miss. If pity progress must survive a session, this class cannot express that as written."
+    },
+    {
+      "title": "guaranteedAfter of 0 or 1 makes every roll succeed",
+      "body": "The guard is `FailCount >= guaranteedAfter — 1`. With guaranteedAfter = 1 that is 0 >= 0, and with 0 it is 0 >= -1 — both true on a fresh timer, so chance is forced to 1 every time. Neither value is validated. Keep guaranteedAfter at 2 or more."
+    },
+    {
+      "title": "Roll() draws from the global UnityEngine.Random stream",
+      "body": "It calls ProbabilityUtils.Chance, which uses UnityEngine.Random.value. Results are therefore not reproducible from a seed you control, and are affected by anything else in the frame that consumes the global stream. A PityTimer cannot be driven by a SeededRandom without reimplementing Roll()."
+    },
+    {
+      "title": "One counter per independent thing",
+      "body": "Sharing a single PityTimer across several loot tables couples them: a hit on one resets the pity for all. Give each table, tier or banner its own instance — which is exactly why it is a lightweight serializable class rather than a component."
+    }
+  ],
+  "seeAlso": [
+    "ProbabilityUtils",
+    "RandomBag",
+    "SeededRandom",
+    "ItemRegistry"
+  ]
+}

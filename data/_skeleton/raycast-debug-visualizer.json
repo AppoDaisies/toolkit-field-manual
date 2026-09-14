@@ -1,0 +1,43 @@
+{
+  "id": "raycast-debug-visualizer",
+  "name": "RaycastDebugVisualizer",
+  "cat": "Raycasting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Raycasting",
+  "src_file": "Raycasting/RaycastDebugVisualizer/RaycastDebugVisualizer.cs",
+  "src_lines": [
+    13,
+    43
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Plug-and-play raycast debugging — draws the actual ray AND a hit-point marker (a small 3-axis cross plus the surface normal) in the Scene view, color-coded green (hit) / red (miss), instead of you guessing why a Physics.Raycast did or didn't hit what you expected from code alone.  Every method is [Conditional(\"UNITY_EDITOR\")] — calls to this class compile to NOTHING in a real build (the compiler strips them entirely, not just skips executing them), so it's safe to sprinkle RaycastDebugVisualizer calls directly into real gameplay raycasts and never have to remember to remove them before shipping.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Visualize(Vector3, Vector3, float, bool, RaycastHit, float)",
+      "sig": "public static void Visualize(Vector3 origin, Vector3 direction, float maxDistance, bool didHit, RaycastHit hit, float duration = 0f)",
+      "kind": "method",
+      "name": "Visualize",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "VisualizeRaycast(Vector3, Vector3, float, LayerMask, float)",
+      "sig": "public static void VisualizeRaycast(Vector3 origin, Vector3 direction, float maxDistance, LayerMask layerMask, float duration = 0f)",
+      "kind": "method",
+      "name": "VisualizeRaycast",
+      "static": true,
+      "comment": "A convenience wrapper for the common \"I just want to SEE what a raycast like this would hit\" case — performs its own raycast and visualizes it in one call. NOT meant to replace your real gameplay raycast (a [Conditional] method must return void, so it can't hand back the hit result) — use Visualize() above alongside your actual Physics.Raycast call when you need the real result too."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Raycasting/RaycastDebugVisualizer/Editor/RaycastDebugVisualizerSelfTest.cs",
+  "src_demoScene": [
+    "Raycasting_Demo"
+  ]
+}

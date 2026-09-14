@@ -1,0 +1,74 @@
+{
+  "id": "extension-methods",
+  "summary": "Static extension grab-bag: Transform/Vector component setters, DestroyChildren, recursive layer set, list shuffle.",
+  "problem": "Four or five snippets come up constantly in Unity code and are each annoying enough to get copy-pasted wrong: you cannot assign transform.position.x directly, you cannot replace one component of a Vector3 without rebuilding it, clearing a container means a reverse loop, and \"shuffle this list\" is usually written as a biased sort-by-random-key. This file collects the correct one-liners in one static class so the boilerplate disappears from call sites. It is pure convenience — nothing here has state, an Inspector presence, or a dependency on the rest of the toolkit.",
+  "workedExample": {
+    "setup": "Shuffle<T>() on a 5-element List<int>, checking that the Fisher-Yates loop really is unbiased (the reason the source comment gives for not using a random-key sort).",
+    "inputs": [
+      {
+        "name": "list.Count",
+        "value": "5"
+      }
+    ],
+    "steps": [
+      "The loop runs from i = Count - 1 = 4 downward while i > 0, so it executes for i = 4, 3, 2, 1 and stops — 4 swaps. Index 0 is never a loop subject on its own because it is already reachable as a swap partner.",
+      "At each step the partner is Random.Range(0, i + 1), whose int overload is exclusive of the upper bound, giving i + 1 choices: 5 at i = 4, then 4, then 3, then 2.",
+      "Distinct swap sequences = 5 x 4 x 3 x 2 = 120.",
+      "A 5-element list has 5! = 120 orderings, and each distinct sequence lands on a different one, so the map is one-to-one: every ordering has probability exactly 1/120.",
+      "Contrast the mistake the source comment calls out — sorting with a random comparator, e.g. list.Sort((a, b) => Random.Range(-1, 2)) — which breaks the comparer's transitivity contract and yields an ordering that is neither uniform nor even well-defined across runtimes."
+    ],
+    "result": "4 random draws, zero allocations, and a provably uniform permutation; the swap uses a C# tuple assignment so no temporary is needed.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Snapping an object to a ground height or a lane without clobbering its other axes: transform.SetY(hit.point.y).",
+    "Flattening a vector for planar movement or look-at maths: velocity.WithY(0f).",
+    "Clearing a dynamically populated UI container (inventory grid, scroll list) before repopulating it.",
+    "Moving a whole spawned prefab hierarchy onto a layer — ragdolls onto 'Corpse', a held weapon onto 'FirstPerson'.",
+    "Randomising a deck, a spawn table, or a set of quiz answers with a shuffle that is actually uniform."
+  ],
+  "usage": {
+    "code": "transform.SetY(hit.point.y);                 // world-space single-axis write\nVector3 flat = velocity.WithY(0f);           // copy with one component replaced\ncontainer.DestroyChildren();                 // clear a spawned-items container\ngameObject.SetLayerRecursively(corpseLayer); // whole hierarchy, no exceptions\ndeck.Shuffle();                              // unbiased Fisher-Yates, in place",
+    "codeNote": "Three more extensions exist in the file but are missing from the member table below because the extractor skips generic methods: GetOrAddComponent<T>(this GameObject) (TryGetComponent, else AddComponent), Shuffle<T>(this IList<T>), and RandomItem<T>(this IList<T>). They are real public API on this class."
+  },
+  "apiNotes": {
+    "SetX(this Transform, float)": "Reads transform.position into a local, overwrites one component, writes it back. World space. Each call is a full Transform read plus write, so chaining SetX/SetY/SetZ costs three round-trips where one position assignment would do.",
+    "SetY(this Transform, float)": "As SetX, on the Y axis. The most-used of the set — ground snapping, lane switching, height clamping.",
+    "SetZ(this Transform, float)": "As SetX, on the Z axis.",
+    "SetLocalX(this Transform, float)": "The localPosition twin of SetX. Use these when the object is parented and you mean 'offset from my parent', not 'world coordinate'.",
+    "SetLocalY(this Transform, float)": "localPosition variant of SetY.",
+    "SetLocalZ(this Transform, float)": "localPosition variant of SetZ.",
+    "WithX(this Vector3, float)": "Returns a NEW Vector3 with X replaced — it does not mutate the value you called it on, because Vector3 is a struct passed by value. A bare `v.WithX(0f);` statement does nothing; you must assign the result.",
+    "WithY(this Vector3, float)": "Returns a copy with Y replaced. The idiomatic way to flatten a direction or velocity before normalising it for planar movement.",
+    "WithZ(this Vector3, float)": "Returns a copy with Z replaced.",
+    "WithX(this Vector2, float)": "Vector2 overload; the compiler picks it from the receiver type, so sharing a name with the Vector3 version is harmless.",
+    "WithY(this Vector2, float)": "Vector2 overload. There is no WithZ for Vector2, as expected.",
+    "DestroyChildren(this Transform)": "Iterates children backwards (childCount - 1 down to 0), detaches each one with SetParent(null, false), then calls Object.Destroy on it. Backwards is the safe direction for index-based child removal; the detach is what makes the container genuinely empty as soon as the call returns, since Destroy itself is deferred. Outside Play mode it uses DestroyImmediate, so the same call works from editor code.",
+    "SetLayerRecursively(this GameObject, int)": "Sets go.layer, then recurses into every direct child through the same extension, so the whole subtree ends up on one layer. Takes a layer INDEX, not a LayerMask: pass LayerMask.NameToLayer(\"Corpse\"), not a mask value, or you will silently set a nonsense layer."
+  },
+  "gotchas": [
+    {
+      "title": "DestroyChildren empties the container immediately, but the objects die at end of frame",
+      "body": "Object.Destroy is deferred by Unity, so the naive version of this method left childCount unchanged on the very next line — which silently doubles a container you clear and refill in the same Update. Each child is therefore DETACHED first, which takes effect at once: childCount reads 0 as soon as the call returns and a same-frame rebuild is safe. The orphaned objects still live until the end of the frame, so anything holding a reference to one, or counting them globally, sees them for one more frame. Outside Play mode the method uses DestroyImmediate instead, so it is also safe from an EditorWindow, a [MenuItem] or OnValidate."
+    },
+    {
+      "title": "WithX/WithY/WithZ return a copy",
+      "body": "These take Vector3/Vector2 by value and return a new struct; unlike the Set* Transform extensions they mutate nothing. `transform.position.WithY(0f);` compiles and accomplishes absolutely nothing — you need `transform.position = transform.position.WithY(0f);` or, better, `transform.SetY(0f);`."
+    },
+    {
+      "title": "SetLayerRecursively has no skip list",
+      "body": "It stomps every descendant unconditionally. Anything under that hierarchy that depends on its own layer — a hitbox on a damage layer, a UI element on a raycast layer, geometry a camera culls — silently changes behaviour. If you need exclusions, copy the four-line method and add the check rather than extending this one."
+    },
+    {
+      "title": "RandomItem on an empty list returns default, not an error",
+      "body": "list.Count == 0 yields default(T): null for a class, 0 for an int, Vector3.zero for a struct. It never throws, so an empty spawn table looks like a legitimate result and the bug surfaces far from its cause. Check Count yourself wherever an empty list is possible."
+    },
+    {
+      "title": "Shuffle and RandomItem use UnityEngine.Random",
+      "body": "The file imports UnityEngine and System.Collections.Generic but not System, so the unqualified Random is Unity's global generator, not System.Random. These draws share and advance the same seed as every other Unity random call, are reproducible via Random.InitState, and must not be called off the main thread."
+    }
+  ],
+  "seeAlso": [
+    "TweenExtensions"
+  ]
+}

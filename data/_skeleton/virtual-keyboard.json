@@ -1,0 +1,138 @@
+{
+  "id": "virtual-keyboard",
+  "name": "VirtualKeyboard",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/VirtualKeyboard.cs",
+  "src_lines": [
+    14,
+    81
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Kiosk/Virtual Keyboard"
+  },
+  "src_typeComment": "Touch-friendly on-screen keyboard for kiosks with no physical keyboard — routes key presses into a TMP_InputField by editing its text/caret directly. Drives a pre-built grid of KeyButtons rather than generating layout at runtime, matching this toolkit's existing UI-component convention (ToastNotification/ ModalDialog/DraggableUIPanel all drive author-time-built UI, not runtime-generated) — build the actual QWERTY/numeric layout once via DemoSceneBuilder or the Inspector, reuse it everywhere.",
+  "src_serialized": [
+    {
+      "name": "target",
+      "type": "TMP_InputField",
+      "default": null,
+      "tooltip": "The input field this keyboard types into. Can also be set at runtime via Bind().",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "keys",
+      "type": "KeyButton[]",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "backspaceButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "spaceButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "enterButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "shiftButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<string>()",
+      "sig": "public UnityEvent<string> OnSubmit = new UnityEvent<string>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Bind(TMP_InputField)",
+      "sig": "public void Bind(TMP_InputField newTarget) => target = newTarget",
+      "kind": "method",
+      "name": "Bind",
+      "static": false,
+      "comment": "Rebinds which input field this keyboard types into — e.g. a login screen's username/password fields sharing one on-screen keyboard, rebinding on each field's OnSelect."
+    },
+    {
+      "id": "InsertText(string)",
+      "sig": "public void InsertText(string text)",
+      "kind": "method",
+      "name": "InsertText",
+      "static": false,
+      "comment": "Public (not just wired internally) so a self-test — or a project's own custom key layout — can drive text insertion directly without needing a real KeyButton click."
+    },
+    {
+      "id": "Backspace()",
+      "sig": "public void Backspace()",
+      "kind": "method",
+      "name": "Backspace",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ToggleShift()",
+      "sig": "public void ToggleShift()",
+      "kind": "method",
+      "name": "ToggleShift",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Submit()",
+      "sig": "public void Submit() => OnSubmit?.Invoke(target != null ? target.text : string.Empty)",
+      "kind": "method",
+      "name": "Submit",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

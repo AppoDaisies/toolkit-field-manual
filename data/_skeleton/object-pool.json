@@ -1,0 +1,103 @@
+{
+  "id": "object-pool",
+  "name": "ObjectPool",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/ObjectPool/ObjectPool.cs",
+  "src_lines": [
+    8,
+    106
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Object Pool"
+  },
+  "src_typeComment": "Attach to an empty GameObject to pool a single prefab type, cuts down on Instantiate/Destroy GC spikes.",
+  "src_serialized": [
+    {
+      "name": "prefab",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "The prefab this pool will spawn and reuse.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "prewarmCount",
+      "type": "int",
+      "default": "10",
+      "tooltip": "How many instances to create upfront so the first spawns don't hitch.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "allowGrowth",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, requesting more objects than exist will grow the pool instead of returning null.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "poolParent",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Parent transform inactive pooled objects are stored under, keeps the Hierarchy tidy. Defaults to this object.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Initialize(GameObject, int, bool, Transform)",
+      "sig": "public void Initialize(GameObject newPrefab, int newPrewarmCount = 0, bool newAllowGrowth = true, Transform newPoolParent = null)",
+      "kind": "method",
+      "name": "Initialize",
+      "static": false,
+      "comment": "Configures this pool from code — for a component that creates its own ObjectPool at runtime (e.g. via gameObject.AddComponent&lt;ObjectPool&gt;()) instead of pre-wiring one in the Inspector. Safe to call regardless of whether Awake has already run (Awake skips prewarming when prefab is still null)."
+    },
+    {
+      "id": "Get(Vector3, Quaternion)",
+      "sig": "public GameObject Get(Vector3 position, Quaternion rotation)",
+      "kind": "method",
+      "name": "Get",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Get()",
+      "sig": "public GameObject Get() => Get(poolParent.position, poolParent.rotation)",
+      "kind": "method",
+      "name": "Get",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Release(GameObject)",
+      "sig": "public void Release(GameObject instance)",
+      "kind": "method",
+      "name": "Release",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo",
+    "GameplayArena_Demo"
+  ]
+}

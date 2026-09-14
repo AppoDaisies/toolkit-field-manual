@@ -1,0 +1,55 @@
+{
+  "id": "game-data-registry",
+  "name": "GameDataRegistry<T>",
+  "cat": "Persistence",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Persistence",
+  "src_file": "Persistence/ScriptableObjectData/GameDataRegistry.cs",
+  "src_lines": [
+    11,
+    42
+  ],
+  "src_base": "ScriptableObject where T : GameDataAsset",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Generic lookup-by-ID registry for GameDataAsset subclasses. Unity doesn't allow [CreateAssetMenu] on a generic type, so make a concrete, non-generic subclass to actually create the asset, e.g.: [CreateAssetMenu(menuName = \"Game Data/Item Registry\")] public class ItemRegistry : GameDataRegistry<ItemData> { } then assign every ItemData asset into `entries` and call GetById() instead of hand-writing a dictionary each time.",
+  "src_serialized": [
+    {
+      "name": "entries",
+      "type": "List<T>",
+      "default": "new List<T>()",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "GetById(string)",
+      "sig": "public T GetById(string id)",
+      "kind": "method",
+      "name": "GetById",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "All",
+      "sig": "public IReadOnlyList<T> All => entries",
+      "kind": "property",
+      "name": "All",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Currency_Demo",
+    "Persistence_Demo"
+  ]
+}

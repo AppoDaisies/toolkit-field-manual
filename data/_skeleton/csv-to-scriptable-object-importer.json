@@ -1,0 +1,53 @@
+{
+  "id": "csv-to-scriptable-object-importer",
+  "name": "CsvToScriptableObjectImporter",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/CsvToScriptableObject/Editor/CsvToScriptableObjectImporter.cs",
+  "src_lines": [
+    15,
+    169
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/CSV to ScriptableObject Importer"
+    ]
+  },
+  "src_typeComment": "Window > Toolkit > CSV to ScriptableObject Importer: point at a CSV with a header row matching field names on a GameDataAsset subclass, and this creates/updates one asset per data row — turn a spreadsheet of 50 item stats into 50 balanced data assets in one click instead of hand-editing each one.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<CsvToScriptableObjectImporter>(\"CSV to ScriptableObject Importer\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "static(int, int)",
+      "sig": "public static (int created, int updated) Import(Type dataType, string csvPath, string outputFolder, string idColumnName)",
+      "kind": "method",
+      "name": "static",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "RunSelfTest()",
+      "sig": "public static void RunSelfTest()",
+      "kind": "method",
+      "name": "RunSelfTest",
+      "static": true,
+      "comment": "Not exposed as a [MenuItem] on purpose (same reasoning as the animator generator's self-test) — creates a real synthetic CSV, imports it against the existing DemoItemData type, and checks the resulting assets have the expected field values."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

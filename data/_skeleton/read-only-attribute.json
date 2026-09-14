@@ -1,0 +1,24 @@
+{
+  "id": "read-only-attribute",
+  "name": "ReadOnlyAttribute",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorAttributes",
+  "src_file": "EditorTools/AttributeDrawers/ReadOnlyAttribute.cs",
+  "src_lines": [
+    9,
+    9
+  ],
+  "src_base": "PropertyAttribute",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Drop above any [SerializeField] to show it in the Inspector but prevent editing — useful for a \"live debug view\" field (current state, a computed value) you want visible but not hand-editable. This attribute type must live outside any Editor folder so scripts using it still compile in player builds; the drawer that actually disables the field lives in AttributeDrawers/Editor/ReadOnlyDrawer.cs.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

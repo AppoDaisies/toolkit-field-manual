@@ -1,0 +1,49 @@
+{
+  "id": "graph-edge",
+  "name": "GraphEdge",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Pathfinding/Dijkstra/GraphNode.cs",
+  "src_lines": [
+    29,
+    37
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "target",
+      "sig": "public GraphNode target",
+      "kind": "field",
+      "name": "target",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "useDistanceAsWeight",
+      "sig": "public bool useDistanceAsWeight = true",
+      "kind": "field",
+      "name": "useDistanceAsWeight",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "weightOverride",
+      "sig": "public float weightOverride = 1f",
+      "kind": "field",
+      "name": "weightOverride",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

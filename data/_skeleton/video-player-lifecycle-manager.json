@@ -1,0 +1,67 @@
+{
+  "id": "video-player-lifecycle-manager",
+  "name": "VideoPlayerLifecycleManager",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/VideoPlayerLifecycleManager.cs",
+  "src_lines": [
+    16,
+    84
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(VideoPlayer)"
+    ],
+    "addComponentMenu": "Toolkit/Kiosk/Video Player Lifecycle Manager"
+  },
+  "src_typeComment": "Wraps a VideoPlayer to enforce a clean prepare -> play -> stop -> release cycle instead of leaving a previous clip's decoder resources and RenderTexture allocated indefinitely between plays — the second half of this session's answer to \"too many assets, and videos\" memory growth on a long-running kiosk. Owns its own single-clip looping (via re-calling PlayClip on loopPointReached) rather than the VideoPlayer's native isLooping, specifically so every loop iteration goes through the same clean stop-and-release path instead of silently keeping the same decoder session alive forever.",
+  "src_serialized": [
+    {
+      "name": "loopSingleClip",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, automatically replays the same clip when it finishes — a simple attract-mode loop. Set false if you're managing looping/playlists yourself.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnClipFinished",
+      "sig": "public event Action OnClipFinished",
+      "kind": "event",
+      "name": "OnClipFinished",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PlayClip(VideoClip)",
+      "sig": "public void PlayClip(VideoClip clip)",
+      "kind": "method",
+      "name": "PlayClip",
+      "static": false,
+      "comment": "Stops and releases whatever was previously playing (if anything) before preparing the new clip."
+    },
+    {
+      "id": "Stop()",
+      "sig": "public void Stop()",
+      "kind": "method",
+      "name": "Stop",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

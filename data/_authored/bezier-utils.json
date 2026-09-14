@@ -1,0 +1,78 @@
+{
+  "id": "bezier-utils",
+  "summary": "Quadratic and cubic Bezier point plus tangent evaluation for camera paths, UI motion and projectile arcs.",
+  "problem": "Unity ships AnimationCurve for scalar easing and Vector3.Lerp for straight lines, but nothing for \"move along a curved path in 3D\". Re-deriving the Bernstein polynomial at each call site is where sign errors creep in. Bezier is the right primitive when a human authors the shape by dragging handles: the curve is pulled toward the interior control points without passing through them, which is exactly the feel of a handle. Each evaluator has a matching Tangent function because orienting the thing that travels the curve is the usual reason you need the derivative, not just the position.",
+  "workedExample": {
+    "setup": "A simple lobbed arc: launch at the origin, land 10 units away, with a single control point pulled up to y = 10.",
+    "inputs": [
+      {
+        "name": "p0",
+        "value": "(0, 0, 0)"
+      },
+      {
+        "name": "p1",
+        "value": "(5, 10, 0)"
+      },
+      {
+        "name": "p2",
+        "value": "(10, 0, 0)"
+      },
+      {
+        "name": "t",
+        "value": "0.5"
+      }
+    ],
+    "steps": [
+      "u = 1 - t = 0.5",
+      "u*u*p0 = 0.25 * (0,0,0) = (0, 0, 0)",
+      "2*u*t*p1 = 2 * 0.5 * 0.5 * (5,10,0) = 0.5 * (5,10,0) = (2.5, 5, 0)",
+      "t*t*p2 = 0.25 * (10,0,0) = (2.5, 0, 0)",
+      "Quadratic = (0,0,0) + (2.5,5,0) + (2.5,0,0) = (5, 5, 0)",
+      "QuadraticTangent: 2*u*(p1-p0) = 1.0 * (5,10,0) = (5,10,0); 2*t*(p2-p1) = 1.0 * (5,-10,0) = (5,-10,0); their sum is (10,0,0), normalized to (1,0,0)"
+    ],
+    "result": "The apex of the arc is (5, 5, 0) — HALF the control point's height, not (5, 10, 0) — and the tangent there is dead level, (1, 0, 0). To peak at y = 10 you must raise the handle to y = 20.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "A cutscene camera that swings around an object instead of dollying in a straight line.",
+    "Projectile arcs where the shape is art-directed (a lobbed grenade, a spell bolt) rather than simulated by physics.",
+    "UI elements that fly from an inventory slot to a HUD counter along a curve, with the icon rotating to face its direction of travel.",
+    "Laying out a curved rope, cable or tentacle by evaluating the same curve at N evenly spaced t values.",
+    "The underlying evaluator for SplineUtils, which converts each Catmull-Rom segment into a cubic Bezier and calls straight into Cubic/CubicTangent."
+  ],
+  "usage": {
+    "code": "float t = elapsed / duration;\nVector3 pos = BezierUtils.Cubic(p0, p1, p2, p3, t);\nVector3 dir = BezierUtils.CubicTangent(p0, p1, p2, p3, t);\ntransform.SetPositionAndRotation(pos, Quaternion.LookRotation(dir));",
+    "codeNote": "Position and orientation from the same t — the reason both halves of each pair exist."
+  },
+  "apiNotes": {
+    "Quadratic(Vector3, Vector3, Vector3, float)": "Three control points, one interior handle. Cheapest curve that bends; the curve touches p0 and p2 only.",
+    "QuadraticTangent(Vector3, Vector3, Vector3, float)": "Derivative of Quadratic, returned NORMALIZED — a direction, not a velocity.",
+    "Cubic(Vector3, Vector3, Vector3, Vector3, float)": "Four control points, two interior handles. The standard curve: it can S-bend, which the quadratic cannot.",
+    "CubicTangent(Vector3, Vector3, Vector3, Vector3, float)": "Derivative of Cubic, also normalized. Feed it to Quaternion.LookRotation to face along the path."
+  },
+  "gotchas": [
+    {
+      "title": "The interior control points are not on the curve",
+      "body": "Only p0 and the final point are touched. A quadratic peaks at exactly half its handle's offset (see the worked example), and a cubic typically reaches about three quarters. If you are placing handles by hand and the curve looks too shallow, that is why — overshoot the handle deliberately."
+    },
+    {
+      "title": "Tangents are normalized, so speed information is thrown away",
+      "body": "Both Tangent functions end in .normalized. You cannot use them to derive how fast the follower is moving. You also get Vector3.zero back from a degenerate curve (all control points identical), and Quaternion.LookRotation logs an error on a zero vector — guard with a sqrMagnitude check if the control points can coincide."
+    },
+    {
+      "title": "t is neither clamped nor arc-length",
+      "body": "Nothing clamps t to [0,1]; values outside it extrapolate the polynomial, which diverges fast. More importantly, equal steps in t are NOT equal steps in world distance — the curve moves faster through its straight stretches. For constant-speed travel, build an arc-length table with SplineUtils.BuildLengthTable and convert distance to t with SplineUtils.DistanceToT."
+    },
+    {
+      "title": "No allocation, no caching, no state",
+      "body": "These are pure functions on Vector3 structs, safe to call in a tight loop or from a job-free Update. There is also nothing to invalidate: change a control point and the next call reflects it immediately."
+    }
+  ],
+  "seeAlso": [
+    "SplineUtils",
+    "SplinePath",
+    "SplineFollower",
+    "PathBuilder",
+    "EasingFunctions"
+  ]
+}

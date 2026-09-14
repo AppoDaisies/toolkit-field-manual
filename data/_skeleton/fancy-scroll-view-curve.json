@@ -1,0 +1,24 @@
+{
+  "id": "fancy-scroll-view-curve",
+  "name": "FancyScrollViewCurve",
+  "cat": "UI",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FancyScrollView/FancyScrollView.cs",
+  "src_lines": [
+    11,
+    11
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Linear = a plain list, no per-cell scale/alpha variation. Carousel = cells scale down and fade out the further they are from the viewport's center — the classic \"coverflow\"-style effect this tool is named after.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,68 @@
+{
+  "id": "input-glyph-swapper",
+  "name": "InputGlyphSwapper",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/InputGlyph/InputGlyphSwapper.cs",
+  "src_lines": [
+    12,
+    41
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Input Glyph Swapper"
+  },
+  "src_typeComment": "Plug-and-play input prompt icon — drop on an Image showing something like \"Press [E] to interact\", and it automatically swaps to a gamepad button icon the moment the player picks up a controller (or back to keyboard/mouse the moment they touch the keyboard or mouse again), tracked by the shared InputDeviceMonitor. This is the \"don't hardcode one input method's icons\" problem every game that supports both keyboard/mouse AND gamepad eventually runs into.",
+  "src_serialized": [
+    {
+      "name": "keyboardMouseIcon",
+      "type": "Sprite",
+      "default": null,
+      "tooltip": "Shown while the player is using keyboard & mouse.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "gamepadIcon",
+      "type": "Sprite",
+      "default": null,
+      "tooltip": "Shown while the player is using a gamepad.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "targetImage",
+      "type": "Image",
+      "default": null,
+      "tooltip": "Auto-found on this GameObject if left empty.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Refresh(InputDeviceKind)",
+      "sig": "public void Refresh(InputDeviceKind device)",
+      "kind": "method",
+      "name": "Refresh",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

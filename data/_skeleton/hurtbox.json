@@ -1,0 +1,59 @@
+{
+  "id": "hurtbox",
+  "name": "Hurtbox",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/Hurtbox.cs",
+  "src_lines": [
+    12,
+    52
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Collider)"
+    ],
+    "addComponentMenu": "Toolkit/Combat/Hurtbox"
+  },
+  "src_typeComment": "Always-listening damage receiver — attach to a character alongside Health (or anything implementing IDamageable). Hitbox/RangedAttack/CombatProjectile all funnel into ReceiveHit() so a target only needs ONE component regardless of what kind of attack hit it.",
+  "src_serialized": [
+    {
+      "name": "damageMultiplier",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "Multiplies incoming damage — 2 = takes double damage (a weak point), 0.5 = half (armored).",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<HitData>()",
+      "sig": "public UnityEvent<HitData> OnHit = new UnityEvent<HitData>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ReceiveHit(HitData)",
+      "sig": "public void ReceiveHit(HitData hit)",
+      "kind": "method",
+      "name": "ReceiveHit",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "HitboxCombat_Demo"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "id": "hold-to-confirm-button",
+  "name": "HoldToConfirmButton",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/HoldToConfirmButton/HoldToConfirmButton.cs",
+  "src_lines": [
+    14,
+    70
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IPointerDownHandler",
+    "IPointerUpHandler",
+    "IPointerExitHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Hold To Confirm Button"
+  },
+  "src_typeComment": "Plug-and-play \"hold to confirm\" button — press and hold for holdDuration seconds to fire OnConfirmed, releasing early fires OnHoldCancelled instead. The classic \"hold to delete/reset\" pattern that protects against an accidental single tap doing something destructive. Purely logic + timing — the visual fill is optional and decoupled: assign an existing Toolkit.UI.RadialProgressBar (or anything with a SetProgress(0..1) method) to progressVisual, or leave it empty and drive your own feedback from OnHoldProgress instead.",
+  "src_serialized": [
+    {
+      "name": "holdDuration",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "progressVisual",
+      "type": "RadialProgressBar",
+      "default": null,
+      "tooltip": "Optional — shows hold progress. Leave empty if you don't need a visual fill, or wire your own via OnHoldProgress.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "resetOnRelease",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, releasing early resets progress back to 0; if false, a cancelled hold resumes from where it left off next time.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnConfirmed = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnHoldCancelled = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnHoldProgress = new UnityEvent<float>(); // 0..1, fires every frame while held",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NormalizedProgress",
+      "sig": "public float NormalizedProgress => holdDuration > 0f ? Mathf.Clamp01(heldTime / holdDuration) : 0f",
+      "kind": "property",
+      "name": "NormalizedProgress",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnPointerDown(PointerEventData)",
+      "sig": "public void OnPointerDown(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnPointerDown",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnPointerUp(PointerEventData)",
+      "sig": "public void OnPointerUp(PointerEventData eventData) => CancelHold()",
+      "kind": "method",
+      "name": "OnPointerUp",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnPointerExit(PointerEventData)",
+      "sig": "public void OnPointerExit(PointerEventData eventData) => CancelHold()",
+      "kind": "method",
+      "name": "OnPointerExit",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/HoldToConfirmButton/Editor/HoldToConfirmButtonSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

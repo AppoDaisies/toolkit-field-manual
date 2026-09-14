@@ -1,0 +1,24 @@
+{
+  "id": "ui-lighting-mode",
+  "name": "UILightingMode",
+  "cat": "Rendering",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/LightingEffects/UILightingEffect.cs",
+  "src_lines": [
+    6,
+    6
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

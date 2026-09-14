@@ -1,0 +1,26 @@
+{
+  "id": "int-variable",
+  "name": "IntVariable",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/Variables/IntVariable.cs",
+  "src_lines": [
+    6,
+    6
+  ],
+  "src_base": "ScriptableVariable<int>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Variables/Int Variable\""
+  },
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

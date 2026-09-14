@@ -1,0 +1,37 @@
+{
+  "id": "level-transform-guidance-window",
+  "name": "LevelTransformGuidanceWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LevelTransformGuidanceWindow.cs",
+  "src_lines": [
+    28,
+    101
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Level Transform Guidance"
+    ]
+  },
+  "src_typeComment": "Toolkit/Level Transform Guidance — a HUB for level-design tools, one tab per tool.  Why a hub: level design is a mode of working, not a single action. Measuring a gap, checking a prop isn't sunk into the stairs, and stepping back to see whether a wing of the level is under-dressed all happen in the same sitting — one tabbed window matches that flow where three separate menu items fight it, and it lets the tools share plumbing (unit conversion, layer filtering, Scene-view drawing).  Tabs, and the distinct question each answers: - Clipping       — per-object correctness: \"is this one thing placed wrong?\" - Heatmap        — whole-level distribution: \"is my level evenly built?\" (doubles as a measuring grid) - Measuring Tape — a specific dimension: \"how far apart are these two points?\"  Two rules this window enforces, both to keep the hub from becoming overhead or clutter: 1. ONLY THE ACTIVE TAB is subscribed to anything. Switching tabs deactivates the old one and activates the new one; closing the window deactivates everything. Otherwise the Measuring Tape's click handling would fight the Clipping tab's highlight drawing, and you'd pay for tools you aren't looking at. 2. Each tab renders ONLY its own settings. Tabs exist to reduce visible complexity, not relocate it.  Guidance, deliberately, not Validator: every tab surfaces information for your judgement rather than making the call itself. The clipping check refuses to guess intent; the heatmap shows density and lets you decide whether it's wrong.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<LevelTransformGuidanceWindow>(\"Level Transform Guidance\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

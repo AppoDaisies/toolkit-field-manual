@@ -1,0 +1,75 @@
+{
+  "id": "seeded-random",
+  "name": "SeededRandom",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Probability/SeededRandom.cs",
+  "src_lines": [
+    9,
+    59
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Seedable, instance-based PRNG (xorshift32) — independent of UnityEngine.Random's single global stream, so the SAME seed always reproduces the SAME sequence regardless of what other code calls UnityEngine.Random in between. Use for anything that needs to be reproducible: procedural generation from a level seed, replays, daily-challenge seeds shared between players.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SeededRandom(int)",
+      "sig": "public SeededRandom(int seed)",
+      "kind": "ctor",
+      "name": "SeededRandom",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NextFloat()",
+      "sig": "public float NextFloat() => (NextUInt() >> 8) * (1f / 16777216f)",
+      "kind": "method",
+      "name": "NextFloat",
+      "static": false,
+      "comment": "[0, 1) — genuinely exclusive of 1. The obvious `NextUInt() / (float)uint.MaxValue` is NOT: it reaches exactly 1f when NextUInt() returns uint.MaxValue, and float's 24-bit mantissa rounds a whole band of high values up to 1f as well — which breaks the standard `(int)(r.NextFloat() * count)` indexing idiom with an IndexOutOfRange. Taking the top 24 bits and scaling by 2^-24 caps the result at 16777215/16777216 = 0.99999994f, which is exactly representable and provably below 1. No precision is lost: a float never held more than 24 meaningful bits of the original 32 anyway."
+    },
+    {
+      "id": "NextFloat(float, float)",
+      "sig": "public float NextFloat(float min, float max) => min + NextFloat() * (max - min)",
+      "kind": "method",
+      "name": "NextFloat",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NextInt(int, int)",
+      "sig": "public int NextInt(int min, int max) => min + (int)(NextUInt() % (uint)Mathf.Max(1, max - min))",
+      "kind": "method",
+      "name": "NextInt",
+      "static": false,
+      "comment": "[min, max) — matches UnityEngine.Random.Range's int overload convention (max exclusive)."
+    },
+    {
+      "id": "NextBool(float)",
+      "sig": "public bool NextBool(float chance = 0.5f) => NextFloat() < chance",
+      "kind": "method",
+      "name": "NextBool",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NextVector2(float, float)",
+      "sig": "public Vector2 NextVector2(float min, float max) => new Vector2(NextFloat(min, max), NextFloat(min, max))",
+      "kind": "method",
+      "name": "NextVector2",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

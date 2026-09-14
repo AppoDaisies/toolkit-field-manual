@@ -1,0 +1,7 @@
+# Python build artefacts from tools/
+__pycache__/
+*.py[cod]
+
+# OS cruft
+.DS_Store
+Thumbs.db

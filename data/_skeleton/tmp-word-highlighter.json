@@ -1,0 +1,59 @@
+{
+  "id": "tmp-word-highlighter",
+  "name": "TMPWordHighlighter",
+  "cat": "TMPEffects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.TMPEffects",
+  "src_file": "TMPEffects/WordHighlighter/TMPWordHighlighter.cs",
+  "src_lines": [
+    13,
+    116
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "TMP Effects/Word Highlighter"
+  },
+  "src_typeComment": "Drop on any TMP_Text object, list the words to highlight and their colors — highlights are applied by recoloring vertices on the existing text mesh (no extra Image objects, no layout changes).",
+  "src_serialized": [
+    {
+      "name": "highlights",
+      "type": "List<HighlightRule>",
+      "default": "new List<HighlightRule>()",
+      "tooltip": "Words to highlight and the color to tint them. Re-applied automatically whenever the text changes.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "HighlightRule",
+      "sig": "public class HighlightRule",
+      "kind": "property",
+      "name": "HighlightRule",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplyHighlights()",
+      "sig": "public void ApplyHighlights()",
+      "kind": "method",
+      "name": "ApplyHighlights",
+      "static": false,
+      "comment": "Call this directly if you change `highlights` from code at runtime.  The isApplying guard prevents an EDITOR-CRASHING recursion: ForceMeshUpdate() below makes TMP raise TEXT_CHANGED_EVENT, which this component subscribes to, whose handler calls straight back into here — ApplyHighlights -> ForceMeshUpdate -> TEXT_CHANGED_EVENT -> OnTextChanged -> ApplyHighlights -> ... unbounded recursion into a stack overflow. A managed stack overflow is not catchable in Unity: it takes the whole Editor down with nothing in the console. Same bug existed in TMPWaveEffect."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TMPEffects_Demo"
+  ]
+}

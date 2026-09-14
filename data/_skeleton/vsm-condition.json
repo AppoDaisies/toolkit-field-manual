@@ -1,0 +1,49 @@
+{
+  "id": "vsm-condition",
+  "name": "VSMCondition",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine",
+  "src_file": "AI/VisualStateMachine/VSMCondition.cs",
+  "src_lines": [
+    10,
+    15
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One clause of a transition's condition list (all clauses must pass — AND, matching Animator's default transition semantics). For a Bool parameter, threshold 0/1 stands in for false/true and comparison is ignored; for Trigger, both comparison and threshold are ignored (the condition just checks \"was this trigger set since the last Tick\").",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "parameterName",
+      "sig": "public string parameterName",
+      "kind": "field",
+      "name": "parameterName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "comparison",
+      "sig": "public VSMComparison comparison = VSMComparison.Greater",
+      "kind": "field",
+      "name": "comparison",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "threshold",
+      "sig": "public float threshold",
+      "kind": "field",
+      "name": "threshold",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

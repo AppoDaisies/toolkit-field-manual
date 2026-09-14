@@ -1,0 +1,121 @@
+{
+  "id": "turn-based-actor",
+  "name": "TurnBasedActor",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/TurnBasedActor.cs",
+  "src_lines": [
+    14,
+    42
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Health)"
+    ],
+    "addComponentMenu": "Toolkit/Combat/Turn Based Actor"
+  },
+  "src_typeComment": "One combatant in turn-based battle: links to Health, has an Initiative stat controlling turn order, and lists which ActionDefinitions it can use. Add a UtilityAIBrain alongside this for AI-controlled actors — without one, TurnManager treats this as player-controlled and waits for SubmitPlayerAction(). Self-registers with TurnManager in Awake(); call TurnManager.Instance.StartBattle() from a Start() (not Awake()) elsewhere so every actor has already registered by then.",
+  "src_serialized": [
+    {
+      "name": "displayName",
+      "type": "string",
+      "default": "\"Actor\"",
+      "tooltip": "Shown in battle UI/logs.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "initiative",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "Determines turn order — higher goes first. Turn queue is rebuilt and sorted by this each round.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "isAlly",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "True for the player's team, false for the enemy team.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "availableActions",
+      "type": "ActionDefinition[]",
+      "default": null,
+      "tooltip": "Actions this actor can use on its turn (picked by the player, or scored by a UtilityAIBrain if present).",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "DisplayName",
+      "sig": "public string DisplayName => displayName",
+      "kind": "property",
+      "name": "DisplayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Initiative",
+      "sig": "public float Initiative => initiative",
+      "kind": "property",
+      "name": "Initiative",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsAlly",
+      "sig": "public bool IsAlly => isAlly",
+      "kind": "property",
+      "name": "IsAlly",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AvailableActions",
+      "sig": "public IReadOnlyList<ActionDefinition> AvailableActions => availableActions",
+      "kind": "property",
+      "name": "AvailableActions",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Health",
+      "sig": "public Health Health { get; private set; }",
+      "kind": "property",
+      "name": "Health",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "HasAI",
+      "sig": "public bool HasAI => GetComponent<UtilityAIBrain>() != null",
+      "kind": "property",
+      "name": "HasAI",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TurnBasedCombat_Demo"
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "id": "extension-methods",
+  "name": "ExtensionMethods",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/Extensions/ExtensionMethods.cs",
+  "src_lines": [
+    6,
+    77
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SetX(this Transform, float)",
+      "sig": "public static void SetX(this Transform t, float x) { var p = t.position; p.x = x; t.position = p; }",
+      "kind": "method",
+      "name": "SetX",
+      "static": true,
+      "comment": "Transform position swizzle setters, saves writing \"var p = t.position; p.x = ...; t.position = p;\" everywhere."
+    },
+    {
+      "id": "SetY(this Transform, float)",
+      "sig": "public static void SetY(this Transform t, float y) { var p = t.position; p.y = y; t.position = p; }",
+      "kind": "method",
+      "name": "SetY",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SetZ(this Transform, float)",
+      "sig": "public static void SetZ(this Transform t, float z) { var p = t.position; p.z = z; t.position = p; }",
+      "kind": "method",
+      "name": "SetZ",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SetLocalX(this Transform, float)",
+      "sig": "public static void SetLocalX(this Transform t, float x) { var p = t.localPosition; p.x = x; t.localPosition = p; }",
+      "kind": "method",
+      "name": "SetLocalX",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SetLocalY(this Transform, float)",
+      "sig": "public static void SetLocalY(this Transform t, float y) { var p = t.localPosition; p.y = y; t.localPosition = p; }",
+      "kind": "method",
+      "name": "SetLocalY",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SetLocalZ(this Transform, float)",
+      "sig": "public static void SetLocalZ(this Transform t, float z) { var p = t.localPosition; p.z = z; t.localPosition = p; }",
+      "kind": "method",
+      "name": "SetLocalZ",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "WithX(this Vector3, float)",
+      "sig": "public static Vector3 WithX(this Vector3 v, float x) => new Vector3(x, v.y, v.z)",
+      "kind": "method",
+      "name": "WithX",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "WithY(this Vector3, float)",
+      "sig": "public static Vector3 WithY(this Vector3 v, float y) => new Vector3(v.x, y, v.z)",
+      "kind": "method",
+      "name": "WithY",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "WithZ(this Vector3, float)",
+      "sig": "public static Vector3 WithZ(this Vector3 v, float z) => new Vector3(v.x, v.y, z)",
+      "kind": "method",
+      "name": "WithZ",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "WithX(this Vector2, float)",
+      "sig": "public static Vector2 WithX(this Vector2 v, float x) => new Vector2(x, v.y)",
+      "kind": "method",
+      "name": "WithX",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "WithY(this Vector2, float)",
+      "sig": "public static Vector2 WithY(this Vector2 v, float y) => new Vector2(v.x, y)",
+      "kind": "method",
+      "name": "WithY",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "DestroyChildren(this Transform)",
+      "sig": "public static void DestroyChildren(this Transform t)",
+      "kind": "method",
+      "name": "DestroyChildren",
+      "static": true,
+      "comment": "Destroys every child under a transform, e.g. clearing a spawned-items container before repopulating it. The naive version — just calling Object.Destroy on each child — reads as if the container is empty afterwards, but Unity DEFERS Destroy to the end of the frame: childCount is unchanged on the very next line, and a container you clear and refill in the same Update ends up holding both sets. Each child is therefore DETACHED first, which takes effect immediately, so the container really is empty as soon as this returns; the orphaned objects are then destroyed on Unity's normal schedule. Outside Play mode Destroy never runs at all, so DestroyImmediate is used there instead."
+    },
+    {
+      "id": "GetOrAddComponent<T>(this GameObject)",
+      "sig": "public static T GetOrAddComponent<T>(this GameObject go) where T : Component",
+      "kind": "method",
+      "name": "GetOrAddComponent",
+      "static": true,
+      "comment": "Returns the existing component if present, otherwise adds and returns a new one — replaces the \"GetComponent, check null, AddComponent if needed\" boilerplate that comes up constantly."
+    },
+    {
+      "id": "SetLayerRecursively(this GameObject, int)",
+      "sig": "public static void SetLayerRecursively(this GameObject go, int layer)",
+      "kind": "method",
+      "name": "SetLayerRecursively",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Shuffle<T>(this IList<T>)",
+      "sig": "public static void Shuffle<T>(this IList<T> list)",
+      "kind": "method",
+      "name": "Shuffle",
+      "static": true,
+      "comment": "Fisher-Yates shuffle in place, avoids the common (and statistically biased) \"sort by random key\" mistake."
+    },
+    {
+      "id": "RandomItem<T>(this IList<T>)",
+      "sig": "public static T RandomItem<T>(this IList<T> list)",
+      "kind": "method",
+      "name": "RandomItem",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo"
+  ]
+}

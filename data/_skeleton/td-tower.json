@@ -1,0 +1,69 @@
+{
+  "id": "td-tower",
+  "name": "TDTower",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDTower.cs",
+  "src_lines": [
+    9,
+    73
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tower Defense/TD Tower"
+  },
+  "src_typeComment": "Plug-and-play tower: on a fire-rate timer, finds the closest TDEnemy within range and hands it off to whichever IAttackBehavior is attached to the same GameObject (TDHitscanAttack or TDProjectileAttack) — this component only handles targeting and timing, never how the attack itself is executed.",
+  "src_serialized": [
+    {
+      "name": "range",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Detection/attack range in world units.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "fireRate",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "Shots per second.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "damage",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "Damage dealt per shot.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "enemyMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Layer(s) enemies are on — used by the OverlapSphere targeting scan.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

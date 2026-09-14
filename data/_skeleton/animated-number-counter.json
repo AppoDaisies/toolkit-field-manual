@@ -1,0 +1,82 @@
+{
+  "id": "animated-number-counter",
+  "name": "AnimatedNumberCounter",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/NumberCounter/AnimatedNumberCounter.cs",
+  "src_lines": [
+    25,
+    89
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Animated Number Counter"
+  },
+  "src_typeComment": "Drop on a TMP_Text and call SetValue(newValue) instead of writing text.text directly — the displayed number ticks smoothly toward the target instead of snapping, which reads much better for score/currency changes. numberFormat controls how the number itself is rendered; the separate `format` string still wraps it for a prefix/suffix (e.g. \"{0} coins\").",
+  "src_serialized": [
+    {
+      "name": "countDuration",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Seconds to animate from the current displayed value to a new target — recalculated each time SetValue() changes the target, so a big jump and a small jump both finish in the same time (a true constant-speed chase, not one that eases out as it nears the target).",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "numberFormat",
+      "type": "NumberDisplayFormat",
+      "default": "NumberDisplayFormat.Integer",
+      "tooltip": "How the number itself is rendered.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "currencySymbol",
+      "type": "string",
+      "default": "\"$\"",
+      "tooltip": "Only used when Number Format is set to Currency.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "format",
+      "type": "string",
+      "default": "\"{0}\"",
+      "tooltip": "Optional prefix/suffix, e.g. \\\" coins\\\" — {0} is replaced with the formatted number.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetValue(float, bool)",
+      "sig": "public void SetValue(float newValue, bool instant = false)",
+      "kind": "method",
+      "name": "SetValue",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/NumberCounter/Editor/AnimatedNumberCounterSelfTest.cs",
+  "src_demoScene": [
+    "Currency_Demo",
+    "UIPolish_Demo"
+  ]
+}

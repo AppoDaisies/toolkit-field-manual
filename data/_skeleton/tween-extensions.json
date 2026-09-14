@@ -1,0 +1,67 @@
+{
+  "id": "tween-extensions",
+  "name": "TweenExtensions",
+  "cat": "Tweening",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Tweening",
+  "src_file": "Tweening/Core/TweenExtensions.cs",
+  "src_lines": [
+    9,
+    26
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "DOTween-style ergonomic shortcuts on top of Tween.* — e.g. transform.TweenScale(Vector3.one * 1.2f, 0.3f, EaseType.OutBack) instead of hand-writing a Tween.Vector3 call every time for the common cases.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "TweenMove(this Transform, Vector3, float, EaseType)",
+      "sig": "public static TweenHandle TweenMove(this Transform transform, Vector3 to, float duration, EaseType ease = EaseType.Linear)",
+      "kind": "method",
+      "name": "TweenMove",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "TweenLocalMove(this Transform, Vector3, float, EaseType)",
+      "sig": "public static TweenHandle TweenLocalMove(this Transform transform, Vector3 to, float duration, EaseType ease = EaseType.Linear)",
+      "kind": "method",
+      "name": "TweenLocalMove",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "TweenScale(this Transform, Vector3, float, EaseType)",
+      "sig": "public static TweenHandle TweenScale(this Transform transform, Vector3 to, float duration, EaseType ease = EaseType.Linear)",
+      "kind": "method",
+      "name": "TweenScale",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "TweenColor(this Graphic, Color, float, EaseType)",
+      "sig": "public static TweenHandle TweenColor(this Graphic graphic, Color to, float duration, EaseType ease = EaseType.Linear)",
+      "kind": "method",
+      "name": "TweenColor",
+      "static": true,
+      "comment": "Works for Image, RawImage, Text, and TextMeshProUGUI — all derive from Graphic."
+    },
+    {
+      "id": "TweenAlpha(this CanvasGroup, float, float, EaseType)",
+      "sig": "public static TweenHandle TweenAlpha(this CanvasGroup canvasGroup, float to, float duration, EaseType ease = EaseType.Linear)",
+      "kind": "method",
+      "name": "TweenAlpha",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Tweening_Demo"
+  ]
+}

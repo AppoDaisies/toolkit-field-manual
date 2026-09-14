@@ -1,0 +1,33 @@
+{
+  "id": "path-builder-editor",
+  "name": "PathBuilderEditor",
+  "cat": "PathBuilder",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PathBuilder.EditorTools",
+  "src_file": "PathBuilder/Editor/PathBuilderEditor.cs",
+  "src_lines": [
+    7,
+    103
+  ],
+  "src_base": "Editor",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "OnInspectorGUI()",
+      "sig": "public override void OnInspectorGUI()",
+      "kind": "method",
+      "name": "OnInspectorGUI",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

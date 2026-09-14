@@ -1,0 +1,46 @@
+{
+  "id": "game-data-asset",
+  "name": "GameDataAsset",
+  "cat": "Persistence",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Persistence",
+  "src_file": "Persistence/ScriptableObjectData/GameDataAsset.cs",
+  "src_lines": [
+    9,
+    14
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Base class for designer-facing config/data assets. Subclass this for specific data types (ItemData, EnemyStats, LevelConfig, etc.) instead of hardcoding values in code or wiring up raw JSON for data that never needs to leave the Editor. Separate tool from JsonHelper on purpose — this is for config/design data authored in the Editor, JsonHelper is for runtime save data / external data.",
+  "src_serialized": [
+    {
+      "name": "id",
+      "type": "string",
+      "default": null,
+      "tooltip": "Unique identifier for this data asset, used to look it up (e.g. from a save file or spawner).",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Id",
+      "sig": "public string Id => id",
+      "kind": "property",
+      "name": "Id",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Persistence_Demo"
+  ]
+}

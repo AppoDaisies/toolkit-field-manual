@@ -1,0 +1,35 @@
+{
+  "id": "maze-generator",
+  "name": "MazeGenerator",
+  "cat": "ProceduralGeneration",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ProceduralGeneration",
+  "src_file": "ProceduralGeneration/Maze/MazeGenerator.cs",
+  "src_lines": [
+    25,
+    77
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Recursive-backtracker maze generation — a REFERENCE/SKELETON implementation, not a fully generalized plug-and-play tool (intentionally minimal: grid size + seed are the only knobs). Produces a \"perfect\" maze (exactly one path between any two cells, no loops, no isolated areas). Consume the output by checking each cell's MazeWalls flags to decide where to place wall geometry/colliders, e.g.:  MazeWalls[,] maze = MazeGenerator.Generate(10, 10, seed: 42); if ((maze[x, y] & MazeWalls.North) != 0) /* wall present to the north — place a wall segment here */",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Generate(int, int, int)",
+      "sig": "public static MazeWalls[,] Generate(int width, int height, int seed)",
+      "kind": "method",
+      "name": "Generate",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ProceduralGeneration_Demo"
+  ]
+}

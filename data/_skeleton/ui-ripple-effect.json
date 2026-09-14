@@ -1,0 +1,136 @@
+{
+  "id": "ui-ripple-effect",
+  "name": "UIRippleEffect",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/RippleDistortion/UIRippleEffect.cs",
+  "src_lines": [
+    15,
+    108
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IPointerClickHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Graphic)",
+      "typeof(RectTransform)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/UI Ripple Effect"
+  },
+  "src_typeComment": "Drop on any UI Graphic (Image, RawImage, ...) — clicking it fires an expanding \"shockwave\" ripple from the click point (Toolkit/UI/Ripple Distortion shader), both warping the sampled UV and pulsing a highlight along the ring. One ripple at a time: clicking again mid-ripple just restarts it at the new point, matching how most \"material ripple\" button effects behave (this is a UI polish effect, not a multi-ripple simulation).",
+  "src_serialized": [
+    {
+      "name": "rippleSpeed",
+      "type": "float",
+      "default": "1.4f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "rippleWidth",
+      "type": "float",
+      "default": "0.08f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "rippleDuration",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "distortStrength",
+      "type": "float",
+      "default": "0.08f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 0.3f",
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "highlightColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "highlightStrength",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 3f",
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "MaterialInstance",
+      "sig": "public Material MaterialInstance => materialInstance",
+      "kind": "property",
+      "name": "MaterialInstance",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplySettings()",
+      "sig": "public void ApplySettings()",
+      "kind": "method",
+      "name": "ApplySettings",
+      "static": false,
+      "comment": "Public so a self-test (or OnValidate) can push a settings change without waiting for a real click."
+    },
+    {
+      "id": "OnPointerClick(PointerEventData)",
+      "sig": "public void OnPointerClick(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnPointerClick",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TriggerRippleAtLocalPoint(Vector2)",
+      "sig": "public void TriggerRippleAtLocalPoint(Vector2 localPoint)",
+      "kind": "method",
+      "name": "TriggerRippleAtLocalPoint",
+      "static": false,
+      "comment": "Public and separated from OnPointerClick so a self-test — or any non-pointer trigger, like a gamepad \"confirm\" action — can start a ripple at a known point without simulating a real click."
+    },
+    {
+      "id": "TriggerRipple()",
+      "sig": "public void TriggerRipple() => TriggerRippleAtLocalPoint(rectTransform.rect.center)",
+      "kind": "method",
+      "name": "TriggerRipple",
+      "static": false,
+      "comment": "Convenience for a programmatic \"pulse\" (e.g. a purchase confirmation, a notification badge) rather than a real pointer click — ripples from the element's own centre."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/UI/RippleDistortion/Editor/UIRippleEffectSelfTest.cs",
+  "src_demoScene": [
+    "UIRipple_Demo"
+  ]
+}

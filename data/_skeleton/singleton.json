@@ -1,0 +1,44 @@
+{
+  "id": "singleton",
+  "name": "Singleton<T>",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/Singleton/Singleton.cs",
+  "src_lines": [
+    6,
+    51
+  ],
+  "src_base": "MonoBehaviour where T : MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Generic MonoBehaviour singleton. Inherit as: public class GameManager : Singleton<GameManager>",
+  "src_serialized": [
+    {
+      "name": "persistAcrossScenes",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "If true, this object survives scene loads (DontDestroyOnLoad).",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Instance",
+      "sig": "public static T Instance",
+      "kind": "property",
+      "name": "Instance",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

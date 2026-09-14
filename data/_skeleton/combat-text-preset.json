@@ -1,0 +1,89 @@
+{
+  "id": "combat-text-preset",
+  "name": "CombatTextPreset",
+  "cat": "UI",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FloatingCombatText/FloatingCombatText.cs",
+  "src_lines": [
+    27,
+    42
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "style",
+      "sig": "public CombatTextStyle style",
+      "kind": "field",
+      "name": "style",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "color",
+      "sig": "public Color color",
+      "kind": "field",
+      "name": "color",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "fontSize",
+      "sig": "public float fontSize",
+      "kind": "field",
+      "name": "fontSize",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "bold",
+      "sig": "public bool bold",
+      "kind": "field",
+      "name": "bold",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "motion",
+      "sig": "public CombatTextMotion motion",
+      "kind": "field",
+      "name": "motion",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "duration",
+      "sig": "public float duration",
+      "kind": "field",
+      "name": "duration",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "riseDistance",
+      "sig": "public float riseDistance",
+      "kind": "field",
+      "name": "riseDistance",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "horizontalAmount",
+      "sig": "public float horizontalAmount",
+      "kind": "field",
+      "name": "horizontalAmount",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

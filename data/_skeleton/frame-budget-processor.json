@@ -1,0 +1,56 @@
+{
+  "id": "frame-budget-processor",
+  "name": "FrameBudgetProcessor",
+  "cat": "Optimization",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Optimization",
+  "src_file": "Optimization/FrameBudget/FrameBudgetProcessor.cs",
+  "src_lines": [
+    12,
+    32
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Optimization/Frame Budget Processor"
+  },
+  "src_typeComment": "Enqueue(action) instead of doing a big batch of work in one frame — spreads it across multiple frames to avoid a hitch. Good for spawning/initializing many objects at once, processing a large save-file migration, or generating a big procedural grid. Not a Singleton — add one per queue if you need independently-paced budgets for different kinds of work.",
+  "src_serialized": [
+    {
+      "name": "maxActionsPerFrame",
+      "type": "int",
+      "default": "20",
+      "tooltip": "Maximum number of queued actions run per frame.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "PendingCount",
+      "sig": "public int PendingCount => queue.Count",
+      "kind": "property",
+      "name": "PendingCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Enqueue(Action)",
+      "sig": "public void Enqueue(Action action) => queue.Enqueue(action)",
+      "kind": "method",
+      "name": "Enqueue",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Optimization_Demo"
+  ]
+}

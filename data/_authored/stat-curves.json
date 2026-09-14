@@ -1,0 +1,79 @@
+{
+  "id": "stat-curves",
+  "summary": "Three balancing formulas as pure functions: compounding XP requirements, linear damage falloff, smoothstep falloff.",
+  "problem": "Every RPG and every shooter needs the same two or three curves, and every project reinvents them slightly differently — usually inline, usually in the middle of a level-up or damage-application method where nobody can find them again. Pulling them out as pure static functions means the curve is one place, is testable without a scene, and can be graphed in a tool or a spreadsheet to check the balance before anyone plays it. The XP function in particular encodes the non-obvious bit: the closed-form geometric-series sum, including the special case that stops a perfectly reasonable growthRate of 1 from producing NaN.",
+  "workedExample": {
+    "setup": "The default XP curve — 100 base XP compounding 15% per level — and what those numbers mean on a balance spreadsheet.",
+    "inputs": [
+      {
+        "name": "baseXP",
+        "value": "100 (default)"
+      },
+      {
+        "name": "growthRate",
+        "value": "1.15 (default)"
+      }
+    ],
+    "steps": [
+      "Formula: baseXP * (growthRate^(level-1) - 1) / (growthRate - 1) — the sum of a geometric series, so the result is the TOTAL to reach that level, not the cost of it.",
+      "Level 1: short-circuits to 0 before any arithmetic.",
+      "Level 2: 100 * (1.15^1 - 1) / 0.15 = 100 * 0.15 / 0.15 = 100.",
+      "Level 3: 100 * (1.3225 - 1) / 0.15 = 100 * 0.3225 / 0.15 = 215.",
+      "Level 4: 100 * (1.520875 - 1) / 0.15 = 347.25.",
+      "Level 5: 100 * (1.74900625 - 1) / 0.15 = 499.3375.",
+      "The COST of going 4 -> 5 is the difference: 499.3375 - 347.25 = 152.0875, which is exactly 100 * 1.15^3. Each level costs 15% more than the one before it, which is the property the closed form guarantees.",
+      "Level 10: 100 * (1.15^9 - 1) / 0.15 = 100 * 2.517876 / 0.15 = 1678.58."
+    ],
+    "result": "Reaching level 10 on the defaults takes 1678.58 total XP, of which the 9 -> 10 step alone is 305.90 (that is 100 * 1.15^8). If you need the cost of a single level, subtract two calls — this function will never give it to you directly.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Driving a level-up check and an XP bar from a single authored curve rather than a hand-typed table.",
+    "Generating a balance table in an editor tool or a CSV export, so designers can see the whole progression at once.",
+    "Explosion and area-of-effect damage that tapers with distance instead of cutting off at a hard radius.",
+    "Falloff for non-damage effects too — audio volume, screen shake intensity, knockback strength from a blast centre.",
+    "Prototyping progression pacing by changing one growthRate value instead of retyping a hundred-row table."
+  ],
+  "usage": {
+    "code": "float needed = StatCurves.ExperienceForLevel(player.level + 1);\nfloat thisLevelCost = needed - StatCurves.ExperienceForLevel(player.level);\n\nfloat dist = Vector3.Distance(blastCentre, target.position);\nfloat damage = StatCurves.SmoothFalloff(dist, minDistance: 2f, maxDistance: 10f, fullDamage: 120f);",
+    "codeNote": "ExperienceForLevel returns the cumulative total, so the cost of the current level is always a difference of two calls."
+  },
+  "apiNotes": {
+    "ExperienceForLevel(int, float, float)": "Cumulative XP to REACH a level; level 1 is 0. growthRate exactly 1 is special-cased to the linear limit baseXP * (level - 1) rather than dividing by zero.",
+    "LinearFalloff(float, float, float, float)": "Mathf.InverseLerp(maxDistance, minDistance, distance) — arguments reversed on purpose so that closer means higher — times fullDamage, clamped. With min 2, max 10, fullDamage 100, a distance of 7 yields 37.5.",
+    "SmoothFalloff(float, float, float, float)": "Same t, then smoothstep t*t*(3 - 2t). The same setup gives 31.64 at distance 7 (steeper than linear out near the edge) but 95.7 at distance 3 against linear's 87.5 (gentler up close) — a wider effective sweet spot near the centre."
+  },
+  "gotchas": [
+    {
+      "title": "ExperienceForLevel returns a cumulative total, not a per-level cost",
+      "body": "Compare it against the player's lifetime XP, not against a bar that resets each level. Wiring it to a per-level bar makes early levels look instant and later ones look impossible. Subtract consecutive calls to get the cost of one level."
+    },
+    {
+      "title": "The return type is float, and XP totals outgrow it",
+      "body": "Beyond about 16.7 million a float can no longer represent every integer, so high-level totals start snapping to multiples of 2, then 4. With the default 100 base XP and 15% growth the cumulative total crosses that line around level 73. If your XP is stored as int or long, compute the curve in double or cap the level range you feed it."
+    },
+    {
+      "title": "growthRate below 1 is not guarded",
+      "body": "Only the exact-1 case is special-cased (via Mathf.Approximately, so near-1 values route there too). A growthRate of 0.9 produces a converging series — the XP requirement approaches a ceiling and later levels become nearly free — and a negative growthRate makes Mathf.Pow oscillate in sign. Neither errors. Keep growthRate above 1 unless you have deliberately designed a decelerating curve."
+    },
+    {
+      "title": "Swapping minDistance and maxDistance silently inverts the falloff",
+      "body": "Both falloff functions call InverseLerp(maxDistance, minDistance, distance) with no validation, so passing them the wrong way round produces a curve that deals MORE damage further away. Nothing warns you; the only symptom is that the explosion feels backwards."
+    },
+    {
+      "title": "Both falloffs clamp, so there is no negative or extrapolated damage",
+      "body": "Distance at or inside minDistance always returns fullDamage; at or beyond maxDistance it returns 0. That is usually what you want, but it also means the functions cannot express a minimum-damage floor at long range — add that yourself with a Mathf.Max."
+    },
+    {
+      "title": "SmoothFalloff is not simply 'gentler' than linear",
+      "body": "It is gentler near minDistance and steeper near maxDistance. The net effect is a larger near-full-damage zone at the centre and a faster drop at the edge, which reads as a punchier blast. If you wanted the opposite — a small sweet spot and a long tail — this is the wrong curve, not a milder version of the right one."
+    }
+  ],
+  "seeAlso": [
+    "EasingFunctions",
+    "MathUtils",
+    "Health",
+    "ProbabilityUtils",
+    "CurrencyWallet"
+  ]
+}

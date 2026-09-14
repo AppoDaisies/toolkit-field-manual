@@ -1,0 +1,110 @@
+{
+  "id": "tab-group",
+  "name": "TabGroup",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/TabGroup/TabGroup.cs",
+  "src_lines": [
+    23,
+    71
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Tab Group"
+  },
+  "src_typeComment": "Plug-and-play tab bar: pair each Button with the GameObject it should show, and this handles the click wiring, panel switching, and an active/inactive tint on each tab's own button graphic. Nothing else in this toolkit does a plain horizontal tab bar — ScreenStackNavigator is a full-screen push/pop stack, AccordionPanel collapses vertically in place, CardCarousel swipes — this is the classic \"click a tab, swap the panel below it\" pattern none of those cover.",
+  "src_serialized": [
+    {
+      "name": "tabs",
+      "type": "TabEntry[]",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "activeColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "inactiveColor",
+      "type": "Color",
+      "default": "new Color(0.6f, 0.6f, 0.6f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "startIndex",
+      "type": "int",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnTabChanged = new UnityEvent<int>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentIndex",
+      "sig": "public int CurrentIndex { get; private set; } = -1",
+      "kind": "property",
+      "name": "CurrentIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TabCount",
+      "sig": "public int TabCount => tabs != null ? tabs.Length : 0",
+      "kind": "property",
+      "name": "TabCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTabs(TabEntry[])",
+      "sig": "public void SetTabs(TabEntry[] newTabs)",
+      "kind": "method",
+      "name": "SetTabs",
+      "static": false,
+      "comment": "For configuring tabs from code (a dynamically-built tab set) instead of the Inspector array — mirrors the Set*() pattern this toolkit already uses elsewhere (e.g. ScreenStackNavigator.SetRootScreen) for components more naturally wired at runtime than authored by hand."
+    },
+    {
+      "id": "SelectTab(int)",
+      "sig": "public void SelectTab(int index)",
+      "kind": "method",
+      "name": "SelectTab",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/TabGroup/Editor/TabGroupSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

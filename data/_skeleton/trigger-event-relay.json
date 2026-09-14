@@ -1,0 +1,77 @@
+{
+  "id": "trigger-event-relay",
+  "name": "TriggerEventRelay",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/TriggerEventRelay/TriggerEventRelay.cs",
+  "src_lines": [
+    10,
+    38
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Collider)"
+    ],
+    "addComponentMenu": "Toolkit/Trigger Event Relay (3D)"
+  },
+  "src_typeComment": "Drop on a 3D trigger Collider and wire responses in the Inspector — no code needed for simple \"when the player enters this zone, do X\" setups. See TriggerEventRelay2D for 2D physics.",
+  "src_serialized": [
+    {
+      "name": "requiredTag",
+      "type": "string",
+      "default": "\"Untagged\"",
+      "tooltip": "Only objects with this tag fire the events. Leave as \\\"Untagged\\\" to respond to anything.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "filterByTag",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "If false, the tag filter above is ignored and every collider triggers the events.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<Collider>()",
+      "sig": "public UnityEvent<Collider> OnEnter = new UnityEvent<Collider>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<Collider>()",
+      "sig": "public UnityEvent<Collider> OnExit = new UnityEvent<Collider>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<Collider>()",
+      "sig": "public UnityEvent<Collider> OnStay = new UnityEvent<Collider>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

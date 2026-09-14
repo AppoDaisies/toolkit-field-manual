@@ -1,0 +1,27 @@
+{
+  "id": "camera-follow-mode",
+  "name": "CameraFollowMode",
+  "cat": "Camera",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.CameraTools",
+  "src_file": "Camera/PlayerCameraRig/PlayerCameraRig.cs",
+  "src_lines": [
+    11,
+    15
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Smoothed",
+    "Instant"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

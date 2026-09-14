@@ -1,0 +1,76 @@
+{
+  "id": "name-generator",
+  "name": "NameGenerator",
+  "cat": "ProceduralGeneration",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ProceduralGeneration",
+  "src_file": "ProceduralGeneration/Names/NameGenerator.cs",
+  "src_lines": [
+    15,
+    118
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Markov-chain name generator: trains a chain of character n-grams from a list of sample names, then generates new names by sampling that chain — new names \"sound like\" the training set without ever being an exact copy of one. A built-in fantasy-name corpus is provided so this works with zero setup; assign your own trainingNames for a different flavor (sci-fi, real-world, item names, etc.). Plain [Serializable] class (not a MonoBehaviour) so it can be embedded as a field on whatever component needs it, the same way Toolkit.MathUtilities.PityTimer is used.",
+  "src_serialized": [
+    {
+      "name": "trainingNames",
+      "type": "string[]",
+      "default": null,
+      "tooltip": "Sample names the Markov chain learns from. Longer/more varied lists produce more varied output. Leave empty to use the built-in fantasy-name corpus.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "order",
+      "type": "int",
+      "default": "2",
+      "tooltip": "How many preceding characters predict the next one. 2 = fairly random/varied, 3 = closer to the training names, 4+ risks reproducing them almost verbatim.",
+      "header": null,
+      "range": "1, 4",
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "minLength",
+      "type": "int",
+      "default": "4",
+      "tooltip": "Generated names outside this length range are discarded and re-rolled (up to a retry limit).",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "maxLength",
+      "type": "int",
+      "default": "9",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "GenerateName(System.Random)",
+      "sig": "public string GenerateName(System.Random random = null)",
+      "kind": "method",
+      "name": "GenerateName",
+      "static": false,
+      "comment": "Pass your own System.Random for reproducible output (e.g. from a level seed); omit it for a different result each call."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ProceduralGeneration_Demo"
+  ]
+}

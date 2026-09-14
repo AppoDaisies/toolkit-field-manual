@@ -1,0 +1,52 @@
+{
+  "id": "combat-projectile",
+  "name": "CombatProjectile",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/CombatProjectile.cs",
+  "src_lines": [
+    16,
+    69
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Collider)",
+      "typeof(Rigidbody)"
+    ],
+    "addComponentMenu": "Toolkit/Combat/Combat Projectile"
+  },
+  "src_typeComment": "Simple straight-line projectile spawned by RangedAttack in Projectile mode. Deliberately not the same class as Toolkit.Mechanics.TowerDefense.TDProjectile — that one homes onto a specific target and is safe if the target is destroyed mid-flight; this one just flies straight and deals a hit on first contact, matching how a player/enemy combat projectile (arrow, thrown weapon) typically behaves. Requires a Rigidbody (kept kinematic) because this moves via direct transform manipulation, not physics forces — Unity only raises trigger callbacks for a collider pair where at least one side has a Rigidbody, so without this, a projectile would silently pass through any target that also has no Rigidbody (the common case for static scenery/dummies).",
+  "src_serialized": [
+    {
+      "name": "lifetime",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Self-destroys after this many seconds even if it never hits anything.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Launch(Vector3, float, float, GameObject)",
+      "sig": "public void Launch(Vector3 velocity, float damage, float knockbackForce, GameObject source)",
+      "kind": "method",
+      "name": "Launch",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "HitboxCombat_Demo"
+  ]
+}

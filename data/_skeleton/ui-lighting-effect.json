@@ -1,0 +1,189 @@
+{
+  "id": "ui-lighting-effect",
+  "name": "UILightingEffect",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/LightingEffects/UILightingEffect.cs",
+  "src_lines": [
+    15,
+    119
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Graphic)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/UI Lighting Effect"
+  },
+  "src_typeComment": "Drop on any UI Graphic (Image, RawImage, ...) and pick a Mode from the dropdown — a sweeping shine highlight, a rim/edge glow, or normal-mapped shading reactive to the scene's real light direction (see SceneLightUIHook.cs). One shared shader (Toolkit/UI/Lighting Effects) implements all three; this component just creates a private material instance for the Graphic and pushes the chosen mode's settings into it.",
+  "src_serialized": [
+    {
+      "name": "mode",
+      "type": "UILightingMode",
+      "default": "UILightingMode.Shine",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "shineColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": "Shine",
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "shineIntensity",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 3f",
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "sweepSpeed",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "sweepWidth",
+      "type": "float",
+      "default": "0.15f",
+      "tooltip": null,
+      "header": null,
+      "range": "0.02f, 1f",
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "sweepAngle",
+      "type": "float",
+      "default": "45f",
+      "tooltip": "Direction the sweep travels across the element. 45 matches the old fixed diagonal; 0/180 is horizontal, 90 is vertical.",
+      "header": null,
+      "range": "0f, 180f",
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "sweepFrequency",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "How many parallel bands sweep at once, tiled across the element. 1 = a single band (the old look, now with a softer falloff).",
+      "header": null,
+      "range": "0.25f, 8f",
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "rimColor",
+      "type": "Color",
+      "default": "new Color(0.4f, 0.8f, 1f)",
+      "tooltip": null,
+      "header": "Rim",
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "rimIntensity",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 3f",
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "rimWidth",
+      "type": "float",
+      "default": "0.1f",
+      "tooltip": null,
+      "header": null,
+      "range": "0.01f, 0.5f",
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "rimFalloff",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0.5f, 4f",
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "normalMap",
+      "type": "Texture",
+      "default": null,
+      "tooltip": "Needs a real normal map to look like anything other than a flat tint shift — Properties defaults to Unity's built-in flat \\\"bump\\\" texture.",
+      "header": "Scene Light",
+      "range": null,
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "litTint",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 12,
+      "comment": null
+    },
+    {
+      "name": "shadowTint",
+      "type": "Color",
+      "default": "new Color(0.3f, 0.3f, 0.35f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 13,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "MaterialInstance",
+      "sig": "public Material MaterialInstance => materialInstance",
+      "kind": "property",
+      "name": "MaterialInstance",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplySettings()",
+      "sig": "public void ApplySettings()",
+      "kind": "method",
+      "name": "ApplySettings",
+      "static": false,
+      "comment": "Public so a self-test (or a runtime UI system swapping modes/colours) can push a settings change without waiting for OnValidate. The shine sweep itself animates purely via the shader's own _Time.y — this does NOT need to be called every frame, only when a setting actually changes."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/UI/LightingEffects/Editor/UILightingEffectSelfTest.cs",
+  "src_demoScene": [
+    "UILightingEffects_Demo"
+  ]
+}

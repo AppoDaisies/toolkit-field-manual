@@ -1,0 +1,146 @@
+{
+  "id": "visual-state-machine-runner",
+  "name": "VisualStateMachineRunner",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine",
+  "src_file": "AI/VisualStateMachine/VisualStateMachineRunner.cs",
+  "src_lines": [
+    20,
+    189
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Visual State Machine Runner"
+  },
+  "src_typeComment": "Drives a VisualStateMachineAsset at runtime by building a Toolkit.Core.StateMachine from its nodes/transitions/parameters — reuses that existing engine rather than a second transition-evaluation implementation. The asset stays scene-independent (like an Animator Controller); THIS component provides the per-scene-instance bindings from node name to an actual IState-implementing behaviour. A node with no binding just runs as an empty state — useful for pure transition/organizational nodes that don't need their own script.  Initialize()/TickStateMachine() are public (not just private Awake/Update bodies) specifically so this can be driven and asserted on directly from an Editor self-test without needing Play mode.",
+  "src_serialized": [
+    {
+      "name": "graph",
+      "type": "VisualStateMachineAsset",
+      "default": null,
+      "tooltip": "The graph asset defining states, transitions, and parameters.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "stateBindings",
+      "type": "List<StateBinding>",
+      "default": "new List<StateBinding>()",
+      "tooltip": "Binds each state node (by name) to the script that actually runs its Enter/Tick/Exit logic.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "StateBinding",
+      "sig": "public class StateBinding",
+      "kind": "property",
+      "name": "StateBinding",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<string>()",
+      "sig": "public UnityEvent<string> OnStateChanged = new UnityEvent<string>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentStateName",
+      "sig": "public string CurrentStateName",
+      "kind": "property",
+      "name": "CurrentStateName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Initialize()",
+      "sig": "public void Initialize()",
+      "kind": "method",
+      "name": "Initialize",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TickStateMachine()",
+      "sig": "public void TickStateMachine()",
+      "kind": "method",
+      "name": "TickStateMachine",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetBool(string, bool)",
+      "sig": "public void SetBool(string name, bool value) => boolParams[name] = value",
+      "kind": "method",
+      "name": "SetBool",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetBool(string)",
+      "sig": "public bool GetBool(string name) => boolParams.TryGetValue(name, out bool value) && value",
+      "kind": "method",
+      "name": "GetBool",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTrigger(string)",
+      "sig": "public void SetTrigger(string name) => pendingTriggers.Add(name)",
+      "kind": "method",
+      "name": "SetTrigger",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetFloat(string, float)",
+      "sig": "public void SetFloat(string name, float value) => floatParams[name] = value",
+      "kind": "method",
+      "name": "SetFloat",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetFloat(string)",
+      "sig": "public float GetFloat(string name) => floatParams.TryGetValue(name, out float value) ? value : 0f",
+      "kind": "method",
+      "name": "GetFloat",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetInt(string, int)",
+      "sig": "public void SetInt(string name, int value) => intParams[name] = value",
+      "kind": "method",
+      "name": "SetInt",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetInt(string)",
+      "sig": "public int GetInt(string name) => intParams.TryGetValue(name, out int value) ? value : 0",
+      "kind": "method",
+      "name": "GetInt",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VisualStateMachine_Demo"
+  ]
+}

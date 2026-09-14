@@ -1,0 +1,112 @@
+{
+  "id": "radial-layout-group",
+  "name": "RadialLayoutGroup",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/RadialLayoutGroup/RadialLayoutGroup.cs",
+  "src_lines": [
+    9,
+    74
+  ],
+  "src_base": "LayoutGroup",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Layout/Radial Layout Group"
+  },
+  "src_typeComment": "Drop this on a UI panel instead of Horizontal/Vertical Layout Group to arrange children in a circle or arc. Zero setup beyond adding the component — children snap into place automatically like any other LayoutGroup.",
+  "src_serialized": [
+    {
+      "name": "radius",
+      "type": "float",
+      "default": "150f",
+      "tooltip": "Distance from center to each child's pivot.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "startAngle",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Angle in degrees where the first child is placed. 0 = up, measured clockwise.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "arcDegrees",
+      "type": "float",
+      "default": "360f",
+      "tooltip": "Total arc in degrees the children are spread across. 360 = full circle, evenly spaced.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "clockwise",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Arranges clockwise if true, counter-clockwise if false.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "rotateChildrenToFaceOutward",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "Rotates each child to face outward from the center, like clock hands.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CalculateLayoutInputHorizontal()",
+      "sig": "public override void CalculateLayoutInputHorizontal() => base.CalculateLayoutInputHorizontal()",
+      "kind": "method",
+      "name": "CalculateLayoutInputHorizontal",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CalculateLayoutInputVertical()",
+      "sig": "public override void CalculateLayoutInputVertical() { }",
+      "kind": "method",
+      "name": "CalculateLayoutInputVertical",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetLayoutHorizontal()",
+      "sig": "public override void SetLayoutHorizontal() => ArrangeChildren()",
+      "kind": "method",
+      "name": "SetLayoutHorizontal",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetLayoutVertical()",
+      "sig": "public override void SetLayoutVertical() => ArrangeChildren()",
+      "kind": "method",
+      "name": "SetLayoutVertical",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

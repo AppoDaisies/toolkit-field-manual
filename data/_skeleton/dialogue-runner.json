@@ -1,0 +1,174 @@
+{
+  "id": "dialogue-runner",
+  "name": "DialogueRunner",
+  "cat": "Dialogue",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Dialogue",
+  "src_file": "Dialogue/DialogueRunner.cs",
+  "src_lines": [
+    16,
+    144
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Dialogue/Dialogue Runner"
+  },
+  "src_typeComment": "Plug-and-play dialogue tree runner: assign UI references, call StartDialogue(rootNode). Reuses EXISTING toolkit pieces instead of duplicating them — TMPTypewriterEffect for the per-character text reveal, Blackboard for optional conditional choices (e.g. only offer \"Ask about the key\" once a quest flag is set) — neither is required, both are optional and null-checked throughout.",
+  "src_serialized": [
+    {
+      "name": "blackboard",
+      "type": "Blackboard",
+      "default": null,
+      "tooltip": "Optional — gates DialogueChoice.requiredBlackboardKey checks. Leave unassigned if you don't use conditional choices.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "dialoguePanel",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "speakerNameText",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "portraitImage",
+      "type": "Image",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "bodyText",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "typewriter",
+      "type": "TMPTypewriterEffect",
+      "default": null,
+      "tooltip": "Optional — if assigned, dialogue text reveals character-by-character instead of appearing instantly.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "choiceButtonContainer",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "choiceButtonPrefab",
+      "type": "Button",
+      "default": null,
+      "tooltip": "A template Button (kept inactive in the scene) cloned once per available choice, then destroyed and rebuilt on the next node.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<DialogueNode>()",
+      "sig": "public UnityEvent<DialogueNode> OnNodeChanged = new UnityEvent<DialogueNode>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnDialogueEnded = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsActive",
+      "sig": "public bool IsActive { get; private set; }",
+      "kind": "property",
+      "name": "IsActive",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentNode",
+      "sig": "public DialogueNode CurrentNode => currentNode",
+      "kind": "property",
+      "name": "CurrentNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "StartDialogue(DialogueNode)",
+      "sig": "public void StartDialogue(DialogueNode startNode)",
+      "kind": "method",
+      "name": "StartDialogue",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Advance()",
+      "sig": "public void Advance()",
+      "kind": "method",
+      "name": "Advance",
+      "static": false,
+      "comment": "Advances a no-choice node. Does nothing if the current node HAS choices (use SelectChoice instead). The classic dialogue-UI convention: if the typewriter is still revealing, the first Advance() completes the line instantly instead of skipping straight to the next node."
+    },
+    {
+      "id": "SelectChoice(int)",
+      "sig": "public void SelectChoice(int index)",
+      "kind": "method",
+      "name": "SelectChoice",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetAvailableChoices(DialogueNode)",
+      "sig": "public List<DialogueChoice> GetAvailableChoices(DialogueNode node)",
+      "kind": "method",
+      "name": "GetAvailableChoices",
+      "static": false,
+      "comment": "Public rather than just an internal filtering step — a custom dialogue UI (not using the built-in choiceButtonPrefab cloning below) can call this directly to know what to render."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Dialogue_Demo"
+  ]
+}

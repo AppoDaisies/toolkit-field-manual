@@ -1,0 +1,59 @@
+{
+  "id": "flow-field-agent",
+  "name": "FlowFieldAgent",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Pathfinding/FlowField/FlowFieldAgent.cs",
+  "src_lines": [
+    9,
+    31
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Flow Field Agent"
+  },
+  "src_typeComment": "Drop on any number of agents pointed at the SAME FlowFieldGrid — each just samples its current cell's flow direction every frame and moves that way. Moves the transform directly (kinematic), matching the rest of the toolkit's steering/movement style rather than requiring a Rigidbody.",
+  "src_serialized": [
+    {
+      "name": "grid",
+      "type": "FlowFieldGrid",
+      "default": null,
+      "tooltip": "The shared FlowFieldGrid this agent reads its movement direction from.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "speed",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "Movement speed.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "faceMovementDirection",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Rotates the agent to face its movement direction.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Pathfinding_Demo"
+  ]
+}

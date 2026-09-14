@@ -1,0 +1,51 @@
+{
+  "id": "string-utils",
+  "name": "StringUtils",
+  "cat": "Formatting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Formatters",
+  "src_file": "Formatting/String/StringUtils.cs",
+  "src_lines": [
+    6,
+    40
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Truncate(string, int, string)",
+      "sig": "public static string Truncate(string text, int maxLength, string suffix = \"…\")",
+      "kind": "method",
+      "name": "Truncate",
+      "static": true,
+      "comment": "\"This is a long description\" (maxLength 10) -> \"This is a…\""
+    },
+    {
+      "id": "Pluralize(int, string, string)",
+      "sig": "public static string Pluralize(int count, string singular, string plural = null)",
+      "kind": "method",
+      "name": "Pluralize",
+      "static": true,
+      "comment": "Pluralize(1, \"coin\") -> \"1 coin\", Pluralize(2, \"coin\") -> \"2 coins\". Only handles the common regular case (+s) — pass an explicit plural for irregular words: Pluralize(2, \"enemy\", \"enemies\")."
+    },
+    {
+      "id": "CamelToTitleCase(string)",
+      "sig": "public static string CamelToTitleCase(string camelCase)",
+      "kind": "method",
+      "name": "CamelToTitleCase",
+      "static": true,
+      "comment": "\"playerHealthBar\" -> \"Player Health Bar\" — splits on case boundaries rather than a fixed word list, so it works on any camelCase/PascalCase identifier without a lookup table."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

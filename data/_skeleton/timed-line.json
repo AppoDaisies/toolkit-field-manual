@@ -1,0 +1,41 @@
+{
+  "id": "timed-line",
+  "name": "TimedLine",
+  "cat": "UI",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/TimedLineScrollView/TimedLineScrollView.cs",
+  "src_lines": [
+    12,
+    17
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "text",
+      "sig": "public string text",
+      "kind": "field",
+      "name": "text",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "startTime",
+      "sig": "public float startTime",
+      "kind": "field",
+      "name": "startTime",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

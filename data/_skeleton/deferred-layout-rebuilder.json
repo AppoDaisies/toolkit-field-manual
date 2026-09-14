@@ -1,0 +1,37 @@
+{
+  "id": "deferred-layout-rebuilder",
+  "name": "DeferredLayoutRebuilder",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/ContentFitters/DeferredLayoutRebuilder.cs",
+  "src_lines": [
+    10,
+    31
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Deferred Layout Rebuilder"
+  },
+  "src_typeComment": "Coalesces multiple same-frame rebuild REQUESTS into a single actual rebuild at end-of-frame — e.g. 5 children each independently requesting a rebuild after their own content changed shouldn't force the shared parent to re-lay-out 5 times in one frame.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "RequestRebuild()",
+      "sig": "public void RequestRebuild()",
+      "kind": "method",
+      "name": "RequestRebuild",
+      "static": false,
+      "comment": "Call this instead of forcing a rebuild directly — repeated calls within the same frame collapse into one actual rebuild."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

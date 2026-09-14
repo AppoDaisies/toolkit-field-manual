@@ -1,0 +1,84 @@
+{
+  "id": "batch-asset-renamer-window",
+  "name": "BatchAssetRenamerWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/BatchAssetRenamer/Editor/BatchAssetRenamerWindow.cs",
+  "src_lines": [
+    23,
+    159
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Batch Asset Renamer"
+    ]
+  },
+  "src_typeComment": "Toolkit/Batch Asset Renamer: select assets in the Project window OR GameObjects in the Hierarchy, type a new base name, and rename all of them in one pass. Tick \"Add Numbering\" to get \"Name - 1\", \"Name - 2\", ... instead of every item getting the identical name (Project-window assets would otherwise get auto-disambiguated by Unity's own \" 1\"/\" 2\" suffixing via AssetDatabase.RenameAsset — fine as a fallback, but numbering is the actually-intended feature here; Hierarchy GameObjects don't even get that fallback, since sibling GameObjects are allowed to share an identical name).  Ordering: numbers are assigned by the CURRENT names sorted alphabetically, not by whatever arbitrary order multi-selection happens to report (Unity's Selection order depends on click order, which isn't something a person can predict/reproduce) — so the same selection always numbers the same way no matter how it was selected.  Which window the selection came from changes what renaming actually costs: AssetDatabase.RenameAsset does NOT participate in Unity's Undo stack (asset operations generally don't), so a Project-window rename gets a confirmation dialog warning it can't be undone through Ctrl+Z. A Hierarchy GameObject's name IS a normal serialized property, so Undo.RecordObject covers it fully — Ctrl+Z genuinely reverts it.",
+  "src_serialized": [
+    {
+      "name": "newName",
+      "type": "string",
+      "default": "\"\"",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "useNumbering",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "startingNumber",
+      "type": "int",
+      "default": "1",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<BatchAssetRenamerWindow>(\"Batch Asset Renamer\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "BuildNewNames(int)",
+      "sig": "public string[] BuildNewNames(int count)",
+      "kind": "method",
+      "name": "BuildNewNames",
+      "static": false,
+      "comment": "Public (not just wired to the button) so the actual naming logic is directly unit-testable."
+    },
+    {
+      "id": "SetPreviewState(string, bool, int)",
+      "sig": "public void SetPreviewState(string name, bool numbering, int startNumber)",
+      "kind": "method",
+      "name": "SetPreviewState",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

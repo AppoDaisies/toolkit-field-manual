@@ -1,0 +1,99 @@
+{
+  "id": "math-utils",
+  "name": "MathUtils",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/MathUtils/MathUtils.cs",
+  "src_lines": [
+    5,
+    61
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Mod(int, int)",
+      "sig": "public static int Mod(int a, int b)",
+      "kind": "method",
+      "name": "Mod",
+      "static": true,
+      "comment": "Proper mathematical modulo, unlike C#'s % operator, which returns negative results for negative input. Mod(-1, 5) => 4, not -1. Useful for wrapping array indices, angles, and grid coordinates."
+    },
+    {
+      "id": "Mod(float, float)",
+      "sig": "public static float Mod(float a, float b)",
+      "kind": "method",
+      "name": "Mod",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Remap(float, float, float, float, float)",
+      "sig": "public static float Remap(float value, float inMin, float inMax, float outMin, float outMax)",
+      "kind": "method",
+      "name": "Remap",
+      "static": true,
+      "comment": "Remaps a value from one range to another, e.g. Remap(healthPercent, 0, 1, minPitch, maxPitch)."
+    },
+    {
+      "id": "RemapClamped(float, float, float, float, float)",
+      "sig": "public static float RemapClamped(float value, float inMin, float inMax, float outMin, float outMax)",
+      "kind": "method",
+      "name": "RemapClamped",
+      "static": true,
+      "comment": "Same as Remap but clamps the input first, avoids overshoot when value is slightly out of range."
+    },
+    {
+      "id": "DeltaAngle(float, float)",
+      "sig": "public static float DeltaAngle(float fromDegrees, float toDegrees)",
+      "kind": "method",
+      "name": "DeltaAngle",
+      "static": true,
+      "comment": "Shortest signed difference between two angles in degrees, always in [-180, 180]. Use this instead of subtracting angles directly to avoid the 359-to-1-degree wraparound bug."
+    },
+    {
+      "id": "Damp(float, float, float, float)",
+      "sig": "public static float Damp(float current, float target, float sharpness, float deltaTime)",
+      "kind": "method",
+      "name": "Damp",
+      "static": true,
+      "comment": "Frame-rate independent smoothing, exponential decay toward target. Higher `sharpness` = snappier response."
+    },
+    {
+      "id": "Damp(Vector3, Vector3, float, float)",
+      "sig": "public static Vector3 Damp(Vector3 current, Vector3 target, float sharpness, float deltaTime)",
+      "kind": "method",
+      "name": "Damp",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "InRange(float, float, float)",
+      "sig": "public static bool InRange(float value, float min, float max)",
+      "kind": "method",
+      "name": "InRange",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "DirectionTo(Vector3, Vector3)",
+      "sig": "public static Vector3 DirectionTo(Vector3 from, Vector3 to)",
+      "kind": "method",
+      "name": "DirectionTo",
+      "static": true,
+      "comment": "Direction and distance packed together, saves a redundant (b - a).normalized elsewhere."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

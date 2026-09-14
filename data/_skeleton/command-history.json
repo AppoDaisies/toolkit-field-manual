@@ -1,0 +1,96 @@
+{
+  "id": "command-history",
+  "name": "CommandHistory",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/UndoRedo/CommandHistory.cs",
+  "src_lines": [
+    11,
+    65
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Command History"
+  },
+  "src_typeComment": "Undo/Redo stack — Execute() runs an ICommand immediately and records it; Undo()/Redo() walk back and forth. A new Execute() after undoing clears the redo stack, the standard \"a new action invalidates the old future\" rule every undo/redo system follows.",
+  "src_serialized": [
+    {
+      "name": "maxHistorySize",
+      "type": "int",
+      "default": "100",
+      "tooltip": "Maximum commands kept in undo history. The oldest is discarded once exceeded.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnHistoryChanged = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CanUndo",
+      "sig": "public bool CanUndo => undoStack.Count > 0",
+      "kind": "property",
+      "name": "CanUndo",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CanRedo",
+      "sig": "public bool CanRedo => redoStack.Count > 0",
+      "kind": "property",
+      "name": "CanRedo",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Execute(ICommand)",
+      "sig": "public void Execute(ICommand command)",
+      "kind": "method",
+      "name": "Execute",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Undo()",
+      "sig": "public bool Undo()",
+      "kind": "method",
+      "name": "Undo",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Redo()",
+      "sig": "public bool Redo()",
+      "kind": "method",
+      "name": "Redo",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Clear()",
+      "sig": "public void Clear()",
+      "kind": "method",
+      "name": "Clear",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

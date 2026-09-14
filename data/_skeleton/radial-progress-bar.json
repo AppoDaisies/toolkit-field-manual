@@ -1,0 +1,80 @@
+{
+  "id": "radial-progress-bar",
+  "name": "RadialProgressBar",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/RadialProgressBar/RadialProgressBar.cs",
+  "src_lines": [
+    10,
+    53
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Image)"
+    ],
+    "addComponentMenu": "Toolkit/Radial Progress Bar"
+  },
+  "src_typeComment": "Drop on a UI Image — this auto-configures it for radial fill and exposes a simple SetProgress(0..1) API, so you don't have to remember the Image Type/Fill Method setup steps each time.",
+  "src_serialized": [
+    {
+      "name": "fillSpeed",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "How quickly the bar eases toward the target value. 0 = snap instantly.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "fillOrigin",
+      "type": "Image.Origin360",
+      "default": "Image.Origin360.Top",
+      "tooltip": "Where the fill starts from.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "fillClockwise",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Fill direction around the circle.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetProgress(float)",
+      "sig": "public void SetProgress(float normalizedValue) => targetFill = Mathf.Clamp01(normalizedValue)",
+      "kind": "method",
+      "name": "SetProgress",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetProgressInstant(float)",
+      "sig": "public void SetProgressInstant(float normalizedValue)",
+      "kind": "method",
+      "name": "SetProgressInstant",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo",
+    "UIExtras_Demo"
+  ]
+}

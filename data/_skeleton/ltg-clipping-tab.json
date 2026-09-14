@@ -1,0 +1,59 @@
+{
+  "id": "ltg-clipping-tab",
+  "name": "LtgClippingTab",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgClippingTab.cs",
+  "src_lines": [
+    28,
+    196
+  ],
+  "src_base": null,
+  "src_implements": [
+    "ILtgTab"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Clipping tab: spots objects intersecting each other when they shouldn't. Answers a PER-OBJECT CORRECTNESS question (\"is this one thing placed wrong?\"), which is why it's a separate tab from the Heatmap's whole-level distribution question rather than a mode inside it.  Built around one honest limitation: NOTHING can tell whether an intersection was intended, so this never claims to. It finds candidates cheaply, paints what's actually buried, and leaves the call to you.  Subjects vs Targets: only SUBJECTS get painted, so floors/architecture never light up — you see the crate reddened where it's buried, not the floor it's buried in.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Title",
+      "sig": "public string Title => \"Clipping\"",
+      "kind": "property",
+      "name": "Title",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IconName",
+      "sig": "public string IconName => \"d_console.warnicon\"",
+      "kind": "property",
+      "name": "IconName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Activate()",
+      "sig": "public void Activate() => Camera.onPostRender += OnCameraPostRender",
+      "kind": "method",
+      "name": "Activate",
+      "static": false,
+      "comment": "Drawn from Camera.onPostRender rather than a Scene-view GUI callback: the buried-portion pass needs the scene's real depth buffer still bound to ZTest against, and onPostRender fires immediately after a camera finishes rendering (target + depth intact)."
+    },
+    {
+      "id": "Deactivate()",
+      "sig": "public void Deactivate()",
+      "kind": "method",
+      "name": "Deactivate",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

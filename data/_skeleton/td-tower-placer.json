@@ -1,0 +1,68 @@
+{
+  "id": "td-tower-placer",
+  "name": "TDTowerPlacer",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDTowerPlacer.cs",
+  "src_lines": [
+    10,
+    48
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tower Defense/TD Tower Placer"
+  },
+  "src_typeComment": "Runtime tower placement: click a point in the scene (raycast against placementMask) to place the currently-selected tower prefab there, spending currency via TDGameManager's wallet. Wire a shop UI button's OnClick to SelectTowerToPlace(prefab, cost) to choose what the next click places.",
+  "src_serialized": [
+    {
+      "name": "placementMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Layers a click can land on to place a tower (e.g. the ground, not the enemy path or UI).",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "currency",
+      "type": "CurrencyDefinition",
+      "default": null,
+      "tooltip": "Currency spent per tower placement.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "raycastCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Camera used to raycast the mouse position. Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SelectTowerToPlace(GameObject, int)",
+      "sig": "public void SelectTowerToPlace(GameObject towerPrefab, int cost)",
+      "kind": "method",
+      "name": "SelectTowerToPlace",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

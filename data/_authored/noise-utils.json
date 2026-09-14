@@ -1,0 +1,81 @@
+{
+  "id": "noise-utils",
+  "summary": "Fractal Brownian Motion over Mathf.PerlinNoise — stacked octaves, normalized back to 0-1 whatever the octave count.",
+  "problem": "A single octave of Perlin noise is smooth to the point of being bland: rolling hills with no detail, a camera shake that drifts rather than rattles. The standard fix is Fractal Brownian Motion — sum several octaves, each at double the frequency and half the amplitude of the last, so you get large-scale shape plus fine-scale detail. The arithmetic is short but easy to get subtly wrong, and the part people usually skip is the normalization: without dividing by the total amplitude, changing the octave count changes the output's range and average, so every consumer downstream has to be rebalanced. This does that division for you.",
+  "workedExample": {
+    "setup": "Tracing the amplitude bookkeeping at the default settings, and why the final division is the feature.",
+    "inputs": [
+      {
+        "name": "octaves",
+        "value": "4"
+      },
+      {
+        "name": "lacunarity",
+        "value": "2"
+      },
+      {
+        "name": "gain",
+        "value": "0.5"
+      }
+    ],
+    "steps": [
+      "Octave 0: amplitude 1, frequency 1. maxPossible = 1.",
+      "Octave 1: amplitude 0.5, frequency 2. maxPossible = 1.5.",
+      "Octave 2: amplitude 0.25, frequency 4. maxPossible = 1.75.",
+      "Octave 3: amplitude 0.125, frequency 8. maxPossible = 1.875.",
+      "Mathf.PerlinNoise returns roughly [0,1], so the raw total lives in [0, 1.875]. The final `return total / maxPossible` maps that back onto [0,1].",
+      "Concretely: if every octave happened to return 0.5, total = 0.5 * 1.875 = 0.9375, and 0.9375 / 1.875 = 0.5 exactly.",
+      "With octaves = 8 the amplitudes run 1, 0.5, ... 0.0078125 and maxPossible = 1.9921875 — a different divisor, but the same mid-value comes back out."
+    ],
+    "result": "Octave count changes the DETAIL of the field but not its range or its centre. You can raise octaves from 4 to 8 to make terrain rougher without retuning the height multiplier or the shake amplitude that consumes the value.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Camera or weapon shake that reads as handheld rather than as a sine wave, by sampling Fbm1D against Time.time.",
+    "Wind sway on foliage, banners and hanging signs, with a per-object offset so nothing moves in lockstep.",
+    "Heightmap and terrain-ish variation: Fbm(x * scale, z * scale) as a 0-1 height factor.",
+    "Flicker for torches and damaged lights — smoother and less repetitive than Random.value per frame.",
+    "Scattering density masks for grass, rocks or spawn points, thresholding the noise value."
+  ],
+  "usage": {
+    "code": "// wandering value in -0.5 .. 0.5, per-object offset keeps things out of sync\nfloat sway = NoiseUtils.Fbm1D(Time.time * 0.5f + phaseOffset) - 0.5f;\ntransform.localRotation = Quaternion.Euler(0f, 0f, sway * 10f);\n\nfloat height = NoiseUtils.Fbm(worldX * 0.05f, worldZ * 0.05f, octaves: 5);",
+    "codeNote": "Scale the input coordinates — the frequency of the first octave is 1, so unscaled world coordinates change far too fast."
+  },
+  "apiNotes": {
+    "Fbm(float, float, int, float, float)": "The real implementation. lacunarity multiplies the frequency each octave (2 = each layer twice as fine), gain multiplies the amplitude (0.5 = each layer half as loud). octaves is clamped to at least 1 on entry, so a zero or negative value degrades to a single octave rather than returning NaN. Result is normalized to 0-1.",
+    "Fbm1D(float, int, float, float)": "Calls Fbm(x, 0.5f, ...) — a fixed slice through the 2D field, because Unity has no 1D Perlin. Use it for anything that varies over time alone."
+  },
+  "gotchas": [
+    {
+      "title": "octaves is clamped to 1, so a zero never reaches the divide",
+      "body": "With octaves <= 0 the layering loop never runs, maxPossible stays 0f, and the normalizing divide at the bottom would be 0f / 0f — a NaN that then silently poisons whatever height, shake offset or colour consumed it. Fbm now clamps octaves to a minimum of 1 before the loop. A serialized field left at 0 therefore produces plain single-octave Perlin, which looks wrong but is debuggable, instead of a NaN that propagates."
+    },
+    {
+      "title": "Sample on whole-number coordinates and you get a flat field",
+      "body": "Perlin is gradient noise defined on an integer lattice, so whole-number inputs land exactly on lattice points and the first octave degenerates to a constant. Iterating a grid as Fbm(x, y) with integer x and y is the classic mistake — always scale: Fbm(x * 0.05f, y * 0.05f)."
+    },
+    {
+      "title": "Fbm1D's fixed second axis lands on the lattice for octaves 2 and up",
+      "body": "It passes y = 0.5, and y is multiplied by frequency each octave, giving 0.5, 1, 2, 4 at the defaults — so every octave after the first samples exactly along an integer row. The output still varies along x, but it is a slightly less lively slice than an arbitrary y would give. If a wander looks repetitive, call Fbm(x, someNonIntegerOffset) directly instead."
+    },
+    {
+      "title": "Perlin is not random and it is not seedable",
+      "body": "Mathf.PerlinNoise is a deterministic function of its coordinates with no seed parameter, and it is symmetric about the origin. The only way to get a different-looking field is to offset your input coordinates — keep a per-instance or per-level offset and add it to x and y. Repeated calls with the same arguments always return the same value."
+    },
+    {
+      "title": "Output is centred near 0.5, not 0",
+      "body": "For a bidirectional effect (shake, sway) subtract 0.5 and scale, as the usage snippet does. Feeding the raw value into a position offset biases everything in one direction."
+    },
+    {
+      "title": "Cost scales linearly with octaves",
+      "body": "Each octave is a full Mathf.PerlinNoise call. Four octaves is four times the cost of one. Sampling this per-vertex or per-pixel on the CPU adds up fast — for large fields, bake to a texture or move the maths to a shader."
+    }
+  ],
+  "seeAlso": [
+    "CameraShake",
+    "TerrainHeightmapGenerator",
+    "SeededRandom",
+    "GrassBendEmitter",
+    "MathUtils"
+  ]
+}

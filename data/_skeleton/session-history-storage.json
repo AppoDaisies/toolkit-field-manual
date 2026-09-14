@@ -1,0 +1,65 @@
+{
+  "id": "session-history-storage",
+  "name": "SessionHistoryStorage",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorTools.SessionRecorder",
+  "src_file": "EditorTools/SessionRecorder/Editor/SessionHistoryData.cs",
+  "src_lines": [
+    33,
+    73
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Persists to UserSettings/ — the folder Unity itself reserves for per-user, per-project editor state that shouldn't go into source control (already covered by Unity's default .gitignore), which is exactly what a \"what was I doing\" breadcrumb trail is.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Load()",
+      "sig": "public static SessionHistory Load()",
+      "kind": "method",
+      "name": "Load",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Save(SessionHistory)",
+      "sig": "public static void Save(SessionHistory history)",
+      "kind": "method",
+      "name": "Save",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "IsNewSession(DateTime, DateTime, float)",
+      "sig": "public static bool IsNewSession(DateTime lastTimestampUtc, DateTime nowUtc, float gapMinutes)",
+      "kind": "method",
+      "name": "IsNewSession",
+      "static": true,
+      "comment": "Pure — no disk/Editor access — so a self-test can assert the \"was I away long enough to count as a new session\" decision directly."
+    },
+    {
+      "id": "IsDuplicateOfLast(SessionEntry, string, string)",
+      "sig": "public static bool IsDuplicateOfLast(SessionEntry last, string kind, string globalObjectId)",
+      "kind": "method",
+      "name": "IsDuplicateOfLast",
+      "static": true,
+      "comment": "Pure — avoids logging the same object twice in a row (e.g. clicking the same GameObject repeatedly), without suppressing genuinely different consecutive entries."
+    },
+    {
+      "id": "Append(SessionHistory, SessionEntry)",
+      "sig": "public static void Append(SessionHistory history, SessionEntry entry)",
+      "kind": "method",
+      "name": "Append",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

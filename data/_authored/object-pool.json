@@ -1,0 +1,98 @@
+{
+  "id": "object-pool",
+  "summary": "One-prefab MonoBehaviour pool: prewarms instances, hands them out with Get(), takes them back with Release().",
+  "problem": "Instantiate and Destroy are the two most expensive routine calls in a Unity game: Instantiate allocates and deserialises a whole object graph, and Destroy hands the corpse to the GC, which eventually stops the world to collect it. Anything spawned in bursts — bullets, impact effects, damage numbers, enemy waves — turns that into a visible hitch. ObjectPool trades memory for time: it creates N copies up front, deactivates them, and then recycling is just SetActive plus a position write. Attach it to an empty GameObject per prefab type, or build one from code with Initialize().",
+  "params": [
+    {
+      "field": "prefab",
+      "why": "The single prefab this pool spawns and reuses. One pool serves exactly one prefab; a second prefab needs a second ObjectPool component.",
+      "tuning": "It does not need to be a project asset — a deactivated scene object works, which is how FlyToUIEffect pools a UI icon template."
+    },
+    {
+      "field": "prewarmCount",
+      "why": "How many instances are Instantiated during Awake so the first spawns do not hitch. These are created deactivated under poolParent.",
+      "tuning": "Set it to your realistic peak concurrency, not your total spawn count — a pool that serves 500 bullets over a level but never more than 20 at once only needs 20. Too high just costs scene-load time and memory."
+    },
+    {
+      "field": "allowGrowth",
+      "why": "What happens when Get() is called and the stack is empty: true Instantiates another (the pool grows permanently), false returns null.",
+      "tuning": "Leave true unless you deliberately want a hard cap on concurrent objects — a bullet-hell limiter, or an FX budget. With false, every call site must handle null."
+    },
+    {
+      "field": "poolParent",
+      "why": "The Transform inactive instances are stored under, purely to keep the Hierarchy tidy. Defaults to this pool's own transform in Awake when left empty.",
+      "tuning": "Keep whatever you point it at at identity scale: instances are parented to it and never unparented, so a scaled poolParent visually rescales every pooled object."
+    }
+  ],
+  "workedExample": {
+    "setup": "The synchronous half of FlyToUIEffectSelfTest: an ObjectPool added at runtime with AddComponent<ObjectPool>() and then configured with Initialize(prefab, newPrewarmCount: 2, newAllowGrowth: true, newPoolParent: poolGO.transform).",
+    "inputs": [
+      {
+        "name": "prewarmCount",
+        "value": "2"
+      },
+      {
+        "name": "allowGrowth",
+        "value": "true"
+      }
+    ],
+    "steps": [
+      "AddComponent runs Awake immediately, while prefab is still null. The `if (prefab != null)` guard skips Prewarm rather than calling Instantiate(null, ...), and poolParent falls back to the pool's own transform. Nothing has been instantiated yet.",
+      "Initialize() assigns the prefab and calls Prewarm(), which pushes prewarmCount = 2 deactivated instances onto the stack. The self-test asserts poolGO.transform.childCount == 2.",
+      "a = ObjectPool.Get(Vector3.zero, Quaternion.identity) pops the top of the stack (call it I2), positions it and activates it. Stack depth 2 -> 1; total Instantiate calls so far: 2.",
+      "ObjectPool.Release(a) deactivates I2, reparents it to poolParent and pushes it back. Stack depth 1 -> 2, with I2 on top.",
+      "b = ObjectPool.Get(...) pops the top again, which is the very instance just released, so b is reference-equal to a. The self-test asserts a == b: three Get calls have been served by two Instantiate calls.",
+      "c = ObjectPool.Get(...) while b is still live pops the other prewarmed instance I1, so c != b and the stack is now empty. A fourth concurrent Get() would find nothing and, because allowGrowth is true, Instantiate a third object — permanently raising the pool's size to the new high-water mark."
+    ],
+    "result": "Two Instantiate calls serve three Get() calls, and the pool only ever grows when more objects are live simultaneously than have ever been live before. Reuse is exact object identity, not a copy: a == b.",
+    "verifiedBy": "selftest:Assets/UnityTools/Toolkit/UI/FlyToUI/Editor/FlyToUIEffectSelfTest.cs"
+  },
+  "useCases": [
+    "Projectiles — bullets, arrows, grenades — where fire rate makes Instantiate/Destroy churn unavoidable otherwise.",
+    "Impact and muzzle effects, paired with PoolableObject's autoReleaseDelay so they return themselves with no caller bookkeeping.",
+    "Floating combat text and other UI bursts: FloatingCombatTextSpawner and FlyToUIEffect both AddComponent an ObjectPool at runtime and configure it via Initialize().",
+    "Enemy waves in a tower-defence or survival loop, where the same handful of prefabs cycle continuously.",
+    "Any list of UI rows that is rebuilt as the player scrolls or filters."
+  ],
+  "usage": {
+    "code": "[SerializeField] private ObjectPool bulletPool;\n\nGameObject bullet = bulletPool.Get(muzzle.position, muzzle.rotation);\nif (bullet == null) return;      // only possible when allowGrowth is false\n// ...later, instead of Destroy(bullet):\nbulletPool.Release(bullet);",
+    "codeNote": "Release is the counterpart to Get — calling Destroy on a pooled instance instead leaks it out of the pool permanently and the pool will just Instantiate a replacement."
+  },
+  "apiNotes": {
+    "Initialize(GameObject, int, bool, Transform)": "Configures the pool from code, for components that create their own pool at runtime instead of having one wired in the Inspector. It is safe to call after Awake has already run, because Awake skips prewarming when prefab is null. It both assigns all four settings and prewarms in one call — but note its newPrewarmCount default is 0, not the serialized default of 10.",
+    "Get(Vector3, Quaternion)": "Pops an instance (or Instantiates one if the stack is empty and allowGrowth is true), applies the position and rotation with SetPositionAndRotation, activates it, and calls NotifySpawned() on its PoolableObject if it has one. Returns null when the stack is empty and allowGrowth is false. It does not reparent, so the instance stays a child of poolParent while live.",
+    "Get()": "Convenience overload defined as Get(poolParent.position, poolParent.rotation) — it spawns AT the pool's parent, which is right for UI under a canvas rect and almost never right for a world object. It also dereferences poolParent, which is only assigned by Awake or Initialize.",
+    "Release(GameObject)": "Returns an instance: rejects the call outright if the instance has a PoolableObject already flagged IsPooled, then deactivates, reparents to poolParent, calls NotifyDespawned() and pushes it back on the stack. It does not verify the instance came from this pool, and prefabs without a PoolableObject get no double-release protection at all."
+  },
+  "gotchas": [
+    {
+      "title": "Double-release corrupts the pool on prefabs without PoolableObject",
+      "body": "Release's only guard is `if (poolable != null && poolable.IsPooled) return;`. On a plain prefab there is no PoolableObject, so two systems both reacting to the same 'death' and both calling Release push the same GameObject onto the stack twice — and two later Get() calls then hand out the same live object to two owners. The source comment flags this explicitly. Add a PoolableObject to any prefab that more than one system can retire."
+    },
+    {
+      "title": "Prewarm only ever runs once per pool",
+      "body": "A private `prewarmed` flag latches true the first time Awake or Initialize prewarms. Calling Initialize() a second time with a different prefab swaps the prefab field but performs no prewarm, and — worse — the stack still holds instances of the OLD prefab, which Get() will happily hand out until it drains. Treat a pool as single-prefab for its lifetime and add a second ObjectPool for a second prefab."
+    },
+    {
+      "title": "Initialize() silently resets prewarmCount to 0",
+      "body": "Its signature is Initialize(prefab, newPrewarmCount = 0, ...), so calling Initialize(myPrefab) on a pool that was also configured in the Inspector overwrites the serialized prewarmCount (default 10) with 0 and prewarms nothing. Always pass newPrewarmCount explicitly."
+    },
+    {
+      "title": "allowGrowth = false makes Get() return null",
+      "body": "It does not throw, and it does not recycle the oldest live object — it just returns null. Every call site needs a null check; the Core demo runner does `if (instance != null) spawnCount++`. Silent no-spawns are the usual symptom of a too-small pool with growth disabled."
+    },
+    {
+      "title": "Pooled objects stay parented to poolParent, so its scale leaks in",
+      "body": "Instances are created with Instantiate(prefab, poolParent) and Get() never unparents them. Get() writes world position and rotation but never touches scale, so a poolParent with a non-identity scale visually resizes every object the pool hands out, and a rotated poolParent skews it. Keep the pool GameObject at scale 1 and rotation identity, or point poolParent at a dedicated clean empty."
+    },
+    {
+      "title": "A recycled object keeps all its old state",
+      "body": "The entire reset is SetActive(false) then SetActive(true) plus a position write. Rigidbody velocity, health, animator parameters, particle state, material property overrides, trail renderer history and any field you mutated all survive into the next spawn. Put the reset in a PoolableObject.OnSpawned handler, which fires from Get() after the object is activated."
+    }
+  ],
+  "seeAlso": [
+    "PoolableObject",
+    "FlyToUIEffect",
+    "FloatingCombatTextSpawner"
+  ]
+}

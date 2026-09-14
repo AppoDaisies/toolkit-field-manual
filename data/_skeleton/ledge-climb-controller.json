@@ -1,0 +1,219 @@
+{
+  "id": "ledge-climb-controller",
+  "name": "LedgeClimbController",
+  "cat": "Controller",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Controller",
+  "src_file": "Controller/Locomotion/LedgeClimbController.cs",
+  "src_lines": [
+    20,
+    200
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(CharacterController)"
+    ],
+    "addComponentMenu": "Toolkit/Controller/Ledge Climb Controller"
+  },
+  "src_typeComment": "A simplified raycast ledge-climb: detect -> snap to a hang position -> trigger a climb-up. Architected as the SCAFFOLDING for a full Assassin's-Creed-style traversal system, not the finished thing — per spec, the actual climb motion is a plain position lerp (no animation set exists yet), but every moment an animation system would care about (ledge found/lost, grabbed, climb started/progressing/finished) fires as a UnityEvent, so swapping the lerp for a root-motion animation later only means unsubscribing this component's own movement and hooking real clips onto the SAME events instead — nothing about the detection or the public API needs to change.  Pairs with the existing Toolkit/Controller/KinematicCharacterController, which this DISABLES while hanging/climbing so the two don't fight over the CharacterController — but works standalone too (that reference is optional).",
+  "src_serialized": [
+    {
+      "name": "ledgeMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Which colliders count as climbable ledges.",
+      "header": "Detection",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "wallCheckDistance",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "wallCheckHeight",
+      "type": "float",
+      "default": "1.4f",
+      "tooltip": "Height above the character's feet the forward wall-check ray is cast from — roughly chest/hand height.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "ledgeSearchHeight",
+      "type": "float",
+      "default": "1.0f",
+      "tooltip": "How far above the wall-hit point to start searching downward for the ledge's top surface.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "minLedgeHeightAboveFeet",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "A ledge whose top is below this height above the feet is treated as just a step, not something worth climbing.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "maxLedgeHeightAboveFeet",
+      "type": "float",
+      "default": "2.2f",
+      "tooltip": "A ledge whose top is above this height above the feet is out of reach.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "climbDuration",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": null,
+      "header": "Climb",
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "climbCurve",
+      "type": "AnimationCurve",
+      "default": "AnimationCurve.EaseInOut(0f, 0f, 1f, 1f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "standInset",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": "How far past the ledge edge the character ends up standing after climbing, so they land clearly ON the platform rather than teetering right at its lip.",
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLedgeDetected = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLedgeLost = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnGrabLedge = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnClimbStart = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnClimbProgress = new UnityEvent<float>(); // 0..1, e.g. to drive a climb animation's normalized time",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnClimbComplete = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsHanging",
+      "sig": "public bool IsHanging { get; private set; }",
+      "kind": "property",
+      "name": "IsHanging",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsClimbing",
+      "sig": "public bool IsClimbing { get; private set; }",
+      "kind": "property",
+      "name": "IsClimbing",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LedgeDetected",
+      "sig": "public bool LedgeDetected => ledgeCurrentlyDetected",
+      "kind": "property",
+      "name": "LedgeDetected",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TryDetectLedge()",
+      "sig": "public bool TryDetectLedge()",
+      "kind": "method",
+      "name": "TryDetectLedge",
+      "static": false,
+      "comment": "Public (not just driven from Update()) so a self-test — or a character that wants detection only on demand rather than every frame — can call it directly."
+    },
+    {
+      "id": "Grab()",
+      "sig": "public void Grab()",
+      "kind": "method",
+      "name": "Grab",
+      "static": false,
+      "comment": "Snaps directly to the hang position found by the last successful TryDetectLedge(). Call this from whatever input action should trigger a grab (e.g. Jump while a ledge is detected and airborne)."
+    },
+    {
+      "id": "ClimbUp()",
+      "sig": "public void ClimbUp()",
+      "kind": "method",
+      "name": "ClimbUp",
+      "static": false,
+      "comment": "Starts the climb-up. Call from whatever input action should trigger it while hanging (e.g. Jump again, or a dedicated Climb action)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Controller/Locomotion/Editor/LedgeClimbControllerSelfTest.cs",
+  "src_demoScene": [
+    "LedgeClimb_Demo"
+  ]
+}

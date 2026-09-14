@@ -1,0 +1,51 @@
+{
+  "id": "aspect-ratio-image-fitter",
+  "name": "AspectRatioImageFitter",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/ContentFitters/AspectRatioImageFitter.cs",
+  "src_lines": [
+    15,
+    56
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RawImage)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Aspect Ratio Image Fitter"
+  },
+  "src_typeComment": "CSS object-fit for a RawImage: Contain sizes the image to fit entirely within its parent (letterboxed, never cropped); Cover sizes it to fill the parent entirely (cropped, never letterboxed — pair with a Mask/RectMask2D on the parent to actually clip the overflow). Reads the ASSIGNED texture's own aspect ratio automatically — unlike Unity's built-in AspectRatioFitter, which needs that ratio set by hand and has no Cover mode at all.",
+  "src_serialized": [
+    {
+      "name": "mode",
+      "type": "ImageFitMode",
+      "default": "ImageFitMode.Contain",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Refresh()",
+      "sig": "public void Refresh()",
+      "kind": "method",
+      "name": "Refresh",
+      "static": false,
+      "comment": "Call this after changing rawImage.texture at runtime, or after the parent container is resized — neither triggers this automatically, since there's no Unity layout-system hook for \"a Texture reference changed.\""
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

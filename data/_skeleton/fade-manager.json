@@ -1,0 +1,74 @@
+{
+  "id": "fade-manager",
+  "name": "FadeManager",
+  "cat": "Tweening",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Tweening",
+  "src_file": "Tweening/Fade/FadeManager.cs",
+  "src_lines": [
+    15,
+    103
+  ],
+  "src_base": "Singleton<FadeManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tweening/Fade Manager"
+  },
+  "src_typeComment": "Screen/scene fade, built on the Tween engine. Genuinely zero-setup: if no overlayImage is assigned, it creates its own full-screen Canvas+Image on first use (Screen Space Overlay, high sorting order so it draws over everything) — just call FadeManager.Instance.FadeOut(...) from anywhere, no scene wiring required. Assign your own overlayImage instead if you need a specific Canvas setup (e.g. a particular sort order relative to other overlay canvases).",
+  "src_serialized": [
+    {
+      "name": "overlayImage",
+      "type": "Image",
+      "default": null,
+      "tooltip": "The full-screen Image used for fading. Auto-created at runtime if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "fadeColor",
+      "type": "Color",
+      "default": "Color.black",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "FadeOut(float, Action)",
+      "sig": "public TweenHandle FadeOut(float duration, Action onComplete = null)",
+      "kind": "method",
+      "name": "FadeOut",
+      "static": false,
+      "comment": "Fades TO fully opaque (screen covered). Also blocks raycasts through the overlay for the duration."
+    },
+    {
+      "id": "FadeIn(float, Action)",
+      "sig": "public TweenHandle FadeIn(float duration, Action onComplete = null)",
+      "kind": "method",
+      "name": "FadeIn",
+      "static": false,
+      "comment": "Fades TO fully transparent (screen revealed)."
+    },
+    {
+      "id": "FadeOutThenIn(float, float, Action, Action)",
+      "sig": "public void FadeOutThenIn(float outDuration, float inDuration, Action midpointAction, Action onComplete = null)",
+      "kind": "method",
+      "name": "FadeOutThenIn",
+      "static": false,
+      "comment": "Convenience for the classic \"fade out, do something (load a scene, reset state), fade back in\" flow."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Tweening_Demo"
+  ]
+}

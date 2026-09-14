@@ -1,0 +1,80 @@
+{
+  "id": "async-scene-loader",
+  "name": "AsyncSceneLoader",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/SceneLoader/AsyncSceneLoader.cs",
+  "src_lines": [
+    13,
+    56
+  ],
+  "src_base": "Singleton<AsyncSceneLoader>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Async Scene Loader"
+  },
+  "src_typeComment": "Singleton async scene loader: call AsyncSceneLoader.Instance.LoadScene(\"Level2\") and wire OnProgress to a loading-bar Image.fillAmount. Enforces a minimum display time so a loading screen that would finish in one frame doesn't just flash — genuinely fast loads still show for at least that long.",
+  "src_serialized": [
+    {
+      "name": "minimumDisplayTime",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "The loading screen stays up at least this long, even if the scene loads faster.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLoadStarted = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnProgress = new UnityEvent<float>(); // 0..1",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLoadCompleted = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsLoading",
+      "sig": "public bool IsLoading { get; private set; }",
+      "kind": "property",
+      "name": "IsLoading",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LoadScene(string)",
+      "sig": "public void LoadScene(string sceneName)",
+      "kind": "method",
+      "name": "LoadScene",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIPolish_Demo"
+  ]
+}

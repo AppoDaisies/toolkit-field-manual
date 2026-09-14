@@ -1,0 +1,85 @@
+{
+  "id": "game-object-runtime-set",
+  "name": "GameObjectRuntimeSet",
+  "cat": "ScriptableObjects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ScriptableObjects",
+  "src_file": "ScriptableObjects/RuntimeSets/GameObjectRuntimeSet.cs",
+  "src_lines": [
+    15,
+    38
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Runtime Sets/GameObject Runtime Set\""
+  },
+  "src_typeComment": "SO that tracks a live list of active instances (e.g. \"all active enemies\") — objects register/ unregister themselves (via RuntimeSetRegistrar) in OnEnable/OnDisable, so anything holding a reference to this asset always sees the current set without a manual FindObjectsOfType scan.  With default Editor settings (domain reload enabled) this resets to empty each time you exit Play mode. If your project has disabled domain reload in Enter Play Mode Options, call Clear() from a scene bootstrap script instead, since the list would otherwise persist stale entries between sessions.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Items",
+      "sig": "public IReadOnlyList<GameObject> Items => items",
+      "kind": "property",
+      "name": "Items",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Count",
+      "sig": "public int Count => items.Count",
+      "kind": "property",
+      "name": "Count",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnItemAdded",
+      "sig": "public UnityAction<GameObject> OnItemAdded",
+      "kind": "field",
+      "name": "OnItemAdded",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnItemRemoved",
+      "sig": "public UnityAction<GameObject> OnItemRemoved",
+      "kind": "field",
+      "name": "OnItemRemoved",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Add(GameObject)",
+      "sig": "public void Add(GameObject item)",
+      "kind": "method",
+      "name": "Add",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Remove(GameObject)",
+      "sig": "public void Remove(GameObject item)",
+      "kind": "method",
+      "name": "Remove",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Clear()",
+      "sig": "public void Clear() => items.Clear()",
+      "kind": "method",
+      "name": "Clear",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ScriptableObjectToolkit_Demo"
+  ]
+}

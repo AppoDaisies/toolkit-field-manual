@@ -1,0 +1,57 @@
+{
+  "id": "input-device-monitor",
+  "name": "InputDeviceMonitor",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/InputGlyph/InputDeviceMonitor.cs",
+  "src_lines": [
+    20,
+    46
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Tracks which KIND of input device the player most recently used — not a specific device, just \"keyboard & mouse\" vs \"gamepad\". This is what InputGlyphSwapper uses to decide which icon to show for a prompt like \"Press [E] to interact\" vs \"Press [Y] to interact\" — the swap happens automatically the instant the player's actual input changes, without you having to track it yourself anywhere.  A single shared static tracker rather than something each InputGlyphSwapper polls independently — a screen with a dozen prompt icons on it should still only be checking raw Input APIs once per frame, not once per icon.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "CurrentDevice",
+      "sig": "public static InputDeviceKind CurrentDevice { get; private set; } = InputDeviceKind.KeyboardMouse",
+      "kind": "property",
+      "name": "CurrentDevice",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "OnDeviceChanged",
+      "sig": "public static event Action<InputDeviceKind> OnDeviceChanged",
+      "kind": "event",
+      "name": "OnDeviceChanged",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "EnsureRunning()",
+      "sig": "public static void EnsureRunning()",
+      "kind": "method",
+      "name": "EnsureRunning",
+      "static": true,
+      "comment": "Called automatically by InputGlyphSwapper — you don't need to call this yourself unless you want the monitor running before any glyph icon exists (e.g. to read InputDeviceMonitor.CurrentDevice early)."
+    },
+    {
+      "id": "ReportActivity(InputDeviceKind)",
+      "sig": "public static void ReportActivity(InputDeviceKind device)",
+      "kind": "method",
+      "name": "ReportActivity",
+      "static": true,
+      "comment": "Public rather than internal so both InputDeviceMonitorRunner AND a self-test (which lives in a separate Editor assembly) can call it directly — also handy if you ever want to force the current device from your own code (e.g. defaulting to Gamepad on console platforms)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

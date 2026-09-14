@@ -1,0 +1,57 @@
+{
+  "id": "raycast-utils",
+  "name": "RaycastUtils",
+  "cat": "Raycasting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Raycasting",
+  "src_file": "Raycasting/RaycastUtils/RaycastUtils.cs",
+  "src_lines": [
+    9,
+    57
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Shared raycast helpers — the exact \"screen position -> world point\" logic that was otherwise being hand-copied inline in several places across this toolkit (GridPlacer, TDTowerPlacer, and a couple of demo runners each wrote their own version). Pull new mouse/screen-picking code through here instead of re-deriving it again.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ScreenPointToWorld(Camera, Vector2, LayerMask, out RaycastHit, float)",
+      "sig": "public static bool ScreenPointToWorld(Camera camera, Vector2 screenPoint, LayerMask layerMask, out RaycastHit hit, float maxDistance = 1000f)",
+      "kind": "method",
+      "name": "ScreenPointToWorld",
+      "static": true,
+      "comment": "The core operation: a screen-space point (usually Input.mousePosition) -> a real 3D hit against colliders on layerMask. Returns false (and a default hit) if nothing was hit or camera is null, rather than throwing — callers can just check the bool the same way Physics.Raycast itself works."
+    },
+    {
+      "id": "MouseToWorld(Camera, LayerMask, out RaycastHit, float)",
+      "sig": "public static bool MouseToWorld(Camera camera, LayerMask layerMask, out RaycastHit hit, float maxDistance = 1000f)",
+      "kind": "method",
+      "name": "MouseToWorld",
+      "static": true,
+      "comment": "Shortcut for the single most common case: raycasting from the CURRENT mouse position."
+    },
+    {
+      "id": "TryGetWorldPoint(Camera, Vector2, LayerMask, out Vector3, float)",
+      "sig": "public static bool TryGetWorldPoint(Camera camera, Vector2 screenPoint, LayerMask layerMask, out Vector3 point, float maxDistance = 1000f)",
+      "kind": "method",
+      "name": "TryGetWorldPoint",
+      "static": true,
+      "comment": "Just the hit point, for callers that don't need the full RaycastHit (normal, collider, etc.)."
+    },
+    {
+      "id": "ScreenPointToPlane(Camera, Vector2, Plane, out Vector3)",
+      "sig": "public static bool ScreenPointToPlane(Camera camera, Vector2 screenPoint, Plane plane, out Vector3 point)",
+      "kind": "method",
+      "name": "ScreenPointToPlane",
+      "static": true,
+      "comment": "A collider-free alternative — casts against a mathematical Plane instead of real geometry. Useful when there's no ground collider yet (prototyping) or the \"ground\" is meant to be an invisible fixed plane rather than real geometry — the same fallback technique Toolkit.EditorUtilities. MeasuringTapeWindow already uses for its own 2D mode."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Raycasting/RaycastUtils/Editor/RaycastUtilsSelfTest.cs",
+  "src_demoScene": []
+}

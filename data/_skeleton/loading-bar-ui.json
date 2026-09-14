@@ -1,0 +1,92 @@
+{
+  "id": "loading-bar-ui",
+  "name": "LoadingBarUI",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/LoadingBar/LoadingBarUI.cs",
+  "src_lines": [
+    36,
+    128
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Loading Bar"
+  },
+  "src_typeComment": "Plug-and-play loading bar. HOW REAL LOADING PROGRESS ACTUALLY WORKS (read this before wiring anything — there is no single \"loading progress\" number Unity computes for you, only two real sources, and this component can be driven by either):  1) Unity's own AsyncOperation.progress — returned by SceneManager.LoadSceneAsync, AssetBundle. LoadFromFileAsync, Resources.UnloadUnusedAssets, Addressables, etc. The operation itself reports how far along it is; you just poll operation.progress every frame. Call Bind(operation) and this component does that polling for you automatically. GOTCHA specific to scene loads: SceneManager.LoadSceneAsync's progress caps at 0.9 and sits there until you explicitly set operation.allowSceneActivation = true — Unity deliberately holds back the last 10% so the new scene doesn't activate the instant loading finishes (giving you a chance to show \"Press any key\" or wait for a minimum display time first, the same thing Toolkit.UI. AsyncSceneLoader does). Use BindSceneLoad(operation) instead of Bind() for a scene-load operation — it remaps 0..0.9 -> 0..1 automatically so the bar still reaches a clean 100%.  2) A manually computed fraction — for anything that ISN'T a Unity AsyncOperation at all (a custom boot sequence, a multi-step save file, a fake splash-screen delay). YOU compute completedSteps / totalSteps (or bytesDownloaded / totalBytes, etc.) yourself and call SetProgress(that value) whenever it changes. SimulateProgress() below is a ready-made example of exactly this pattern with nothing real behind it — handy for building/testing a loading screen before the real work it represents exists yet.  Either way, the DISPLAYED bar doesn't snap straight to a new value — it smoothly chases it (smoothSpeed) instead. Real progress sources often jump in large, uneven steps (one asset bundle finishing, one big step out of ten completing), and a bar that visibly teleports looks broken even though the underlying number was completely accurate — smoothing is purely cosmetic, layered on top of the real progress.",
+  "src_serialized": [
+    {
+      "name": "slider",
+      "type": "Slider",
+      "default": null,
+      "tooltip": "Auto-found on this GameObject or its children if left empty. Expects the default 0..1 min/max range.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "percentText",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": "Optional — shows the percentage as text, e.g. \\\"45%\\\". Leave empty if not needed.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "smoothSpeed",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "How fast the visible bar chases the real target progress, in fraction-per-second. Higher = snappier/closer to the raw value, lower = smoother but laggier.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Bind(AsyncOperation)",
+      "sig": "public void Bind(AsyncOperation operation) => BindInternal(operation, remap: false)",
+      "kind": "method",
+      "name": "Bind",
+      "static": false,
+      "comment": "Drives this bar from a real Unity AsyncOperation that does NOT have the scene-load 0.9 cap (an AssetBundle load, Resources.UnloadUnusedAssets, etc.) — polled automatically every frame from here on, no manual SetProgress calls needed."
+    },
+    {
+      "id": "BindSceneLoad(AsyncOperation)",
+      "sig": "public void BindSceneLoad(AsyncOperation sceneLoadOperation) => BindInternal(sceneLoadOperation, remap: true)",
+      "kind": "method",
+      "name": "BindSceneLoad",
+      "static": false,
+      "comment": "Same as Bind(), but for the specific case of SceneManager.LoadSceneAsync — remaps its 0..0.9 ceiling onto a clean 0..1 so the bar actually reaches 100% instead of visibly stalling at 90%. See the class header for why that cap exists."
+    },
+    {
+      "id": "SetProgress(float)",
+      "sig": "public void SetProgress(float progress01)",
+      "kind": "method",
+      "name": "SetProgress",
+      "static": false,
+      "comment": "For anything that ISN'T backed by a real AsyncOperation — call this yourself with completedSteps / totalSteps (or any other real 0..1 fraction) each time it changes."
+    },
+    {
+      "id": "SimulateProgress(float, Action)",
+      "sig": "public void SimulateProgress(float duration, Action onComplete = null)",
+      "kind": "method",
+      "name": "SimulateProgress",
+      "static": false,
+      "comment": "A fake, time-based progress fill with NO real work behind it — useful for prototyping a loading screen's look before the thing it represents exists yet. Swap this for Bind()/BindSceneLoad() or your own SetProgress() calls once there's something real to track — this is a placeholder, not a technique to ship with."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/LoadingBar/Editor/LoadingBarUISelfTest.cs",
+  "src_demoScene": [
+    "UIPolish_Demo"
+  ]
+}

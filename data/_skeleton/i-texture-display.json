@@ -1,0 +1,33 @@
+{
+  "id": "i-texture-display",
+  "name": "ITextureDisplay",
+  "cat": "PageCurl",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/Core/ITextureDisplay.cs",
+  "src_lines": [
+    8,
+    11
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implemented by whatever shows a book's flat, non-curling \"backing\" pages (the static left/right spread underneath the one page currently mid-turn) — RawImageTextureDisplay for UI, MeshRendererTextureDisplay for 3D. Deliberately just a texture setter: these never animate, they only ever show a flat page.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SetTexture(Texture)",
+      "sig": "void SetTexture(Texture texture)",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,57 @@
+{
+  "id": "clipping-candidate-finder",
+  "name": "ClippingCandidateFinder",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/ClippingCandidateFinder.cs",
+  "src_lines": [
+    23,
+    97
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "The detection half of the Level Transform Guidance, and deliberately the DUMB half: a cheap, over-inclusive proximity test rather than exact penetration math. Its only job is deciding which objects get the highlight — the shader then shows the actual truth and a person judges intent, which is the one thing no amount of geometry math can determine.  That trade is what makes this work on mixed greybox + final-art levels at all: Physics.ComputePenetration (the exact option) doesn't support non-convex MeshColliders, which is exactly what stairs/architecture usually are. An over-inclusive bounds test works against ANY collider type, and a false positive costs nothing — the object gets highlighted, shows no red, and you move on.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "PassesSubjectFilter(GameObject, LayerMask, bool)",
+      "sig": "public static bool PassesSubjectFilter(GameObject go, LayerMask subjectMask, bool ignoreSubjectMask)",
+      "kind": "method",
+      "name": "PassesSubjectFilter",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "TryFindOverlap(GameObject, Bounds, LayerMask, float, out GameObject, out int)",
+      "sig": "public static bool TryFindOverlap(GameObject subject, Bounds worldBounds, LayerMask targetMask, float overlapTolerance, out GameObject firstTarget, out int targetCount)",
+      "kind": "method",
+      "name": "TryFindOverlap",
+      "static": true,
+      "comment": "overlapTolerance SHRINKS the tested bounds before querying, which is what keeps normal resting contact out of the results: a crate sitting correctly on a floor touches it exactly, so a shrunk box no longer reaches it, while a crate genuinely sunk deeper than the tolerance still overlaps. That one knob is the difference between a useful list and a list containing every prop in the level."
+    },
+    {
+      "id": "GetWorldBounds(GameObject, bool)",
+      "sig": "public static Bounds? GetWorldBounds(GameObject go, bool useColliderBounds)",
+      "kind": "method",
+      "name": "GetWorldBounds",
+      "static": true,
+      "comment": "Collider bounds for Collider mode (traversal/metrics — what actually blocks the player), renderer bounds for Mesh mode (visual quality — what you actually see). These genuinely differ, which is the whole reason the tool has two modes."
+    },
+    {
+      "id": "FindCandidates(IEnumerable<GameObject>, LayerMask, LayerMask, bool, float, bool)",
+      "sig": "public static List<ClippingCandidate> FindCandidates(IEnumerable<GameObject> subjects, LayerMask subjectMask, LayerMask targetMask, bool ignoreSubjectMask, float overlapTolerance, bool useColliderBounds)",
+      "kind": "method",
+      "name": "FindCandidates",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

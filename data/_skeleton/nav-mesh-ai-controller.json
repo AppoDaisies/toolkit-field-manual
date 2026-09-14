@@ -1,0 +1,127 @@
+{
+  "id": "nav-mesh-ai-controller",
+  "name": "NavMeshAIController",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Pathfinding/NavMesh/NavMeshAIController.cs",
+  "src_lines": [
+    15,
+    103
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(NavMeshAgent)"
+    ],
+    "addComponentMenu": "Toolkit/AI/NavMesh AI Controller"
+  },
+  "src_typeComment": "Plug-and-play wrapper around Unity's built-in NavMeshAgent — patrol/chase/flee pre-wired, so dropping this on an agent that already has a NavMeshAgent gives it real 3D navmesh movement without hand-writing any of the three behaviors. Requires an actual BAKED NavMesh in the scene (Window > AI > Navigation, or UnityEditor.AI.NavMeshBuilder.BuildNavMesh() from an editor script) — this component only consumes one, it doesn't create it.",
+  "src_serialized": [
+    {
+      "name": "state",
+      "type": "NavMeshAIState",
+      "default": "NavMeshAIState.Patrol",
+      "tooltip": "Which of the four pre-wired behaviors is currently active.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "patrolPoints",
+      "type": "Transform[]",
+      "default": null,
+      "tooltip": "Points visited in order, looping back to the first after the last.",
+      "header": "Patrol",
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "patrolSpeed",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "Movement speed while patrolling.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "patrolWaitTime",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "Seconds to wait at each patrol point before moving to the next.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "target",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "The Transform to chase (State = Chase) or run away from (State = Flee).",
+      "header": "Chase / Flee",
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "chaseSpeed",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Movement speed while chasing or fleeing.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "fleeDistance",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "How far away (in a straight line) to try to flee to.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "State",
+      "sig": "public NavMeshAIState State => state",
+      "kind": "property",
+      "name": "State",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetState(NavMeshAIState)",
+      "sig": "public void SetState(NavMeshAIState newState) => state = newState",
+      "kind": "method",
+      "name": "SetState",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTarget(Transform)",
+      "sig": "public void SetTarget(Transform newTarget) => target = newTarget",
+      "kind": "method",
+      "name": "SetTarget",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Pathfinding_Demo"
+  ]
+}

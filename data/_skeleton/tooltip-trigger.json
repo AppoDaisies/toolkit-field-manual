@@ -1,0 +1,59 @@
+{
+  "id": "tooltip-trigger",
+  "name": "TooltipTrigger",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Tooltip/TooltipTrigger.cs",
+  "src_lines": [
+    8,
+    16
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IPointerEnterHandler",
+    "IPointerExitHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tooltip Trigger"
+  },
+  "src_typeComment": "Drop on any UI element (button, icon, panel) and set the text — hover shows the tooltip via TooltipSystem automatically.",
+  "src_serialized": [
+    {
+      "name": "tooltipText",
+      "type": "string",
+      "default": null,
+      "tooltip": "Text shown in the tooltip when this element is hovered.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnPointerEnter(PointerEventData)",
+      "sig": "public void OnPointerEnter(PointerEventData eventData) => TooltipSystem.Instance.Show(tooltipText)",
+      "kind": "method",
+      "name": "OnPointerEnter",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnPointerExit(PointerEventData)",
+      "sig": "public void OnPointerExit(PointerEventData eventData) => TooltipSystem.Instance.Hide()",
+      "kind": "method",
+      "name": "OnPointerExit",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

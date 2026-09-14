@@ -1,0 +1,49 @@
+{
+  "id": "qr-data-encoder",
+  "name": "QrDataEncoder",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk.QrCode",
+  "src_file": "Kiosk/QrCode/QrDataEncoder.cs",
+  "src_lines": [
+    13,
+    93
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Text -> data-bit-stream encoding (ISO/IEC 18004 section 7.3-7.4). Auto-selects Alphanumeric mode (more compact — 45-character set: 0-9, A-Z, space, $%*+-./:) when the whole string fits it, otherwise falls back to Byte mode (raw UTF-8) for arbitrary text. Only versions 1-9's character-count-indicator bit widths are implemented (9 bits alphanumeric / 8 bits byte) since this generator only supports versions 1-4. Public (not internal) specifically so the Editor-folder self-test — a different default assembly in this no-asmdef project — can call it directly and verify it against a real published reference.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "IsAlphanumericCompatible(string)",
+      "sig": "public static bool IsAlphanumericCompatible(string text)",
+      "kind": "method",
+      "name": "IsAlphanumericCompatible",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "EncodeDataBits(string, int)",
+      "sig": "public static List<bool> EncodeDataBits(string text, int dataCodewordCapacity)",
+      "kind": "method",
+      "name": "EncodeDataBits",
+      "static": true,
+      "comment": "dataCodewordCapacity is the target version/EC-level's total DATA codeword count (across all blocks combined) — the returned bit list is always padded out to exactly that many codewords. Throws if the text's encoded bit length exceeds that capacity (caller should pick a bigger version and retry)."
+    },
+    {
+      "id": "BitsToBytes(List<bool>)",
+      "sig": "public static byte[] BitsToBytes(List<bool> bits)",
+      "kind": "method",
+      "name": "BitsToBytes",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

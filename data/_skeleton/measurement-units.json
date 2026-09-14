@@ -1,0 +1,57 @@
+{
+  "id": "measurement-units",
+  "name": "MeasurementUnits",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/MeasurementUnits.cs",
+  "src_lines": [
+    12,
+    48
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Shared unit conversion for the Level Transform Guidance hub — used by the Measuring Tape tab (to label distances) AND the Heatmap tab (to let you express cell size in a unit you actually think in, so the grid doubles as a measurable guideline). Exactly the kind of small shared plumbing the hub exists to make possible rather than each tool re-deriving it.  Unity world units are conventionally treated as METERS throughout the engine (physics especially), so \"meters\" is the base both directions convert through.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "FromMeters(float, MeasurementUnit)",
+      "sig": "public static float FromMeters(float meters, MeasurementUnit unit)",
+      "kind": "method",
+      "name": "FromMeters",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ToMeters(float, MeasurementUnit)",
+      "sig": "public static float ToMeters(float value, MeasurementUnit unit)",
+      "kind": "method",
+      "name": "ToMeters",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Suffix(MeasurementUnit)",
+      "sig": "public static string Suffix(MeasurementUnit unit)",
+      "kind": "method",
+      "name": "Suffix",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Format(float, MeasurementUnit)",
+      "sig": "public static string Format(float meters, MeasurementUnit unit) => $\"{FromMeters(meters, unit):F2} {Suffix(unit)}\"",
+      "kind": "method",
+      "name": "Format",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

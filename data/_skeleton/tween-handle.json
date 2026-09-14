@@ -1,0 +1,65 @@
+{
+  "id": "tween-handle",
+  "name": "TweenHandle",
+  "cat": "Tweening",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Tweening",
+  "src_file": "Tweening/Core/TweenHandle.cs",
+  "src_lines": [
+    13,
+    86
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One running tween's state — a plain C# class (not a MonoBehaviour), driven centrally by TweenRunner rather than needing a GameObject/Update per tween. Reuses Toolkit.MathUtilities.EasingFunctions for the actual curve math instead of duplicating it. Returned by every Tween.* factory method so callers can Kill()/Pause() a specific tween later (e.g. cancel a fade if a new one starts before the old one finishes).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Duration",
+      "sig": "public float Duration { get; }",
+      "kind": "property",
+      "name": "Duration",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsComplete",
+      "sig": "public bool IsComplete { get; private set; }",
+      "kind": "property",
+      "name": "IsComplete",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsPaused",
+      "sig": "public bool IsPaused { get; set; }",
+      "kind": "property",
+      "name": "IsPaused",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public bool Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Returns true once this tween is fully done and should be removed from the runner. Public (not internal) specifically so a self-test can drive a tween with exact, known time increments instead of needing Play mode — same reasoning as this toolkit's other public Tick()-style test hooks."
+    },
+    {
+      "id": "Kill(bool)",
+      "sig": "public void Kill(bool callOnComplete = false)",
+      "kind": "method",
+      "name": "Kill",
+      "static": false,
+      "comment": "Stops the tween immediately. callOnComplete lets a caller distinguish \"cancelled early\" (default, no callback) from \"treat this as finished\" (e.g. snapping a UI fade straight to its end state)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

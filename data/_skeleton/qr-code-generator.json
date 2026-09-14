@@ -1,0 +1,43 @@
+{
+  "id": "qr-code-generator",
+  "name": "QrCodeGenerator",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk.QrCode",
+  "src_file": "Kiosk/QrCode/QrCodeGenerator.cs",
+  "src_lines": [
+    19,
+    120
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Dependency-free QR code encoder (ISO/IEC 18004), producing a Texture2D — no external library, no camera/ scanner integration needed, for \"scan to continue on your phone\" kiosk flows. Scope: versions 1-4, Error Correction Level M only (see QrVersionInfo's own comment for why), Alphanumeric or Byte mode auto-selected.  HONEST VERIFICATION CAVEAT (read this before trusting a generated code in production): this session has no way to render or camera-scan a QR code to confirm it decodes on a real phone. What IS verified by the self-test: the Reed-Solomon EC math against known GF(256) properties, the data bit-stream construction against the ISO 18004 Annex I published worked example (\"HELLO WORLD\", Version 1-M), and the format-info BCH computation's self-consistency. What is NOT independently verified: the exact module-placement coordinates (finder/timing/alignment/format-info exact positions) match the spec bit-for-bit — those were written from best-effort recall of the standard algorithm, not copied from a checked reference. Scan-test the first code this generates with a real phone before relying on it for anything user-facing.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "GenerateMatrix(string)",
+      "sig": "public static bool[,] GenerateMatrix(string text)",
+      "kind": "method",
+      "name": "GenerateMatrix",
+      "static": true,
+      "comment": "Returns the raw module matrix (true = dark) — use this if you want to render it yourself (e.g. a custom mesh instead of a Texture2D)."
+    },
+    {
+      "id": "GenerateTexture(string, int, int)",
+      "sig": "public static Texture2D GenerateTexture(string text, int pixelsPerModule = 8, int quietZoneModules = 4)",
+      "kind": "method",
+      "name": "GenerateTexture",
+      "static": true,
+      "comment": "Renders the matrix to a Texture2D — quiet zone (a mandatory blank border, ISO/IEC 18004 section 6.3.8) included, since a scanner may fail to lock onto a code with no margin. `pixelsPerModule` controls output resolution; `quietZoneModules` defaults to the spec's minimum of 4."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

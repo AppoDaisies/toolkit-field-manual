@@ -1,0 +1,52 @@
+{
+  "id": "i-state",
+  "name": "IState",
+  "cat": "Core",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/StateMachine/IState.cs",
+  "src_lines": [
+    4,
+    9
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implement one of these per state (Idle, Chase, Attack, etc.) and hand instances to a StateMachine.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Enter()",
+      "sig": "void Enter()",
+      "kind": "method",
+      "name": "Enter",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick()",
+      "sig": "void Tick()",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Exit()",
+      "sig": "void Exit()",
+      "kind": "method",
+      "name": "Exit",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo",
+    "VisualStateMachine_Demo"
+  ]
+}

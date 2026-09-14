@@ -1,0 +1,65 @@
+{
+  "id": "settings-data",
+  "name": "SettingsData",
+  "cat": "Settings",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Settings",
+  "src_file": "Settings/SettingsManager.cs",
+  "src_lines": [
+    11,
+    18
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "masterVolume",
+      "sig": "public float masterVolume = 1f",
+      "kind": "field",
+      "name": "masterVolume",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "musicVolume",
+      "sig": "public float musicVolume = 1f",
+      "kind": "field",
+      "name": "musicVolume",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "sfxVolume",
+      "sig": "public float sfxVolume = 1f",
+      "kind": "field",
+      "name": "sfxVolume",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetQualityLevel()",
+      "sig": "public int qualityLevel = -1; // -1 = \"unset\", filled in from QualitySettings.GetQualityLevel() on first use",
+      "kind": "method",
+      "name": "GetQualityLevel",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "fullscreen",
+      "sig": "public bool fullscreen = true",
+      "kind": "field",
+      "name": "fullscreen",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

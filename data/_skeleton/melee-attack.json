@@ -1,0 +1,84 @@
+{
+  "id": "melee-attack",
+  "name": "MeleeAttack",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/MeleeAttack.cs",
+  "src_lines": [
+    9,
+    51
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Combat/Melee Attack"
+  },
+  "src_typeComment": "Ties a Hitbox to an \"active frames\" window and a cooldown — Swing() activates the hitbox for activeDuration seconds, then deactivates it. Timer-driven (not a Coroutine) specifically so a self-test can drive it with exact time increments without needing Play mode — same reasoning as TweenHandle.Tick.",
+  "src_serialized": [
+    {
+      "name": "hitbox",
+      "type": "Hitbox",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "activeDuration",
+      "type": "float",
+      "default": "0.2f",
+      "tooltip": "How long the hitbox stays active per swing — the weapon's active-frame window.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "cooldown",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Minimum time between swings.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CanSwing",
+      "sig": "public bool CanSwing => cooldownTimer <= 0f",
+      "kind": "property",
+      "name": "CanSwing",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Swing()",
+      "sig": "public bool Swing()",
+      "kind": "method",
+      "name": "Swing",
+      "static": false,
+      "comment": "Returns false (and does nothing) if still on cooldown or no Hitbox is assigned — always check the return value rather than assuming the swing happened."
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "HitboxCombat_Demo"
+  ]
+}

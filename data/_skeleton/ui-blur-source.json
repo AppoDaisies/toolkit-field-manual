@@ -1,0 +1,81 @@
+{
+  "id": "ui-blur-source",
+  "name": "UIBlurSource",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/GlassBlur/UIBlurSource.cs",
+  "src_lines": [
+    19,
+    152
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Camera)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/UI Blur Source"
+  },
+  "src_typeComment": "Drop on the MAIN CAMERA (whatever camera renders the 3D/2D scene the UI sits over) to capture and blur its view into ONE shared, deliberately LOW-RESOLUTION RenderTexture, published via Shader.SetGlobalTexture — every Toolkit/UI/Glass Blur material samples the exact same texture automatically, no per-element wiring needed. This is the whole point versus GrabPass: one controlled, low-res copy shared by every glass element per frame, not a fresh full-resolution screen copy per object (see the GrabPass explanation this tool was built after).  Captured via a SEPARATE camera on OnPostRender, not the actual player camera's own output — this keeps the capture from ever including the UI Canvas itself (Screen Space Overlay UI renders after and outside normal camera rendering entirely, so it's naturally excluded; a Screen Space Camera canvas assigned to THIS SAME camera would need its own render layer excluded from `reflectionMask`-style filtering, which isn't set up here since the toolkit's own demo — and the common case — uses Overlay).",
+  "src_serialized": [
+    {
+      "name": "resolutionScale",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": "Capture resolution as a fraction of the screen. Quarter (0.25) is the deliberate default — blur wants low resolution anyway, and this is the actual cost lever.",
+      "header": null,
+      "range": "0.05f, 1f",
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "blurPasses",
+      "type": "int",
+      "default": "3",
+      "tooltip": "Box-blur passes to apply. Repeated box blur cheaply approximates a Gaussian blur — more passes = smoother/blurrier, more cost.",
+      "header": null,
+      "range": "1, 8",
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "blurSpread",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "Blur sample spread, in texels of the LOW-RES capture. Larger spreads the blur wider per pass.",
+      "header": null,
+      "range": "0.5f, 4f",
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "captureEveryNFrames",
+      "type": "int",
+      "default": "1",
+      "tooltip": "Re-captures every N frames instead of every frame — the background behind glass rarely needs to be perfectly current.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ForceCapture()",
+      "sig": "public void ForceCapture()",
+      "kind": "method",
+      "name": "ForceCapture",
+      "static": false,
+      "comment": "Public so it can be triggered outside the normal per-frame OnPostRender schedule — a self-test driving it directly (OnPostRender never fires outside an actual camera render pass, which batch mode doesn't perform), or a game explicitly wanting one fresh capture right before opening a menu."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/UI/GlassBlur/Editor/UIBlurSourceSelfTest.cs",
+  "src_demoScene": [
+    "GlassBlur_Demo"
+  ]
+}

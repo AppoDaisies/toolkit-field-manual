@@ -1,0 +1,102 @@
+{
+  "id": "click-to-select",
+  "name": "ClickToSelect",
+  "cat": "Raycasting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Raycasting",
+  "src_file": "Raycasting/ClickToSelect/ClickToSelect.cs",
+  "src_lines": [
+    10,
+    46
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Raycasting/Click To Select"
+  },
+  "src_typeComment": "Plug-and-play 3D object selection (RTS/strategy-style \"click a unit\") — raycasts on click and fires OnSelected/OnDeselected as the selection changes. Different from Toolkit.UI.DraggableItem, which raycasts through UGUI's EventSystem for UI elements, not real 3D scene colliders.",
+  "src_serialized": [
+    {
+      "name": "sourceCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "selectableMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "maxDistance",
+      "type": "float",
+      "default": "200f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "mouseButton",
+      "type": "int",
+      "default": "0",
+      "tooltip": "0 = Left click, 1 = Right click, 2 = Middle click.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnSelected = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnDeselected = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentSelection",
+      "sig": "public GameObject CurrentSelection { get; private set; }",
+      "kind": "property",
+      "name": "CurrentSelection",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplySelection(GameObject)",
+      "sig": "public void ApplySelection(GameObject clicked)",
+      "kind": "method",
+      "name": "ApplySelection",
+      "static": false,
+      "comment": "Public so a click can be driven from anywhere (touch input, a controller confirming the current reticle target) and so the actual select/deselect-event logic is directly testable."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Raycasting/ClickToSelect/Editor/ClickToSelectSelfTest.cs",
+  "src_demoScene": [
+    "Raycasting_Demo"
+  ]
+}

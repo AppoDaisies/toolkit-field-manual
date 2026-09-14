@@ -1,0 +1,77 @@
+{
+  "id": "speed-radial-blur",
+  "name": "SpeedRadialBlur",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/PostProcessing/RadialBlur/SpeedRadialBlur.cs",
+  "src_lines": [
+    13,
+    74
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Camera)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Speed Radial Blur"
+  },
+  "src_typeComment": "Drop on the MAIN CAMERA for a full-screen \"going fast\" radial blur that eases in/out with speed — call SetSpeed01(0..1) every frame from whatever drives the vehicle/character's actual speed (e.g. rigidbody.velocity.magnitude / topSpeed). A camera image-effect (OnRenderImage), the classic Built-in RP way to do a full-screen post-process — genuinely costs a full extra Blit pass across the whole screen, which is the deliberate trade for the most immersive version of this effect (a cheaper stylized speed-line overlay is a different tool for when that cost isn't worth it).",
+  "src_serialized": [
+    {
+      "name": "maxBlurAmount",
+      "type": "float",
+      "default": "0.1f",
+      "tooltip": "Blur strength at full speed (speed01 = 1), as a fraction of the screen. 0.08-0.15 is a reasonable range before it gets disorienting.",
+      "header": null,
+      "range": "0f, 0.3f",
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "smoothing",
+      "type": "float",
+      "default": "8f",
+      "tooltip": "Higher = the blur reacts to a speed change more quickly; lower = more lag easing in/out.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CurrentBlurAmount",
+      "sig": "public float CurrentBlurAmount => currentBlurAmount",
+      "kind": "property",
+      "name": "CurrentBlurAmount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetSpeed01(float)",
+      "sig": "public void SetSpeed01(float speed01) => targetSpeed01 = Mathf.Clamp01(speed01)",
+      "kind": "method",
+      "name": "SetSpeed01",
+      "static": false,
+      "comment": "0 = stationary (no blur), 1 = full speed (maxBlurAmount). Values outside [0,1] are clamped, so feeding a raw speed/topSpeed ratio that can briefly exceed 1 (e.g. a boost) is safe as-is."
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "The actual smoothing logic, pulled out of Update() so it can be driven deterministically by a self- test — Time.deltaTime is meaningless outside Play mode, and OnRenderImage never fires outside an actual camera render pass either, so this is the one piece of the effect a headless test CAN drive."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/PostProcessing/RadialBlur/Editor/SpeedRadialBlurSelfTest.cs",
+  "src_demoScene": [
+    "RadialBlur_Demo"
+  ]
+}

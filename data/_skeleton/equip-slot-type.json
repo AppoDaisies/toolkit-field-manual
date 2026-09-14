@@ -1,0 +1,24 @@
+{
+  "id": "equip-slot-type",
+  "name": "EquipSlotType",
+  "cat": "Inventory",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Inventory",
+  "src_file": "Inventory/ItemDefinition.cs",
+  "src_lines": [
+    29,
+    29
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Deliberately generic slot categories rather than a game-specific set (no \"Boots\"/\"Ring1\" etc.) — projects needing more granularity can extend this enum directly, since it isn't referenced by name anywhere else.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

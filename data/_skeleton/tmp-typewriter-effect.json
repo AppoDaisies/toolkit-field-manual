@@ -1,0 +1,86 @@
+{
+  "id": "tmp-typewriter-effect",
+  "name": "TMPTypewriterEffect",
+  "cat": "TMPEffects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.TMPEffects",
+  "src_file": "TMPEffects/Typewriter/TMPTypewriterEffect.cs",
+  "src_lines": [
+    9,
+    73
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "TMP Effects/Typewriter Effect"
+  },
+  "src_typeComment": "",
+  "src_serialized": [
+    {
+      "name": "charactersPerSecond",
+      "type": "float",
+      "default": "30f",
+      "tooltip": "Characters revealed per second.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "playOnEnable",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Starts the effect automatically when this component becomes active.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnTypingComplete",
+      "sig": "public event System.Action OnTypingComplete",
+      "kind": "event",
+      "name": "OnTypingComplete",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsPlaying",
+      "sig": "public bool IsPlaying { get; private set; }",
+      "kind": "property",
+      "name": "IsPlaying",
+      "static": false,
+      "comment": "Lets UI (e.g. a \"skip\" prompt, or blocking further input) check whether the reveal is still running."
+    },
+    {
+      "id": "Play()",
+      "sig": "public void Play()",
+      "kind": "method",
+      "name": "Play",
+      "static": false,
+      "comment": "Restarts the reveal from the beginning using the text currently assigned to the component."
+    },
+    {
+      "id": "CompleteInstantly()",
+      "sig": "public void CompleteInstantly()",
+      "kind": "method",
+      "name": "CompleteInstantly",
+      "static": false,
+      "comment": "Skips straight to the fully revealed text — wire this to a \"tap to skip\" input."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Dialogue_Demo",
+    "TMPEffects_Demo"
+  ]
+}

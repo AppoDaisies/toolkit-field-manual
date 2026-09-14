@@ -1,0 +1,106 @@
+{
+  "id": "modal-dialog",
+  "name": "ModalDialog",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Modal/ModalDialog.cs",
+  "src_lines": [
+    12,
+    75
+  ],
+  "src_base": "Singleton<ModalDialog>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Modal Dialog"
+  },
+  "src_typeComment": "Singleton generic confirm dialog: call ModalDialog.Instance.Show(\"Delete save?\", onConfirm, onCancel) instead of hand-building a new Yes/No popup every time you need one.",
+  "src_serialized": [
+    {
+      "name": "panel",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "messageLabel",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "confirmButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "confirmLabel",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "cancelButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "cancelLabel",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Show(string, Action, Action, string, string)",
+      "sig": "public void Show(string message, Action onConfirm, Action onCancel = null, string confirmText = \"OK\", string cancelText = \"Cancel\")",
+      "kind": "method",
+      "name": "Show",
+      "static": false,
+      "comment": "onCancel may be null — the Cancel button just closes the dialog with no callback in that case."
+    },
+    {
+      "id": "Hide()",
+      "sig": "public void Hide() => SetPanelVisible(false)",
+      "kind": "method",
+      "name": "Hide",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIPolish_Demo"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "id": "countdown-timer",
+  "name": "CountdownTimer",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/Timer/CountdownTimer.cs",
+  "src_lines": [
+    7,
+    63
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Plain timer driven manually via Tick(deltaTime) — works the same for a UI cooldown display, an ability cooldown, or a simple \"wait N seconds\" without spawning a coroutine.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Duration",
+      "sig": "public float Duration { get; private set; }",
+      "kind": "property",
+      "name": "Duration",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TimeRemaining",
+      "sig": "public float TimeRemaining { get; private set; }",
+      "kind": "property",
+      "name": "TimeRemaining",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsRunning",
+      "sig": "public bool IsRunning { get; private set; }",
+      "kind": "property",
+      "name": "IsRunning",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Progress",
+      "sig": "public float Progress => Duration <= 0f ? 1f : 1f - (TimeRemaining / Duration)",
+      "kind": "property",
+      "name": "Progress",
+      "static": false,
+      "comment": "0 = just started, 1 = finished. Feed this straight into a UI fill-bar Image."
+    },
+    {
+      "id": "OnStarted",
+      "sig": "public event Action OnStarted",
+      "kind": "event",
+      "name": "OnStarted",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnCompleted",
+      "sig": "public event Action OnCompleted",
+      "kind": "event",
+      "name": "OnCompleted",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CountdownTimer(float)",
+      "sig": "public CountdownTimer(float duration)",
+      "kind": "ctor",
+      "name": "CountdownTimer",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Stop()",
+      "sig": "public void Stop()",
+      "kind": "method",
+      "name": "Stop",
+      "static": false,
+      "comment": "Pauses without resetting TimeRemaining — use Resume() to continue, or Start() to restart from Duration."
+    },
+    {
+      "id": "Resume()",
+      "sig": "public void Resume()",
+      "kind": "method",
+      "name": "Resume",
+      "static": false,
+      "comment": "Continues from wherever TimeRemaining was left off after Stop(). No-op if there's no time left."
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Call this once per frame (e.g. from Update) with Time.deltaTime."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo"
+  ]
+}

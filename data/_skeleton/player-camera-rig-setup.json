@@ -1,0 +1,29 @@
+{
+  "id": "player-camera-rig-setup",
+  "name": "PlayerCameraRigSetup",
+  "cat": "Camera",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.CameraTools.EditorTools",
+  "src_file": "Camera/PlayerCameraRig/Editor/PlayerCameraRigSetup.cs",
+  "src_lines": [
+    13,
+    65
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Camera/Set Up Third Person Camera On Selection",
+      "Toolkit/Camera/Set Up First Person Camera On Selection"
+    ]
+  },
+  "src_typeComment": "One-click rig setup, offered INSTEAD of shipping a .prefab.  A prefab would have to hard-bake a camera and its settings into a binary asset that can't be diffed or hand-edited, and it still wouldn't know which object in YOUR scene is the player. This does the one thing a prefab can't: it wires the rig to whatever you currently have selected. The component itself is already plug-and-play on any Camera, so this is convenience rather than a requirement.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

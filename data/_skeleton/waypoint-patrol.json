@@ -1,0 +1,125 @@
+{
+  "id": "waypoint-patrol",
+  "name": "WaypointPatrol",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/WaypointPatrol/WaypointPatrol.cs",
+  "src_lines": [
+    13,
+    105
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Waypoint Patrol"
+  },
+  "src_typeComment": "Assign a list of waypoints and this object walks between them — no code required for basic patrol AI. Uses Quaternion.LookRotation for facing, which assumes 3D forward-facing; for 2D, replace that one line with a Vector2-angle rotation (or just turn faceMovementDirection off and handle facing yourself).",
+  "src_serialized": [
+    {
+      "name": "waypoints",
+      "type": "Transform[]",
+      "default": null,
+      "tooltip": "Points visited in order. Assign at least 2.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "speed",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "Movement speed in units/second.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "arrivalDistance",
+      "type": "float",
+      "default": "0.1f",
+      "tooltip": "How close (units) counts as \\\"arrived\\\" at a waypoint.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "waitTimeAtWaypoint",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Seconds to pause at each waypoint before moving to the next.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "mode",
+      "type": "PatrolMode",
+      "default": "PatrolMode.Loop",
+      "tooltip": "Loop = restart at 0 after the last point. PingPong = reverse direction. Once = stop after the last point.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "faceMovementDirection",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Rotates this object to face its movement direction (3D).",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnWaypointReached = new UnityEvent<int>(); // index reached",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnPatrolFinished = new UnityEvent();        // fires once, only in Once mode",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentWaypointIndex",
+      "sig": "public int CurrentWaypointIndex => currentIndex",
+      "kind": "property",
+      "name": "CurrentWaypointIndex",
+      "static": false,
+      "comment": "Lets other systems (e.g. a minimap icon, an AI director) query patrol progress without their own bookkeeping."
+    },
+    {
+      "id": "SetWaypoints(Transform[])",
+      "sig": "public void SetWaypoints(Transform[] newWaypoints)",
+      "kind": "method",
+      "name": "SetWaypoints",
+      "static": false,
+      "comment": "Reassigns the patrol route at runtime, e.g. for a dynamically generated or randomized route. Restarts from the first waypoint of the new route."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo",
+    "GameplayArena_Demo",
+    "Pathfinding_Demo",
+    "TowerDefense_Demo"
+  ]
+}

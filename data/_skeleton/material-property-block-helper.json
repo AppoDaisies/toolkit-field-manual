@@ -1,0 +1,64 @@
+{
+  "id": "material-property-block-helper",
+  "name": "MaterialPropertyBlockHelper",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/MaterialPropertyBlockHelper/MaterialPropertyBlockHelper.cs",
+  "src_lines": [
+    10,
+    60
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Material Property Block Helper"
+  },
+  "src_typeComment": "Wraps MaterialPropertyBlock so you can tweak a renderer's color/float/texture properties at runtime without instancing a new Material (which leaks memory if not manually cleaned up, and breaks batching). Drop on any Renderer and call SetColor/SetFloat/SetTexture — the block is applied automatically.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SetColor(string, Color)",
+      "sig": "public void SetColor(string propertyName, Color color)",
+      "kind": "method",
+      "name": "SetColor",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetFloat(string, float)",
+      "sig": "public void SetFloat(string propertyName, float value)",
+      "kind": "method",
+      "name": "SetFloat",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTexture(string, Texture)",
+      "sig": "public void SetTexture(string propertyName, Texture texture)",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Clear()",
+      "sig": "public void Clear()",
+      "kind": "method",
+      "name": "Clear",
+      "static": false,
+      "comment": "Clears all overrides, reverting to the renderer's shared material values."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "clipping-highlight-renderer",
+  "name": "ClippingHighlightRenderer",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/ClippingHighlightRenderer.cs",
+  "src_lines": [
+    12,
+    119
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "The drawing half of the Level Transform Guidance — draws a flagged object a second time with the ZTest Greater highlight material, so only its buried portion shows.  Deliberately does NOT swap materials on the objects themselves: a material swap that errors mid-scan leaves debug materials baked into a real scene, and undoing that by hand is miserable. Drawing an extra pass via Graphics.DrawMeshNow touches nothing the scene actually owns, so toggling the tool off is always clean.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "DrawMeshHighlight(GameObject, Material, int)",
+      "sig": "public static void DrawMeshHighlight(GameObject subject, Material material, int materialPass)",
+      "kind": "method",
+      "name": "DrawMeshHighlight",
+      "static": true,
+      "comment": "Mesh mode: the visual model, for judging visual-quality clipping (seams, sunk props). materialPass selects the shader's highlight style — 0 = buried portion only, 1 = whole object."
+    },
+    {
+      "id": "DrawColliderHighlight(GameObject, Material, int)",
+      "sig": "public static void DrawColliderHighlight(GameObject subject, Material material, int materialPass)",
+      "kind": "method",
+      "name": "DrawColliderHighlight",
+      "static": true,
+      "comment": "Collider mode: the actual collision shapes, for judging traversal/metric problems — these often differ from the visual mesh, which is exactly the class of bug you'd otherwise never see."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

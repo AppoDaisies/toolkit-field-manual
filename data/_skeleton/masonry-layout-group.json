@@ -1,0 +1,98 @@
+{
+  "id": "masonry-layout-group",
+  "name": "MasonryLayoutGroup",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Layouts/MasonryLayoutGroup.cs",
+  "src_lines": [
+    12,
+    59
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Masonry Layout Group"
+  },
+  "src_typeComment": "Pinterest-style variable-height grid: each child keeps its OWN height, packed into whichever column is currently shortest — unlike GridLayoutGroup's uniform cell size. Deliberately a plain MonoBehaviour with an explicit Rebuild() call rather than a full ILayoutGroup/LayoutGroup subclass (which would auto-rebuild on every RectTransform change like Unity's built-in layout groups do) — implementing that integration correctly needs more Unity layout-system plumbing than this tool's value justified; call Rebuild() yourself after adding/removing/resizing children (Start() calls it once automatically).",
+  "src_serialized": [
+    {
+      "name": "columnCount",
+      "type": "int",
+      "default": "3",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "spacing",
+      "type": "float",
+      "default": "8f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "paddingLeft",
+      "type": "float",
+      "default": "8f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "paddingTop",
+      "type": "float",
+      "default": "8f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "paddingRight",
+      "type": "float",
+      "default": "8f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "paddingBottom",
+      "type": "float",
+      "default": "8f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Rebuild()",
+      "sig": "public void Rebuild()",
+      "kind": "method",
+      "name": "Rebuild",
+      "static": false,
+      "comment": "Re-packs every active child into the shortest-so-far column, top-left anchored, uniform width (columnWidth) but each child's OWN height left untouched — that per-child height variance is the entire point of a masonry layout. Resizes this container's own height to fit the tallest column."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

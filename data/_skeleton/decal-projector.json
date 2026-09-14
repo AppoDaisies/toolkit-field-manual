@@ -1,0 +1,86 @@
+{
+  "id": "decal-projector",
+  "name": "DecalProjector",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Decals/DecalProjector.cs",
+  "src_lines": [
+    16,
+    110
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Decal Projector"
+  },
+  "src_typeComment": "Drop on an empty GameObject positioned/rotated/scaled to define the decal's PROJECTION BOX — the object's local -Y axis is the projection direction (\"down onto the surface\"), local X/Z are the decal's footprint, and localScale sets the box size on all 3 axes (a Cube-primitive-style gizmo, drawn below, shows exactly where it will project) — then call Generate() (or use the \"Generate Decal\" context-menu entry) to spawn a real mesh clipped to whatever geometry sits inside the box.  Requires the receiving surface to carry BOTH a Collider (found via Physics.OverlapBox) AND a MeshFilter on the SAME GameObject (its triangles are what actually get clipped) — the normal \"mesh + matching MeshCollider\" setup most scene geometry already has.",
+  "src_serialized": [
+    {
+      "name": "surfaceMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Which colliders count as receiving surfaces for this decal.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "decalMaterial",
+      "type": "Material",
+      "default": null,
+      "tooltip": "Material applied to the generated decal mesh — needs a decal texture with alpha (a tire-mark or footprint shape, transparent elsewhere).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "maxSurfaceAngle",
+      "type": "float",
+      "default": "60f",
+      "tooltip": "A source triangle whose normal points more than this many degrees away from the projection direction is skipped, so a floor decal doesn't wrap up onto a nearby wall.",
+      "header": null,
+      "range": "1f, 89f",
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "surfaceOffset",
+      "type": "float",
+      "default": "0.01f",
+      "tooltip": "Small push outward along each vertex's own normal, avoiding z-fighting with the receiving geometry.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "GeneratedVertexCount",
+      "sig": "public int GeneratedVertexCount => generatedInstance != null ? generatedInstance.GetComponent<MeshFilter>().sharedMesh.vertexCount : 0",
+      "kind": "property",
+      "name": "GeneratedVertexCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Generate()",
+      "sig": "public GameObject Generate()",
+      "kind": "method",
+      "name": "Generate",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/Decals/Editor/DecalProjectorSelfTest.cs",
+  "src_demoScene": [
+    "Decals_Demo"
+  ]
+}

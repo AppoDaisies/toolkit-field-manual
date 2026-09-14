@@ -1,0 +1,69 @@
+{
+  "id": "item-definition",
+  "name": "ItemDefinition",
+  "cat": "Inventory",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Inventory",
+  "src_file": "Inventory/ItemDefinition.cs",
+  "src_lines": [
+    11,
+    25
+  ],
+  "src_base": "GameDataAsset",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Inventory/Item Definition\""
+  },
+  "src_typeComment": "An item as a ScriptableObject asset instead of a hardcoded string/enum — add a new item by creating an asset, no code changes. Depends on Toolkit.Persistence.GameDataAsset (for the Id used to save/load and to look items up by string, same pattern as CurrencyDefinition) — copy that tool's folder too if moving Inventory standalone.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "displayName",
+      "sig": "public string displayName = \"New Item\"",
+      "kind": "field",
+      "name": "displayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "icon",
+      "sig": "public Sprite icon",
+      "kind": "field",
+      "name": "icon",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "description",
+      "sig": "public string description",
+      "kind": "field",
+      "name": "description",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "maxStackSize",
+      "sig": "public int maxStackSize = 1",
+      "kind": "field",
+      "name": "maxStackSize",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "equipSlotType",
+      "sig": "public EquipSlotType equipSlotType = EquipSlotType.None",
+      "kind": "field",
+      "name": "equipSlotType",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Inventory_Demo"
+  ]
+}

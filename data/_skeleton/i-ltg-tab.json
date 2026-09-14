@@ -1,0 +1,57 @@
+{
+  "id": "i-ltg-tab",
+  "name": "ILtgTab",
+  "cat": "EditorTools",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/ILtgTab.cs",
+  "src_lines": [
+    11,
+    30
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "One tool inside the Level Transform Guidance hub.  Activate/Deactivate exist because of a hard requirement: ONLY THE ACTIVE TAB may subscribe to Scene-view callbacks or handle Scene-view input. The Measuring Tape tab consumes left/middle clicks to place and clear points, while the Clipping tab draws depth-tested highlights every camera render — if both were live at once they'd fight each other, and the level designer would be paying for tools they aren't looking at. The hub calls Deactivate on the outgoing tab and Activate on the incoming one, and Deactivate on every tab when the window closes.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Title",
+      "sig": "string Title { get; }",
+      "kind": "property",
+      "name": "Title",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IconName",
+      "sig": "string IconName { get; }",
+      "kind": "property",
+      "name": "IconName",
+      "static": false,
+      "comment": "A built-in Unity editor icon name for the tab button (PLACEHOLDERS for now — swap for custom art later by dropping textures in and resolving them here instead). The window falls back to the Title text if the name doesn't resolve, since built-in icon names are undocumented and can differ between Unity versions — a wrong name must never produce a blank, unclickable tab."
+    },
+    {
+      "id": "Activate()",
+      "sig": "void Activate()",
+      "kind": "method",
+      "name": "Activate",
+      "static": false,
+      "comment": "Subscribe to Scene-view/editor callbacks here, not in a constructor."
+    },
+    {
+      "id": "Deactivate()",
+      "sig": "void Deactivate()",
+      "kind": "method",
+      "name": "Deactivate",
+      "static": false,
+      "comment": "Unsubscribe and drop any Scene-view visuals — the Scene view must return to clean."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

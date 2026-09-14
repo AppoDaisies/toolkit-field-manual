@@ -1,0 +1,68 @@
+{
+  "id": "toast-notification",
+  "name": "ToastNotification",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Toast/ToastNotification.cs",
+  "src_lines": [
+    12,
+    72
+  ],
+  "src_base": "Singleton<ToastNotification>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Toast Notification"
+  },
+  "src_typeComment": "Singleton toast queue: call ToastNotification.Instance.Show(\"message\") from anywhere. Messages queue up and display one at a time so a burst of calls doesn't overlap into unreadable stacked text.",
+  "src_serialized": [
+    {
+      "name": "panel",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "The panel shown/hidden per toast.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "label",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": "Text component the toast message is written to.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "displayDuration",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "How long each toast stays visible before the next one shows.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Show(string)",
+      "sig": "public void Show(string message)",
+      "kind": "method",
+      "name": "Show",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIPolish_Demo"
+  ]
+}

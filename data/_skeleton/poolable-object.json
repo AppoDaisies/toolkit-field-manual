@@ -1,0 +1,97 @@
+{
+  "id": "poolable-object",
+  "name": "PoolableObject",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/ObjectPool/PoolableObject.cs",
+  "src_lines": [
+    9,
+    66
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Poolable Object"
+  },
+  "src_typeComment": "Optional companion to ObjectPool: gives pooled objects lifecycle events and a self-release timer. Adding this is optional — ObjectPool works fine on plain prefabs without it.",
+  "src_serialized": [
+    {
+      "name": "autoReleaseDelay",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "If greater than 0, this object automatically releases itself back to its pool after this many seconds. 0 = stays until manually released.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnSpawned",
+      "sig": "public event Action OnSpawned",
+      "kind": "event",
+      "name": "OnSpawned",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnDespawned",
+      "sig": "public event Action OnDespawned",
+      "kind": "event",
+      "name": "OnDespawned",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SourcePool",
+      "sig": "public ObjectPool SourcePool { get; set; }",
+      "kind": "property",
+      "name": "SourcePool",
+      "static": false,
+      "comment": "Assigned by ObjectPool when this instance is created; lets the object release itself without holding a manual reference."
+    },
+    {
+      "id": "IsPooled",
+      "sig": "public bool IsPooled { get; private set; }",
+      "kind": "property",
+      "name": "IsPooled",
+      "static": false,
+      "comment": "True while this instance is sitting inactive in its pool. ObjectPool checks this to reject a double-release (e.g. two different scripts both calling Release() on the same object), which would otherwise push the same instance into the pool twice and let two later Get() calls hand out the same live object."
+    },
+    {
+      "id": "NotifySpawned()",
+      "sig": "public void NotifySpawned()",
+      "kind": "method",
+      "name": "NotifySpawned",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NotifyDespawned()",
+      "sig": "public void NotifyDespawned()",
+      "kind": "method",
+      "name": "NotifyDespawned",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Release()",
+      "sig": "public void Release()",
+      "kind": "method",
+      "name": "Release",
+      "static": false,
+      "comment": "Manual release call, e.g. an enemy calling this on death instead of Destroy(gameObject)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo",
+    "GameplayArena_Demo"
+  ]
+}

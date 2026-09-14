@@ -1,0 +1,38 @@
+{
+  "id": "floating-combat-text",
+  "name": "FloatingCombatText",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FloatingCombatText/FloatingCombatText.cs",
+  "src_lines": [
+    50,
+    139
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Floating Combat Text"
+  },
+  "src_typeComment": "One spawned instance's animation: pop-in scale, drift per its CombatTextMotion, fade-out over the last 30% of its lifetime, then hands itself back to FloatingCombatTextSpawner's pool. Kept as a separate component from the spawner (rather than one big class) so a custom prefab can be built/tested on its own, the same split FlyToUIEffect uses between the spawner and its pooled icon instances.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Play(string, CombatTextPreset, Action<FloatingCombatText>)",
+      "sig": "public void Play(string text, CombatTextPreset config, Action<FloatingCombatText> onFinished)",
+      "kind": "method",
+      "name": "Play",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/FloatingCombatText/Editor/FloatingCombatTextSelfTest.cs",
+  "src_demoScene": []
+}

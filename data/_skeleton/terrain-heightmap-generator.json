@@ -1,0 +1,111 @@
+{
+  "id": "terrain-heightmap-generator",
+  "name": "TerrainHeightmapGenerator",
+  "cat": "ProceduralGeneration",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.ProceduralGeneration",
+  "src_file": "ProceduralGeneration/Terrain/TerrainHeightmapGenerator.cs",
+  "src_lines": [
+    18,
+    63
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Terrain)"
+    ],
+    "addComponentMenu": "Toolkit/Procedural Generation/Terrain Heightmap Generator"
+  },
+  "src_typeComment": "Plug-and-play procedural terrain: generates a heightmap via NoiseUtils.Fbm and applies it directly to this GameObject's Terrain. Click Generate (or call it from code, in-Editor or at runtime) any time to reroll — it always reads TerrainData's current heightmap resolution, so it works with whatever Terrain size you've already set up in the Inspector.  Performance note: this runs synchronously on the main thread, resolution*resolution noise samples per call (each itself up to `octaves` Perlin lookups) — fine for typical Editor-time terrain authoring, but at a large heightmapResolution (1025, 2049) this is a genuinely heavy call and could cause a visible hitch if triggered at runtime rather than from the Editor. Recommended for Editor-time use above ~513.",
+  "src_serialized": [
+    {
+      "name": "noiseScale",
+      "type": "float",
+      "default": "0.02f",
+      "tooltip": "World-space scale of the noise — smaller values = larger, smoother hills; larger values = tighter, busier detail.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "octaves",
+      "type": "int",
+      "default": "4",
+      "tooltip": "Number of noise layers blended together (see NoiseUtils.Fbm) — more octaves add finer detail on top of the broad shape.",
+      "header": null,
+      "range": "1, 8",
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "lacunarity",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "Frequency multiplier per octave.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "gain",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Amplitude multiplier per octave.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "heightMultiplier",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Normalized height multiplier — 1 uses the terrain's full configured height range, lower values flatten it.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "seedOffset",
+      "type": "Vector2",
+      "default": null,
+      "tooltip": "Offsets the sampled noise coordinates so repeated generations look different. Set manually for a reproducible result, or leave randomizeSeedOnGenerate on.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "randomizeSeedOnGenerate",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Randomizes seedOffset before generating, so every click of Generate gives a different terrain instead of the same one.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Generate()",
+      "sig": "public void Generate()",
+      "kind": "method",
+      "name": "Generate",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "ProceduralGeneration_Demo"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "id": "inventory-container",
+  "name": "InventoryContainer",
+  "cat": "Inventory",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Inventory",
+  "src_file": "Inventory/InventoryContainer.cs",
+  "src_lines": [
+    22,
+    156
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Inventory/Inventory Container"
+  },
+  "src_typeComment": "Fixed-capacity, slot-based inventory with automatic stacking. AddItem/RemoveItem work by ItemDefinition reference at runtime; GetSaveData()/LoadSaveData() bridge to SaveSystem the same way CurrencyWallet does — items are saved by their string Id (from GameDataAsset), resolved back via an ItemRegistry on load.",
+  "src_serialized": [
+    {
+      "name": "capacity",
+      "type": "int",
+      "default": "20",
+      "tooltip": "Number of inventory slots. A stackable item (maxStackSize > 1) can hold more than one slot's worth once a single slot caps out.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SaveEntry",
+      "sig": "public class SaveEntry",
+      "kind": "property",
+      "name": "SaveEntry",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<int, ItemDefinition>()",
+      "sig": "public UnityEvent<int, ItemDefinition> OnSlotChanged = new UnityEvent<int, ItemDefinition>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "slot index, item currently there (null if the slot just emptied) — a UI grid can rebuild just the one changed cell instead of the whole inventory."
+    },
+    {
+      "id": "Capacity",
+      "sig": "public int Capacity => capacity",
+      "kind": "property",
+      "name": "Capacity",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Slots",
+      "sig": "public IReadOnlyList<InventorySlot> Slots => slots",
+      "kind": "property",
+      "name": "Slots",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AddItem(ItemDefinition, int)",
+      "sig": "public int AddItem(ItemDefinition item, int quantity = 1)",
+      "kind": "method",
+      "name": "AddItem",
+      "static": false,
+      "comment": "Returns how many were actually added (may be less than requested if the inventory is full) — always check the return value rather than assuming the full amount fit."
+    },
+    {
+      "id": "GetQuantity(ItemDefinition)",
+      "sig": "public int GetQuantity(ItemDefinition item)",
+      "kind": "method",
+      "name": "GetQuantity",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "HasItem(ItemDefinition, int)",
+      "sig": "public bool HasItem(ItemDefinition item, int quantity = 1) => GetQuantity(item) >= quantity",
+      "kind": "method",
+      "name": "HasItem",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "RemoveItem(ItemDefinition, int)",
+      "sig": "public bool RemoveItem(ItemDefinition item, int quantity = 1)",
+      "kind": "method",
+      "name": "RemoveItem",
+      "static": false,
+      "comment": "Removes from the LAST matching slots first (fills-from-front, drains-from-back) so a UI showing slots left-to-right doesn't visually jump items into earlier slots on every removal. Returns false (leaving the inventory untouched) if there isn't enough of the item to remove."
+    },
+    {
+      "id": "GetSaveData()",
+      "sig": "public List<SaveEntry> GetSaveData()",
+      "kind": "method",
+      "name": "GetSaveData",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LoadSaveData(List<SaveEntry>, ItemRegistry)",
+      "sig": "public void LoadSaveData(List<SaveEntry> data, ItemRegistry registry)",
+      "kind": "method",
+      "name": "LoadSaveData",
+      "static": false,
+      "comment": "`registry` resolves each saved itemId back to its ItemDefinition asset. Clears the inventory first so a load doesn't merge on top of whatever the inventory already held (e.g. its Inspector-authored starting state)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Inventory_Demo"
+  ]
+}

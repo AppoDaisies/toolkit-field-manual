@@ -1,0 +1,60 @@
+{
+  "id": "save-system",
+  "name": "SaveSystem",
+  "cat": "Persistence",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Persistence",
+  "src_file": "Persistence/SaveSystem/SaveSystem.cs",
+  "src_lines": [
+    10,
+    58
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "File-based save/load using Unity's built-in JsonUtility, as an alternative to PlayerPrefs for structured data. For data JsonUtility can't handle (Dictionaries, polymorphic types), use the separate Newtonsoft-based deserializing helper instead — kept as a distinct tool so this one stays dependency-free.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Save<T>(string, T)",
+      "sig": "public static bool Save<T>(string fileName, T data)",
+      "kind": "method",
+      "name": "Save",
+      "static": true,
+      "comment": "Returns false on failure (disk full, permissions, sandboxed platform I/O restrictions) instead of letting an unhandled exception crash whatever called Save — a lost save shouldn't be a fatal error."
+    },
+    {
+      "id": "Load<T>(string)",
+      "sig": "public static T Load<T>(string fileName)",
+      "kind": "method",
+      "name": "Load",
+      "static": true,
+      "comment": "Returns default(T) if the file doesn't exist yet, or if it exists but fails to read/parse (e.g. a save corrupted by a crash mid-write) — check Exists() first if you need to tell \"no save yet\" apart from \"saved default values\", and check the console for a logged error if a load unexpectedly returns default."
+    },
+    {
+      "id": "Exists(string)",
+      "sig": "public static bool Exists(string fileName) => File.Exists(GetPath(fileName))",
+      "kind": "method",
+      "name": "Exists",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Delete(string)",
+      "sig": "public static void Delete(string fileName)",
+      "kind": "method",
+      "name": "Delete",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Currency_Demo",
+    "Persistence_Demo"
+  ]
+}

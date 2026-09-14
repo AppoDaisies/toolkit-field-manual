@@ -1,0 +1,28 @@
+{
+  "id": "tape-label-style",
+  "name": "TapeLabelStyle",
+  "cat": "EditorTools",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgMeasuringTapeTab.cs",
+  "src_lines": [
+    23,
+    35
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Measuring Tape tab: click points in the Scene view to measure distances between them — each segment labelled at its midpoint, any number of points (A-B-C-D...). Middle-click clears (left as the normal camera-orbit button; right-click stays free for Unity's own Scene view context menu / fly-look).  Re-housed from its former standalone window into this hub, behaviour unchanged: level design is a mode of working, and measuring a gap, checking a prop isn't sunk into the stairs, and stepping back to see whether a wing is under-dressed all happen in the same sitting. It also now shares its unit conversion with the Heatmap tab, so a cell size and a measured distance are expressed in the same terms. How the distance labels stay legible against arbitrary level geometry.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Badge",
+    "AutoContrast",
+    "FixedColor"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

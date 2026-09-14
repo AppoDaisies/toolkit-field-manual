@@ -1,0 +1,94 @@
+{
+  "id": "page-curl-graphic",
+  "name": "PageCurlGraphic",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/UI/PageCurlGraphic.cs",
+  "src_lines": [
+    12,
+    85
+  ],
+  "src_base": "MaskableGraphic",
+  "src_implements": [
+    "ICurlSurface"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Page Curl/Page Curl Graphic (UI)"
+  },
+  "src_typeComment": "Renders one curling page inside any Canvas — this IS the Graphic (like Image/RawImage), so just add it to a UI GameObject and drive it via BookPageCurl. Uses its own RectTransform's rect for page size, so there's no separate width/height field to keep in sync with your layout. Requires pivot = (0, 0) (bottom-left) — the hinge (canonical localX = 0 in PageCurlMeshBuilder) must sit at the RectTransform's own local origin for BookPageCurl's mirroring (localScale.x flip) to work correctly.",
+  "src_serialized": [
+    {
+      "name": "gridColumns",
+      "type": "int",
+      "default": "24",
+      "tooltip": "Grid density for the curl mesh — higher looks smoother but costs more vertices/triangles.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "gridRows",
+      "type": "int",
+      "default": "16",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "shadowDarkness",
+      "type": "float",
+      "default": "0.45f",
+      "tooltip": "Brightness multiplier applied to the page's underside as it curls past the halfway point.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "mainTexture",
+      "sig": "public override Texture mainTexture => pageTexture != null ? pageTexture : s_WhiteTexture",
+      "kind": "property",
+      "name": "mainTexture",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTexture(Texture)",
+      "sig": "public void SetTexture(Texture texture)",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetCurlProgress(float)",
+      "sig": "public void SetCurlProgress(float t)",
+      "kind": "method",
+      "name": "SetCurlProgress",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnPopulateMesh(VertexHelper)",
+      "sig": "protected override void OnPopulateMesh(VertexHelper vh)",
+      "kind": "method",
+      "name": "OnPopulateMesh",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

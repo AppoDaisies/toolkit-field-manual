@@ -1,0 +1,76 @@
+{
+  "id": "grid-pathfinder",
+  "name": "GridPathfinder",
+  "cat": "Grid",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.GridSystem",
+  "src_file": "Grid/Pathfinding/GridPathfinder.cs",
+  "src_lines": [
+    10,
+    120
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Grid Pathfinder"
+  },
+  "src_typeComment": "Standalone A* pathfinder over a GridComponent's cells — kept as its own component on purpose, so you only pay for pathfinding if you actually add it, and it can be swapped for a different algorithm later without touching GridComponent or GridPlacer.",
+  "src_serialized": [
+    {
+      "name": "grid",
+      "type": "GridComponent",
+      "default": null,
+      "tooltip": "The grid to search over.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "allowDiagonals",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, diagonal movement between cells is allowed. Independent of the grid's own AllowDiagonalNeighbors — the grid can display/support diagonal adjacency for other tools while pathfinding still searches 4-directionally, or vice versa.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "preventCornerCutting",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, a diagonal move is blocked when either of the two orthogonal cells it passes between is blocked — prevents the path from squeezing through a wall corner.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "IsWalkableOverride",
+      "sig": "public System.Func<int, int, bool> IsWalkableOverride",
+      "kind": "field",
+      "name": "IsWalkableOverride",
+      "static": false,
+      "comment": "A cell is walkable if it has no object occupying it in grid.Occupancy. Assign this if you need custom rules instead (terrain cost, locked cells, etc.) — leave null to use the default check."
+    },
+    {
+      "id": "FindPath(Vector3, Vector3)",
+      "sig": "public List<Vector3> FindPath(Vector3 startWorld, Vector3 endWorld)",
+      "kind": "method",
+      "name": "FindPath",
+      "static": false,
+      "comment": "Returns a path of world-space cell centers from start to end, or an empty list if no path exists."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GridToolkit_Demo"
+  ]
+}

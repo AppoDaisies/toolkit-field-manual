@@ -1,0 +1,62 @@
+{
+  "id": "tmp-wave-effect",
+  "name": "TMPWaveEffect",
+  "cat": "TMPEffects",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.TMPEffects",
+  "src_file": "TMPEffects/WaveEffect/TMPWaveEffect.cs",
+  "src_lines": [
+    13,
+    121
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "TMP Effects/Wave Effect"
+  },
+  "src_typeComment": "Classic TMP wave: offsets each character's mesh vertices in a running sine wave every frame. Caches the \"clean\" (unanimated) vertex positions once whenever the text changes, instead of calling ForceMeshUpdate() every frame — that both avoids an unnecessary full re-layout each frame and, more importantly, avoids repeatedly resetting vertex colors, which would otherwise fight a TMPWordHighlighter on the same text object (ForceMeshUpdate regenerates the whole mesh, including colors).",
+  "src_serialized": [
+    {
+      "name": "amplitude",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Vertical height of the wave in local text units.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "speed",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "How fast the wave animates.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "frequency",
+      "type": "float",
+      "default": "0.2f",
+      "tooltip": "Wave phase offset between adjacent characters. Higher = tighter ripples.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TMPEffects_Demo"
+  ]
+}

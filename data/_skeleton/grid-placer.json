@@ -1,0 +1,106 @@
+{
+  "id": "grid-placer",
+  "name": "GridPlacer",
+  "cat": "Grid",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.GridSystem",
+  "src_file": "Grid/Placement/GridPlacer.cs",
+  "src_lines": [
+    13,
+    113
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Grid Placer"
+  },
+  "src_typeComment": "Click/tap a cell to place the assigned prefab, snapped to the grid. Assign a GridComponent from the scene and this works immediately — the ground plane it raycasts against should sit on the same layer(s) as raycastMask (a flat plane/terrain collider under the grid is the usual setup). Targets a 3D (XZ) ground-plane raycast; for a 2D game, swap TryGetWorldPointUnderCursor to use raycastCamera.ScreenToWorldPoint(Input.mousePosition) instead — GridComponent's XY plane mode already supports it, only the input-to-world-point step here is 3D-specific.",
+  "src_serialized": [
+    {
+      "name": "grid",
+      "type": "GridComponent",
+      "default": null,
+      "tooltip": "The grid to place objects on.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "placementPrefab",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "Prefab instantiated when a valid, unoccupied cell is clicked.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "raycastCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Camera used to convert screen clicks to world position. Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "hoverHighlight",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Optional object moved to hover over the cell under the cursor each frame (e.g. a translucent highlight quad).",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "raycastMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Physics layers the placement raycast can hit — set this to your ground/grid plane's layer.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "clickOccupiedRemoves",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, clicking a cell that is ALREADY occupied removes what's there instead of doing nothing — so one button both places and clears. Turn off if you want placement to be one-way and to drive removal yourself via ClearCell().",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "RemoveAt(int, int)",
+      "sig": "public void RemoveAt(int x, int y)",
+      "kind": "method",
+      "name": "RemoveAt",
+      "static": false,
+      "comment": "Destroys whatever occupies a cell and frees it. Public so a \"sell\"/\"demolish\" button can call it too."
+    },
+    {
+      "id": "ClearCell(int, int)",
+      "sig": "public void ClearCell(int x, int y) => grid.Occupancy.SetValue(x, y, null)",
+      "kind": "method",
+      "name": "ClearCell",
+      "static": false,
+      "comment": "Frees a cell WITHOUT destroying its object — for when something else already handled the object's removal (it died, was pooled, was picked up) and only the grid bookkeeping needs updating."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GridToolkit_Demo"
+  ]
+}

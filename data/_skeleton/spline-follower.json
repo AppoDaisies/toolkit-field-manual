@@ -1,0 +1,124 @@
+{
+  "id": "spline-follower",
+  "name": "SplineFollower",
+  "cat": "PathBuilder",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PathBuilder",
+  "src_file": "PathBuilder/SplineFollower.cs",
+  "src_lines": [
+    19,
+    92
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Path Builder/Spline Follower"
+  },
+  "src_typeComment": "Runtime companion to SplinePath: moves a transform along it at a constant WORLD-SPACE speed (via arc- length reparameterization, not raw t — otherwise speed would vary with how the control points happen to be spaced). Deliberately separate from the editor-time PathBuilder: moving something along a spline at play time is a different job from authoring the spline's shape, and this works with ANY SplinePath, including one that was never fed into a PathBuilder at all (a patrol path, a camera rail, ...).",
+  "src_serialized": [
+    {
+      "name": "spline",
+      "type": "SplinePath",
+      "default": null,
+      "tooltip": "The path to follow.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "target",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "What moves along the path. Defaults to this object's own Transform if left empty.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "speed",
+      "type": "float",
+      "default": "4f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "mode",
+      "type": "SplineFollowMode",
+      "default": "SplineFollowMode.Loop",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "orientToTangent",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Rotates the target to face its direction of travel along the curve.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "rotationSharpness",
+      "type": "float",
+      "default": "8f",
+      "tooltip": "Higher = snappier turning to face the tangent, lower = more lag. Frame-rate-independent exponential smoothing, not a raw Lerp/Slerp factor.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "startDistance",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Starting distance along the path, in world units.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "DistanceTraveled",
+      "sig": "public float DistanceTraveled => distanceTraveled",
+      "kind": "property",
+      "name": "DistanceTraveled",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "The actual movement logic, pulled out of Update() so it can be driven deterministically by a self- test — Time.deltaTime is meaningless outside Play mode, so a test calls this directly with a fixed step instead of relying on Update ever running."
+    },
+    {
+      "id": "ResetToStart()",
+      "sig": "public void ResetToStart()",
+      "kind": "method",
+      "name": "ResetToStart",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PathBuilder_Demo"
+  ]
+}

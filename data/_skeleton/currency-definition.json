@@ -1,0 +1,45 @@
+{
+  "id": "currency-definition",
+  "name": "CurrencyDefinition",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Currency/CurrencyDefinition.cs",
+  "src_lines": [
+    10,
+    16
+  ],
+  "src_base": "GameDataAsset",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Currency Definition\""
+  },
+  "src_typeComment": "A currency (Gold, Gems, Energy...) as a ScriptableObject asset instead of a hardcoded string/enum — add a new currency by creating an asset, no code changes. Depends on Toolkit.Persistence.GameDataAsset (for the Id used to save/load balances) — copy that tool's folder too if moving Currency standalone.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "displayName",
+      "sig": "public string displayName = \"Gold\"",
+      "kind": "field",
+      "name": "displayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "icon",
+      "sig": "public Sprite icon",
+      "kind": "field",
+      "name": "icon",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Currency_Demo"
+  ]
+}

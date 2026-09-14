@@ -1,0 +1,43 @@
+{
+  "id": "i-damageable",
+  "name": "IDamageable",
+  "cat": "Gameplay",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Health/IDamageable.cs",
+  "src_lines": [
+    5,
+    9
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implement this on anything that should be able to take damage from a generic source (weapons, hazards, area effects) without them needing to know about the Health component directly.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "IsDead",
+      "sig": "bool IsDead { get; }",
+      "kind": "property",
+      "name": "IsDead",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TakeDamage(float)",
+      "sig": "void TakeDamage(float amount)",
+      "kind": "method",
+      "name": "TakeDamage",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

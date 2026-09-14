@@ -1,0 +1,49 @@
+{
+  "id": "geometry-utils2d",
+  "name": "GeometryUtils2D",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Geometry2D/GeometryUtils2D.cs",
+  "src_lines": [
+    7,
+    53
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "2D geometry queries that don't need Physics2D colliders — cheap hit-tests/path validation for gameplay logic driven by plain Vector2 data (e.g. a hand-authored polygon, not a PolygonCollider2D).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ClosestPointOnSegment(Vector2, Vector2, Vector2)",
+      "sig": "public static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 a, Vector2 b)",
+      "kind": "method",
+      "name": "ClosestPointOnSegment",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "SegmentsIntersect(Vector2, Vector2, Vector2, Vector2, out Vector2)",
+      "sig": "public static bool SegmentsIntersect(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2, out Vector2 intersection)",
+      "kind": "method",
+      "name": "SegmentsIntersect",
+      "static": true,
+      "comment": "Returns true and the intersection point if segments a1-a2 and b1-b2 cross."
+    },
+    {
+      "id": "PointInPolygon(Vector2, Vector2[])",
+      "sig": "public static bool PointInPolygon(Vector2 point, Vector2[] polygon)",
+      "kind": "method",
+      "name": "PointInPolygon",
+      "static": true,
+      "comment": "Ray-casting (even-odd rule) point-in-polygon test — works for any simple (non-self-intersecting) polygon, convex or concave."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,92 @@
+{
+  "id": "accordion-panel",
+  "name": "AccordionPanel",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Layouts/AccordionPanel.cs",
+  "src_lines": [
+    15,
+    71
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Accordion Panel"
+  },
+  "src_typeComment": "Expand/collapse a content region with an animated height, driven by the EXISTING Tween engine and a LayoutElement.preferredHeight override — works inside any VerticalLayoutGroup (a FAQ list, a settings category list) since the layout group re-flows around the animating height automatically. Wiring a header click to Toggle() is left to the caller (e.g. a Button.onClick) rather than baked in here, matching this toolkit's \"primitives, not opinionated\" pattern.",
+  "src_serialized": [
+    {
+      "name": "content",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "The collapsible body. Its natural (expanded) height is captured once, from its RectTransform's height, before any collapsing happens — make sure it's sized to its full expanded height in the scene/prefab.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "startExpanded",
+      "type": "bool",
+      "default": "true",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "animationDuration",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<bool>()",
+      "sig": "public UnityEvent<bool> OnToggled = new UnityEvent<bool>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsExpanded",
+      "sig": "public bool IsExpanded { get; private set; }",
+      "kind": "property",
+      "name": "IsExpanded",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Toggle()",
+      "sig": "public void Toggle() => SetExpanded(!IsExpanded)",
+      "kind": "method",
+      "name": "Toggle",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetExpanded(bool, bool)",
+      "sig": "public void SetExpanded(bool expanded, bool animate = true)",
+      "kind": "method",
+      "name": "SetExpanded",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

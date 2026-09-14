@@ -1,0 +1,77 @@
+{
+  "id": "dialogue-node",
+  "name": "DialogueNode",
+  "cat": "Dialogue",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Dialogue",
+  "src_file": "Dialogue/DialogueNode.cs",
+  "src_lines": [
+    11,
+    27
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Dialogue/Dialogue Node\", fileName = \"NewDialogueNode\""
+  },
+  "src_typeComment": "One line of dialogue — a scene-independent ScriptableObject, same relationship to DialogueRunner that VisualStateMachineAsset has to its runner. Chain nodes together via nextNode (linear) or choices (branching) to build a full conversation tree without any code.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "speakerName",
+      "sig": "public string speakerName",
+      "kind": "field",
+      "name": "speakerName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "portrait",
+      "sig": "public Sprite portrait",
+      "kind": "field",
+      "name": "portrait",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "text",
+      "sig": "public string text",
+      "kind": "field",
+      "name": "text",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "nextNode",
+      "sig": "public DialogueNode nextNode",
+      "kind": "field",
+      "name": "nextNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "List<DialogueChoice>()",
+      "sig": "public List<DialogueChoice> choices = new List<DialogueChoice>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "HasChoices",
+      "sig": "public bool HasChoices => choices != null && choices.Count > 0",
+      "kind": "property",
+      "name": "HasChoices",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Dialogue_Demo"
+  ]
+}

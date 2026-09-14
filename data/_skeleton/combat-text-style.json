@@ -1,0 +1,30 @@
+{
+  "id": "combat-text-style",
+  "name": "CombatTextStyle",
+  "cat": "UI",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FloatingCombatText/FloatingCombatText.cs",
+  "src_lines": [
+    7,
+    14
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Damage",
+    "CriticalDamage",
+    "Heal",
+    "Miss",
+    "StatusEffect"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

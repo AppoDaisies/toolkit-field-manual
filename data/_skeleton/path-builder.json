@@ -1,0 +1,187 @@
+{
+  "id": "path-builder",
+  "name": "PathBuilder",
+  "cat": "PathBuilder",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PathBuilder",
+  "src_file": "PathBuilder/PathBuilder.cs",
+  "src_lines": [
+    20,
+    265
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(SplinePath)"
+    ],
+    "addComponentMenu": "Toolkit/Path Builder/Path Builder"
+  },
+  "src_typeComment": "The generation half of the Unified Path Builder: takes the SplinePath on the same object and either (a) spawns a prefab repeatedly along it, or (b) extrudes a road-style mesh along it. Click \"Generate\" in the Inspector (or call Generate() from code) any time the path changes — nothing regenerates automatically, so editing points stays cheap even on a large path (same rule the LevelTransformGuidance hub follows: no per-frame whole-scene work, recompute on demand).",
+  "src_serialized": [
+    {
+      "name": "mode",
+      "type": "PathBuilderMode",
+      "default": "PathBuilderMode.SpawnPrefabs",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "prefab",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "Instantiated repeatedly along the path.",
+      "header": "Spawn Prefabs",
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "spacingMode",
+      "type": "PrefabSpacingMode",
+      "default": "PrefabSpacingMode.PrefabBounds",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "fixedDistance",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "Used when Spacing Mode is Fixed Distance: world units between each instance's centre.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "boundsAxis",
+      "type": "BoundsAxis",
+      "default": "BoundsAxis.Z",
+      "tooltip": "Used when Spacing Mode is Prefab Bounds: which local axis of the PREFAB itself is its \\\"length\\\" — the direction consecutive instances should butt against each other along.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "boundsPadding",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Extra gap added between instances on top of their measured bounds size. Negative values overlap them slightly.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "alignToTangent",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Rotates each instance so its local +Z faces the path's direction of travel at that point. Turn off to keep every instance at this object's own rotation instead.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "rotationOverrides",
+      "type": "List<float>",
+      "default": "new List<float>()",
+      "tooltip": "Extra yaw in degrees, one entry per spawned instance in spawn order, applied ON TOP of the tangent-facing base rotation. Resize freely — fewer entries than instances pads with 0, more are ignored. This is the per-instance rotation override: dial one in, click Generate again. A manual rotation made by dragging a spawned instance directly in the Scene view will NOT survive the next Generate() unless it is also entered here — Generate always rebuilds from this list.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "roadWidth",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "Width of the road ribbon, across the path.",
+      "header": "Generate Road Mesh",
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "roadCrossSectionHeight",
+      "type": "float",
+      "default": "0.2f",
+      "tooltip": "Thickness of the road slab. The cross-section extruded along the path is a roadWidth x roadCrossSectionHeight rectangle, not a paper-thin plane, so the result reads as a real object and will not z-fight with terrain sitting flush underneath it.",
+      "header": null,
+      "range": null,
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "roadSmoothness",
+      "type": "int",
+      "default": "12",
+      "tooltip": "Cross-sections generated per path segment. Higher gives a smoother curve and smoother elevation transitions where path points differ in height (\\\"smoothness\\\"); lower is cheaper and more faceted.",
+      "header": null,
+      "range": "1, 64",
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "roadUvTileLength",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "World units of road length per full UV tile, so a tiling road texture repeats at a consistent scale regardless of the path's total length.",
+      "header": null,
+      "range": null,
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "generatedInstances",
+      "type": "List<GameObject>",
+      "default": "new List<GameObject>()",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 12,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Mode",
+      "sig": "public PathBuilderMode Mode { get => mode; set => mode = value; }",
+      "kind": "property",
+      "name": "Mode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GeneratedInstanceCount",
+      "sig": "public int GeneratedInstanceCount => generatedInstances.Count",
+      "kind": "property",
+      "name": "GeneratedInstanceCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Generate()",
+      "sig": "public void Generate()",
+      "kind": "method",
+      "name": "Generate",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "PathBuilder/Editor/PathBuilderSelfTest.cs",
+  "src_demoScene": [
+    "PathBuilder_Demo"
+  ]
+}

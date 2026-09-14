@@ -1,0 +1,33 @@
+{
+  "id": "layout-rebuild-helper",
+  "name": "LayoutRebuildHelper",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/ContentFitters/LayoutRebuildHelper.cs",
+  "src_lines": [
+    12,
+    37
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Fixes the classic Content Size Fitter \"one-frame-behind\" flicker: Unity defers layout rebuilds to end-of-frame by default, so a runtime content change (new text, an added child) visibly shows the OLD size for one frame before snapping to the new one. ForceRebuildImmediate walks the hierarchy children-first — a nested layout's children must resolve their own sizes before their parent can size correctly around them — and forces the rebuild synchronously instead of waiting.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ForceRebuildImmediate(RectTransform)",
+      "sig": "public static void ForceRebuildImmediate(RectTransform root)",
+      "kind": "method",
+      "name": "ForceRebuildImmediate",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

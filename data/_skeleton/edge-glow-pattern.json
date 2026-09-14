@@ -1,0 +1,24 @@
+{
+  "id": "edge-glow-pattern",
+  "name": "EdgeGlowPattern",
+  "cat": "Rendering",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/EdgeGlow/UIEdgeGlow.cs",
+  "src_lines": [
+    12,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "WHAT the mask/displacement looks like, not just how it's tinted — each pattern computes it itself differently (see UIEdgeGlow.shader), not a re-tint of the same turbulence. Chase is NOT here — it is a separate, orthogonal toggle (see chaseModeEnabled below) that restricts WHATEVER pattern is picked here to a travelling comet+trail, so any pattern's own look can become a travelling comet.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

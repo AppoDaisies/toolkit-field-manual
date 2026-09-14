@@ -1,0 +1,101 @@
+{
+  "id": "perception-memory",
+  "name": "PerceptionMemory",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/VisionCone/PerceptionMemory.cs",
+  "src_lines": [
+    21,
+    93
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(VisionCone)"
+    ],
+    "addComponentMenu": "Toolkit/AI/Perception Memory"
+  },
+  "src_typeComment": "",
+  "src_serialized": [
+    {
+      "name": "alertToSuspiciousDelay",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "Seconds after losing sight of the target before dropping from Alert to Suspicious.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "suspiciousToUnawareDelay",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Seconds after that before giving up entirely, forgetting the target, and returning to Unaware.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<PerceptionState>()",
+      "sig": "public UnityEvent<PerceptionState> OnStateChanged = new UnityEvent<PerceptionState>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "State",
+      "sig": "public PerceptionState State { get; private set; } = PerceptionState.Unaware",
+      "kind": "property",
+      "name": "State",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentTarget",
+      "sig": "public Transform CurrentTarget { get; private set; }",
+      "kind": "property",
+      "name": "CurrentTarget",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LastKnownPosition",
+      "sig": "public Vector3 LastKnownPosition { get; private set; }",
+      "kind": "property",
+      "name": "LastKnownPosition",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Public (not just the private body of Update) specifically so a self-test can drive this with exact, known time increments instead of needing Play mode or real elapsed time — same reasoning as VisualStateMachineRunner's public Initialize()/TickStateMachine()."
+    },
+    {
+      "id": "SimulateSpotted(Transform)",
+      "sig": "public void SimulateSpotted(Transform spottedTarget) => HandleSpotted(spottedTarget)",
+      "kind": "method",
+      "name": "SimulateSpotted",
+      "static": false,
+      "comment": "Lets a self-test (or any code without a real VisionCone scan) simulate \"spotted\" without needing an actual physics-based detection to occur."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo"
+  ]
+}

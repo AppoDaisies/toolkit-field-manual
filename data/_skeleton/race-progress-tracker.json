@@ -1,0 +1,82 @@
+{
+  "id": "race-progress-tracker",
+  "name": "RaceProgressTracker",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Racing/RaceProgressTracker.cs",
+  "src_lines": [
+    11,
+    40
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Race Progress Tracker"
+  },
+  "src_typeComment": "Drop on any racer (AI or player) alongside a set of ordered checkpoint Transforms — tracks which checkpoint is next and counts laps. Distance-based rather than trigger-collider based, so there's no physics/collider setup needed track-side, and it always requires the NEXT expected checkpoint in order, which prevents checkpoint-skipping shortcuts.",
+  "src_serialized": [
+    {
+      "name": "checkpoints",
+      "type": "Transform[]",
+      "default": null,
+      "tooltip": "Checkpoints in required order. Reaching the last one and wrapping back to the first counts as a completed lap.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "checkpointRadius",
+      "type": "float",
+      "default": "5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CurrentCheckpointIndex",
+      "sig": "public int CurrentCheckpointIndex { get; private set; }",
+      "kind": "property",
+      "name": "CurrentCheckpointIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LapsCompleted",
+      "sig": "public int LapsCompleted { get; private set; }",
+      "kind": "property",
+      "name": "LapsCompleted",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnCheckpointReached = new UnityEvent<int>(); // index reached",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLapCompleted = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo"
+  ]
+}

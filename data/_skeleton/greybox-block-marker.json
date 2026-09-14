@@ -1,0 +1,24 @@
+{
+  "id": "greybox-block-marker",
+  "name": "GreyboxBlockMarker",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/GreyboxPlacer/GreyboxBlockMarker.cs",
+  "src_lines": [
+    11,
+    11
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

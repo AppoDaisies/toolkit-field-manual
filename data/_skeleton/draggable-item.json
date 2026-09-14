@@ -1,0 +1,105 @@
+{
+  "id": "draggable-item",
+  "name": "DraggableItem",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/DragAndDrop/DraggableItem.cs",
+  "src_lines": [
+    13,
+    105
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IBeginDragHandler",
+    "IDragHandler",
+    "IEndDragHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RectTransform)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Draggable Item"
+  },
+  "src_typeComment": "Reusable draggable UI item — not tied to any one specific system (inventory, kiosk menu, puzzle piece). Drops onto whichever DropZone is under the pointer on release, if any accepts it; otherwise snaps back to where it started. Reparents to the root Canvas while dragging so it draws on top of any sibling UI.",
+  "src_serialized": [
+    {
+      "name": "itemTag",
+      "type": "string",
+      "default": null,
+      "tooltip": "Optional tag a DropZone can filter on via its acceptedTags list. Leave blank to be accepted everywhere unfiltered.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "draggingAlpha",
+      "type": "float",
+      "default": "0.7f",
+      "tooltip": "CanvasGroup alpha while being dragged, so it visually reads as 'lifted'.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ItemTag",
+      "sig": "public string ItemTag => itemTag",
+      "kind": "property",
+      "name": "ItemTag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<DropZone>()",
+      "sig": "public UnityEvent<DropZone> OnDropped = new UnityEvent<DropZone>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "Fires on every drag end — with the DropZone it landed on, or null if it snapped back to origin."
+    },
+    {
+      "id": "OnBeginDrag(PointerEventData)",
+      "sig": "public void OnBeginDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnBeginDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnDrag(PointerEventData)",
+      "sig": "public void OnDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnEndDrag(PointerEventData)",
+      "sig": "public void OnEndDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnEndDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ReturnToOrigin()",
+      "sig": "public void ReturnToOrigin()",
+      "kind": "method",
+      "name": "ReturnToOrigin",
+      "static": false,
+      "comment": "Public so a DropZone (or anything else) can send this item back where it came from — e.g. a zone that turns out to be full and rejects the drop after accepting the raycast hit."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

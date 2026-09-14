@@ -1,0 +1,59 @@
+{
+  "id": "bezier-utils",
+  "name": "BezierUtils",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Bezier/BezierUtils.cs",
+  "src_lines": [
+    8,
+    33
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Quadratic/cubic Bezier evaluation — camera paths, UI motion along a curve, projectile arcs. Each has a matching Tangent function since orienting something to face along the curve is the most common reason to need the derivative, not just the point.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Quadratic(Vector3, Vector3, Vector3, float)",
+      "sig": "public static Vector3 Quadratic(Vector3 p0, Vector3 p1, Vector3 p2, float t)",
+      "kind": "method",
+      "name": "Quadratic",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "QuadraticTangent(Vector3, Vector3, Vector3, float)",
+      "sig": "public static Vector3 QuadraticTangent(Vector3 p0, Vector3 p1, Vector3 p2, float t)",
+      "kind": "method",
+      "name": "QuadraticTangent",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Cubic(Vector3, Vector3, Vector3, Vector3, float)",
+      "sig": "public static Vector3 Cubic(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)",
+      "kind": "method",
+      "name": "Cubic",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "CubicTangent(Vector3, Vector3, Vector3, Vector3, float)",
+      "sig": "public static Vector3 CubicTangent(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)",
+      "kind": "method",
+      "name": "CubicTangent",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

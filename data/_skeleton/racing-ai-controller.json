@@ -1,0 +1,208 @@
+{
+  "id": "racing-ai-controller",
+  "name": "RacingAIController",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Racing/RacingAIController.cs",
+  "src_lines": [
+    12,
+    187
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Racing AI Controller"
+  },
+  "src_typeComment": "Plug-and-play racing AI: assign an ordered waypoint path and this drives it — slowing into corners, catching up or backing off via rubber-banding, and auto-recovering if stuck — entirely through a StateMachine wired up internally, so no custom IState code is needed. Self-contained on purpose (it doesn't require SteeringAgent or WaypointPatrol) so dropping this one component in is enough.",
+  "src_serialized": [
+    {
+      "name": "waypoints",
+      "type": "Transform[]",
+      "default": null,
+      "tooltip": "Ordered path the AI drives around. Loops back to the first point after the last.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "maxSpeed",
+      "type": "float",
+      "default": "12f",
+      "tooltip": "Top speed the AI accelerates towards on a straight.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "acceleration",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "How fast currentSpeed ramps towards its target speed, in units/sec^2.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "turnSpeed",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "How fast the AI's rotation turns to face its movement direction.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "waypointReachDistance",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "Distance from a waypoint that counts as reaching it.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "corneringSlowdownStrength",
+      "type": "float",
+      "default": "0.7f",
+      "tooltip": "How much upcoming turn sharpness reduces speed. 0 = ignore corners entirely, 1 = full slowdown on sharp corners.",
+      "header": "Cornering",
+      "range": "0f, 1f",
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "minCorneringSpeedFraction",
+      "type": "float",
+      "default": "0.35f",
+      "tooltip": "Minimum speed fraction of maxSpeed even on the sharpest corner.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "rubberBandTarget",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "If assigned, this AI speeds up when far from it and eases off when right on top of it, to stay competitive. Distance-based, not lap-progress-aware — good enough for a single rival without needing a shared race-progress tracker.",
+      "header": "Rubber-Banding (optional)",
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "rubberBandMaxBoost",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": "Maximum speed multiplier adjustment applied by rubber-banding, as a fraction of maxSpeed (e.g. 0.25 = up to +/-25%).",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "rubberBandDistanceRange",
+      "type": "float",
+      "default": "20f",
+      "tooltip": "Distance from rubberBandTarget at which the boost/ease-off reaches its maximum.",
+      "header": null,
+      "range": null,
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "stuckSpeedThreshold",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "If speed stays below this for stuckTimeThreshold seconds, the AI reverses briefly to free itself.",
+      "header": "Stuck Recovery",
+      "range": null,
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "stuckTimeThreshold",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "How many consecutive seconds below stuckSpeedThreshold before recovery kicks in.",
+      "header": null,
+      "range": null,
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "recoveryDuration",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "How long the AI reverses for during recovery, in seconds.",
+      "header": null,
+      "range": null,
+      "order": 12,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLapCompleted = new UnityEvent(); // fires when the waypoint index wraps back to 0",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnFinished = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentWaypointIndex",
+      "sig": "public int CurrentWaypointIndex => currentWaypointIndex",
+      "kind": "property",
+      "name": "CurrentWaypointIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsRecovering",
+      "sig": "public bool IsRecovering => machine.IsInState<RecoveringState>()",
+      "kind": "property",
+      "name": "IsRecovering",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsFinished",
+      "sig": "public bool IsFinished => machine.IsInState<FinishedState>()",
+      "kind": "property",
+      "name": "IsFinished",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Finish()",
+      "sig": "public void Finish()",
+      "kind": "method",
+      "name": "Finish",
+      "static": false,
+      "comment": "Call this from a finish-line trigger (e.g. wired to a TriggerEventRelay's OnEnter) to stop the AI."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo"
+  ]
+}

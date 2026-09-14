@@ -1,0 +1,81 @@
+{
+  "id": "probability-utils",
+  "summary": "Weighted picks, percentage chances, dice-notation rolls and Gaussian values on top of UnityEngine.Random.",
+  "problem": "Four things every game needs from randomness, none of which UnityEngine.Random provides directly. Weighted selection from a loot table is the big one — the cumulative-sum loop is short, but it gets rewritten slightly differently in every system that needs it. Chance is a readability wrapper that stops `Random.value < 0.25f` from being written backwards. RollDice lets designers author damage as '2d6' in data rather than as code. And NextGaussian gives values that cluster near an average and rarely go extreme, which is what stat variance and loot rolls usually want — the flat distribution of Random.Range makes a 1 and a 50 equally likely, which reads as noise rather than variation.",
+  "workedExample": {
+    "setup": "A three-tier loot table with weights authored as readable percentages, and one specific roll traced through WeightedPick.",
+    "inputs": [
+      {
+        "name": "options",
+        "value": "[(\"Common\", 70f), (\"Rare\", 25f), (\"Legendary\", 5f)]"
+      },
+      {
+        "name": "roll",
+        "value": "80 (a sample value from Random.Range(0f, total))"
+      }
+    ],
+    "steps": [
+      "total = 70 + 25 + 5 = 100.",
+      "roll = Random.Range(0f, 100f); suppose it comes back 80.",
+      "First option: cumulative = 0 + 70 = 70. Is 80 <= 70? No — move on.",
+      "Second option: cumulative = 70 + 25 = 95. Is 80 <= 95? Yes — return \"Rare\".",
+      "The band that maps to Rare is (70, 95] — 25 units wide out of 100, exactly its share of the total weight.",
+      "If the loop somehow falls through (floating-point accumulation error), the last option is returned as a fallback rather than throwing."
+    ],
+    "result": "\"Rare\". The weights are relative, not percentages: passing 7 / 2.5 / 0.5 gives identical odds, and adding a fourth entry silently rebalances everything else rather than requiring you to re-normalize by hand.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Loot tables and drop tables, where designers author relative weights rather than percentages that must sum to 100.",
+    "Enemy or event spawn selection weighted by biome, difficulty or wave number.",
+    "Tabletop-style damage and skill checks authored as strings in a ScriptableObject: RollDice(\"2d6\"), RollDice(\"1d20\").",
+    "Stat variance on generated items — NextGaussian(mean, stdDev) so most rolls land near average and perfect rolls are genuinely rare.",
+    "Simple percentage gates: Chance(0.25f) for a quarter-chance bonus, spawn, or barks."
+  ],
+  "usage": {
+    "code": "if (ProbabilityUtils.Chance(0.25f)) SpawnBonus();\n\nint damage = ProbabilityUtils.RollDice(\"2d6\");\n\nvar table = new (string, float)[] { (\"Common\", 70f), (\"Rare\", 25f), (\"Legendary\", 5f) };\nstring rarity = ProbabilityUtils.WeightedPick(table);\n\nfloat hp = Mathf.Max(1f, ProbabilityUtils.NextGaussian(mean: 50f, stdDev: 10f));",
+    "codeNote": "WeightedPick<T> takes an IReadOnlyList<(T item, float weight)>, so any array or List of value tuples binds directly — no wrapper struct required."
+  },
+  "apiNotes": {
+    "Chance(float)": "Random.value < probability01. Chance(0f) is always false; Chance(1f) is always true (Random.value is in [0,1)). Purely a readability wrapper.",
+    "RollDice(string)": "Lowercases, splits on 'd', and sums that many Random.Range(1, sides + 1) rolls. \"2d6\" is two six-sided dice; \"d20\" and \"1d20\" are both one twenty-sided die. Returns the SUM, not the individual rolls.",
+    "NextGaussian(float, float)": "Box-Muller: sqrt(-2 * ln(u1)) * sin(2*pi*u2), scaled by stdDev and offset by mean. u1 is taken as 1 — Random.value specifically so it can never be 0 and make the log undefined."
+  },
+  "gotchas": [
+    {
+      "title": "RollDice parses with int.Parse and validates nothing",
+      "body": "\"2d6+1\", \"2 d 6\", \"d%\" and an empty string all throw FormatException at runtime, inside whatever gameplay call happened to hit them. Only a bare NdM or dM form works. If the notation comes from a designer-edited asset or user input, wrap the call or validate the string when the asset loads, not when the dice are rolled."
+    },
+    {
+      "title": "RollDice with zero sides silently returns the die count",
+      "body": "\"2d0\" becomes two calls to Random.Range(1, 1), which returns 1 each time, for a total of 2. No exception, no warning — just a constant where you expected randomness. Negative sides behave similarly oddly."
+    },
+    {
+      "title": "A zero-weight entry in first position can still be picked",
+      "body": "The comparison is `roll <= cumulative`, and Random.Range(0f, total) can return exactly 0. If the first option has weight 0 its cumulative is also 0, and 0 <= 0 matches. Vanishingly rare, but real. Filter zero-weight entries out, or at least never put them first."
+    },
+    {
+      "title": "NextGaussian is unbounded",
+      "body": "About 0.3% of samples land beyond three standard deviations, and there is no clamp anywhere in the function. NextGaussian(50f, 20f) will occasionally return a negative number. Clamp at the call site — a Mathf.Max or Mathf.Clamp — rather than assuming the distribution stays inside a sensible range."
+    },
+    {
+      "title": "Everything here uses the global UnityEngine.Random stream",
+      "body": "None of these functions take a seed or an RNG instance, so results are not reproducible and are perturbed by anything else in the frame that consumes UnityEngine.Random. For procedural generation, replays or shared daily seeds, use SeededRandom — and note it has no weighted-pick or dice equivalent, so you would have to write those yourself."
+    },
+    {
+      "title": "WeightedPick allocates nothing but iterates twice",
+      "body": "One pass to total the weights, one to find the band. Fine for a table of a few dozen entries called a few times a second; if you are picking thousands of times per frame from a static table, precompute the cumulative array yourself."
+    },
+    {
+      "title": "WeightedPick throws on an empty list",
+      "body": "ArgumentException, by design — an empty table has no meaningful answer. Check Count before calling if a table can legitimately be emptied at runtime."
+    }
+  ],
+  "seeAlso": [
+    "RandomBag",
+    "PityTimer",
+    "SeededRandom",
+    "ItemRegistry",
+    "StatCurves"
+  ]
+}

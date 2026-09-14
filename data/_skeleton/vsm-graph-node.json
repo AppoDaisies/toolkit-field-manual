@@ -1,0 +1,73 @@
+{
+  "id": "vsm-graph-node",
+  "name": "VSMGraphNode",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine.EditorTools",
+  "src_file": "AI/VisualStateMachine/Editor/VSMGraphNode.cs",
+  "src_lines": [
+    9,
+    51
+  ],
+  "src_base": "Node",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Visual representation of one VSMNode inside the graph editor — the underlying VSMNode data (name, position, color, flags) is the source of truth; this renders it and snaps/writes back position drags. Any State has no input port (nothing ever transitions INTO it, only out of it), matching Animator.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Data",
+      "sig": "public VSMNode Data { get; }",
+      "kind": "property",
+      "name": "Data",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "InputPort",
+      "sig": "public Port InputPort { get; private set; }",
+      "kind": "property",
+      "name": "InputPort",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OutputPort",
+      "sig": "public Port OutputPort { get; }",
+      "kind": "property",
+      "name": "OutputPort",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "VSMGraphNode(VSMNode)",
+      "sig": "public VSMGraphNode(VSMNode data)",
+      "kind": "ctor",
+      "name": "VSMGraphNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplyColor()",
+      "sig": "public void ApplyColor()",
+      "kind": "method",
+      "name": "ApplyColor",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetPosition(Rect)",
+      "sig": "public override void SetPosition(Rect newPos)",
+      "kind": "method",
+      "name": "SetPosition",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,51 @@
+{
+  "id": "time-formatter",
+  "name": "TimeFormatter",
+  "cat": "Formatting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Formatters",
+  "src_file": "Formatting/Time/TimeFormatter.cs",
+  "src_lines": [
+    8,
+    42
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Static formatting helpers for turning a raw seconds value into common display strings — timers, cooldowns, playtime stats. Takes plain floats rather than TimeSpan so it drops straight into a Time.deltaTime-driven countdown without a TimeSpan conversion step.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ToMinutesSeconds(float)",
+      "sig": "public static string ToMinutesSeconds(float totalSeconds)",
+      "kind": "method",
+      "name": "ToMinutesSeconds",
+      "static": true,
+      "comment": "125.4 -> \"02:05\""
+    },
+    {
+      "id": "ToHoursMinutesSeconds(float)",
+      "sig": "public static string ToHoursMinutesSeconds(float totalSeconds)",
+      "kind": "method",
+      "name": "ToHoursMinutesSeconds",
+      "static": true,
+      "comment": "4000 -> \"01:06:40\""
+    },
+    {
+      "id": "ToCompact(float)",
+      "sig": "public static string ToCompact(float totalSeconds)",
+      "kind": "method",
+      "name": "ToCompact",
+      "static": true,
+      "comment": "4000 -> \"1h 6m\", 125 -> \"2m 5s\", 45 -> \"45s\" — compact, drops leading zero units instead of padding, for a HUD-friendly display rather than a fixed-width clock."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

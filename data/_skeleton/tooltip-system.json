@@ -1,0 +1,76 @@
+{
+  "id": "tooltip-system",
+  "name": "TooltipSystem",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Tooltip/TooltipSystem.cs",
+  "src_lines": [
+    11,
+    60
+  ],
+  "src_base": "Singleton<TooltipSystem>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tooltip System"
+  },
+  "src_typeComment": "Singleton that shows/hides a single tooltip panel following the cursor. Add one to your UI Canvas, assign the panel + text, then call TooltipSystem.Instance.Show(\"text\") from anywhere — or just add TooltipTrigger to individual UI elements for zero-code hover tooltips.",
+  "src_serialized": [
+    {
+      "name": "panel",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "The panel containing the tooltip background + text, toggled on/off.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "label",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": "Text component the tooltip message is written to.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "cursorOffset",
+      "type": "Vector2",
+      "default": "new Vector2(16f, -16f)",
+      "tooltip": "Offset from the cursor in screen pixels.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Show(string)",
+      "sig": "public void Show(string text)",
+      "kind": "method",
+      "name": "Show",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Hide()",
+      "sig": "public void Hide()",
+      "kind": "method",
+      "name": "Hide",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

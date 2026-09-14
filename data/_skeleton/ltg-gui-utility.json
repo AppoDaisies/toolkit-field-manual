@@ -1,0 +1,33 @@
+{
+  "id": "ltg-gui-utility",
+  "name": "LtgGuiUtility",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgGuiUtility.cs",
+  "src_lines": [
+    7,
+    16
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "Small shared GUI helpers for the Level Transform Guidance hub's tabs.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "LayerMaskField(string, LayerMask)",
+      "sig": "public static LayerMask LayerMaskField(string label, LayerMask layerMask)",
+      "kind": "method",
+      "name": "LayerMaskField",
+      "static": true,
+      "comment": "EditorGUILayout.MaskField mangles a LayerMask's raw value (it re-indexes to only the NAMED layers), so this converts through Unity's own helpers instead of assigning the field value directly."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

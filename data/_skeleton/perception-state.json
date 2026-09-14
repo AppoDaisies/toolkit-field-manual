@@ -1,0 +1,24 @@
+{
+  "id": "perception-state",
+  "name": "PerceptionState",
+  "cat": "AI",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/VisionCone/PerceptionMemory.cs",
+  "src_lines": [
+    17,
+    17
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Unaware -> Suspicious -> Alert -> (fades back down over time). Upgrades VisionCone from a binary seen/not-seen check into a real stealth-detection state with memory: an AI can investigate where it LAST saw something instead of either being omniscient or instantly forgetting. Composed on top of VisionCone (not a modification of it) — drop this alongside an existing VisionCone to add memory without touching the sensing logic itself.  Tracks ONE primary target at a time (the most recently spotted one) rather than a per-target memory list — the common case (a guard reacting to the player) only ever needs one, and this keeps the state machine simple. For multiple simultaneously-tracked targets, use one PerceptionMemory per target of interest instead.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

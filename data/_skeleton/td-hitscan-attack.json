@@ -1,0 +1,70 @@
+{
+  "id": "td-hitscan-attack",
+  "name": "TDHitscanAttack",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDHitscanAttack.cs",
+  "src_lines": [
+    9,
+    38
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IAttackBehavior"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tower Defense/TD Hitscan Attack"
+  },
+  "src_typeComment": "Instant-hit tower attack: deals damage immediately, no travel time. Optionally draws a brief beam via a LineRenderer for visual feedback — leave it unassigned for a silent hit.",
+  "src_serialized": [
+    {
+      "name": "beam",
+      "type": "LineRenderer",
+      "default": null,
+      "tooltip": "Optional — if assigned, briefly draws a beam from this tower to the target on each shot.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "beamDuration",
+      "type": "float",
+      "default": "0.08f",
+      "tooltip": "How long the beam stays visible, in seconds.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "muzzle",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "World-space point the beam originates from (e.g. a turret barrel tip). Defaults to this transform if left empty.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Attack(TDEnemy, float)",
+      "sig": "public void Attack(TDEnemy target, float damage)",
+      "kind": "method",
+      "name": "Attack",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "highlight-toggle",
+  "name": "HighlightToggle",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Highlight/HighlightToggle.cs",
+  "src_lines": [
+    10,
+    64
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Highlight Toggle"
+  },
+  "src_typeComment": "Toggleable highlight outline for EITHER a 3D mesh (assign a material using Toolkit/Highlight/Outline3D) or a 2D sprite (assign one using Toolkit/Highlight/OutlineSprite) — works with whichever Renderer type is on this GameObject (MeshRenderer or SpriteRenderer). The outline material is appended as an EXTRA material slot rather than replacing the object's own material, so its normal appearance is untouched.",
+  "src_serialized": [
+    {
+      "name": "outlineMaterial",
+      "type": "Material",
+      "default": null,
+      "tooltip": "Material using Toolkit/Highlight/Outline3D (mesh) or Toolkit/Highlight/OutlineSprite (sprite). Safe to share the same material across every highlighted object — it has no per-instance animated state.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "IsHighlighted",
+      "sig": "public bool IsHighlighted { get; private set; }",
+      "kind": "property",
+      "name": "IsHighlighted",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "EnableHighlight()",
+      "sig": "public void EnableHighlight()",
+      "kind": "method",
+      "name": "EnableHighlight",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "DisableHighlight()",
+      "sig": "public void DisableHighlight()",
+      "kind": "method",
+      "name": "DisableHighlight",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ToggleHighlight()",
+      "sig": "public void ToggleHighlight()",
+      "kind": "method",
+      "name": "ToggleHighlight",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VFXShaders_Demo"
+  ]
+}

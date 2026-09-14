@@ -1,0 +1,51 @@
+{
+  "id": "hologram-effect",
+  "name": "HologramEffect",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Hologram/HologramEffect.cs",
+  "src_lines": [
+    11,
+    39
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Hologram Effect"
+  },
+  "src_typeComment": "Drop alongside a Renderer using the Toolkit/Hologram/Hologram shader — SetVisible() tweens _Alpha via the Tween engine for a materialize/dematerialize transition instead of an instant on/off.",
+  "src_serialized": [
+    {
+      "name": "fadeDuration",
+      "type": "float",
+      "default": "0.4f",
+      "tooltip": "Seconds the materialize/dematerialize fade takes.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetVisible(bool, bool)",
+      "sig": "public void SetVisible(bool visible, bool animated = true)",
+      "kind": "method",
+      "name": "SetVisible",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VFXShaders_Demo"
+  ]
+}

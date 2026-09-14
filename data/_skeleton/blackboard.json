@@ -1,0 +1,86 @@
+{
+  "id": "blackboard",
+  "name": "Blackboard",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Blackboard/Blackboard.cs",
+  "src_lines": [
+    18,
+    50
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Blackboard"
+  },
+  "src_typeComment": "Shared key-value AI memory: lets independent systems (perception, combat, movement) read/write common facts (\"LastKnownPlayerPosition\", \"IsAlerted\", \"CurrentTarget\") without holding direct references to each other. Deliberately just a plain data store, not tied to any specific AI architecture — a squad of agents can share one Blackboard, or each agent can have its own.  This is intentionally the ONLY piece built from the GOAP discussion: a full Goal-Oriented Action Planner needs concrete, game-specific actions/preconditions/effects to be useful, which makes a truly generic planner thin value on its own — but a planner (or any future, more advanced decision system) would read/write world-state through exactly this kind of generic store, so building Blackboard now means adding one later doesn't require reworking anything here.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "UnityEvent<string>()",
+      "sig": "public UnityEvent<string> OnValueChanged = new UnityEvent<string>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Set<T>(string, T)",
+      "sig": "public void Set<T>(string key, T value)",
+      "kind": "method",
+      "name": "Set",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TryGet<T>(string, out T)",
+      "sig": "public bool TryGet<T>(string key, out T value)",
+      "kind": "method",
+      "name": "TryGet",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Get<T>(string, T)",
+      "sig": "public T Get<T>(string key, T fallback = default) => TryGet(key, out T value) ? value : fallback",
+      "kind": "method",
+      "name": "Get",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Has(string)",
+      "sig": "public bool Has(string key) => values.ContainsKey(key)",
+      "kind": "method",
+      "name": "Has",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Remove(string)",
+      "sig": "public void Remove(string key) => values.Remove(key)",
+      "kind": "method",
+      "name": "Remove",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Clear()",
+      "sig": "public void Clear() => values.Clear()",
+      "kind": "method",
+      "name": "Clear",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo",
+    "Dialogue_Demo"
+  ]
+}

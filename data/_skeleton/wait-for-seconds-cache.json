@@ -1,0 +1,35 @@
+{
+  "id": "wait-for-seconds-cache",
+  "name": "WaitForSecondsCache",
+  "cat": "Core",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Core",
+  "src_file": "Core/Coroutines/WaitForSecondsCache.cs",
+  "src_lines": [
+    8,
+    21
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "\"new WaitForSeconds(x)\" inside a loop/coroutine allocates every call; this reuses one instance per distinct duration. Usage: yield return WaitForSecondsCache.Get(0.5f);  instead of  yield return new WaitForSeconds(0.5f);",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Get(float)",
+      "sig": "public static WaitForSeconds Get(float seconds)",
+      "kind": "method",
+      "name": "Get",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CoreUtilities_Demo"
+  ]
+}

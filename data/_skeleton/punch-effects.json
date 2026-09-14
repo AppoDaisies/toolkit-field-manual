@@ -1,0 +1,43 @@
+{
+  "id": "punch-effects",
+  "name": "PunchEffects",
+  "cat": "Tweening",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Tweening",
+  "src_file": "Tweening/Punch/PunchEffects.cs",
+  "src_lines": [
+    10,
+    34
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Static \"juice\" helpers built on the Tween engine — punch/shake feedback for UI or world objects. This is a generalized position/scale punch for ANY Transform; Toolkit.CameraTools.CameraShake stays the right choice specifically for camera shake (it accumulates \"trauma\" across overlapping hits rather than restarting from scratch, which matters for a camera taking repeated damage — not needed here).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "PunchScale(Transform, float, float, EaseType)",
+      "sig": "public static TweenHandle PunchScale(Transform transform, float punchAmount = 0.2f, float duration = 0.3f, EaseType ease = EaseType.OutElastic)",
+      "kind": "method",
+      "name": "PunchScale",
+      "static": true,
+      "comment": "Instantly bumps the scale up, then eases back down to the original — the classic button-press/hit- feedback \"juice\" effect. OutElastic gives a bouncy overshoot-and-settle by default."
+    },
+    {
+      "id": "Shake(Transform, float, float)",
+      "sig": "public static TweenHandle Shake(Transform transform, float magnitude = 0.3f, float duration = 0.3f)",
+      "kind": "method",
+      "name": "Shake",
+      "static": true,
+      "comment": "Random positional jitter that settles down toward the end of the duration — offsets localPosition on X/Y only (safe for both a 2D/UI RectTransform and a 3D object; Z is left untouched)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Tweening_Demo"
+  ]
+}

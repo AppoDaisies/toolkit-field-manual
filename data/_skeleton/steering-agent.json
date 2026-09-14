@@ -1,0 +1,164 @@
+{
+  "id": "steering-agent",
+  "name": "SteeringAgent",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Steering/SteeringAgent.cs",
+  "src_lines": [
+    12,
+    96
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Steering Agent"
+  },
+  "src_typeComment": "Ready-to-drop-in mover built on SteeringBehaviors — set a mode and (for Seek/Flee/Arrive) a target, and this handles velocity integration and facing rotation for you. Moves the transform directly (no Rigidbody needed), matching the rest of the toolkit's kinematic-movement style.",
+  "src_serialized": [
+    {
+      "name": "mode",
+      "type": "SteeringMode",
+      "default": "SteeringMode.Seek",
+      "tooltip": "Which SteeringBehaviors formula drives this agent.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "target",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Required for Seek/Flee/Arrive. Ignored for Wander.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "maxSpeed",
+      "type": "float",
+      "default": "4f",
+      "tooltip": "Maximum movement speed.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "maxForce",
+      "type": "float",
+      "default": "8f",
+      "tooltip": "Maximum steering force applied per second — lower values turn/accelerate more sluggishly.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "arriveSlowRadius",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "Arrive mode only: distance from the target at which the agent starts slowing down.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "faceMovementDirection",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Rotates the agent to face its movement direction.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "flockNeighborRadius",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Other SteeringAgents within this radius are treated as flockmates. Flocking agents need a Collider (a trigger works fine) for this radius check to find them.",
+      "header": "Flock (Flock mode only)",
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "flockMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Layers checked when finding flockmates.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "separationWeight",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "How strongly this agent pushes away from flockmates that get too close.",
+      "header": null,
+      "range": "0f, 3f",
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "alignmentWeight",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "How strongly this agent tries to match its flockmates' average heading.",
+      "header": null,
+      "range": "0f, 3f",
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "cohesionWeight",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "How strongly this agent drifts toward its flockmates' average position.",
+      "header": null,
+      "range": "0f, 3f",
+      "order": 10,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Velocity",
+      "sig": "public Vector3 Velocity { get; private set; }",
+      "kind": "property",
+      "name": "Velocity",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetTarget(Transform)",
+      "sig": "public void SetTarget(Transform newTarget) => target = newTarget",
+      "kind": "method",
+      "name": "SetTarget",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetMode(SteeringMode)",
+      "sig": "public void SetMode(SteeringMode newMode) => mode = newMode",
+      "kind": "method",
+      "name": "SetMode",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo"
+  ]
+}

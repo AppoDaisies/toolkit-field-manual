@@ -1,0 +1,80 @@
+{
+  "id": "smooth-follow-camera",
+  "name": "SmoothFollowCamera",
+  "cat": "Camera",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.CameraTools",
+  "src_file": "Camera/SmoothFollowCamera/SmoothFollowCamera.cs",
+  "src_lines": [
+    12,
+    37
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Smooth Follow Camera"
+  },
+  "src_typeComment": "Drop on a Camera (or any transform) and assign a target — works for both 2D and 3D since it's just an offset + smoothed follow. For 2D, set the offset's Z to your camera's usual distance and turn lockZPosition on so gameplay depth never drifts (most 2D targets never move in Z anyway, so it's usually harmless either way — but for a 3D chase cam, lockZPosition freezes the camera's depth as the target moves toward/away from it, which is rarely what you want, hence it defaults off).",
+  "src_serialized": [
+    {
+      "name": "target",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "The transform to follow.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "offset",
+      "type": "Vector3",
+      "default": "new Vector3(0f, 0f, -10f)",
+      "tooltip": "World-space offset maintained from the target (e.g. 0,5,-10 for a 3D chase cam, or 0,0,-10 for 2D).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "followSharpness",
+      "type": "float",
+      "default": "8f",
+      "tooltip": "Higher = snappier follow, lower = more lag/smoothing.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "lockZPosition",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "Keeps this transform's Z fixed at the offset's Z regardless of the target's Z. Turn on for 2D; leave off for a 3D chase cam.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetTarget(Transform)",
+      "sig": "public void SetTarget(Transform newTarget) => target = newTarget",
+      "kind": "method",
+      "name": "SetTarget",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "CameraToolkit_Demo",
+    "GameplayArena_Demo",
+    "LedgeClimb_Demo"
+  ]
+}

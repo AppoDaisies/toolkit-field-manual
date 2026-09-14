@@ -1,0 +1,33 @@
+{
+  "id": "page-content",
+  "name": "PageContent",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/Core/PageContent.cs",
+  "src_lines": [
+    10,
+    14
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One page in a BookPageCurl's page list. Deliberately texture-only (no separate front/back art, no rich text content) — the SAME texture is reused, darkened, for the page's underside while it curls, so authoring a page is just \"assign one image.\" For text/UI-rich pages, render that content to a RenderTexture (or bake it to a Sprite) and assign the result here rather than extending this type.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "texture",
+      "sig": "public Texture texture",
+      "kind": "field",
+      "name": "texture",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

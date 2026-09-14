@@ -1,0 +1,75 @@
+{
+  "id": "ltg-measuring-tape-tab",
+  "name": "LtgMeasuringTapeTab",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/LtgMeasuringTapeTab.cs",
+  "src_lines": [
+    37,
+    294
+  ],
+  "src_base": null,
+  "src_implements": [
+    "ILtgTab"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Title",
+      "sig": "public string Title => \"Measuring Tape\"",
+      "kind": "property",
+      "name": "Title",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IconName",
+      "sig": "public string IconName => \"d_Grid.MoveTool\"",
+      "kind": "property",
+      "name": "IconName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Activate()",
+      "sig": "public void Activate() => SceneView.duringSceneGui += OnSceneGUI",
+      "kind": "method",
+      "name": "Activate",
+      "static": false,
+      "comment": "Only subscribed while this tab is the active one — otherwise it would eat Scene-view clicks while the designer is working in a different tab entirely."
+    },
+    {
+      "id": "Deactivate()",
+      "sig": "public void Deactivate()",
+      "kind": "method",
+      "name": "Deactivate",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TotalLength()",
+      "sig": "public float TotalLength()",
+      "kind": "method",
+      "name": "TotalLength",
+      "static": false,
+      "comment": "Public so the total-path math is directly testable without any Scene-view interaction."
+    },
+    {
+      "id": "AddPointForTest(Vector3)",
+      "sig": "public void AddPointForTest(Vector3 point) => points.Add(point)",
+      "kind": "method",
+      "name": "AddPointForTest",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

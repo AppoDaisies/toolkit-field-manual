@@ -1,0 +1,105 @@
+{
+  "id": "currency-wallet",
+  "name": "CurrencyWallet",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Currency/CurrencyWallet.cs",
+  "src_lines": [
+    15,
+    93
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Gameplay/Currency Wallet"
+  },
+  "src_typeComment": "Multi-currency wallet: Add/TrySpend/GetBalance per CurrencyDefinition asset instead of hardcoding a single \"gold\" int. Wire OnBalanceChanged to a UI counter (pairs well with AnimatedNumberCounter). GetSaveData()/LoadSaveData() bridge to SaveSystem/JsonHelper — currencies are saved by their string Id (from GameDataAsset), not by direct asset reference, since a plain JSON save file can't meaningfully reference a ScriptableObject asset across sessions.",
+  "src_serialized": [
+    {
+      "name": "startingBalances",
+      "type": "List<StartingBalance>",
+      "default": "new List<StartingBalance>()",
+      "tooltip": "Balances this wallet starts with — assign a CurrencyDefinition asset per row.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SaveEntry",
+      "sig": "public class SaveEntry",
+      "kind": "property",
+      "name": "SaveEntry",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<CurrencyDefinition, int, int>()",
+      "sig": "public UnityEvent<CurrencyDefinition, int, int> OnBalanceChanged = new UnityEvent<CurrencyDefinition, int, int>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "currency, newBalance, delta (positive for Add, negative for a successful TrySpend)"
+    },
+    {
+      "id": "GetBalance(CurrencyDefinition)",
+      "sig": "public int GetBalance(CurrencyDefinition currency) => balances.TryGetValue(currency, out int amount) ? amount : 0",
+      "kind": "method",
+      "name": "GetBalance",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CanAfford(CurrencyDefinition, int)",
+      "sig": "public bool CanAfford(CurrencyDefinition currency, int amount) => GetBalance(currency) >= amount",
+      "kind": "method",
+      "name": "CanAfford",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Add(CurrencyDefinition, int)",
+      "sig": "public void Add(CurrencyDefinition currency, int amount)",
+      "kind": "method",
+      "name": "Add",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TrySpend(CurrencyDefinition, int)",
+      "sig": "public bool TrySpend(CurrencyDefinition currency, int amount)",
+      "kind": "method",
+      "name": "TrySpend",
+      "static": false,
+      "comment": "Returns false (and leaves the balance untouched) if the wallet can't afford it — always check the return value rather than assuming the spend went through."
+    },
+    {
+      "id": "GetSaveData()",
+      "sig": "public List<SaveEntry> GetSaveData()",
+      "kind": "method",
+      "name": "GetSaveData",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LoadSaveData(List<SaveEntry>, GameDataRegistry<CurrencyDefinition>)",
+      "sig": "public void LoadSaveData(List<SaveEntry> data, GameDataRegistry<CurrencyDefinition> registry)",
+      "kind": "method",
+      "name": "LoadSaveData",
+      "static": false,
+      "comment": "`registry` resolves each saved currencyId back to its CurrencyDefinition asset — pass the same GameDataRegistry<CurrencyDefinition> your game's currencies are registered in."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Currency_Demo",
+    "TowerDefense_Demo"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "combat-text-motion",
+  "name": "CombatTextMotion",
+  "cat": "UI",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FloatingCombatText/FloatingCombatText.cs",
+  "src_lines": [
+    18,
+    24
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "How a spawned text drifts over its lifetime — kept separate from CombatTextStyle so a style can be \"Damage but with a shake\" just by editing one preset field, instead of needing a whole new style.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "RiseStraight",
+    "RiseWithArc",
+    "RiseWithShake",
+    "HoverPulse"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

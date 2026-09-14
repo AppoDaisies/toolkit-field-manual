@@ -1,0 +1,71 @@
+{
+  "id": "text-auto-shrink-fitter",
+  "name": "TextAutoShrinkFitter",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/ContentFitters/TextAutoShrinkFitter.cs",
+  "src_lines": [
+    12,
+    34
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TMP_Text)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Text Auto Shrink Fitter"
+  },
+  "src_typeComment": "TMP already supports auto-sizing, but it needs several settings configured together correctly (enableAutoSizing + fontSizeMin/Max + word-wrap + an overflow fallback) to actually behave like \"shrink to fit this box, wrap first, never overflow\" — this is exactly that bundle, in one component with clear tooltips, instead of hunting through the Inspector each time.",
+  "src_serialized": [
+    {
+      "name": "minFontSize",
+      "type": "float",
+      "default": "8f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "maxFontSize",
+      "type": "float",
+      "default": "72f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "allowWrapping",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, text wraps across multiple lines before shrinking further. If false, it shrinks toward a single line.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Apply()",
+      "sig": "public void Apply()",
+      "kind": "method",
+      "name": "Apply",
+      "static": false,
+      "comment": "Public so re-applying after changing minFontSize/maxFontSize/allowWrapping at runtime takes effect immediately instead of waiting for the next Awake."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

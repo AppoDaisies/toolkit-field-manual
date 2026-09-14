@@ -1,0 +1,37 @@
+{
+  "id": "csv-table-window",
+  "name": "CsvTableWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/CsvTableEditor/Editor/CsvTableWindow.cs",
+  "src_lines": [
+    12,
+    97
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/CSV Table Editor"
+    ]
+  },
+  "src_typeComment": "Window > Toolkit > CSV Table Editor: load a CSV, edit values directly in a grid inside Unity, save back — a lightweight in-Editor \"balancing sheet\" for design data without leaving Unity or fighting an Excel/Sheets round-trip for every small tweak.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<CsvTableWindow>(\"CSV Table Editor\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

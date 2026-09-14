@@ -1,0 +1,72 @@
+{
+  "id": "page-curl-drag-handler3d",
+  "name": "PageCurlDragHandler3D",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/World/PageCurlDragHandler3D.cs",
+  "src_lines": [
+    11,
+    62
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Collider)"
+    ],
+    "addComponentMenu": "Toolkit/Page Curl/Page Curl Drag Handler (3D)"
+  },
+  "src_typeComment": "Drop on a Collider covering ONE page's 3D drag zone (e.g. a BoxCollider matching the right page's Quad) — click-dragging across it turns the book. Use two of these, one per page, with `forward` set accordingly. Reads Input directly (not through the toolkit's Input Manager tools) to keep this self-contained — swap the raycast source if your project needs the new Input System instead.",
+  "src_serialized": [
+    {
+      "name": "book",
+      "type": "BookPageCurl",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "forward",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "True if this zone is the right page (drag turns forward); false for the left page (drag turns backward).",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "pageWidth",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "Page width in local units — must match the associated page's actual width, used to convert a raycast hit point into 0-1 drag progress.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "raycastCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Camera used to raycast the mouse position. Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "i-curl-surface",
+  "name": "ICurlSurface",
+  "cat": "PageCurl",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/Core/ICurlSurface.cs",
+  "src_lines": [
+    8,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implemented by whatever actually renders the ONE active curling page — PageCurlGraphic for UI, PageCurlMeshRenderer for 3D. BookPageCurl drives either through this interface so its page-turn logic never needs to know which context it's running in.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SetTexture(Texture)",
+      "sig": "void SetTexture(Texture texture)",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetCurlProgress(float)",
+      "sig": "void SetCurlProgress(float t); // 0 = flat, 1 = fully rolled away",
+      "kind": "method",
+      "name": "SetCurlProgress",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

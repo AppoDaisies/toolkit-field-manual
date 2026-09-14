@@ -1,0 +1,146 @@
+{
+  "id": "pagination-dots",
+  "name": "PaginationDots",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/PaginationDots/PaginationDots.cs",
+  "src_lines": [
+    19,
+    141
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Pagination Dots"
+  },
+  "src_typeComment": "Plug-and-play pagination dots (the row of dots under a carousel/swiper showing which page you're on). Fully usable standalone (call Setup()/SetCurrentIndex() yourself from any paging system), but built specifically so it \"just works\" with this toolkit's own paged UI: BindToCardCarousel() and BindToScrollSnap() wire everything in one call — dot count, click-to-jump, and staying in sync as the page changes from either end (a drag, a Next()/Previous() call, or clicking a dot).  Deliberately NOT offering a BindToFancyScrollView(): FancyScrollView is a continuously virtualized scroll (it tracks a scroll OFFSET, not a discrete \"current page\" index) — there's no clean page concept to put a dot on. If you need dots with FancyScrollView, drive SetCurrentIndex() yourself from whatever page boundary makes sense for your content.",
+  "src_serialized": [
+    {
+      "name": "dotPrefab",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "Optional custom dot template (needs an Image; add a Button on it too if you want click-to-jump). Leave empty to auto-build plain colored square dots.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "dotSpacing",
+      "type": "float",
+      "default": "24f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "dotSize",
+      "type": "float",
+      "default": "12f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "activeColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "inactiveColor",
+      "type": "Color",
+      "default": "new Color(1f, 1f, 1f, 0.35f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "clickable",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, clicking a dot fires OnDotClicked so you (or a Bind* call) can jump straight to that page.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnDotClicked = new UnityEvent<int>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentIndex",
+      "sig": "public int CurrentIndex { get; private set; }",
+      "kind": "property",
+      "name": "CurrentIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PageCount",
+      "sig": "public int PageCount { get; private set; }",
+      "kind": "property",
+      "name": "PageCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Setup(int, int)",
+      "sig": "public void Setup(int pageCount, int startIndex = 0)",
+      "kind": "method",
+      "name": "Setup",
+      "static": false,
+      "comment": "Builds (or rebuilds) one dot per page, centered on this GameObject."
+    },
+    {
+      "id": "SetCurrentIndex(int)",
+      "sig": "public void SetCurrentIndex(int index)",
+      "kind": "method",
+      "name": "SetCurrentIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "BindToCardCarousel(CardCarousel)",
+      "sig": "public void BindToCardCarousel(CardCarousel carousel)",
+      "kind": "method",
+      "name": "BindToCardCarousel",
+      "static": false,
+      "comment": "One-call setup for the exact pairing this tool was asked to support: dot count and starting page come straight from the carousel, dots stay in sync with Next()/Previous()/drag, and clicking a dot calls the carousel's own GoTo()."
+    },
+    {
+      "id": "BindToScrollSnap(ScrollSnap)",
+      "sig": "public void BindToScrollSnap(ScrollSnap scrollSnap)",
+      "kind": "method",
+      "name": "BindToScrollSnap",
+      "static": false,
+      "comment": "Same idea for ScrollSnap — ItemCount reads its Content's real child count, OnSnapped keeps dots in sync with drag-to-snap, and clicking a dot calls SnapTo() directly."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/PaginationDots/Editor/PaginationDotsSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "stat-curves",
+  "name": "StatCurves",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/StatCurves/StatCurves.cs",
+  "src_lines": [
+    7,
+    36
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Common gameplay-balancing formulas as pure functions — the kind of curve every RPG/looter needs and usually reinvents slightly differently each time.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ExperienceForLevel(int, float, float)",
+      "sig": "public static float ExperienceForLevel(int level, float baseXP = 100f, float growthRate = 1.15f)",
+      "kind": "method",
+      "name": "ExperienceForLevel",
+      "static": true,
+      "comment": "Total XP required to REACH a given level (level 1 = 0 XP). Growth compounds each level by growthRate."
+    },
+    {
+      "id": "LinearFalloff(float, float, float, float)",
+      "sig": "public static float LinearFalloff(float distance, float minDistance, float maxDistance, float fullDamage)",
+      "kind": "method",
+      "name": "LinearFalloff",
+      "static": true,
+      "comment": "Linear falloff: full damage at/inside minDistance, zero damage at/beyond maxDistance."
+    },
+    {
+      "id": "SmoothFalloff(float, float, float, float)",
+      "sig": "public static float SmoothFalloff(float distance, float minDistance, float maxDistance, float fullDamage)",
+      "kind": "method",
+      "name": "SmoothFalloff",
+      "static": true,
+      "comment": "Smoothed (ease-out) falloff — damage drops off gently near minDistance and steeply near maxDistance, reading as more \"natural\" than a straight linear ramp."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

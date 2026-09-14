@@ -1,0 +1,41 @@
+{
+  "id": "qr-matrix-builder",
+  "name": "QrMatrixBuilder",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk.QrCode",
+  "src_file": "Kiosk/QrCode/QrMatrixBuilder.cs",
+  "src_lines": [
+    10,
+    340
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": true,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Builds the actual module matrix: finder/timing/alignment patterns, format info, data placement (the zigzag routing rule), and mask selection (ISO/IEC 18004 sections 6.3, 6.7-6.8, 7.7, Annex C/E). This is the highest-precision, hardest-to-self-verify part of the whole generator, since there's no way to camera-scan the output from this environment — see QrCodeGenerator's header comment for the honest verification caveat that applies to this file specifically.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "QrMatrixBuilder(int)",
+      "sig": "public QrMatrixBuilder(int version)",
+      "kind": "ctor",
+      "name": "QrMatrixBuilder",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Build(byte[], byte[], int, int)",
+      "sig": "public bool[,] Build(byte[] dataCodewords, byte[] eccCodewords, int numBlocks, int eccLevelBits)",
+      "kind": "method",
+      "name": "Build",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

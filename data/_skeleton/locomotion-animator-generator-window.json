@@ -1,0 +1,69 @@
+{
+  "id": "locomotion-animator-generator-window",
+  "name": "LocomotionAnimatorGeneratorWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/AnimatorGenerator/Editor/LocomotionAnimatorGeneratorWindow.cs",
+  "src_lines": [
+    16,
+    243
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Locomotion Animator Generator"
+    ]
+  },
+  "src_typeComment": "Window > Toolkit > Locomotion Animator Generator: select a folder of AnimationClips (or an object with clips as sub-assets, e.g. an imported FBX) and this builds a basic Idle/Walk/Run blend tree + Jump + Hang/Climb Animator Controller automatically — matching clips by name (case-insensitive substring: \"idle\", \"walk\", \"run\", \"jump\", \"hang\"/\"ledge\", \"climb\") instead of manually dragging clips into the Animator window every time. The Speed float this generates lines up 1:1 with Toolkit.Controller.LocomotionStateMachine.NormalizedSpeed (0=idle, 1=walk, 2=run) — see Toolkit/Controller/Locomotion/LocomotionAnimatorDriver.cs for the runtime bridge that feeds it.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<LocomotionAnimatorGeneratorWindow>(\"Locomotion Animator Generator\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "GenerateFromFolder(string, string)",
+      "sig": "public static AnimatorController GenerateFromFolder(string folderPath, string outputPath)",
+      "kind": "method",
+      "name": "GenerateFromFolder",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "GenerateFromClips(AnimationClip, AnimationClip, AnimationClip, AnimationClip, string)",
+      "sig": "public static AnimatorController GenerateFromClips(AnimationClip idle, AnimationClip walk, AnimationClip run, AnimationClip jump, string outputPath)",
+      "kind": "method",
+      "name": "GenerateFromClips",
+      "static": true,
+      "comment": "Separated from GenerateFromFolder so it's directly testable/callable with explicit clips, without needing real assets on disk in a folder. hang/climb default to null via overload below so existing callers built before Ledge Climb support don't need to change."
+    },
+    {
+      "id": "GenerateFromClips(AnimationClip, AnimationClip, AnimationClip, AnimationClip, AnimationClip, AnimationClip, string)",
+      "sig": "public static AnimatorController GenerateFromClips(AnimationClip idle, AnimationClip walk, AnimationClip run, AnimationClip jump, AnimationClip hang, AnimationClip climb, string outputPath)",
+      "kind": "method",
+      "name": "GenerateFromClips",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "RunSelfTest()",
+      "sig": "public static void RunSelfTest()",
+      "kind": "method",
+      "name": "RunSelfTest",
+      "static": true,
+      "comment": "Not exposed as a [MenuItem] on purpose — a leaf item and a submenu can't coexist at the same menu path in Unity, and this only needs to be reachable via -executeMethod for verification anyway. Creates real synthetic clip assets and runs the actual generator against them, then checks the resulting controller has the expected parameters/states — stronger than a compile-only check."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

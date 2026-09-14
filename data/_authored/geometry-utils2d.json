@@ -1,0 +1,74 @@
+{
+  "id": "geometry-utils2d",
+  "summary": "Closest-point-on-segment, segment intersection and point-in-polygon tests on raw Vector2 data, without Physics2D.",
+  "problem": "Plenty of gameplay questions are geometric but have nothing to do with the physics world: is this waypoint inside the hand-authored patrol region stored in a ScriptableObject, does the path the player just drew cross itself, how far is the unit from that wall line. Answering those with Physics2D means creating GameObjects and colliders purely so you can call OverlapPoint, paying a physics sync, and binding the answer to layer and Rigidbody2D setup. These three functions answer the same questions directly on Vector2 values — no scene objects, no allocations, no frame-timing dependency, and usable from editor tooling and unit tests where there is no physics world at all.",
+  "workedExample": {
+    "setup": "An L-shaped room and a point sitting in the notch — the case a naive convex test gets wrong.",
+    "inputs": [
+      {
+        "name": "polygon",
+        "value": "[(0,0), (4,0), (4,4), (2,4), (2,2), (0,2)]"
+      },
+      {
+        "name": "point",
+        "value": "(1, 3)"
+      }
+    ],
+    "steps": [
+      "The test walks each edge (pj -> pi) and counts how many cross the horizontal ray shooting in +x from the point. An edge counts when the point's y sits between the edge's endpoints AND the edge's x at that y is to the RIGHT of the point.",
+      "Edge (0,2)->(0,0): both endpoint y values are below 3, so no crossing.",
+      "Edge (0,0)->(4,0): both below 3, no crossing.",
+      "Edge (4,0)->(4,4): 0 and 4 straddle y = 3. x at that height is 4, and 1 < 4, so this counts. inside = true.",
+      "Edge (4,4)->(2,4): both y values are 4, above 3 — no straddle, no crossing.",
+      "Edge (2,4)->(2,2): 4 and 2 straddle y = 3. x at that height is 2, and 1 < 2, so this counts too. inside = false.",
+      "Edge (2,2)->(0,2): both at y = 2, below 3 — no crossing.",
+      "Two crossings — an even number — so the point is outside."
+    ],
+    "result": "PointInPolygon returns false. The ray leaves the notch, enters the L's upright and exits its right wall: two crossings, therefore outside. A convex hull test on the same polygon would have wrongly returned true.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Validating that a placement click landed inside a hand-drawn buildable zone before spending resources.",
+    "Checking that a newly drawn path segment does not cross any segment already drawn (drawing puzzles, rope/wire routing, no-crossing rules).",
+    "Distance-to-wall queries for steering or nudging, using ClosestPointOnSegment against a list of wall lines.",
+    "Editor tooling that must answer geometric questions on serialized Vector2[] data with no scene loaded.",
+    "Minimap and map-region hit testing where the region is a designer-authored polygon, not a collider."
+  ],
+  "usage": {
+    "code": "Vector2 nearest = GeometryUtils2D.ClosestPointOnSegment(playerPos, wallStart, wallEnd);\nfloat gap = Vector2.Distance(playerPos, nearest);\n\nif (GeometryUtils2D.SegmentsIntersect(newA, newB, oldA, oldB, out Vector2 hit))\n    Debug.Log($\"paths cross at {hit}\");\n\nbool allowed = GeometryUtils2D.PointInPolygon(clickPos, buildZone);",
+    "codeNote": "All three are static and allocation-free; the polygon is a plain Vector2[] you can serialize on a MonoBehaviour or ScriptableObject."
+  },
+  "apiNotes": {
+    "ClosestPointOnSegment(Vector2, Vector2, Vector2)": "Projects the point onto the infinite line through a and b, then clamps the parameter to [0,1] so the answer is always ON the segment, never past an endpoint. Returns a when a and b are within ~0.0003 units of each other.",
+    "SegmentsIntersect(Vector2, Vector2, Vector2, Vector2, out Vector2)": "Cross-product parametric solve. Returns false for parallel or collinear pairs (the determinant test), and true with the crossing point only when both parameters land in [0,1].",
+    "PointInPolygon(Vector2, Vector2[])": "Even-odd ray casting. Works for concave polygons and ignores winding direction, so you do not have to author vertices clockwise."
+  },
+  "gotchas": [
+    {
+      "title": "Collinear overlapping segments report NO intersection",
+      "body": "SegmentsIntersect bails out when the determinant is near zero, which covers both genuinely parallel segments AND segments lying exactly on top of each other. If you are using it to validate \"this new path segment must not cross an existing one\", a segment that doubles straight back along an existing one passes the check."
+    },
+    {
+      "title": "Shared endpoints count as an intersection",
+      "body": "The parameter test is inclusive (t and u may be exactly 0 or 1), so two segments that merely touch at a corner report true. Building a closed polyline, every consecutive pair of edges will 'intersect'. Skip adjacent pairs explicitly when validating a chain."
+    },
+    {
+      "title": "PointInPolygon assumes a simple polygon and closes it for you",
+      "body": "The loop wraps from the last vertex back to the first, so do NOT repeat the opening vertex at the end of the array. Self-intersecting (figure-of-eight) polygons are outside the contract — the even-odd rule will carve holes out of the overlap region rather than erroring."
+    },
+    {
+      "title": "Vector3 to Vector2 keeps X and Y, not X and Z",
+      "body": "Unity's implicit conversion drops Z. In a top-down game whose ground plane is XZ, passing a world position straight in silently collapses everything onto the vertical axis. Convert explicitly with new Vector2(v.x, v.z) at the call site."
+    },
+    {
+      "title": "PointInPolygon is O(n) per query, with no spatial acceleration",
+      "body": "Fine for a few dozen vertices tested a few times a frame. Testing hundreds of agents against a hundred-vertex polygon every frame is not what this is for — do a bounding-box rejection first, or use real colliders."
+    }
+  ],
+  "seeAlso": [
+    "RaycastUtils",
+    "MathUtils",
+    "PathBuilder",
+    "GridPlacer"
+  ]
+}

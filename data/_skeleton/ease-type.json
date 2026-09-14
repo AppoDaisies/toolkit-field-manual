@@ -1,0 +1,38 @@
+{
+  "id": "ease-type",
+  "name": "EaseType",
+  "cat": "Math",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Easing/EasingFunctions.cs",
+  "src_lines": [
+    5,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Linear",
+    "InQuad",
+    "OutQuad",
+    "InOutQuad",
+    "InCubic",
+    "OutCubic",
+    "InOutCubic",
+    "InBack",
+    "OutBack",
+    "InOutBack",
+    "InElastic",
+    "OutElastic",
+    "OutBounce"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,79 @@
+{
+  "id": "hitbox",
+  "name": "Hitbox",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/Hitbox.cs",
+  "src_lines": [
+    15,
+    72
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Collider)"
+    ],
+    "addComponentMenu": "Toolkit/Combat/Hitbox"
+  },
+  "src_typeComment": "A melee attack's active hit region — its Collider stays DISABLED until Activate() (the \"active frames\" window of a swing), so it can't hit anything outside the animation's intended timing. Hits once per Hurtbox per Activate() call (a single swing can't multi-hit the same target), tracked via a per- activation HashSet that's cleared on the next Activate(). Unity only raises trigger callbacks for a collider pair where at least one side has a Rigidbody OR a CharacterController — the attacker this is attached to (or parented under) needs one of those for hits to actually register, unless the TARGET's Hurtbox side already has one.",
+  "src_serialized": [
+    {
+      "name": "damage",
+      "type": "float",
+      "default": "10f",
+      "tooltip": "Damage dealt per hit.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "knockbackForce",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "Knockback force magnitude, applied away from this hitbox toward whatever it hits.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "source",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "GameObject considered the attacker. Defaults to this object's root if left unassigned.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Activate()",
+      "sig": "public void Activate()",
+      "kind": "method",
+      "name": "Activate",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Deactivate()",
+      "sig": "public void Deactivate()",
+      "kind": "method",
+      "name": "Deactivate",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "HitboxCombat_Demo"
+  ]
+}

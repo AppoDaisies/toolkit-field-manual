@@ -1,0 +1,41 @@
+{
+  "id": "word-timing",
+  "name": "WordTiming",
+  "cat": "TMPEffects",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.TMPEffects",
+  "src_file": "TMPEffects/TimedHighlighter/TMPTimedHighlighter.cs",
+  "src_lines": [
+    12,
+    16
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Per-word start/end time, aligned 1:1 with the text's words in reading order (word 0, word 1, ...). endTime <= startTime means \"extends until the next word's startTime\" — you don't need to hand-author a gapless timeline, just each word's start.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "startTime",
+      "sig": "public float startTime",
+      "kind": "field",
+      "name": "startTime",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "endTime",
+      "sig": "public float endTime",
+      "kind": "field",
+      "name": "endTime",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,98 @@
+{
+  "id": "ground-snapper",
+  "name": "GroundSnapper",
+  "cat": "Raycasting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Raycasting",
+  "src_file": "Raycasting/GroundSnapper/GroundSnapper.cs",
+  "src_lines": [
+    11,
+    39
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Raycasting/Ground Snapper"
+  },
+  "src_typeComment": "Plug-and-play \"keep this sitting on the ground\" behavior — raycasts straight down and repositions the object onto whatever surface is below it, optionally tilting to match the surface's slope. Different from Toolkit.EditorTools.GreyboxPlacer (an EDITOR-TIME click-to-place tool): this runs at runtime, continuously or on-demand, for things like a spawned prop settling onto uneven terrain or a character that should stay glued to a slope instead of floating/clipping.",
+  "src_serialized": [
+    {
+      "name": "groundMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "raycastHeight",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "The raycast starts this far ABOVE the object's current position — needs to be higher than anything the object could already be embedded in, or the downward ray could start under the ground and miss it entirely.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "maxDistance",
+      "type": "float",
+      "default": "20f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "alignToNormal",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, also rotates the object so its up vector matches the ground's surface normal (e.g. tilting to match a slope). If false, only the position changes.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "snapEveryFrame",
+      "type": "bool",
+      "default": null,
+      "tooltip": "If true, snaps every frame (for something standing on moving/uneven ground). If false, call SnapToGround() yourself (e.g. once, right after spawning).",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "heightOffset",
+      "type": "float",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SnapToGround()",
+      "sig": "public bool SnapToGround()",
+      "kind": "method",
+      "name": "SnapToGround",
+      "static": false,
+      "comment": "Returns true if a ground surface was actually found and the object was moved onto it."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Raycasting/GroundSnapper/Editor/GroundSnapperSelfTest.cs",
+  "src_demoScene": [
+    "Raycasting_Demo"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "water-depth-texture-enabler",
+  "name": "WaterDepthTextureEnabler",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Water/WaterDepthTextureEnabler.cs",
+  "src_lines": [
+    11,
+    20
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Water Depth Texture Enabler"
+  },
+  "src_typeComment": "Any water shader that samples _CameraDepthTexture for shoreline foam needs the CAMERA to actually generate that texture — Unity only does so when a camera's depthTextureMode requests it, and a shader has no way to request this on its own. Drop this on whatever camera will see the water (or call EnsureDepthTexture(camera) once from code) instead of remembering to flip the flag by hand — without it, shoreline foam silently reads as \"always deep water\" rather than erroring.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "EnsureDepthTexture(Camera)",
+      "sig": "public static void EnsureDepthTexture(Camera camera)",
+      "kind": "method",
+      "name": "EnsureDepthTexture",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Water_Demo"
+  ]
+}

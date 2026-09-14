@@ -1,0 +1,136 @@
+{
+  "id": "ui-fake-light",
+  "name": "UIFakeLight",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/FakeLightOverlay/UIFakeLight.cs",
+  "src_lines": [
+    18,
+    120
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/UI Fake Light (Overlay)"
+  },
+  "src_typeComment": "The Screen Space Overlay equivalent of FakeLight's PerPixel mode — a SEPARATE tool, not a variant of the 3D FakeLight, because overlay UI has no 3D world position at all to sample. Publishes real SCREEN-PIXEL coordinates into a shared global array every frame (same \"global array\" technique as FakeLight/ GrassBendEmitter/RippleEmitter), sampled by Toolkit/UI/Fake Light Receiver via UIFakeLightOverlayInclude.cginc's SampleUIFakeLights(). Point and Spot both supported.  Place this on a RectTransform under a Screen Space - Overlay canvas — its own .position IS the real screen-pixel position for that render mode (Unity's own convention, the same one RectTransformUtility.WorldToScreenPoint relies on), so no camera/projection math is needed here.",
+  "src_serialized": [
+    {
+      "name": "lightColor",
+      "type": "Color",
+      "default": "new Color(1f, 0.9f, 0.6f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "intensity",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "radius",
+      "type": "float",
+      "default": "200f",
+      "tooltip": "In pixels.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "lightType",
+      "type": "UIFakeLightType",
+      "default": "UIFakeLightType.Point",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "spotAngle",
+      "type": "float",
+      "default": "60f",
+      "tooltip": "Full cone angle in degrees. Only used when Type is Spot. The cone points along this RectTransform's local +X axis — rotate the RectTransform (its Z rotation) to aim it.",
+      "header": null,
+      "range": "1f, 179f",
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "MaxLights",
+      "sig": "public const int MaxLights = 8; // must match TOOLKIT_MAX_UI_FAKE_LIGHTS in UIFakeLightOverlayInclude.cginc",
+      "kind": "const",
+      "name": "MaxLights",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Publish()",
+      "sig": "public static void Publish()",
+      "kind": "method",
+      "name": "Publish",
+      "static": true,
+      "comment": "Public — not gated behind Update() — so a self-test can drive this deterministically without waiting on a real frame."
+    },
+    {
+      "id": "ActiveLightCountForTest",
+      "sig": "public static int ActiveLightCountForTest => ActiveLights.Count",
+      "kind": "property",
+      "name": "ActiveLightCountForTest",
+      "static": true,
+      "comment": "Test-only accessors — reading GLOBAL shader state back isn't otherwise observable from a script in a way a self-test can assert against."
+    },
+    {
+      "id": "PublishedPositionSlotForTest(int)",
+      "sig": "public static Vector4 PublishedPositionSlotForTest(int index) => PositionsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedPositionSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "PublishedColorSlotForTest(int)",
+      "sig": "public static Vector4 PublishedColorSlotForTest(int index) => ColorsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedColorSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "PublishedSpotParamsSlotForTest(int)",
+      "sig": "public static Vector4 PublishedSpotParamsSlotForTest(int index) => SpotParamsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedSpotParamsSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ResetPublishGuardForTest()",
+      "sig": "public static void ResetPublishGuardForTest() => lastPublishedFrame = -1",
+      "kind": "method",
+      "name": "ResetPublishGuardForTest",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/UI/FakeLightOverlay/Editor/UIFakeLightSelfTest.cs",
+  "src_demoScene": [
+    "UIFakeLightOverlay_Demo"
+  ]
+}

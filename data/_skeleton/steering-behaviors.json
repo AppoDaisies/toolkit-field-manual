@@ -1,0 +1,67 @@
+{
+  "id": "steering-behaviors",
+  "name": "SteeringBehaviors",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Steering/SteeringBehaviors.cs",
+  "src_lines": [
+    10,
+    92
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Classic steering-behavior math (Reynolds-style): each function returns a STEERING FORCE to add to current velocity, not a position or a velocity itself. Plain static math, not tied to any specific mover — SteeringAgent is the ready-to-drop-in MonoBehaviour that actually applies these; use these functions directly if you're driving movement some other way (Rigidbody, CharacterController, NavMesh).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Seek(Vector3, Vector3, Vector3, float, float)",
+      "sig": "public static Vector3 Seek(Vector3 position, Vector3 velocity, Vector3 target, float maxSpeed, float maxForce)",
+      "kind": "method",
+      "name": "Seek",
+      "static": true,
+      "comment": "Steers straight toward the target at full speed."
+    },
+    {
+      "id": "Flee(Vector3, Vector3, Vector3, float, float)",
+      "sig": "public static Vector3 Flee(Vector3 position, Vector3 velocity, Vector3 target, float maxSpeed, float maxForce)",
+      "kind": "method",
+      "name": "Flee",
+      "static": true,
+      "comment": "Steers straight away from the target at full speed — Seek with the desired direction flipped."
+    },
+    {
+      "id": "Arrive(Vector3, Vector3, Vector3, float, float, float)",
+      "sig": "public static Vector3 Arrive(Vector3 position, Vector3 velocity, Vector3 target, float maxSpeed, float maxForce, float slowRadius)",
+      "kind": "method",
+      "name": "Arrive",
+      "static": true,
+      "comment": "Like Seek, but decelerates smoothly on approach instead of overshooting and correcting — use this for \"move to and stop at\" rather than \"chase forever\" (racing AI slowing into a waypoint, an NPC walking up to a chair)."
+    },
+    {
+      "id": "Wander(Vector3, Vector3, ref float, float, float)",
+      "sig": "public static Vector3 Wander(Vector3 position, Vector3 velocity, ref float wanderAngle, float maxSpeed, float maxForce,",
+      "kind": "method",
+      "name": "Wander",
+      "static": true,
+      "comment": "Wanders with a smoothly-changing random direction instead of jittering every frame. `wanderAngle` is caller-owned state (a float you keep between calls, e.g. a field on your MonoBehaviour) — this function reads and updates it in place, which is what makes the wander direction drift smoothly over time instead of snapping to a new random direction each call."
+    },
+    {
+      "id": "Flock(Vector3, Vector3, IReadOnlyList<(Vector3 position, Vector3 velocity)>)",
+      "sig": "public static Vector3 Flock(Vector3 position, Vector3 velocity, IReadOnlyList<(Vector3 position, Vector3 velocity)> neighbors,",
+      "kind": "method",
+      "name": "Flock",
+      "static": true,
+      "comment": "Reynolds-style flocking/boids: blends three rules into one steering force — separation (push away from nearby flockmates so they don't overlap), alignment (match their average heading), and cohesion (drift toward their average position, reusing Seek). `neighbors` is caller-gathered (e.g. via Physics.OverlapSphere against other flocking agents) rather than looked up here, so this stays plain math with no dependency on how neighbors are actually found."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "AI_Demo"
+  ]
+}

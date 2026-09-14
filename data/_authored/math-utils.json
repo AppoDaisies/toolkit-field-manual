@@ -1,0 +1,83 @@
+{
+  "id": "math-utils",
+  "summary": "Scalar helpers Unity omits or gets surprising: true modulo, range remapping, angle deltas, frame-rate-independent damping.",
+  "problem": "A short list of one-liners that are individually trivial and collectively responsible for a lot of bugs. C#'s % returns negative results for negative operands, so wrapping an index backwards off the start of an array breaks. Subtracting two angles blows up across the 359-to-1 degree seam. And the near-universal Lerp(current, target, 0.1f) smoothing idiom silently changes speed with frame rate, so the game feels different at 30 and 144 fps. Each function here is the correct version of something people write wrong from memory.",
+  "workedExample": {
+    "setup": "Proving Damp is genuinely frame-rate independent: damp a value from 0 toward 10 with sharpness 5, once at 30 fps and twice at 60 fps. Both must land on the same number.",
+    "inputs": [
+      {
+        "name": "current",
+        "value": "0"
+      },
+      {
+        "name": "target",
+        "value": "10"
+      },
+      {
+        "name": "sharpness",
+        "value": "5"
+      }
+    ],
+    "steps": [
+      "The formula is Mathf.Lerp(current, target, 1 - Mathf.Exp(-sharpness * deltaTime)).",
+      "One frame at deltaTime = 1/30: 1 - exp(-5/30) = 1 - exp(-0.1666667) = 1 - 0.8464817 = 0.1535183. Lerp(0, 10, 0.1535183) = 1.535183.",
+      "One frame at deltaTime = 1/60: 1 - exp(-5/60) = 1 - exp(-0.0833333) = 1 - 0.9200444 = 0.0799556.",
+      "60 fps step 1: Lerp(0, 10, 0.0799556) = 0.799556.",
+      "60 fps step 2: 0.799556 + (10 - 0.799556) * 0.0799556 = 0.799556 + 0.735627 = 1.535183.",
+      "They match because the remaining gap multiplies by exp(-sharpness*dt) each frame, and exp(-5/60) squared is exactly exp(-5/30). The naive Lerp(current, target, 0.1f) has no such property: two steps leave 0.81 of the gap, one step leaves 0.9."
+    ],
+    "result": "1.535183 either way. Whatever the frame rate, the same wall-clock time produces the same amount of smoothing — which is the entire reason to use Damp instead of a raw Lerp factor.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Wrapping a selection index in a menu or inventory: Mod(index - 1, count) hits the last item instead of -1.",
+    "Turning a character toward a heading without the 359-to-1 wraparound spin: DeltaAngle gives the shortest signed turn.",
+    "Smoothing a camera, a health bar or an aim reticle toward a target with Damp, so it behaves identically on every machine.",
+    "Driving audio or VFX parameters from gameplay values: Remap(healthPercent, 0, 1, minPitch, maxPitch).",
+    "Any place a normalized 0-1 value needs to become a designer-facing range and back again."
+  ],
+  "usage": {
+    "code": "transform.position = MathUtils.Damp(transform.position, target.position, 8f, Time.deltaTime);\nfloat turn = MathUtils.DeltaAngle(transform.eulerAngles.y, desiredYaw);\nint previous = MathUtils.Mod(index - 1, items.Length);\nfloat pitch = MathUtils.RemapClamped(healthPercent, 0f, 1f, 0.8f, 1.2f);",
+    "codeNote": "Damp has both a float and a Vector3 overload, so the same call reads the same whether you are smoothing a number or a position."
+  },
+  "apiNotes": {
+    "Mod(int, int)": "(a % b + b) % b — the mathematical modulo. Mod(-1, 5) is 4, where C#'s -1 % 5 is -1. The go-to for wrapping indices, grid coordinates and angles.",
+    "Mod(float, float)": "Same identity for floats. Used internally by DeltaAngle.",
+    "Remap(float, float, float, float, float)": "Rescales value from [inMin, inMax] onto [outMin, outMax]. Does NOT clamp: out-of-range input extrapolates past the output bounds.",
+    "RemapClamped(float, float, float, float, float)": "Same, but via Mathf.InverseLerp, which clamps the normalized parameter to [0,1] first. The safer default.",
+    "DeltaAngle(float, float)": "Shortest signed turn in degrees, always in [-180, 180]. DeltaAngle(350, 10) = Mod(10 - 350 + 180, 360) - 180 = 200 - 180 = +20, not -340.",
+    "Damp(float, float, float, float)": "Exponential decay toward target, framerate independent. sharpness is a rate, not a duration — see the worked example and the gotcha below.",
+    "Damp(Vector3, Vector3, float, float)": "Same curve applied component-wise via Vector3.Lerp. Use it for positions; the whole vector converges at one rate.",
+    "InRange(float, float, float)": "Inclusive at both ends: value >= min && value <= max. Nothing stops you passing min > max, which just always returns false.",
+    "DirectionTo(Vector3, Vector3)": "(to - from).normalized. Purely a readability helper — it does not also hand back the distance, despite what the source comment about 'direction and distance packed together' implies."
+  },
+  "gotchas": [
+    {
+      "title": "sharpness is a rate, not a time",
+      "body": "Damp closes 1 - exp(-sharpness) of the remaining gap per second: sharpness 5 is about 99.3% closed after one second, sharpness 1 about 63%. Higher is snappier. There is no 'reaches the target in N seconds' setting — exponential decay never actually arrives, it just gets arbitrarily close, so add an explicit snap if you need exact equality."
+    },
+    {
+      "title": "Remap divides by (inMax - inMin) with no guard",
+      "body": "Equal input bounds give a division by zero, which for floats silently yields Infinity or NaN and propagates through everything downstream. RemapClamped routes through Mathf.InverseLerp, which returns 0 for a degenerate range instead. Prefer RemapClamped unless you specifically want extrapolation outside the input range."
+    },
+    {
+      "title": "Mod by zero behaves differently for int and float",
+      "body": "The int overload throws DivideByZeroException (C# integer semantics); the float overload silently returns NaN. Both mirror the underlying % operator — neither is validated here."
+    },
+    {
+      "title": "DirectionTo returns zero, not NaN, when from == to",
+      "body": "Unity's .normalized returns Vector3.zero for a zero-length vector rather than producing NaN. That is safer, but Quaternion.LookRotation still rejects a zero forward vector with an error. Check sqrMagnitude before using the result to build a rotation."
+    },
+    {
+      "title": "DeltaAngle duplicates UnityEngine.Mathf.DeltaAngle",
+      "body": "Not a trap, just worth knowing: this is functionally the same as Unity's built-in. It exists so the toolkit's angle handling is visible and self-contained on top of its own Mod. Either is fine; do not assume this one does something extra."
+    }
+  ],
+  "seeAlso": [
+    "EasingFunctions",
+    "GeometryUtils2D",
+    "NoiseUtils",
+    "SmoothFollowCamera",
+    "StatCurves"
+  ]
+}

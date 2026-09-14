@@ -1,0 +1,132 @@
+{
+  "id": "screen-stack-navigator",
+  "name": "ScreenStackNavigator",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Navigation/ScreenStackNavigator.cs",
+  "src_lines": [
+    14,
+    126
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Screen Stack Navigator"
+  },
+  "src_typeComment": "Push/pop panel navigation, like a mobile app's nav stack. Push()/Pop()/Replace()/PopToRoot() manage a stack of screen GameObjects (SetActive'd on/off), with an optional slide transition built on the EXISTING Tween engine. The root screen can never be popped, matching standard mobile nav-stack behavior.",
+  "src_serialized": [
+    {
+      "name": "rootScreen",
+      "type": "GameObject",
+      "default": null,
+      "tooltip": "The first screen shown — must already be active in the scene.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "transitionDuration",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": "Seconds for the slide transition. 0 = instant, no animation.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "handleBackButton",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, the Escape key (the standard stand-in for Android's hardware back button) pops the current screen.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnScreenPushed = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnScreenPopped = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentScreen",
+      "sig": "public GameObject CurrentScreen => stack.Count > 0 ? stack[stack.Count - 1] : null",
+      "kind": "property",
+      "name": "CurrentScreen",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Depth",
+      "sig": "public int Depth => stack.Count",
+      "kind": "property",
+      "name": "Depth",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetRootScreen(GameObject)",
+      "sig": "public void SetRootScreen(GameObject root)",
+      "kind": "method",
+      "name": "SetRootScreen",
+      "static": false,
+      "comment": "Explicitly (re)configures the root screen — the reliable way to set it up from code, since a plain field assignment after AddComponent() has no guarantee Awake/EnsureInitialized will run again to pick it up. Resets the whole stack back down to just this root."
+    },
+    {
+      "id": "Push(GameObject)",
+      "sig": "public void Push(GameObject screen)",
+      "kind": "method",
+      "name": "Push",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Pop()",
+      "sig": "public bool Pop()",
+      "kind": "method",
+      "name": "Pop",
+      "static": false,
+      "comment": "Returns false (and does nothing) if there's nothing above the root to pop — the root screen can never be removed this way."
+    },
+    {
+      "id": "PopToRoot()",
+      "sig": "public void PopToRoot()",
+      "kind": "method",
+      "name": "PopToRoot",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Replace(GameObject)",
+      "sig": "public void Replace(GameObject screen)",
+      "kind": "method",
+      "name": "Replace",
+      "static": false,
+      "comment": "Pops the current screen and pushes a new one in one step — the replaced screen isn't reachable by backing out, unlike a plain Pop()-then-Push()."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

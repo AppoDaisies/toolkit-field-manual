@@ -1,0 +1,41 @@
+{
+  "id": "qr-format-info",
+  "name": "QrFormatInfo",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk.QrCode",
+  "src_file": "Kiosk/QrCode/QrFormatInfo.cs",
+  "src_lines": [
+    10,
+    30
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Format info: 15 bits (2-bit EC level + 3-bit mask pattern, then a 10-bit BCH(15,5) error-correction code, then XORed with a fixed mask) written twice into the matrix so a scanner can recover it even if one copy is damaged/occluded (ISO/IEC 18004 section 8.9, Annex C). This is GF(2) binary polynomial division — a DIFFERENT, simpler math than the GF(256) Reed-Solomon used for the actual data, since format/version info uses its own dedicated BCH code, not Reed-Solomon. Public (not internal) specifically so the Editor-folder self-test — a different default assembly in this no-asmdef project — can call it directly.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "EccLevelBitsM",
+      "sig": "public const int EccLevelBitsM = 0b00",
+      "kind": "const",
+      "name": "EccLevelBitsM",
+      "static": false,
+      "comment": "ISO/IEC 18004 Table 25: L=01, M=00, Q=11, H=10. This generator only ever uses M (00)."
+    },
+    {
+      "id": "ComputeFormatBits(int, int)",
+      "sig": "public static int ComputeFormatBits(int eccLevelBits, int maskPattern)",
+      "kind": "method",
+      "name": "ComputeFormatBits",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

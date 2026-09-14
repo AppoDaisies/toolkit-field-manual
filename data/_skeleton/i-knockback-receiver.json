@@ -1,0 +1,33 @@
+{
+  "id": "i-knockback-receiver",
+  "name": "IKnockbackReceiver",
+  "cat": "Combat",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/HitData.cs",
+  "src_lines": [
+    16,
+    19
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implement on anything that should react to knockback (push a Rigidbody, nudge a character controller). Optional — Hurtbox only calls this if the hit target actually has one.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ApplyKnockback(Vector3)",
+      "sig": "void ApplyKnockback(Vector3 force)",
+      "kind": "method",
+      "name": "ApplyKnockback",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

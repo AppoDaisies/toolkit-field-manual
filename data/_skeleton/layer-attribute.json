@@ -1,0 +1,24 @@
+{
+  "id": "layer-attribute",
+  "name": "LayerAttribute",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorAttributes",
+  "src_file": "EditorTools/AttributeDrawers/LayerAttribute.cs",
+  "src_lines": [
+    6,
+    6
+  ],
+  "src_base": "PropertyAttribute",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Drop above an int field to draw it as a Layer dropdown instead of a plain number field.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,51 @@
+{
+  "id": "session-recorder-service",
+  "name": "SessionRecorderService",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorTools.SessionRecorder",
+  "src_file": "EditorTools/SessionRecorder/Editor/SessionRecorderService.cs",
+  "src_lines": [
+    17,
+    116
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "initializeOnLoad": true
+  },
+  "src_typeComment": "Runs automatically, no wiring needed — records what you were looking at (Hierarchy/Project selection), which scripts you opened, and detects when you've come back after a real gap so the \"Where I Left Off\" window can offer to show itself instead of you having to remember it exists.  What this CANNOT see, on purpose left as an honest gap rather than faked: your actual code editor's open tabs/cursor position (Unity has no API into VS Code/Rider internals — only that you double-clicked a script to open it), and Inspector micro-state like an expanded foldout or an unsaved field edit. The manual note field in the window is the intended answer to that second gap.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "GapMinutes",
+      "sig": "public static float GapMinutes",
+      "kind": "property",
+      "name": "GapMinutes",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "OnOpenAsset(int, int)",
+      "sig": "public static bool OnOpenAsset(int instanceId, int line)",
+      "kind": "method",
+      "name": "OnOpenAsset",
+      "static": true,
+      "comment": "[OnOpenAsset] fires when the user double-clicks an asset to open it — the real, documented hook for \"what did they just open,\" not a guess based on polling. Returning false lets Unity's normal open-in-external-editor behaviour still happen; this only ever observes."
+    },
+    {
+      "id": "RecordNote(string)",
+      "sig": "public static void RecordNote(string noteText)",
+      "kind": "method",
+      "name": "RecordNote",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

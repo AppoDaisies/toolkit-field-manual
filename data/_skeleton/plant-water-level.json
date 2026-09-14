@@ -1,0 +1,132 @@
+{
+  "id": "plant-water-level",
+  "name": "PlantWaterLevel",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Watering/PlantWaterLevel.cs",
+  "src_lines": [
+    11,
+    89
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Gameplay/Plant Water Level"
+  },
+  "src_typeComment": "A plant's watered-ness as a decaying value, nothing more — no growth-stage/visual behaviour is wired in here on purpose. What a game does with the number (swap a mesh, tint a colour, kill the plant) is left to whatever's listening on OnWaterChanged/OnDried/OnFullyWatered, so this stays usable in a full farming sim or as a one-off decorative interaction.",
+  "src_serialized": [
+    {
+      "name": "maxWater",
+      "type": "float",
+      "default": "100f",
+      "tooltip": "Upper bound for the water level.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "startingNormalizedWater",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Starting water level as a fraction of max (0 = bone dry, 1 = full) when the scene starts.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "decayPerSecond",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "Water lost per second — plants need repeat watering rather than staying wet forever. 0 = never decays.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<float, float>()",
+      "sig": "public UnityEvent<float, float> OnWaterChanged = new UnityEvent<float, float>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnDried = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnFullyWatered = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "EnsureInitialized()",
+      "sig": "public float CurrentWater { get { EnsureInitialized(); return currentWater; } }",
+      "kind": "method",
+      "name": "EnsureInitialized",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "MaxWater",
+      "sig": "public float MaxWater => maxWater",
+      "kind": "property",
+      "name": "MaxWater",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NormalizedWater",
+      "sig": "public float NormalizedWater => maxWater <= 0f ? 0f : CurrentWater / maxWater",
+      "kind": "property",
+      "name": "NormalizedWater",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsDry",
+      "sig": "public bool IsDry => CurrentWater <= 0f",
+      "kind": "property",
+      "name": "IsDry",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Public and separate from Update — same shape as Toolkit.Core.CountdownTimer.Tick — so a self-test can drive decay deterministically instead of waiting on real elapsed time."
+    },
+    {
+      "id": "AddWater(float)",
+      "sig": "public void AddWater(float amount)",
+      "kind": "method",
+      "name": "AddWater",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "WateringCan_Demo"
+  ]
+}

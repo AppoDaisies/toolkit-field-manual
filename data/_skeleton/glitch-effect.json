@@ -1,0 +1,59 @@
+{
+  "id": "glitch-effect",
+  "name": "GlitchEffect",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Glitch/GlitchEffect.cs",
+  "src_lines": [
+    11,
+    35
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Glitch Effect"
+  },
+  "src_typeComment": "Drop alongside a Renderer using the Toolkit/Glitch/Glitch shader — TriggerGlitch() punches _GlitchAmount up then eases it back to 0, e.g. on taking damage or a \"corrupted\" story beat.",
+  "src_serialized": [
+    {
+      "name": "decayDuration",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Seconds for the glitch burst to ease back down to 0.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "TriggerGlitch(float)",
+      "sig": "public void TriggerGlitch(float intensity = 1f)",
+      "kind": "method",
+      "name": "TriggerGlitch",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetGlitchAmount(float)",
+      "sig": "public void SetGlitchAmount(float amount)",
+      "kind": "method",
+      "name": "SetGlitchAmount",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VFXShaders_Demo"
+  ]
+}

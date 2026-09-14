@@ -1,0 +1,42 @@
+{
+  "id": "raw-image-texture-display",
+  "name": "RawImageTextureDisplay",
+  "cat": "PageCurl",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.PageCurl",
+  "src_file": "PageCurl/UI/RawImageTextureDisplay.cs",
+  "src_lines": [
+    9,
+    21
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "ITextureDisplay"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RawImage)"
+    ],
+    "addComponentMenu": "Toolkit/Page Curl/Raw Image Texture Display (UI)"
+  },
+  "src_typeComment": "Thin ITextureDisplay wrapper around a RawImage, for a UI book's static (non-curling) backing pages.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "SetTexture(Texture)",
+      "sig": "public void SetTexture(Texture texture)",
+      "kind": "method",
+      "name": "SetTexture",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "PageCurl_Demo"
+  ]
+}

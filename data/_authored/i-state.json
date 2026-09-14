@@ -1,0 +1,63 @@
+{
+  "id": "i-state",
+  "summary": "Three-method contract (Enter/Tick/Exit) that StateMachine drives; write one class per state and hand it over.",
+  "purpose": "IState is the only thing StateMachine knows how to hold. It defines a state as three moments — the switch in, the per-frame body, the switch out — and nothing else: no context parameter, no deltaTime, no return value, no attributes, no base class. That minimalism is deliberate (StateMachine's own comment says it is kept framework-free so it is easy to trace and edit), and it is why anything can be a state: a private nested class, a plain POCO, or a MonoBehaviour that VisualStateMachineRunner binds to a graph node.",
+  "whenToImplement": "Write an IState when a behaviour has modes that are mutually exclusive, each with its own setup and teardown, and an enum plus a switch plus a pile of bools has started to hurt. The trigger is usually the third bool: an enemy that is not just chasing but chasing-unless-stunned-unless-dead, or a game flow where 'entering the round' and 'leaving the round' both need to do real work. If a mode has no entry or exit work at all, a plain enum is still the better answer.",
+  "memberContracts": {
+    "Enter()": {
+      "contract": "One-time setup for this activation: zero the counters this state owns, start the animation, enable the collider, pick a patrol target. StateMachine.SetState calls the outgoing state's Exit() first, then assigns CurrentState, then calls your Enter() — so by the time Enter runs, CurrentState already refers to you and IsInState<T>() already reports true.",
+      "mustNot": "Do not assume it will be called again when the machine re-selects the same state. SetState begins with `if (CurrentState == newState) return;`, so re-selecting the current state is a complete no-op — Enter() will not re-run, and you cannot use it to restart a state."
+    },
+    "Tick()": {
+      "contract": "One frame of the state's behaviour, plus — if you are not using AddTransition — the decision to leave, by calling SetState on the machine yourself. StateMachine.Tick() evaluates transitions FIRST and then calls CurrentState.Tick(), so on a transition frame only the incoming state ticks; the outgoing state's last Tick() was the previous frame. There is no deltaTime argument: read Time.deltaTime (or the unscaled variant) yourself, and remember this runs at whatever rate the owner chooses to pump the machine.",
+      "mustNot": "Do not assume at least one Tick() happens between Enter() and Exit(). If a transition condition is already true on the next machine Tick, the state is entered and exited with zero Tick() calls in between, so never put required work here that Enter() should have done."
+    },
+    "Exit()": {
+      "contract": "Undo exactly what Enter() did — stop the coroutine you started, disable the collider, clear the nav path, reset the counter for next time. It is called from SetState BEFORE CurrentState is reassigned, so CurrentState still refers to you while Exit() runs.",
+      "mustNot": "Do not treat this as guaranteed teardown. StateMachine has no Dispose, Stop, or destructor: if the owning MonoBehaviour is disabled or destroyed while this state is current, nothing ever calls Exit(). Anything that must be released (a subscription, a spawned effect, a disabled input map) needs a matching release in the OnDisable/OnDestroy of the owner as well."
+    }
+  },
+  "minimalImpl": {
+    "code": "public class ChaseState : IState\n{\n    private readonly EnemyAI owner;\n    public ChaseState(EnemyAI owner) => this.owner = owner;\n\n    public void Enter() => owner.PlayAnimation(\"Run\");\n    public void Tick()  => owner.MoveToward(owner.TargetPosition);\n    public void Exit()  => owner.StopMoving();\n}",
+    "note": "Constructor injection of the owner is the pattern every implementation in this toolkit uses — RacingAIController's RacingState/RecoveringState/FinishedState are private nested classes that hold an owner and do nothing but call back into it, keeping the real driving logic in one readable place instead of scattered across state files."
+  },
+  "wiring": {
+    "code": "machine = new StateMachine();\nvar idle  = new IdleState(this);\nvar chase = new ChaseState(this);\nvar dead  = new DeadState(this);\n\nmachine.AddTransition(null, dead, () => health <= 0f);          // null 'from' = any state\nmachine.AddTransition(idle, chase, () => DistanceToTarget() < 8f);\nmachine.SetState(idle);                                          // calls idle.Enter()\n\nprivate void Update() => machine.Tick();   // transitions first, then CurrentState.Tick()",
+    "note": "StateMachine stores states by reference and compares with ==, so construct each state once and keep the reference. A transition whose 'from' is null is checked no matter which state is current, and CheckTransitions walks the list in registration order and returns on the first true condition — which is why registering the any-state 'dead' rule first is what gives it priority over everything else."
+  },
+  "extendGuide": "Almost everything you would want to vary lives in your own class, not in the interface. Per-state data: add public fields and let the transition lambdas read them — the Core demo does exactly this with machine.AddTransition(idle, active, () => idle.Timer >= 2f), where Timer is a public field that IdleState.Enter() zeroes and IdleState.Tick() accumulates. Shared context: take it in the constructor (the owner MonoBehaviour, a blackboard object, a config asset) rather than reaching for a singleton, or the state stops being reusable and testable. States that need Unity's Inspector: implement IState on a MonoBehaviour instead of a POCO — that is exactly what VisualStateMachineRunner expects, since it resolves each graph node to a bound component and logs a warning if that component does not implement IState. To add a genuinely new lifecycle hook (a FixedTick, say) you must edit two files — add the member to Core/StateMachine/IState.cs and a matching pump in Core/StateMachine/StateMachine.cs that calls CurrentState?.FixedTick() — and every existing implementation will then fail to compile until updated; with a three-member interface that is the intended trade-off. If only some states need it, prefer a second narrow interface plus a `if (CurrentState is IFixedTickState f) f.FixedTick();` check in the pump, which breaks nothing.",
+  "useCases": [
+    "Enemy AI modes — Idle, Patrol, Chase, Attack, Flee — where each mode has real setup (pick a patrol point, enable a weapon collider) and teardown (clear the nav path).",
+    "Game flow phases: Lobby, Countdown, Playing, RoundOver, each owning its own UI and input bindings.",
+    "Character locomotion modes where Grounded, Airborne, Climbing and Swimming need different physics settings applied on entry and restored on exit.",
+    "A node in a VisualStateMachineRunner graph: author the transitions visually, then bind a component implementing IState to supply that node's behaviour."
+  ],
+  "gotchas": [
+    {
+      "title": "No context is passed in — take it in the constructor",
+      "body": "Enter/Tick/Exit take no arguments and return nothing, so a state has no way to be told who it belongs to unless you give it one. Every implementation in this toolkit holds a readonly owner supplied at construction. States that instead reach for singletons or FindObjectOfType compile fine and then break the moment you want two agents in the scene."
+    },
+    {
+      "title": "States are instances, compared by reference",
+      "body": "SetState's guard is CurrentState == newState, a reference comparison. machine.SetState(new IdleState(this)) inside Update therefore never matches the current state, so Exit() and Enter() fire every single frame and any Enter-time reset is applied continuously. Construct each state once, store it in a field, and pass that same reference forever."
+    },
+    {
+      "title": "Tick() gets no deltaTime and no guaranteed cadence",
+      "body": "It runs once per call to StateMachine.Tick(), which is however often the owner chooses to call it — typically Update, but nothing stops FixedUpdate or a coroutine. Read Time.deltaTime inside the state, and do not assume frame-rate independence you have not written."
+    },
+    {
+      "title": "A MonoBehaviour state still has its own Update",
+      "body": "Implementing IState on a component (required by VisualStateMachineRunner) is supported, but Unity keeps calling that component's own Update, OnEnable and so on independently of the machine. Put the per-frame logic in Tick() only, or it runs twice — and once while the state is not even current."
+    }
+  ],
+  "calledBy": "StateMachine, and only StateMachine. Enter() and Exit() are called from SetState(); Tick() is called from StateMachine.Tick() AFTER transitions have been evaluated, which is why on a switch frame only the incoming state ticks. Nothing drives your methods on a schedule of its own — the machine runs exactly as often as its owner pumps it, usually once per Update, but nothing enforces that. VisualStateMachineRunner is the one indirect caller: it resolves each graph node to a bound component and drives it through the same StateMachine, so the ordering guarantees above hold there too.",
+  "drivenBy": [
+    "StateMachine",
+    "VisualStateMachineRunner"
+  ],
+  "seeAlso": [
+    "StateMachine",
+    "VisualStateMachineRunner",
+    "RacingAIController"
+  ]
+}

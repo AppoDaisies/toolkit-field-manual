@@ -1,0 +1,31 @@
+{
+  "id": "safe-area-handler",
+  "name": "SafeAreaHandler",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/SafeArea/SafeAreaHandler.cs",
+  "src_lines": [
+    10,
+    46
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RectTransform)"
+    ],
+    "addComponentMenu": "Toolkit/Safe Area Handler"
+  },
+  "src_typeComment": "Drop on a full-stretch RectTransform (usually a direct child of the Canvas) to keep its content inside the device's safe area (notches, rounded corners, home indicator). Re-applies automatically if the screen resolution or orientation changes.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathAndUI_Demo"
+  ]
+}

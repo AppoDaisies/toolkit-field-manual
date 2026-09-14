@@ -1,0 +1,78 @@
+{
+  "id": "projectile-mover",
+  "name": "ProjectileMover",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Projectile/ProjectileMover.cs",
+  "src_lines": [
+    11,
+    62
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Gameplay/Projectile Mover"
+  },
+  "src_typeComment": "Drop on a projectile prefab (used directly with Instantiate/Destroy, or as an ObjectPool prefab — it detects a PoolableObject on the same object and releases through that instead of destroying itself). Moves forward each frame with optional gravity drop, self-removes on lifetime expiry or first hit.",
+  "src_serialized": [
+    {
+      "name": "speed",
+      "type": "float",
+      "default": "20f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "gravity",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Downward acceleration, for an arcing/ballistic shot. 0 = straight line.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "lifeTime",
+      "type": "float",
+      "default": "5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "hitMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Layers that count as a hit and end the projectile's flight.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<Collider>()",
+      "sig": "public UnityEvent<Collider> OnHit = new UnityEvent<Collider>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

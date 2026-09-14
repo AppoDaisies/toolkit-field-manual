@@ -1,0 +1,429 @@
+{
+  "id": "ui-edge-glow",
+  "name": "UIEdgeGlow",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/UI/EdgeGlow/UIEdgeGlow.cs",
+  "src_lines": [
+    21,
+    358
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Graphic)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/UI Edge Glow"
+  },
+  "src_typeComment": "Animated \"electric/flame\" edge glow for item frames, achievement icons, and rarity borders — a separate, more elaborate tool from UILightingEffect's Rim mode (which stays the simple, cheap, static edge-light it already is, for buttons/panels). Drop on any UI Graphic (Image, RawImage, ...) and pick a shape; the jagged/organic look comes from the scrolling, rotating noise mask, not the edge falloff itself, which is just a plain distance-to-edge band.",
+  "src_serialized": [
+    {
+      "name": "shape",
+      "type": "EdgeGlowShape",
+      "default": "EdgeGlowShape.Rectangle",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "edgeWidth",
+      "type": "float",
+      "default": "0.12f",
+      "tooltip": null,
+      "header": null,
+      "range": "0.01f, 0.5f",
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "edgeFalloff",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0.5f, 4f",
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "glowColor",
+      "type": "Color",
+      "default": "new Color(0.3f, 0.8f, 1f)",
+      "tooltip": null,
+      "header": "Colour (Flame uses its own gradient below instead)",
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "glowIntensity",
+      "type": "float",
+      "default": "2f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 5f",
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "hueShiftSpeed",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Cycles per second the glow colour rotates through the hue wheel. 0 = a static colour.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "pattern",
+      "type": "EdgeGlowPattern",
+      "default": "EdgeGlowPattern.Noise",
+      "tooltip": "WHAT the mask looks like — each pattern computes the mask itself differently (not just a re-tint of the same noise). Fluid: a thin traced line wobbling via smooth domain-warped noise. Flow: the same domain-warp technique, but as a soft blobby alpha modulation instead of a thin line. Electric: a procedural angular zigzag (lightning), not static. Flame: dominant upward scroll with its own base→tip colour gradient below.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "chaseModeEnabled",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Chase — an orthogonal TOGGLE, not a pattern: restricts whichever pattern above is active to a travelling comet + fading trail",
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "chaseSpeed",
+      "type": "float",
+      "default": "0.4f",
+      "tooltip": null,
+      "header": null,
+      "range": "-3f, 3f",
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "chaseSpeedVariation",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": "0 = perfectly constant speed. Above 0 adds a surging/non-uniform feel to the travel instead of linear motion.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "chaseTrailLength",
+      "type": "float",
+      "default": "0.18f",
+      "tooltip": "Fraction of the full perimeter the fading trail covers behind each travelling point.",
+      "header": null,
+      "range": "0.02f, 0.6f",
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "chaseInstanceCount",
+      "type": "int",
+      "default": "1",
+      "tooltip": "How many comets travel the perimeter at once, evenly spaced. Overlapping trails take the brightest, never summed, so more instances can't blow out the exposure.",
+      "header": null,
+      "range": "1, 8",
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "glowCoreWidth",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": "Fraction of Edge Width used for a tight bright inner core, on top of the normal mid band.",
+      "header": "Glow — shared 3-layer bloom (core + mid + soft outer bleed), applies to every pattern",
+      "range": "0.05f, 1f",
+      "order": 12,
+      "comment": null
+    },
+    {
+      "name": "glowBloomWidth",
+      "type": "float",
+      "default": "2.5f",
+      "tooltip": "How many multiples of Edge Width the soft outer bloom reaches — this is what gives a genuine light-bleed feel instead of a hard-edged gradient.",
+      "header": null,
+      "range": "1f, 4f",
+      "order": 13,
+      "comment": null
+    },
+    {
+      "name": "glowBloomIntensity",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 2f",
+      "order": 14,
+      "comment": null
+    },
+    {
+      "name": "fluidWarpFrequency",
+      "type": "float",
+      "default": "2f",
+      "tooltip": null,
+      "header": "Fluid — a THIN traced line (not a filled band) wobbling via smooth domain-warped noise",
+      "range": "0.5f, 8f",
+      "order": 15,
+      "comment": null
+    },
+    {
+      "name": "fluidWarpStrength",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 2f",
+      "order": 16,
+      "comment": null
+    },
+    {
+      "name": "fluidDisplacementStrength",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "How far the traced line wobbles in/out from the true edge. Kept modest relative to Edge Width so it reads as a flowing line hugging the boundary, not a solid shape reaching into the icon.",
+      "header": null,
+      "range": "0f, 1.5f",
+      "order": 17,
+      "comment": null
+    },
+    {
+      "name": "electricDisplacementStrength",
+      "type": "float",
+      "default": "0.35f",
+      "tooltip": "How far the traced line wobbles in/out from the true edge. Kept SMALL relative to Edge Width — a large value here is what used to make Electric read as spikes shooting inward instead of a thin line hugging the boundary.",
+      "header": "Electric — perimeter-jittered jagged path (chain lightning ALONG the edge) + stepped flicker",
+      "range": "0f, 1.5f",
+      "order": 18,
+      "comment": null
+    },
+    {
+      "name": "electricEdgeFrequency",
+      "type": "float",
+      "default": "30f",
+      "tooltip": "Sampled along the PERIMETER (one texture row), not in 2D UV space — this is what gives a fine erratic zigzag travelling with the edge's own direction, instead of broad 2D waves. How many jitter cycles occur across one full trip around the border.",
+      "header": null,
+      "range": "4f, 80f",
+      "order": 19,
+      "comment": null
+    },
+    {
+      "name": "electricEdgeSpeed",
+      "type": "float",
+      "default": "0.15f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 20,
+      "comment": null
+    },
+    {
+      "name": "electricFlickerSpeed",
+      "type": "float",
+      "default": "12f",
+      "tooltip": null,
+      "header": null,
+      "range": "1f, 30f",
+      "order": 21,
+      "comment": null
+    },
+    {
+      "name": "electricFlickerIntensity",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 1f",
+      "order": 22,
+      "comment": null
+    },
+    {
+      "name": "electricInwardFadeAmount",
+      "type": "float",
+      "default": "0.4f",
+      "tooltip": "Keeps the jagged CORE line the dominant feature over the softer inward bleed (still present, just secondary) — 1 = equal weight, lower = edge pattern dominates.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 23,
+      "comment": null
+    },
+    {
+      "name": "electricUseRawTexture",
+      "type": "bool",
+      "default": null,
+      "tooltip": "On: samples the Noise Mask directly (bright = displaced) so a hand-authored crackle texture drives the jitter as-is. Off (default): assumes raw unshaped noise and applies a ridge transform automatically.",
+      "header": null,
+      "range": null,
+      "order": 24,
+      "comment": null
+    },
+    {
+      "name": "flameDisplacementStrength",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": null,
+      "header": "Flame — its own colour gradient, base to tip (a solid filled push, not a thin line)",
+      "range": "0f, 3f",
+      "order": 25,
+      "comment": null
+    },
+    {
+      "name": "flameBaseColor",
+      "type": "Color",
+      "default": "new Color(0.5f, 0.05f, 0f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 26,
+      "comment": null
+    },
+    {
+      "name": "flameMidColor",
+      "type": "Color",
+      "default": "new Color(1f, 0.45f, 0f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 27,
+      "comment": null
+    },
+    {
+      "name": "flameTipColor",
+      "type": "Color",
+      "default": "new Color(1f, 0.9f, 0.5f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 28,
+      "comment": null
+    },
+    {
+      "name": "noiseMask",
+      "type": "Texture2D",
+      "default": null,
+      "tooltip": "Leave empty to auto-generate a turbulent noise mask.",
+      "header": "Edge Noise Mask — this is what gives the glow its jagged/organic look, not the edge falloff",
+      "range": null,
+      "order": 29,
+      "comment": null
+    },
+    {
+      "name": "maskTiling",
+      "type": "Vector2",
+      "default": "new Vector2(3f, 1f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 30,
+      "comment": null
+    },
+    {
+      "name": "maskScrollSpeed",
+      "type": "Vector2",
+      "default": "new Vector2(0f, 0.5f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 31,
+      "comment": null
+    },
+    {
+      "name": "maskPower",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": "0.1f, 4f",
+      "order": 32,
+      "comment": null
+    },
+    {
+      "name": "initialRotation",
+      "type": "float",
+      "default": "0f",
+      "tooltip": null,
+      "header": "Rotation & Radial Distortion",
+      "range": null,
+      "order": 33,
+      "comment": null
+    },
+    {
+      "name": "rotationSpeed",
+      "type": "float",
+      "default": "0f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 34,
+      "comment": null
+    },
+    {
+      "name": "radialUVPower",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "Pulls the mask sample toward/away from the centre based on distance, giving it a swirl instead of a flat scroll.",
+      "header": null,
+      "range": "0f, 4f",
+      "order": 35,
+      "comment": null
+    },
+    {
+      "name": "useChromaticAberration",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Chromatic Aberration (optional)",
+      "range": null,
+      "order": 36,
+      "comment": null
+    },
+    {
+      "name": "chromaticAberrationOffset",
+      "type": "float",
+      "default": "0.01f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 0.05f",
+      "order": 37,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "MaterialInstance",
+      "sig": "public Material MaterialInstance => materialInstance",
+      "kind": "property",
+      "name": "MaterialInstance",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplySettings()",
+      "sig": "public void ApplySettings()",
+      "kind": "method",
+      "name": "ApplySettings",
+      "static": false,
+      "comment": "Public so a self-test (or a runtime UI system) can push a settings change without waiting for OnValidate. The glow itself animates purely via the shader's own _Time.y — this does NOT need to be called every frame, only when a setting actually changes."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/UI/EdgeGlow/Editor/UIEdgeGlowSelfTest.cs",
+  "src_demoScene": [
+    "EdgeGlow_Demo"
+  ]
+}

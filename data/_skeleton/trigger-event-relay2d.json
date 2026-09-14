@@ -1,0 +1,77 @@
+{
+  "id": "trigger-event-relay2d",
+  "name": "TriggerEventRelay2D",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/TriggerEventRelay/TriggerEventRelay2D.cs",
+  "src_lines": [
+    9,
+    37
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Collider2D)"
+    ],
+    "addComponentMenu": "Toolkit/Trigger Event Relay (2D)"
+  },
+  "src_typeComment": "2D counterpart to TriggerEventRelay — drop on a 2D trigger Collider2D and wire responses in the Inspector.",
+  "src_serialized": [
+    {
+      "name": "requiredTag",
+      "type": "string",
+      "default": "\"Untagged\"",
+      "tooltip": "Only objects with this tag fire the events. Leave as \\\"Untagged\\\" to respond to anything.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "filterByTag",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "If false, the tag filter above is ignored and every collider triggers the events.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<Collider2D>()",
+      "sig": "public UnityEvent<Collider2D> OnEnter = new UnityEvent<Collider2D>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<Collider2D>()",
+      "sig": "public UnityEvent<Collider2D> OnExit = new UnityEvent<Collider2D>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<Collider2D>()",
+      "sig": "public UnityEvent<Collider2D> OnStay = new UnityEvent<Collider2D>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Trigger2D_Demo"
+  ]
+}

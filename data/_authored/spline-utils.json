@@ -1,0 +1,84 @@
+{
+  "id": "spline-utils",
+  "summary": "Catmull-Rom spline through every point, plus an arc-length table so things can travel it at constant speed.",
+  "problem": "A cubic Bezier only touches its two endpoints, which is wrong for the workflow that actually matters: a designer clicks waypoints in the scene and expects the curve to pass through each spot they clicked. Catmull-Rom does exactly that, and this class supplies it without reimplementing curve maths — each segment converts its local four-point window into an equivalent cubic Bezier and hands it to BezierUtils. The second half of the class solves the other problem nobody expects: the curve parameter t does not advance at a constant rate per unit of world distance, so a follower driven by t speeds up and slows down for no visible reason. BuildLengthTable plus DistanceToT converts distance into t, which is what makes constant-speed movement and evenly spaced props along a path possible.",
+  "workedExample": {
+    "setup": "Three collinear points 5 units apart — the configuration pinned down by the self-test, plus a hand-derivation of why the length table exists at all.",
+    "inputs": [
+      {
+        "name": "points",
+        "value": "[(0,0,0), (5,0,0), (10,0,0)]"
+      },
+      {
+        "name": "tension",
+        "value": "0 (default)"
+      },
+      {
+        "name": "samplesPerSegment",
+        "value": "20 (default)"
+      }
+    ],
+    "steps": [
+      "BuildLengthTable produces (3 - 1) segments * 20 + 1 = 41 samples. The self-test asserts TotalLength(table) is within 0.05 of 10 — the true straight-line length — and that no entry ever decreases.",
+      "Evaluate(points, 0.5) resolves to segment 1 with localT 0, which returns that segment's Bezier b0 = points[1] exactly: (5, 0, 0). The self-test's third check confirms the same pass-through property on a curved four-point path at tension 0.3, within 0.01 of every control point.",
+      "Now the non-obvious part. Evaluate(points, 0.25) resolves to segment 0 with localT 0.5. That segment's window duplicates the first point, giving p0 = p1 = (0,0,0), p2 = (5,0,0), p3 = (10,0,0).",
+      "ToBezier at tension 0: tangentAtP1 = (p2 - p0)/2 = (2.5,0,0), tangentAtP2 = (p3 - p1)/2 = (5,0,0). So b0 = (0,0,0), b1 = (0.8333,0,0), b2 = (3.3333,0,0), b3 = (5,0,0).",
+      "BezierUtils.Cubic at localT 0.5 weights those four by 0.125 / 0.375 / 0.375 / 0.125: 0 + 0.375*0.8333 + 0.375*3.3333 + 0.125*5 = 0.3125 + 1.25 + 0.625 = 2.1875.",
+      "So t = 0.25 sits at x = 2.1875 — only 21.875% of the way along a perfectly straight 10-unit path.",
+      "DistanceToT(table, distance) is the fix: the self-test checks the two exact endpoints (distance 0 maps to t 0, distance == TotalLength maps to t 1) and that t never moves backward as distance is walked forward in 20 even steps."
+    ],
+    "result": "Evaluate gives you the SHAPE; BuildLengthTable and DistanceToT give you the PACING. Uniform steps in t are not uniform in distance even on a dead-straight path, so anything that must move at constant speed or space objects evenly has to go through the table.",
+    "verifiedBy": "selftest:Math/Spline/Editor/SplineUtilsSelfTest.cs"
+  },
+  "useCases": [
+    "Camera rails and cutscene dollies authored by clicking waypoints in the scene view.",
+    "Patrol and racing lines where the AI must actually pass through the designer's marked points.",
+    "Placing props evenly along a path — fence posts, streetlights, track sections — using DistanceToT to space them by world distance rather than by t.",
+    "A follower that moves at a fixed metres-per-second along a curved path, advancing a distance value and converting it each frame.",
+    "Generating a smooth polyline for a LineRenderer or a procedural mesh from a handful of control points."
+  ],
+  "usage": {
+    "code": "// build once, when points or tension change\nfloat[] table = SplineUtils.BuildLengthTable(points, tension, samplesPerSegment: 20);\nfloat total = SplineUtils.TotalLength(table);\n\n// per frame: advance by distance, not by t\ntravelled = Mathf.Repeat(travelled + speed * Time.deltaTime, total);\nfloat t = SplineUtils.DistanceToT(table, travelled);\ntransform.position = SplineUtils.Evaluate(points, t, tension);\ntransform.rotation = Quaternion.LookRotation(SplineUtils.EvaluateTangent(points, t, tension));",
+    "codeNote": "The table is the only cacheable thing here; every other call is stateless and re-walks the point list."
+  },
+  "apiNotes": {
+    "Evaluate(IReadOnlyList<Vector3>, float, float)": "Position at t in [0,1] across the WHOLE path (0 = first point, 1 = last). t is clamped internally. Returns Vector3.zero for an empty list.",
+    "EvaluateTangent(IReadOnlyList<Vector3>, float, float)": "Normalized direction of travel at t, via BezierUtils.CubicTangent. Returns Vector3.forward when there are fewer than 2 points.",
+    "BuildLengthTable(IReadOnlyList<Vector3>, float, int)": "Samples the path at uniform t and accumulates chord distances. table[0] is 0, table[last] is the total length. Allocates a float[] of segmentCount * samplesPerSegment + 1 — build it once and reuse it.",
+    "TotalLength(float[])": "Just the last entry of the table. Indexes directly, so an empty array throws IndexOutOfRange.",
+    "DistanceToT(float[], float)": "Binary-searches the table for the bracketing samples, then linearly interpolates between them. Clamps distance into [0, total]. This is the constant-speed conversion."
+  },
+  "gotchas": [
+    {
+      "title": "The length table must match the points and tension it was built from",
+      "body": "DistanceToT takes only the table — nothing ties it back to the point list, and nothing validates the pairing. Change a control point or the tension without rebuilding and you get plausible-looking but wrong t values, with no error. Rebuild whenever points, tension, or (for local-space points) the transform changes."
+    },
+    {
+      "title": "Building the table is not free — do not do it per frame",
+      "body": "BuildLengthTable performs segmentCount * samplesPerSegment full Evaluate calls and allocates a float[]. At 10 points and the default 20 samples that is 180 curve evaluations and a 181-float allocation every time. Cache it; Evaluate and DistanceToT themselves are cheap enough for per-frame use."
+    },
+    {
+      "title": "Degenerate inputs fail silently",
+      "body": "An empty point list makes Evaluate return Vector3.zero, and fewer than two points makes EvaluateTangent return Vector3.forward. A mis-wired path therefore manifests as 'everything is sitting at the origin facing +Z' rather than as an exception. Check points.Count yourself before trusting the output."
+    },
+    {
+      "title": "tension is clamped to [0,1] and only loosens the curve",
+      "body": "ToBezier applies Mathf.Clamp01, so values outside the range do nothing extra. tension 0 is standard uniform Catmull-Rom, which overshoots outside the hull at sharp corners; tension 1 collapses each segment to a straight line between its two points (still passing through all of them). There is no setting tighter than Catmull-Rom — negative tension is clamped away."
+    },
+    {
+      "title": "Endpoints are clamped, and there is no closed-loop mode",
+      "body": "The missing neighbour at each end is faked by duplicating the endpoint, so the curve leaves the first point aimed straight at the second and arrives at the last the same way. Repeating the first point at the end of the list does NOT give a smooth loop — it gives a corner there."
+    },
+    {
+      "title": "Length is a chord approximation and under-reads on tight curves",
+      "body": "The table sums straight-line distances between samples, which always cuts the corner. On gentle curves the error is negligible; on tight ones raise samplesPerSegment (at linear cost in build time and memory) until the measured length stops changing."
+    }
+  ],
+  "seeAlso": [
+    "BezierUtils",
+    "SplinePath",
+    "SplineFollower",
+    "PathBuilder",
+    "MathUtils"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "targeting-strategies",
+  "name": "TargetingStrategies",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/TargetingStrategies.cs",
+  "src_lines": [
+    8,
+    24
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Composable target-selection functions for AI decision-making — plain static logic, same spirit as SteeringBehaviors/EasingFunctions. Each returns null if the candidate list is empty or everyone in it is dead.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "LowestHealthPercent(IReadOnlyList<TurnBasedActor>)",
+      "sig": "public static TurnBasedActor LowestHealthPercent(IReadOnlyList<TurnBasedActor> candidates)",
+      "kind": "method",
+      "name": "LowestHealthPercent",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "HighestHealthPercent(IReadOnlyList<TurnBasedActor>)",
+      "sig": "public static TurnBasedActor HighestHealthPercent(IReadOnlyList<TurnBasedActor> candidates)",
+      "kind": "method",
+      "name": "HighestHealthPercent",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Random(IReadOnlyList<TurnBasedActor>)",
+      "sig": "public static TurnBasedActor Random(IReadOnlyList<TurnBasedActor> candidates)",
+      "kind": "method",
+      "name": "Random",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TurnBasedCombat_Demo"
+  ]
+}

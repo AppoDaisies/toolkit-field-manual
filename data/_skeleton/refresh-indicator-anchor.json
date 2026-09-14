@@ -1,0 +1,28 @@
+{
+  "id": "refresh-indicator-anchor",
+  "name": "RefreshIndicatorAnchor",
+  "cat": "UI",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/PullToRefresh/PullToRefresh.cs",
+  "src_lines": [
+    13,
+    18
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Where the refresh indicator sits within this component's own rect — only used when it's auto-built from refreshIndicatorSprite/refreshIndicatorPrefab below; a manually-assigned refreshIndicator keeps whatever position you gave it in the Inspector.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Top",
+    "Center",
+    "Bottom"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

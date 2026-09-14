@@ -1,0 +1,48 @@
+{
+  "id": "td-projectile",
+  "name": "TDProjectile",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDProjectile.cs",
+  "src_lines": [
+    10,
+    48
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tower Defense/TD Projectile"
+  },
+  "src_typeComment": "Homing projectile spawned by TDProjectileAttack: tracks its target's LIVE position (not just where it was at launch) and deals damage on arrival. Self-destructs harmlessly if the target is destroyed mid-flight (e.g. killed by another tower first) instead of erroring on a stale reference.",
+  "src_serialized": [
+    {
+      "name": "hitDistance",
+      "type": "float",
+      "default": "0.2f",
+      "tooltip": "Distance from the target that counts as a hit.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Launch(TDEnemy, float, float)",
+      "sig": "public void Launch(TDEnemy target, float damage, float speed)",
+      "kind": "method",
+      "name": "Launch",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "idle-attract-manager",
+  "name": "IdleAttractManager",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/IdleAttractManager.cs",
+  "src_lines": [
+    13,
+    62
+  ],
+  "src_base": "Singleton<IdleAttractManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Kiosk/Idle Attract Manager"
+  },
+  "src_typeComment": "Detects a period of no user input (mouse/touch/key) and fires OnIdleStarted — wire that to an attract loop (idle video/slideshow) and/or a \"return to home screen\" action. Any input resets the idle timer and fires OnIdleEnded exactly once per idle period, not on every input frame. Uses the legacy Input class directly (mouse/touch/keyboard) rather than the New Input System, matching this project's LegacyInputManager default — swap the input-detection block if a project uses the New Input System.",
+  "src_serialized": [
+    {
+      "name": "idleTimeout",
+      "type": "float",
+      "default": "30f",
+      "tooltip": "Seconds of no input before idle/attract mode begins.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnIdleStarted = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnIdleEnded = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsIdle",
+      "sig": "public bool IsIdle { get; private set; }",
+      "kind": "property",
+      "name": "IsIdle",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NotifyInput()",
+      "sig": "public void NotifyInput()",
+      "kind": "method",
+      "name": "NotifyInput",
+      "static": false,
+      "comment": "Resets the idle timer and, if currently idle, ends idle mode — split out from Update()'s real Input polling specifically so a self-test can drive this directly without depending on real Input state (which isn't meaningfully controllable from a batch-mode Editor script). Also useful directly for a \"Tap to Start\" attract-screen button that should dismiss immediately."
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Public so a self-test can drive the idle timeout with exact time increments without needing Play mode."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

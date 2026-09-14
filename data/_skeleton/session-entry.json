@@ -1,0 +1,81 @@
+{
+  "id": "session-entry",
+  "name": "SessionEntry",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorTools.SessionRecorder",
+  "src_file": "EditorTools/SessionRecorder/Editor/SessionHistoryData.cs",
+  "src_lines": [
+    12,
+    22
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "One breadcrumb: a selection change, a script you double-clicked open, or a note you left yourself. Plain serializable data, no MonoBehaviour — JsonUtility handles it directly.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "timestampUtc",
+      "sig": "public string timestampUtc; // ISO 8601 — JsonUtility can't serialize DateTime itself",
+      "kind": "field",
+      "name": "timestampUtc",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "kind",
+      "sig": "public string kind; // \"Selection\" | \"OpenedScript\" | \"Note\"",
+      "kind": "field",
+      "name": "kind",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "label",
+      "sig": "public string label; // object name, script name, or the note text",
+      "kind": "field",
+      "name": "label",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "globalObjectId",
+      "sig": "public string globalObjectId; // empty for Note entries — see GlobalObjectId below",
+      "kind": "field",
+      "name": "globalObjectId",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "scenePath",
+      "sig": "public string scenePath; // which scene a scene GameObject belonged to; empty for project assets/notes",
+      "kind": "field",
+      "name": "scenePath",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "startsNewSession",
+      "sig": "public bool startsNewSession; // true if a real gap was detected since the previous entry",
+      "kind": "field",
+      "name": "startsNewSession",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TimestampUtc",
+      "sig": "public DateTime TimestampUtc => DateTime.Parse(timestampUtc, null, System.Globalization.DateTimeStyles.RoundtripKind)",
+      "kind": "property",
+      "name": "TimestampUtc",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

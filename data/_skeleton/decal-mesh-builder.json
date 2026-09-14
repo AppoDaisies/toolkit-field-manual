@@ -1,0 +1,33 @@
+{
+  "id": "decal-mesh-builder",
+  "name": "DecalMeshBuilder",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Decals/DecalMeshBuilder.cs",
+  "src_lines": [
+    22,
+    128
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "The actual \"mesh-projected decal\" technique: clips each candidate source triangle against a unit projection BOX (Sutherland-Hodgman, one pass per box face) rather than rendering a flat quad on top of the surface or splatting into a render texture — the decal is built FROM the receiving geometry's own triangles, so it follows curved/uneven surfaces exactly rather than floating or clipping through them. Pure and stateless (candidate triangles passed in, a Mesh handed back) so the clipping math is testable with synthetic triangles, no scene/GameObjects required.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Build()",
+      "sig": "public static Mesh Build(",
+      "kind": "method",
+      "name": "Build",
+      "static": true,
+      "comment": "candidateTriangles: each entry is one source triangle as (a, b, c, normal), all in WORLD space. worldToDecal / decalToWorld: the projection box's own transform, sized so decal-local space IS the [-0.5, 0.5] unit cube (i.e. built from Matrix4x4.TRS(position, rotation, boxSize)). maxSurfaceAngleDegrees: a triangle whose normal points more than this many degrees away from straight down the box's local -Y axis (the projection direction) is skipped entirely — keeps a floor decal from wrapping onto a nearby wall. surfaceOffset: world-space push along each vertex's own normal, away from the surface, to avoid z-fighting with the geometry the decal sits on."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/Decals/Editor/DecalMeshBuilderSelfTest.cs",
+  "src_demoScene": []
+}

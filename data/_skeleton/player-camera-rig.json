@@ -1,0 +1,353 @@
+{
+  "id": "player-camera-rig",
+  "name": "PlayerCameraRig",
+  "cat": "Camera",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.CameraTools",
+  "src_file": "Camera/PlayerCameraRig/PlayerCameraRig.cs",
+  "src_lines": [
+    31,
+    286
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Camera)"
+    ],
+    "addComponentMenu": "Toolkit/Camera/Player Camera Rig"
+  },
+  "src_typeComment": "Plug-and-play first/third-person player camera. Drop it on a Camera, assign the player as target, pick a mode, and it works — no rig hierarchy to build, because the camera's position is computed from the target plus yaw/pitch/distance rather than from parented pivot objects. That also means switching between first and third person at runtime is just changing the enum.  Distinct from the existing camera tools rather than overlapping them: SmoothFollowCamera keeps a FIXED world offset with no look input at all, and CursorPanCamera is a top-down RTS/MOBA pan. Neither is a mouse-driven player camera.  On layering with CameraShake: this rig does its own movement bob (below), so it needs no help for that. If you also want impact shake, add CameraShake as well — but add it AFTER this component so its LateUpdate runs second and layers on top, otherwise this rig overwrites the shake each frame.",
+  "src_serialized": [
+    {
+      "name": "target",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "The player (or anything else) this camera follows.",
+      "header": "Target",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "targetOffset",
+      "type": "Vector3",
+      "default": "new Vector3(0f, 1.6f, 0f)",
+      "tooltip": "Offset from the target's pivot to the point the camera looks from (first person) or orbits around (third person). Y is usually eye/shoulder height — a target whose origin is at its feet needs roughly its own height here.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "mode",
+      "type": "PlayerCameraMode",
+      "default": "PlayerCameraMode.ThirdPerson",
+      "tooltip": null,
+      "header": "Mode",
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "lookSensitivity",
+      "type": "float",
+      "default": "2f",
+      "tooltip": "Degrees of rotation per unit of mouse movement.",
+      "header": "Look",
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "invertY",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "minPitch",
+      "type": "float",
+      "default": "-35f",
+      "tooltip": "How far the camera can look down (negative) and up (positive), in degrees. Clamped to stop the view flipping over.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "maxPitch",
+      "type": "float",
+      "default": "70f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "lockCursor",
+      "type": "bool",
+      "default": null,
+      "tooltip": "Hides and locks the cursor to the window — the usual choice for a first-person game. Turn off while testing so you can still click the Editor UI.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "rotateTargetToYaw",
+      "type": "bool",
+      "default": null,
+      "tooltip": "Turns the TARGET to face the camera's yaw. Standard for first person (the body follows the view); optional for third person.",
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "distance",
+      "type": "float",
+      "default": "5f",
+      "tooltip": "How far behind the target the camera sits.",
+      "header": "Third Person",
+      "range": null,
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "minDistance",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "The camera never pulls closer than this, even when geometry is in the way — below this a pull-in can't fix the view anyway, and it stops the camera ending up inside the player.",
+      "header": null,
+      "range": null,
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "avoidGeometry",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Pull the camera in when geometry would otherwise be between it and the player.",
+      "header": null,
+      "range": null,
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "collisionMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "What counts as blocking. Leave foliage/props/small clutter OUT of this — reacting to thin detail is what makes a third-person camera feel jittery.",
+      "header": null,
+      "range": null,
+      "order": 12,
+      "comment": null
+    },
+    {
+      "name": "collisionRadius",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": "Spherecast radius, so thin geometry and corners can't slip past and clip the near plane. Roughly the camera's near-plane size.",
+      "header": null,
+      "range": null,
+      "order": 13,
+      "comment": null
+    },
+    {
+      "name": "positionFollow",
+      "type": "CameraFollowMode",
+      "default": "CameraFollowMode.Smoothed",
+      "tooltip": null,
+      "header": "Follow",
+      "range": null,
+      "order": 14,
+      "comment": null
+    },
+    {
+      "name": "positionSharpness",
+      "type": "float",
+      "default": "12f",
+      "tooltip": "Higher = snappier. Frame-rate independent.",
+      "header": null,
+      "range": null,
+      "order": 15,
+      "comment": null
+    },
+    {
+      "name": "rotationFollow",
+      "type": "CameraFollowMode",
+      "default": "CameraFollowMode.Instant",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 16,
+      "comment": null
+    },
+    {
+      "name": "rotationSharpness",
+      "type": "float",
+      "default": "20f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 17,
+      "comment": null
+    },
+    {
+      "name": "fieldOfView",
+      "type": "float",
+      "default": "60f",
+      "tooltip": null,
+      "header": "Field Of View",
+      "range": null,
+      "order": 18,
+      "comment": null
+    },
+    {
+      "name": "movingFovBoost",
+      "type": "float",
+      "default": "0f",
+      "tooltip": "FOV added on top while the target is moving at or above shakeStartSpeed — a subtle speed cue. 0 disables it.",
+      "header": null,
+      "range": null,
+      "order": 19,
+      "comment": null
+    },
+    {
+      "name": "shakeWhileMoving",
+      "type": "bool",
+      "default": null,
+      "tooltip": "Adds a walking bob/sway proportional to the target's speed. This is the 'shake while moving' feel — separate from CameraShake, which is for one-off impacts.",
+      "header": "Shake While Moving",
+      "range": null,
+      "order": 20,
+      "comment": null
+    },
+    {
+      "name": "shakeStartSpeed",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "Target speed at which bob reaches full strength. Below this it scales down to nothing, so standing still is perfectly steady.",
+      "header": null,
+      "range": null,
+      "order": 21,
+      "comment": null
+    },
+    {
+      "name": "shakeAmplitude",
+      "type": "float",
+      "default": "0.06f",
+      "tooltip": "Bob distance in world units at full strength.",
+      "header": null,
+      "range": null,
+      "order": 22,
+      "comment": null
+    },
+    {
+      "name": "shakeFrequency",
+      "type": "float",
+      "default": "9f",
+      "tooltip": "Bob cycles per second at full strength.",
+      "header": null,
+      "range": null,
+      "order": 23,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Yaw",
+      "sig": "public float Yaw => yaw",
+      "kind": "property",
+      "name": "Yaw",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Pitch",
+      "sig": "public float Pitch => pitch",
+      "kind": "property",
+      "name": "Pitch",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TargetSpeed",
+      "sig": "public float TargetSpeed => targetSpeed",
+      "kind": "property",
+      "name": "TargetSpeed",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Mode",
+      "sig": "public PlayerCameraMode Mode => mode",
+      "kind": "property",
+      "name": "Mode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ResolveBlockedDistance(Vector3, Quaternion, float)",
+      "sig": "public float ResolveBlockedDistance(Vector3 pivot, Quaternion lookRotation, float requestedDistance)",
+      "kind": "method",
+      "name": "ResolveBlockedDistance",
+      "static": false,
+      "comment": "Spherecasts from the pivot out toward where the camera wants to be, and pulls it in to just short of whatever it hits. The minDistance floor matters: closer than that, pulling in can't clear the obstruction anyway and only destroys the framing, so it stops rather than shoving the camera through the player. Public for direct testing."
+    },
+    {
+      "id": "Smoothing(float, float)",
+      "sig": "public static float Smoothing(float sharpness, float deltaTime) => 1f - Mathf.Exp(-Mathf.Max(0f, sharpness) * deltaTime)",
+      "kind": "method",
+      "name": "Smoothing",
+      "static": true,
+      "comment": "Frame-rate independent easing — the same exponential-decay form MathUtils.Damp uses, so behaviour doesn't change with frame rate the way a raw Lerp(a, b, sharpness * deltaTime) would."
+    },
+    {
+      "id": "NormalizePitch(float)",
+      "sig": "public static float NormalizePitch(float eulerX) => eulerX > 180f ? eulerX - 360f : eulerX",
+      "kind": "method",
+      "name": "NormalizePitch",
+      "static": true,
+      "comment": "Euler angles come back in 0..360; pitch needs to be signed around zero or clamping breaks."
+    },
+    {
+      "id": "SetTarget(Transform)",
+      "sig": "public void SetTarget(Transform newTarget)",
+      "kind": "method",
+      "name": "SetTarget",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetMode(PlayerCameraMode)",
+      "sig": "public void SetMode(PlayerCameraMode newMode) => mode = newMode",
+      "kind": "method",
+      "name": "SetMode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SnapToTarget()",
+      "sig": "public void SnapToTarget()",
+      "kind": "method",
+      "name": "SnapToTarget",
+      "static": false,
+      "comment": "Snaps straight to the resting position with no easing — use after teleporting the player, or the camera visibly glides across the level to catch up."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Camera/PlayerCameraRig/Editor/PlayerCameraRigSelfTest.cs",
+  "src_demoScene": [
+    "PlayerCamera_Demo"
+  ]
+}

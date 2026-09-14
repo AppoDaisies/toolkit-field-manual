@@ -1,0 +1,143 @@
+{
+  "id": "health",
+  "name": "Health",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Health/Health.cs",
+  "src_lines": [
+    8,
+    80
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IDamageable"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Health"
+  },
+  "src_typeComment": "Drop-in health component: wire OnDamaged/OnHealed/OnDeath in the Inspector, or call TakeDamage/Heal from code.",
+  "src_serialized": [
+    {
+      "name": "maxHealth",
+      "type": "float",
+      "default": "100f",
+      "tooltip": "Starting and upper-bound health value.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "preventDamageAfterDeath",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, TakeDamage calls are ignored once health reaches 0 — prevents OnDeath firing repeatedly.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnDamaged = new UnityEvent<float>();         // amount damaged",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnHealed = new UnityEvent<float>();          // amount healed",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnDeath = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float, float>()",
+      "sig": "public UnityEvent<float, float> OnHealthChanged = new UnityEvent<float, float>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "Fires on every change (damage, heal, or reset) with (current, max) — wire this straight to a health bar's SetProgress() instead of recomputing the ratio from OnDamaged/OnHealed separately."
+    },
+    {
+      "id": "EnsureInitialized()",
+      "sig": "public float CurrentHealth { get { EnsureInitialized(); return currentHealth; } private set => currentHealth = value; }",
+      "kind": "method",
+      "name": "EnsureInitialized",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "MaxHealth",
+      "sig": "public float MaxHealth => maxHealth",
+      "kind": "property",
+      "name": "MaxHealth",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "NormalizedHealth",
+      "sig": "public float NormalizedHealth => maxHealth <= 0f ? 0f : CurrentHealth / maxHealth",
+      "kind": "property",
+      "name": "NormalizedHealth",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsDead",
+      "sig": "public bool IsDead { get; private set; }",
+      "kind": "property",
+      "name": "IsDead",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TakeDamage(float)",
+      "sig": "public void TakeDamage(float amount)",
+      "kind": "method",
+      "name": "TakeDamage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Heal(float)",
+      "sig": "public void Heal(float amount)",
+      "kind": "method",
+      "name": "Heal",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ResetHealth()",
+      "sig": "public void ResetHealth()",
+      "kind": "method",
+      "name": "ResetHealth",
+      "static": false,
+      "comment": "Restores full health and clears the dead flag — use for respawns/checkpoints."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo",
+    "HitboxCombat_Demo",
+    "TowerDefense_Demo",
+    "TurnBasedCombat_Demo"
+  ]
+}

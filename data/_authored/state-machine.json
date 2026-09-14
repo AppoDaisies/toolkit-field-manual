@@ -1,0 +1,80 @@
+{
+  "id": "state-machine",
+  "summary": "Plain C# finite state machine over IState, with optional condition-based transitions; you pump Tick() yourself.",
+  "problem": "Behaviour written as an enum plus a switch plus a handful of bools stops being readable at about the third mode, mostly because there is nowhere to put the work that has to happen when a mode starts and ends. StateMachine gives each mode a class (see IState) and centralises the switching: SetState runs Exit on the old and Enter on the new, and the optional transition table turns 'if X then go to Y' into data you register once rather than branching scattered through Update. It is intentionally tiny and framework-free — no reflection, no attributes, no MonoBehaviour — so the whole flow is traceable by reading 50 lines.",
+  "workedExample": {
+    "setup": "StateMachineDemoRunner: two states whose Tick() accumulates Time.deltaTime into a public Timer that Enter() zeroes, with AddTransition(idle, active, () => idle.Timer >= 2f) and the mirror rule, running at a steady 60 fps (deltaTime = 1/60 s).",
+    "inputs": [
+      {
+        "name": "deltaTime",
+        "value": "1/60 s"
+      },
+      {
+        "name": "transition threshold",
+        "value": "2f seconds"
+      }
+    ],
+    "steps": [
+      "Start() calls machine.SetState(idle). CurrentState was null so no Exit() runs; CurrentState becomes idle and idle.Enter() sets Timer = 0.",
+      "Each Update calls machine.Tick(), which runs CheckTransitions() FIRST and CurrentState.Tick() second. So on update frame N the condition is evaluated against the Timer value that frame N-1 left behind, namely (N-1)/60.",
+      "`idle.Timer >= 2f` first holds when (N-1)/60 >= 2, i.e. N - 1 >= 120, so the transition fires on frame 121. idle therefore ticked on frames 1 through 120 — exactly 120 ticks, 2.000 s.",
+      "On frame 121 SetState(active) calls idle.Exit(), assigns CurrentState = active and calls active.Enter() (Timer = 0); CheckTransitions then returns immediately. Tick() carries on and calls active.Tick(), so active already logs 1/60 s on the very frame it was entered, and idle.Tick() does not run on frame 121 at all.",
+      "Repeating the arithmetic for active: it ticks on frames 121..240, its condition first holds on frame 241, so the flip period is 241 - 121 = 120 frames = 2.000 s."
+    ],
+    "result": "Each state runs for exactly 120 Tick() calls (2.000 s at 60 fps) and the period does not drift, because Enter() re-zeroes the timer and the incoming state ticks on its own entry frame. The only asymmetry is the entry frame itself: a state's last Tick() is the frame before the switch, never the switch frame.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "Enemy AI with Idle / Patrol / Chase / Attack modes, each owning its entry and exit work.",
+    "Racing or vehicle AI, as in RacingAIController, whose Racing / Recovering / Finished states are thin wrappers calling back into the controller.",
+    "Round or match flow — Lobby, Countdown, Playing, Results — where each phase swaps UI and input bindings.",
+    "Character locomotion modes (grounded, airborne, climbing) that need different physics settings applied on entry.",
+    "Driving a graph authored in the Visual State Machine editor: VisualStateMachineRunner builds exactly this class from the asset, mapping 'Any State' nodes to null-from transitions."
+  ],
+  "usage": {
+    "code": "machine = new StateMachine();\nmachine.AddTransition(null, dead, () => health <= 0f);   // null 'from' = any state\nmachine.AddTransition(idle, chase, () => Vector3.Distance(transform.position, target.position) < 8f);\nmachine.SetState(idle);\n\nprivate void Update() => machine.Tick();",
+    "codeNote": "AddTransition is optional. Skip it entirely and call machine.SetState(...) from your own game logic if you would rather not use rule-based transitions — the source comment says as much."
+  },
+  "apiNotes": {
+    "CurrentState": "The active IState, or null before the first SetState. Publicly readable, privately written. Tick() and SetState both use the null-conditional operator, so a machine with no state set is safe to pump.",
+    "SetState(IState)": "Returns immediately if newState is reference-equal to CurrentState; otherwise Exit() on the old state, assign, Enter() on the new. Because both calls are null-conditional, SetState(null) is a legal way to park the machine — it exits the current state and ticks nothing thereafter.",
+    "Tick()": "The pump. Evaluates transitions and then ticks the current state, in that order. Call it once per frame from the owning MonoBehaviour's Update; nothing calls it for you, and there is no internal frame counter or delta.",
+    "AddTransition(IState, IState, Func<bool>)": "Appends a rule to an ordered list; there is no remove, clear, or duplicate check. A null 'from' means the rule is evaluated no matter which state is current (a global 'any state -> Dead'). CheckTransitions skips rules whose 'from' is neither null nor the current state, so conditions on irrelevant rules are not even invoked.",
+    "IsInState<T>()": "Type test on the current state — returns true when the active state is a T. Use it for read-only queries (drive an animation, gate input); prefer a transition rule over branching on this."
+  },
+  "gotchas": [
+    {
+      "title": "First match wins, and the check loop returns",
+      "body": "CheckTransitions walks the list in registration order and does `SetState(to); return;` on the first condition that is true — so registration order is priority order, and one rule at most fires per Tick. A broad any-state rule registered early shadows everything after it while its condition holds, which is usually exactly what you want for 'any state -> Dead' and exactly what you do not want for a permissive catch-all."
+    },
+    {
+      "title": "A self-transition silently blocks the rest of the table",
+      "body": "If a rule's 'to' is the state you are already in, SetState returns early and does nothing — but CheckTransitions has already committed to its `return`. So while that condition is true, no other transition is ever evaluated and the machine appears stuck for no visible reason. Never register a rule where from and to are the same instance."
+    },
+    {
+      "title": "SetState cannot re-enter the current state",
+      "body": "The guard `if (CurrentState == newState) return;` means you cannot restart a state by re-selecting it — Enter() will not run again. It is a reference comparison, so it also means each state must be a single long-lived instance: `SetState(new IdleState(this))` in Update never matches, and fires Exit/Enter every frame."
+    },
+    {
+      "title": "A state can be entered and exited without ever ticking",
+      "body": "Transitions are checked before the state body runs, so a condition that is already true on the next Tick takes you straight back out. Enter() and Exit() are guaranteed to pair up; Tick() running at least once is not guaranteed."
+    },
+    {
+      "title": "Transitions can never be removed",
+      "body": "There is no RemoveTransition or Clear, and AddTransition does not dedupe. Re-running your setup method — on OnEnable, on a respawn, on a difficulty change — appends a whole second copy of every rule, and the duplicates keep evaluating forever. Build a fresh StateMachine instead of re-registering on an existing one."
+    },
+    {
+      "title": "Nothing pumps it and nothing tears it down",
+      "body": "It is not a MonoBehaviour. If the owning component is disabled, Tick() stops being called and the machine freezes mid-state with no Exit(); if the owner is destroyed, Exit() is never called at all. Anything a state acquires and must release needs a matching release in the owner's OnDisable/OnDestroy."
+    },
+    {
+      "title": "Conditions run every frame and exceptions escape",
+      "body": "Every rule whose 'from' matches the current state has its Func<bool> invoked on each Tick, before any state logic. Keep them cheap and side-effect free — a physics query or a GetComponent in a condition runs at full frame rate. An exception thrown inside one propagates straight out of machine.Tick() and takes the rest of your Update with it."
+    }
+  ],
+  "seeAlso": [
+    "IState",
+    "VisualStateMachineRunner",
+    "RacingAIController"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "graph-node",
+  "name": "GraphNode",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Pathfinding/Dijkstra/GraphNode.cs",
+  "src_lines": [
+    12,
+    26
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Graph Node"
+  },
+  "src_typeComment": "One node in a hand-placed waypoint graph — for open/irregular layouts where a uniform grid (see GridPathfinder) doesn't fit. Edge weight defaults to real-world distance, but can be overridden per edge for a cost that isn't physical distance (danger, terrain difficulty, a toll) — that override is what makes Dijkstra meaningfully different from just running A* on the same graph.",
+  "src_serialized": [
+    {
+      "name": "edges",
+      "type": "List<GraphEdge>",
+      "default": "new List<GraphEdge>()",
+      "tooltip": "Nodes directly reachable from this one, with their traversal cost.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Edges",
+      "sig": "public IReadOnlyList<GraphEdge> Edges => edges",
+      "kind": "property",
+      "name": "Edges",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetEdgeWeight(GraphEdge)",
+      "sig": "public float GetEdgeWeight(GraphEdge edge)",
+      "kind": "method",
+      "name": "GetEdgeWeight",
+      "static": false,
+      "comment": "DijkstraPathfinder already skips edges with a null target before ever calling this, but it's public API — guard directly rather than relying on every caller to check first."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Pathfinding_Demo"
+  ]
+}

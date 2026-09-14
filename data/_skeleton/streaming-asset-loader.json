@@ -1,0 +1,72 @@
+{
+  "id": "streaming-asset-loader",
+  "name": "StreamingAssetLoader",
+  "cat": "Kiosk",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Kiosk",
+  "src_file": "Kiosk/StreamingAssetLoader.cs",
+  "src_lines": [
+    17,
+    67
+  ],
+  "src_base": "Singleton<StreamingAssetLoader>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Kiosk/Streaming Asset Loader"
+  },
+  "src_typeComment": "Lazily loads Texture2D assets from StreamingAssets on demand instead of baking every image into the build/scene at once, evicting the least-recently-used entry once the cache exceeds maxCachedItems (via the plain-C# LruCache) — the direct answer to \"too many assets\" memory bloat on a kiosk with a large image library. Uses UnityWebRequestTexture rather than plain File I/O specifically because StreamingAssets lives inside a compressed APK/jar on Android and can't be read via System.IO there — this loader works identically across platforms.",
+  "src_serialized": [
+    {
+      "name": "maxCachedItems",
+      "type": "int",
+      "default": "20",
+      "tooltip": "Maximum number of textures kept in memory at once. The least-recently-used one is unloaded when a new load would exceed this.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CachedCount",
+      "sig": "public int CachedCount => Cache.Count",
+      "kind": "property",
+      "name": "CachedCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsCached(string)",
+      "sig": "public bool IsCached(string relativePath) => Cache.ContainsKey(relativePath)",
+      "kind": "method",
+      "name": "IsCached",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Load(string, Action<Texture2D>)",
+      "sig": "public void Load(string relativePath, Action<Texture2D> onLoaded)",
+      "kind": "method",
+      "name": "Load",
+      "static": false,
+      "comment": "relativePath is relative to Application.streamingAssetsPath, e.g. \"Kiosk/product-01.png\"."
+    },
+    {
+      "id": "UnloadAll()",
+      "sig": "public void UnloadAll() => Cache.Clear()",
+      "kind": "method",
+      "name": "UnloadAll",
+      "static": false,
+      "comment": "Evicts everything immediately — e.g. right before switching to a completely different content set."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Kiosk_Demo"
+  ]
+}

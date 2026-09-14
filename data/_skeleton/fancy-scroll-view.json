@@ -1,0 +1,137 @@
+{
+  "id": "fancy-scroll-view",
+  "name": "FancyScrollView",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/FancyScrollView/FancyScrollView.cs",
+  "src_lines": [
+    20,
+    165
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(ScrollRect)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Fancy Scroll View"
+  },
+  "src_typeComment": "A virtualized, optionally curved scroll view — distinct from the existing lightweight ScrollSnap, which has neither. Only ever instantiates enough cells to cover the visible viewport (+ a small buffer), no matter how large itemCount is, recycling them by re-populating via OnUpdateCell as the index range in view changes — this is the actual point of the tool, for lists too large to just lay out every item at once. Wraps a real ScrollRect for input/inertia rather than reimplementing drag physics.",
+  "src_serialized": [
+    {
+      "name": "cellPrefab",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "Template cloned into the pool. Not a GameObject in the scene — instantiate it fresh per pooled slot.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "cellSize",
+      "type": "float",
+      "default": "100f",
+      "tooltip": "Size of one cell along the scroll axis.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "spacing",
+      "type": "float",
+      "default": "10f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "horizontal",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "curve",
+      "type": "FancyScrollViewCurve",
+      "default": "FancyScrollViewCurve.Linear",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "bufferCells",
+      "type": "int",
+      "default": "2",
+      "tooltip": "Extra cells kept pooled beyond the visible count, so cells scrolling just offscreen are already instantiated.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "carouselMinScale",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": "Only used by the Carousel curve — how small the furthest-from-center cells shrink to.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "carouselMinAlpha",
+      "type": "float",
+      "default": "0.4f",
+      "tooltip": "Only used by the Carousel curve — how transparent the furthest-from-center cells become.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int, RectTransform>()",
+      "sig": "public UnityEvent<int, RectTransform> OnUpdateCell = new UnityEvent<int, RectTransform>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "The logical item index, and the pooled cell instance now assigned to show it — bind your data here."
+    },
+    {
+      "id": "PooledCellCount",
+      "sig": "public int PooledCellCount => pool.Count",
+      "kind": "property",
+      "name": "PooledCellCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetItemCount(int)",
+      "sig": "public void SetItemCount(int count)",
+      "kind": "method",
+      "name": "SetItemCount",
+      "static": false,
+      "comment": "Sets (or changes) the total logical item count — resizes the scroll content to the full virtual length and grows the cell pool if needed (the pool never shrinks below what a previous, larger itemCount already required, since re-instantiating later is wasted work for a size that likely recurs)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/FancyScrollView/Editor/FancyScrollViewSelfTest.cs",
+  "src_demoScene": [
+    "FancyScrollView_Demo"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "td-enemy",
+  "name": "TDEnemy",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDEnemy.cs",
+  "src_lines": [
+    11,
+    61
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(WaypointPatrol), typeof(Health)"
+    ],
+    "addComponentMenu": "Toolkit/Tower Defense/TD Enemy"
+  },
+  "src_typeComment": "Drop on any enemy prefab alongside WaypointPatrol (set its Mode to Once) and a Health component — this bridges both to Tower Defense state: reaching the end of the path damages the base, dying to tower fire grants currency. Also needs a Collider (any type) for TDTower's OverlapSphere targeting to find it.",
+  "src_serialized": [
+    {
+      "name": "damageToBase",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "Damage dealt to the base's Health when this enemy reaches the end of its path.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "rewardCurrency",
+      "type": "CurrencyDefinition",
+      "default": null,
+      "tooltip": "Currency granted when this enemy is killed before reaching the base.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "rewardAmount",
+      "type": "int",
+      "default": "10",
+      "tooltip": "How much of rewardCurrency is granted.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Health",
+      "sig": "public Health Health => health != null ? health : (health = GetComponent<Health>())",
+      "kind": "property",
+      "name": "Health",
+      "static": false,
+      "comment": "Exposed so attack behaviours (TDHitscanAttack, TDProjectile) can reuse this cached reference instead of each doing their own GetComponent<Health>() on every hit."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

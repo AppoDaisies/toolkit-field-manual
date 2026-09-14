@@ -1,0 +1,24 @@
+{
+  "id": "button-attribute",
+  "name": "ButtonAttribute",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorAttributes",
+  "src_file": "EditorTools/AttributeDrawers/ButtonAttribute.cs",
+  "src_lines": [
+    8,
+    8
+  ],
+  "src_base": "Attribute",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Drop above a parameterless method to draw a button in the Inspector that calls it when clicked — handy for \"Regenerate\", \"Test\", \"Reset This\" debug actions without writing a custom Editor script.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

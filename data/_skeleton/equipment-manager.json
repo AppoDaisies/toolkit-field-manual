@@ -1,0 +1,96 @@
+{
+  "id": "equipment-manager",
+  "name": "EquipmentManager",
+  "cat": "Inventory",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Inventory",
+  "src_file": "Inventory/EquipmentManager.cs",
+  "src_lines": [
+    12,
+    81
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Inventory/Equipment Manager"
+  },
+  "src_typeComment": "Typed equipment slots (Weapon/Head/Body/Accessory — see EquipSlotType) composed on top of an EXISTING Inventory rather than duplicating item storage: equipping REMOVES one from the inventory, unequipping ADDS it back — the inventory stays the single source of truth for \"does the player own this.\"",
+  "src_serialized": [
+    {
+      "name": "inventory",
+      "type": "InventoryContainer",
+      "default": null,
+      "tooltip": "Items equipped here are removed from / returned to this inventory on Equip/Unequip.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SaveEntry",
+      "sig": "public class SaveEntry",
+      "kind": "property",
+      "name": "SaveEntry",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<EquipSlotType, ItemDefinition>()",
+      "sig": "public UnityEvent<EquipSlotType, ItemDefinition> OnEquipmentChanged = new UnityEvent<EquipSlotType, ItemDefinition>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "slot, item now equipped there (null if that slot was just cleared)."
+    },
+    {
+      "id": "GetEquipped(EquipSlotType)",
+      "sig": "public ItemDefinition GetEquipped(EquipSlotType slot) => equipped.TryGetValue(slot, out ItemDefinition item) ? item : null",
+      "kind": "method",
+      "name": "GetEquipped",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Equip(ItemDefinition)",
+      "sig": "public bool Equip(ItemDefinition item)",
+      "kind": "method",
+      "name": "Equip",
+      "static": false,
+      "comment": "Returns false if the item isn't equippable, isn't in the inventory, or the inventory reference is missing — always check the return value rather than assuming the equip went through."
+    },
+    {
+      "id": "Unequip(EquipSlotType)",
+      "sig": "public void Unequip(EquipSlotType slot) => UnequipInternal(slot, returnToInventory: true)",
+      "kind": "method",
+      "name": "Unequip",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetSaveData()",
+      "sig": "public List<SaveEntry> GetSaveData()",
+      "kind": "method",
+      "name": "GetSaveData",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LoadSaveData(List<SaveEntry>, ItemRegistry)",
+      "sig": "public void LoadSaveData(List<SaveEntry> data, ItemRegistry registry)",
+      "kind": "method",
+      "name": "LoadSaveData",
+      "static": false,
+      "comment": "`registry` resolves each saved itemId back to its ItemDefinition asset. Loaded items are placed directly into their slot WITHOUT touching the inventory (unlike Equip()) — the inventory's own LoadSaveData() is expected to run separately and is the authority on what's actually owned."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Inventory_Demo"
+  ]
+}

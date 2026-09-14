@@ -1,0 +1,43 @@
+{
+  "id": "i-interactable",
+  "name": "IInteractable",
+  "cat": "Mechanics",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/Interaction/IInteractable.cs",
+  "src_lines": [
+    6,
+    11
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implement on anything the player can interact with (pick up, open, talk to).",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "InteractionPrompt",
+      "sig": "string InteractionPrompt { get; }",
+      "kind": "property",
+      "name": "InteractionPrompt",
+      "static": false,
+      "comment": "Shown by InteractionDetector's OnPromptChanged event, e.g. \"Press E to open\"."
+    },
+    {
+      "id": "Interact(GameObject)",
+      "sig": "void Interact(GameObject interactor)",
+      "kind": "method",
+      "name": "Interact",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

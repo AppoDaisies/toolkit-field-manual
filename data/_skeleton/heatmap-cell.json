@@ -1,0 +1,73 @@
+{
+  "id": "heatmap-cell",
+  "name": "HeatmapCell",
+  "cat": "EditorTools",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/HeatmapGrid.cs",
+  "src_lines": [
+    17,
+    26
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "column",
+      "sig": "public int column",
+      "kind": "field",
+      "name": "column",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "row",
+      "sig": "public int row",
+      "kind": "field",
+      "name": "row",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "center",
+      "sig": "public Vector3 center; // world-space centre of the cell, on the grid plane",
+      "kind": "field",
+      "name": "center",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "objectCount",
+      "sig": "public int objectCount",
+      "kind": "field",
+      "name": "objectCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "boundsVolume",
+      "sig": "public float boundsVolume",
+      "kind": "field",
+      "name": "boundsVolume",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ValueFor(HeatmapMetric)",
+      "sig": "public float ValueFor(HeatmapMetric metric) => metric == HeatmapMetric.ObjectCount ? objectCount : boundsVolume",
+      "kind": "method",
+      "name": "ValueFor",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,43 @@
+{
+  "id": "random-bag",
+  "name": "RandomBag<T>",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Probability/RandomBag.cs",
+  "src_lines": [
+    10,
+    38
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "\"Shuffle bag\" randomizer (the classic Tetris 7-bag technique): guarantees every item is drawn exactly once before the bag reshuffles and repeats, instead of letting pure independent random rolls occasionally streak the same item many times in a row. Use for anything where players would notice and feel cheated by an unlucky streak — which piece/card comes next, which enemy type spawns.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "RandomBag(IEnumerable<T>)",
+      "sig": "public RandomBag(IEnumerable<T> items)",
+      "kind": "ctor",
+      "name": "RandomBag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Draw()",
+      "sig": "public T Draw()",
+      "kind": "method",
+      "name": "Draw",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

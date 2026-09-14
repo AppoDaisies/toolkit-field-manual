@@ -1,0 +1,270 @@
+{
+  "id": "fake-light",
+  "name": "FakeLight",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/FakeLight/FakeLight.cs",
+  "src_lines": [
+    32,
+    425
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Rendering/Fake Light"
+  },
+  "src_typeComment": "",
+  "src_serialized": [
+    {
+      "name": "lightColor",
+      "type": "Color",
+      "default": "new Color(1f, 0.7f, 0.35f)",
+      "tooltip": null,
+      "header": "Common",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "intensity",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "lightType",
+      "type": "FakeLightType",
+      "default": "FakeLightType.Point",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "spotAngle",
+      "type": "float",
+      "default": "45f",
+      "tooltip": "Full cone angle in degrees (like Unity's real Light.spotAngle). Only used when Type is Spot.",
+      "header": null,
+      "range": "1f, 179f",
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "enableSprite",
+      "type": "bool",
+      "default": "true",
+      "tooltip": null,
+      "header": "Sprite — the light source's own look",
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "spriteSize",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "glowSprite",
+      "type": "Sprite",
+      "default": null,
+      "tooltip": "Leave empty to auto-generate a soft radial glow texture.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "enableBeam",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Beam — a visible glowing cone (Spot type only)",
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "beamLength",
+      "type": "float",
+      "default": "5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "beamColor",
+      "type": "Color",
+      "default": "new Color(1f, 0.9f, 0.6f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "beamIntensity",
+      "type": "float",
+      "default": "1f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 5f",
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "enableInfluence",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Influence — tints nearby geometry; works with or without the sprite",
+      "range": null,
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "influenceMode",
+      "type": "FakeLightInfluenceMode",
+      "default": "FakeLightInfluenceMode.UniformTint",
+      "tooltip": "UniformTint (default): a single flat colour swap for the WHOLE renderer via MaterialPropertyBlock — zero setup, works on ANY material, but a large surface tints uniformly regardless of where on it the light is actually nearest.\\n\\nPerPixel: real per-fragment falloff via a shared global array (see FakeLightInclude.cginc) — only the geometry actually near the light is affected, like a real point light. Requires the material's shader to sample SampleFakeLights() (Toolkit/FakeLight/PerPixelReceiver already does).",
+      "header": null,
+      "range": null,
+      "order": 12,
+      "comment": null
+    },
+    {
+      "name": "influenceRadius",
+      "type": "float",
+      "default": "4f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 13,
+      "comment": null
+    },
+    {
+      "name": "influenceMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 14,
+      "comment": null
+    },
+    {
+      "name": "influenceRescanInterval",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "How often UniformTint mode re-scans for nearby renderers, in seconds — every-frame OverlapSphere is wasted work for a source that rarely moves. Not used in PerPixel mode.",
+      "header": null,
+      "range": null,
+      "order": 15,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "MaxPerPixelLights",
+      "sig": "public const int MaxPerPixelLights = 8; // must match TOOLKIT_MAX_FAKE_LIGHTS in FakeLightInclude.cginc",
+      "kind": "const",
+      "name": "MaxPerPixelLights",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PublishPerPixelLights()",
+      "sig": "public static void PublishPerPixelLights()",
+      "kind": "method",
+      "name": "PublishPerPixelLights",
+      "static": true,
+      "comment": "Public — not gated behind Update() — so a self-test can drive this deterministically without waiting on a real frame, same reasoning as every other \"public Tick-equivalent\" in this toolkit."
+    },
+    {
+      "id": "ComputeSpotAttenuation(Vector3, Vector3, float)",
+      "sig": "public static float ComputeSpotAttenuation(Vector3 toPixelDirection, Vector3 lightForward, float cosHalfAngle)",
+      "kind": "method",
+      "name": "ComputeSpotAttenuation",
+      "static": true,
+      "comment": "Pure — mirrors FakeLightInclude.cginc's SampleFakeLights spot-angle math exactly, so a self-test can assert the CPU and shader sides agree without needing to read GPU state back."
+    },
+    {
+      "id": "ActivePerPixelLightCountForTest",
+      "sig": "public static int ActivePerPixelLightCountForTest => ActivePerPixelLights.Count",
+      "kind": "property",
+      "name": "ActivePerPixelLightCountForTest",
+      "static": true,
+      "comment": "Test-only accessors — reading GLOBAL shader state back isn't otherwise observable from a script in a way a self-test can assert against."
+    },
+    {
+      "id": "PublishedPerPixelPositionSlotForTest(int)",
+      "sig": "public static Vector4 PublishedPerPixelPositionSlotForTest(int index) => PerPixelPositionsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedPerPixelPositionSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "PublishedPerPixelColorSlotForTest(int)",
+      "sig": "public static Vector4 PublishedPerPixelColorSlotForTest(int index) => PerPixelColorsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedPerPixelColorSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "PublishedPerPixelSpotParamsSlotForTest(int)",
+      "sig": "public static Vector4 PublishedPerPixelSpotParamsSlotForTest(int index) => PerPixelSpotParamsBuffer[index]",
+      "kind": "method",
+      "name": "PublishedPerPixelSpotParamsSlotForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ResetPerPixelPublishGuardForTest()",
+      "sig": "public static void ResetPerPixelPublishGuardForTest() => lastPublishedFrame = -1",
+      "kind": "method",
+      "name": "ResetPerPixelPublishGuardForTest",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "RescanAndApplyInfluence()",
+      "sig": "public void RescanAndApplyInfluence()",
+      "kind": "method",
+      "name": "RescanAndApplyInfluence",
+      "static": false,
+      "comment": "Public — not gated behind the rescan timer — so a self-test (or a caller that just moved the light) can drive this deterministically instead of waiting on real elapsed time."
+    },
+    {
+      "id": "GenerateConeMesh(float, float, int)",
+      "sig": "public static Mesh GenerateConeMesh(float length, float angleDegrees, int segments = 20)",
+      "kind": "method",
+      "name": "GenerateConeMesh",
+      "static": true,
+      "comment": "A cone mesh — apex at the origin (the light's own position), opening along LOCAL +Z (the light's forward direction) out to beamLength, with a radius set by the spot angle. Vertex colour alpha is 1 at the apex and 0 around the rim, so ordinary alpha interpolation across each triangle gives the whole cone a bright-near-the-source, fading-toward-the-edge gradient for free — no texture needed."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/FakeLight/Editor/FakeLightSelfTest.cs",
+  "src_demoScene": [
+    "FakeLight_Demo"
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "id": "look-at-target-finder",
+  "name": "LookAtTargetFinder",
+  "cat": "Raycasting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Raycasting",
+  "src_file": "Raycasting/LookAtTargetFinder/LookAtTargetFinder.cs",
+  "src_lines": [
+    12,
+    54
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Raycasting/Look At Target Finder"
+  },
+  "src_typeComment": "Plug-and-play \"what am I currently looking at\" query — continuously raycasts from screen-center (crosshair-style) or straight out from this Transform's forward, and fires OnTargetChanged whenever the answer changes. Different from Toolkit.Combat.RangedAttack's hitscan (a one-shot \"fire now\" action) — this is a STANDING query, the thing you'd drive an interaction prompt, an aim-assist highlight, or a \"look at an NPC to see their nameplate\" UI from.",
+  "src_serialized": [
+    {
+      "name": "sourceCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "maxDistance",
+      "type": "float",
+      "default": "100f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "targetMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "useScreenCenter",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, raycasts from the center of the screen (a first/third-person crosshair). If false, raycasts from this Transform's own position/forward instead (e.g. a turret, or a VR headset's gaze).",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnTargetChanged = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentTarget",
+      "sig": "public GameObject CurrentTarget { get; private set; }",
+      "kind": "property",
+      "name": "CurrentTarget",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentHit",
+      "sig": "public RaycastHit CurrentHit { get; private set; }",
+      "kind": "property",
+      "name": "CurrentHit",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ApplyTarget(GameObject)",
+      "sig": "public void ApplyTarget(GameObject newTarget)",
+      "kind": "method",
+      "name": "ApplyTarget",
+      "static": false,
+      "comment": "Public so the \"only fire the event on an actual change\" logic is directly testable without needing a real raycast — Update() is just BuildRay() + a real Physics.Raycast() feeding into this."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Raycasting/LookAtTargetFinder/Editor/LookAtTargetFinderSelfTest.cs",
+  "src_demoScene": [
+    "Raycasting_Demo"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "id": "flow-field-grid",
+  "name": "FlowFieldGrid",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI",
+  "src_file": "AI/Pathfinding/FlowField/FlowFieldGrid.cs",
+  "src_lines": [
+    9,
+    84
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/AI/Flow Field Grid"
+  },
+  "src_typeComment": "Scene wrapper around FlowField: defines the grid's world-space placement and auto-detects obstacles via physics overlap, so you don't have to hand-author a bool[,] yourself. Call RecomputeField() whenever the goal moves (once — not per agent); every FlowFieldAgent using this grid then shares that one result.",
+  "src_serialized": [
+    {
+      "name": "width",
+      "type": "int",
+      "default": "20",
+      "tooltip": "Cells across / deep. Kept modest by default — cost is O(width*height) per recompute.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "height",
+      "type": "int",
+      "default": "20",
+      "tooltip": "Cells deep (Z axis). Kept modest by default — cost is O(width*height) per recompute.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "cellSize",
+      "type": "float",
+      "default": "1f",
+      "tooltip": "World-space size of one cell.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "obstacleMask",
+      "type": "LayerMask",
+      "default": null,
+      "tooltip": "Layers checked when detecting which cells are blocked.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "obstacleCheckRadius",
+      "type": "float",
+      "default": "0.45f",
+      "tooltip": "Half-extents of the box used to test each cell for an obstacle — should be a little under half of cellSize to avoid false positives from a neighboring cell's obstacle.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "obstacleCheckHeight",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "World-space height the obstacle check box is centered at. Keep this above 0 (e.g. half an obstacle cube's height) — checking exactly at y=0 will false-positive against a ground plane's own collider, which sits flush with the grid's surface.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "LastGoalCell",
+      "sig": "public Vector2Int LastGoalCell { get; private set; }",
+      "kind": "property",
+      "name": "LastGoalCell",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "BakeObstacles()",
+      "sig": "public void BakeObstacles()",
+      "kind": "method",
+      "name": "BakeObstacles",
+      "static": false,
+      "comment": "Scans the grid once for obstacles. Call again yourself if the level layout changes after startup."
+    },
+    {
+      "id": "RecomputeField(Vector3)",
+      "sig": "public void RecomputeField(Vector3 goalWorldPosition)",
+      "kind": "method",
+      "name": "RecomputeField",
+      "static": false,
+      "comment": "Cheap to call often (e.g. every frame while chasing a moving goal) as long as the goal keeps landing in the SAME cell — the expensive O(width*height) pass is skipped unless it actually moved to a new cell. Still, for a genuinely fast-moving goal on a large grid, calling this every frame could be a real cost — consider throttling (e.g. every few frames) at larger grid sizes."
+    },
+    {
+      "id": "GetFlowDirection(Vector3)",
+      "sig": "public Vector2 GetFlowDirection(Vector3 worldPosition)",
+      "kind": "method",
+      "name": "GetFlowDirection",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "WorldToCell(Vector3)",
+      "sig": "public Vector2Int WorldToCell(Vector3 worldPosition)",
+      "kind": "method",
+      "name": "WorldToCell",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CellToWorld(Vector2Int)",
+      "sig": "public Vector3 CellToWorld(Vector2Int cell)",
+      "kind": "method",
+      "name": "CellToWorld",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Pathfinding_Demo"
+  ]
+}

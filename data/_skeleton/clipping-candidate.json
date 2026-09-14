@@ -1,0 +1,49 @@
+{
+  "id": "clipping-candidate",
+  "name": "ClippingCandidate",
+  "cat": "EditorTools",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/ClippingCandidateFinder.cs",
+  "src_lines": [
+    7,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "One flagged object plus what it appears to be clipping into.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "subject",
+      "sig": "public GameObject subject",
+      "kind": "field",
+      "name": "subject",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "firstTarget",
+      "sig": "public GameObject firstTarget",
+      "kind": "field",
+      "name": "firstTarget",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "targetCount",
+      "sig": "public int targetCount",
+      "kind": "field",
+      "name": "targetCount",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

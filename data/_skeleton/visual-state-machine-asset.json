@@ -1,0 +1,77 @@
+{
+  "id": "visual-state-machine-asset",
+  "name": "VisualStateMachineAsset",
+  "cat": "AI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.AI.VisualStateMachine",
+  "src_file": "AI/VisualStateMachine/VisualStateMachineAsset.cs",
+  "src_lines": [
+    13,
+    22
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/AI/Visual State Machine\""
+  },
+  "src_typeComment": "The abstract, reusable graph definition — states, transitions, and parameters — with no scene dependencies, so the same asset can drive multiple scene instances via VisualStateMachineRunner (the same relationship an Animator Controller asset has to the Animators that use it). Edited via the Visual State Machine graph window (double-click this asset to open it); VisualStateMachineRunner reads it at runtime.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "List<VSMNode>()",
+      "sig": "public List<VSMNode> nodes = new List<VSMNode>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "List<VSMTransition>()",
+      "sig": "public List<VSMTransition> transitions = new List<VSMTransition>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "List<VSMParameter>()",
+      "sig": "public List<VSMParameter> parameters = new List<VSMParameter>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetNode(string)",
+      "sig": "public VSMNode GetNode(string id) => nodes.FirstOrDefault(n => n.id == id)",
+      "kind": "method",
+      "name": "GetNode",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetParameter(string)",
+      "sig": "public VSMParameter GetParameter(string name) => parameters.FirstOrDefault(p => p.name == name)",
+      "kind": "method",
+      "name": "GetParameter",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetEntryNode()",
+      "sig": "public VSMNode GetEntryNode() => nodes.FirstOrDefault(n => n.isEntry) ?? nodes.FirstOrDefault(n => !n.isAnyState)",
+      "kind": "method",
+      "name": "GetEntryNode",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VisualStateMachine_Demo"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "tag-attribute",
+  "name": "TagAttribute",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorAttributes",
+  "src_file": "EditorTools/AttributeDrawers/TagAttribute.cs",
+  "src_lines": [
+    6,
+    6
+  ],
+  "src_base": "PropertyAttribute",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Drop above a string field to draw it as a Tag dropdown instead of a plain text field.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

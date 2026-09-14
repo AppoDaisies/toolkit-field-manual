@@ -1,0 +1,27 @@
+{
+  "id": "player-camera-mode",
+  "name": "PlayerCameraMode",
+  "cat": "Camera",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.CameraTools",
+  "src_file": "Camera/PlayerCameraRig/PlayerCameraRig.cs",
+  "src_lines": [
+    5,
+    9
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "FirstPerson",
+    "ThirdPerson"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

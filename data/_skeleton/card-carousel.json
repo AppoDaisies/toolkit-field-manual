@@ -1,0 +1,119 @@
+{
+  "id": "card-carousel",
+  "name": "CardCarousel",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/Layouts/CardCarousel.cs",
+  "src_lines": [
+    13,
+    76
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Card Carousel"
+  },
+  "src_typeComment": "Swipeable stacked-card layout (a deck) — Next()/Previous()/GoTo() ease every card to its position/scale for the new current index, with siblings behind the front card peeking out to the side and shrinking. Drag-to-advance isn't built in here — wire a DraggableItem or raw pointer-delta on the front card to call Next()/Previous(), keeping this component focused on the layout math itself.",
+  "src_serialized": [
+    {
+      "name": "cards",
+      "type": "RectTransform[]",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "scaleStepDown",
+      "type": "float",
+      "default": "0.15f",
+      "tooltip": "How much each card behind the front one shrinks, per step back — 0.15 = 15% smaller per step.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "peekOffset",
+      "type": "float",
+      "default": "40f",
+      "tooltip": "Horizontal offset, in UI units, between each stacked card.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "animationDuration",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnCardChanged = new UnityEvent<int>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentIndex",
+      "sig": "public int CurrentIndex { get; private set; }",
+      "kind": "property",
+      "name": "CurrentIndex",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CardCount",
+      "sig": "public int CardCount => cards != null ? cards.Length : 0",
+      "kind": "property",
+      "name": "CardCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Next()",
+      "sig": "public void Next() => GoTo(CurrentIndex + 1)",
+      "kind": "method",
+      "name": "Next",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Previous()",
+      "sig": "public void Previous() => GoTo(CurrentIndex - 1)",
+      "kind": "method",
+      "name": "Previous",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GoTo(int)",
+      "sig": "public void GoTo(int index)",
+      "kind": "method",
+      "name": "GoTo",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo",
+    "UIExtras_Demo"
+  ]
+}

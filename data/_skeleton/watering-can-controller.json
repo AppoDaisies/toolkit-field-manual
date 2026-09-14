@@ -1,0 +1,162 @@
+{
+  "id": "watering-can-controller",
+  "name": "WateringCanController",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Watering/WateringCanController.cs",
+  "src_lines": [
+    17,
+    124
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Gameplay/Watering Can Controller"
+  },
+  "src_typeComment": "Drives pouring purely from the SPOUT's own tilt away from whatever orientation it started in — no separate \"is pouring\" flag to wire up, no dependency on how the can is actually rotated (mouse drag, a physical VR grip, an animation), so any of those can drive the same Transform and this just works.  Detection and visuals are deliberately decoupled: this component finds plants and waters them by sampling points along the stream's own arc, INDEPENDENTLY of whether a WaterPourVisual is even assigned — so watering still works with particles off, the shader stream off, or both off, and the arc handed to the visual is the exact same one used for hit-testing, so the stream can never appear to miss what it's actually watering.",
+  "src_serialized": [
+    {
+      "name": "spout",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "The point water pours FROM, and the transform whose tilt is measured. Its local FORWARD (blue) axis must point out of the spout opening. Defaults to this GameObject if left empty.",
+      "header": "Setup",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "visual",
+      "type": "WaterPourVisual",
+      "default": null,
+      "tooltip": "Optional — hands the computed pour state (on/off, rate, arc points) to a WaterPourVisual each frame. Leave empty to run this controller with no visible water at all.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "tiltStartAngle",
+      "type": "float",
+      "default": "25f",
+      "tooltip": "Degrees the spout must rotate away from its own starting orientation before pouring begins.",
+      "header": "Tilt",
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "tiltMaxAngle",
+      "type": "float",
+      "default": "75f",
+      "tooltip": "Degrees at which pouring reaches its full rate. Between start and here, pour rate ramps 0 to 1.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "pourDistance",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "How far the water stream reaches before it would hit nothing.",
+      "header": "Pour",
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "gravityDroop",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "How much the stream droops downward over its distance, simulating gravity. 0 = a perfectly straight line.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "arcResolution",
+      "type": "int",
+      "default": "12",
+      "tooltip": "Sample points along the stream, used for both the visual and the plant hit-test. More points = smoother curve.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "waterPerSecond",
+      "type": "float",
+      "default": "20f",
+      "tooltip": "Water added per second to every plant the stream overlaps, at full pour rate.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "hitRadius",
+      "type": "float",
+      "default": "0.15f",
+      "tooltip": "Radius around each sample point checked for a plant — roughly how 'fat' the stream is for hit purposes.",
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "plantLayerMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 9,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "IsPouring",
+      "sig": "public bool IsPouring { get; private set; }",
+      "kind": "property",
+      "name": "IsPouring",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "PourRate01",
+      "sig": "public float PourRate01 { get; private set; }",
+      "kind": "property",
+      "name": "PourRate01",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ComputePourRate01(float, float, float)",
+      "sig": "public static float ComputePourRate01(float tiltAngleDegrees, float startAngle, float maxAngle)",
+      "kind": "method",
+      "name": "ComputePourRate01",
+      "static": true,
+      "comment": "Pure — no MonoBehaviour state — so a self-test can assert the mapping directly instead of driving a live Transform through Update()."
+    },
+    {
+      "id": "ComputeArcPoints(Vector3, Vector3, float, int, float)",
+      "sig": "public static Vector3[] ComputeArcPoints(Vector3 origin, Vector3 direction, float distance, int pointCount, float gravityDroop)",
+      "kind": "method",
+      "name": "ComputeArcPoints",
+      "static": true,
+      "comment": "Pure — a simple parabolic droop from a straight line, sampled into `pointCount` points. Reused for BOTH the visual stream and the hit-test so they can never disagree about where the water actually is."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "WateringCan_Demo"
+  ]
+}

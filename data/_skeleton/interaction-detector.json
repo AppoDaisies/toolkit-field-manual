@@ -1,0 +1,86 @@
+{
+  "id": "interaction-detector",
+  "name": "InteractionDetector",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/Interaction/InteractionDetector.cs",
+  "src_lines": [
+    10,
+    73
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Interaction Detector"
+  },
+  "src_typeComment": "Drop on the player: detects the nearest IInteractable within range and fires events to show/hide a prompt UI and to trigger interaction on key press. Detection uses OverlapSphere, so it works for any collider layout without needing trigger volumes hand-placed on every interactable.",
+  "src_serialized": [
+    {
+      "name": "interactionRange",
+      "type": "float",
+      "default": "2.5f",
+      "tooltip": "How far away an interactable can be detected.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "interactableMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Only colliders on these layers are considered.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "interactKey",
+      "type": "KeyCode",
+      "default": "KeyCode.E",
+      "tooltip": "Key that triggers interaction with the currently detected target.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "scanInterval",
+      "type": "float",
+      "default": "0.1f",
+      "tooltip": "How often (seconds) to re-scan for nearby interactables. 0 = every frame.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<string>()",
+      "sig": "public UnityEvent<string> OnPromptChanged = new UnityEvent<string>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": "Fired with the prompt text (e.g. \"Press E to open\") when a new interactable comes into range, and with \"\" when none is in range."
+    },
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnInteracted = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "id": "touch-gesture-recognizer",
+  "name": "TouchGestureRecognizer",
+  "cat": "Input",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.InputTools",
+  "src_file": "Input/TouchGestureRecognizer/TouchGestureRecognizer.cs",
+  "src_lines": [
+    10,
+    103
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Touch Gesture Recognizer"
+  },
+  "src_typeComment": "Drop anywhere in the scene (doesn't need to be on a specific object) and wire OnSwipe/OnPinch/OnLongPress in the Inspector. Uses the legacy Input.touches API so it works with zero package setup; falls back to mouse input automatically so gestures are testable in the Editor without a touch device.",
+  "src_serialized": [
+    {
+      "name": "swipeThreshold",
+      "type": "float",
+      "default": "100f",
+      "tooltip": "Minimum screen-pixel distance for a drag to count as a swipe.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "longPressDuration",
+      "type": "float",
+      "default": "0.6f",
+      "tooltip": "A touch held longer than this (seconds) without moving fires OnLongPress instead of a swipe/tap.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "longPressMaxDrift",
+      "type": "float",
+      "default": "20f",
+      "tooltip": "How far (pixels) a held touch may drift and still count as a long press rather than a drag.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<Vector2>()",
+      "sig": "public UnityEvent<Vector2> OnSwipe = new UnityEvent<Vector2>();   // normalized swipe direction",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<float>()",
+      "sig": "public UnityEvent<float> OnPinch = new UnityEvent<float>();     // delta distance between two touches this frame, positive = pinching outward",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnLongPress = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

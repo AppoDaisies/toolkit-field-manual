@@ -1,0 +1,127 @@
+{
+  "id": "wave-spawner",
+  "name": "WaveSpawner",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/WaveSpawner/WaveSpawner.cs",
+  "src_lines": [
+    12,
+    91
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Wave Spawner"
+  },
+  "src_typeComment": "Configure a list of waves in the Inspector and this spawns them in order automatically — enemies, pickups, obstacles, anything prefab-based.",
+  "src_serialized": [
+    {
+      "name": "waves",
+      "type": "List<Wave>",
+      "default": "new List<Wave>()",
+      "tooltip": "Waves spawned in order, one after another.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "spawnPoints",
+      "type": "Transform[]",
+      "default": null,
+      "tooltip": "Points spawned objects can appear at, chosen randomly per spawn.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "delayBetweenWaves",
+      "type": "float",
+      "default": "3f",
+      "tooltip": "Seconds to wait after a wave finishes before starting the next.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "autoStart",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Starts spawning automatically when this component becomes active.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Wave",
+      "sig": "public class Wave",
+      "kind": "property",
+      "name": "Wave",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnWaveStarted = new UnityEvent<int>();   // wave index",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<int>()",
+      "sig": "public UnityEvent<int> OnWaveCompleted = new UnityEvent<int>(); // wave index",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnAllWavesCompleted = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "UnityEvent<GameObject>()",
+      "sig": "public UnityEvent<GameObject> OnEnemySpawned = new UnityEvent<GameObject>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "StartSpawning()",
+      "sig": "public void StartSpawning()",
+      "kind": "method",
+      "name": "StartSpawning",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "StopSpawning()",
+      "sig": "public void StopSpawning()",
+      "kind": "method",
+      "name": "StopSpawning",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo",
+    "TowerDefense_Demo"
+  ]
+}

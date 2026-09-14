@@ -1,0 +1,65 @@
+{
+  "id": "spline-utils",
+  "name": "SplineUtils",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Spline/SplineUtils.cs",
+  "src_lines": [
+    15,
+    138
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Catmull-Rom spline through an arbitrary list of points — unlike a single cubic Bezier (which only passes through its two endpoints), this passes through EVERY point, which is what a \"click to place waypoints\" authoring workflow needs: the curve must hit each spot actually clicked. Extends BezierUtils rather than reimplementing curve math — each segment converts its local 4-point Catmull-Rom window into an equivalent cubic Bezier and hands it straight to BezierUtils.Cubic/CubicTangent.  All functions here are pure/stateless (points passed in every call), matching BezierUtils' own style. A caller that evaluates the same point set repeatedly (SplinePath, PathBuilder) should build a length table ONCE with BuildLengthTable and reuse it, rather than rebuilding it on every query.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Evaluate(IReadOnlyList<Vector3>, float, float)",
+      "sig": "public static Vector3 Evaluate(IReadOnlyList<Vector3> points, float t, float tension = 0f)",
+      "kind": "method",
+      "name": "Evaluate",
+      "static": true,
+      "comment": "Evaluates the whole path at t in [0,1], where 0 is the first point and 1 is the last. tension: 0 = a standard (uniform Catmull-Rom) curve; 1 = dead-straight segments between every pair of points, still passing through every one. Values in between loosen/tighten how far the curve bulges past a straight line at each point — this is the \"curvature\" control exposed on SplinePath."
+    },
+    {
+      "id": "EvaluateTangent(IReadOnlyList<Vector3>, float, float)",
+      "sig": "public static Vector3 EvaluateTangent(IReadOnlyList<Vector3> points, float t, float tension = 0f)",
+      "kind": "method",
+      "name": "EvaluateTangent",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "BuildLengthTable(IReadOnlyList<Vector3>, float, int)",
+      "sig": "public static float[] BuildLengthTable(IReadOnlyList<Vector3> points, float tension = 0f, int samplesPerSegment = 20)",
+      "kind": "method",
+      "name": "BuildLengthTable",
+      "static": true,
+      "comment": "Samples the whole path at `samplesPerSegment` uniform steps per segment and returns the cumulative distance travelled at each sample — table[0] is always 0, table[last] is the total path length. Build this ONCE per point-set/tension combination and reuse it with DistanceToT rather than resampling from scratch on every query (SplinePath does exactly this, invalidating the cache only when points, tension, or the transform actually change)."
+    },
+    {
+      "id": "TotalLength(float[])",
+      "sig": "public static float TotalLength(float[] lengthTable) => lengthTable[lengthTable.Length - 1]",
+      "kind": "method",
+      "name": "TotalLength",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "DistanceToT(float[], float)",
+      "sig": "public static float DistanceToT(float[] lengthTable, float distance)",
+      "kind": "method",
+      "name": "DistanceToT",
+      "static": true,
+      "comment": "Converts a DISTANCE along the path (0 .. TotalLength) into the t value the Evaluate calls in BuildLengthTable used — this is what makes constant-speed movement and even prefab/mesh spacing possible, since t on its own runs at whatever pace the spline math happens to produce, not at a constant rate per unit of world distance."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Math/Spline/Editor/SplineUtilsSelfTest.cs",
+  "src_demoScene": []
+}

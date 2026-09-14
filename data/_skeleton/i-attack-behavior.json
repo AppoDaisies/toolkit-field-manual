@@ -1,0 +1,33 @@
+{
+  "id": "i-attack-behavior",
+  "name": "IAttackBehavior",
+  "cat": "Mechanics",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/IAttackBehavior.cs",
+  "src_lines": [
+    7,
+    10
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Implemented by whatever actually executes a tower's attack — TDHitscanAttack (instant) or TDProjectileAttack (physical, travels to the target). TDTower only handles targeting and fire-rate timing; it calls whichever of these is attached to the same GameObject, so a tower prefab picks its attack style just by which component you add.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Attack(TDEnemy, float)",
+      "sig": "void Attack(TDEnemy target, float damage)",
+      "kind": "method",
+      "name": "Attack",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,51 @@
+{
+  "id": "force-field-effect",
+  "name": "ForceFieldEffect",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/ForceField/ForceFieldEffect.cs",
+  "src_lines": [
+    10,
+    39
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Force Field Effect"
+  },
+  "src_typeComment": "Drop alongside a Renderer using the Toolkit/ForceField/ForceField shader — call TriggerHitFlash() (e.g. from a Health.OnDamaged listener) for a brief bright flash on impact.",
+  "src_serialized": [
+    {
+      "name": "flashDecayTime",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": "Seconds the hit flash takes to fade back to 0.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "TriggerHitFlash()",
+      "sig": "public void TriggerHitFlash()",
+      "kind": "method",
+      "name": "TriggerHitFlash",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "VFXShaders_Demo"
+  ]
+}

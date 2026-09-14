@@ -1,0 +1,82 @@
+{
+  "id": "drop-zone",
+  "name": "DropZone",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/DragAndDrop/DropZone.cs",
+  "src_lines": [
+    9,
+    42
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Drop Zone"
+  },
+  "src_typeComment": "Pairs with DraggableItem — a target region that accepts (or rejects, via acceptedTags) a dropped item.",
+  "src_serialized": [
+    {
+      "name": "acceptedTags",
+      "type": "List<string>",
+      "default": "new List<string>()",
+      "tooltip": "If non-empty, only DraggableItems whose itemTag is in this list are accepted. Leave empty to accept any item.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "reparentOnDrop",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, a dropped item is reparented under this zone and snapped to its center.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<DraggableItem>()",
+      "sig": "public UnityEvent<DraggableItem> OnItemDropped = new UnityEvent<DraggableItem>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetAcceptedTags(IEnumerable<string>)",
+      "sig": "public void SetAcceptedTags(IEnumerable<string> tags)",
+      "kind": "method",
+      "name": "SetAcceptedTags",
+      "static": false,
+      "comment": "Public setter for configuring this from code (e.g. spawned/wired at runtime) — a plain string List has no SerializedProperty ObjectReference path the way an object-array field does, so this is the supported way to set it outside the Inspector."
+    },
+    {
+      "id": "CanAccept(DraggableItem)",
+      "sig": "public bool CanAccept(DraggableItem item)",
+      "kind": "method",
+      "name": "CanAccept",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Drop(DraggableItem)",
+      "sig": "public void Drop(DraggableItem item)",
+      "kind": "method",
+      "name": "Drop",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIDev_Demo"
+  ]
+}

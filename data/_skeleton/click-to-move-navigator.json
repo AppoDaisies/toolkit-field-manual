@@ -1,0 +1,89 @@
+{
+  "id": "click-to-move-navigator",
+  "name": "ClickToMoveNavigator",
+  "cat": "Raycasting",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Raycasting",
+  "src_file": "Raycasting/ClickToMoveNavigator/ClickToMoveNavigator.cs",
+  "src_lines": [
+    12,
+    46
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(NavMeshAgent)"
+    ],
+    "addComponentMenu": "Toolkit/Raycasting/Click To Move Navigator"
+  },
+  "src_typeComment": "Plug-and-play point-and-click movement — click on the ground (a real NavMesh-walkable surface) and this sends the attached NavMeshAgent there. Nothing else in this toolkit bridges a raycast to navigation — Toolkit.Grid.Placement.GridPlacer is for editor/grid-snapped PLACEMENT, not moving an existing agent.",
+  "src_serialized": [
+    {
+      "name": "sourceCamera",
+      "type": "Camera",
+      "default": null,
+      "tooltip": "Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "groundMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "maxDistance",
+      "type": "float",
+      "default": "200f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "mouseButton",
+      "type": "int",
+      "default": "0",
+      "tooltip": "0 = Left click, 1 = Right click, 2 = Middle click.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent<Vector3>()",
+      "sig": "public UnityEvent<Vector3> OnDestinationSet = new UnityEvent<Vector3>()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "MoveTo(Vector3)",
+      "sig": "public void MoveTo(Vector3 destination)",
+      "kind": "method",
+      "name": "MoveTo",
+      "static": false,
+      "comment": "Public so a click can be driven from anywhere (a UI button, a controller's face button acting on the current reticle target) instead of only a literal mouse click — and so this is testable without needing a real click/raycast."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Raycasting/ClickToMoveNavigator/Editor/ClickToMoveNavigatorSelfTest.cs",
+  "src_demoScene": [
+    "Raycasting_Demo"
+  ]
+}

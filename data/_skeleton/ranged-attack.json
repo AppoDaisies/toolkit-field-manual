@@ -1,0 +1,144 @@
+{
+  "id": "ranged-attack",
+  "name": "RangedAttack",
+  "cat": "Combat",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Combat",
+  "src_file": "Combat/Hitboxes/RangedAttack.cs",
+  "src_lines": [
+    11,
+    72
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Combat/Ranged Attack"
+  },
+  "src_typeComment": "The ranged half of the shared Hitbox/Hurtbox combat core — Hitscan mode raycasts instantly (guns, laser weapons), Projectile mode spawns a CombatProjectile that travels and hits on contact (arrows, thrown weapons). Both funnel into the same Hurtbox.ReceiveHit(), same as MeleeAttack's Hitbox does.",
+  "src_serialized": [
+    {
+      "name": "mode",
+      "type": "RangedAttackMode",
+      "default": "RangedAttackMode.Hitscan",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "muzzle",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Where shots originate from and aim relative to.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "damage",
+      "type": "float",
+      "default": "10f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "knockbackForce",
+      "type": "float",
+      "default": "5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "range",
+      "type": "float",
+      "default": "50f",
+      "tooltip": "Only used in Hitscan mode.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "hitMask",
+      "type": "LayerMask",
+      "default": "~0",
+      "tooltip": "Only used in Hitscan mode.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "cooldown",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "projectilePrefab",
+      "type": "CombatProjectile",
+      "default": null,
+      "tooltip": "Only used in Projectile mode.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "projectileSpeed",
+      "type": "float",
+      "default": "20f",
+      "tooltip": "Only used in Projectile mode.",
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "CanFire",
+      "sig": "public bool CanFire => cooldownTimer <= 0f",
+      "kind": "property",
+      "name": "CanFire",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Tick(float)",
+      "sig": "public void Tick(float deltaTime)",
+      "kind": "method",
+      "name": "Tick",
+      "static": false,
+      "comment": "Public so a self-test can drive the cooldown with exact time increments without needing Play mode."
+    },
+    {
+      "id": "Fire(Vector3)",
+      "sig": "public bool Fire(Vector3 direction)",
+      "kind": "method",
+      "name": "Fire",
+      "static": false,
+      "comment": "Returns false (and does nothing) if still on cooldown or no muzzle is assigned."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "HitboxCombat_Demo"
+  ]
+}

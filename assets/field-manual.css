@@ -1,0 +1,622 @@
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #f5f6f4;
+    --surface: #ffffff;
+    --surface-2: #eef0ed;
+    --ink: #14181c;
+    --ink-muted: #5b6470;
+    --ink-faint: #8992a0;
+    --border: #dee2df;
+    --accent: #c96a12;
+    --accent-ink: #ffffff;
+    --accent-soft: #fbe8d4;
+    --mono-accent: #1f7a77;
+    --mono-accent-soft: #dcefee;
+    --code-bg: #eef1f0;
+    --shadow: 0 1px 2px rgba(20, 24, 28, 0.04), 0 8px 24px -12px rgba(20, 24, 28, 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10151a;
+      --surface: #161d24;
+      --surface-2: #1c242c;
+      --ink: #eef1f3;
+      --ink-muted: #9aa7b2;
+      --ink-faint: #6c7885;
+      --border: #2a333c;
+      --accent: #f0a64c;
+      --accent-ink: #1a1206;
+      --accent-soft: #3a2a14;
+      --mono-accent: #5fc4c0;
+      --mono-accent-soft: #16302f;
+      --code-bg: #0e1418;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -16px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10151a;
+    --surface: #161d24;
+    --surface-2: #1c242c;
+    --ink: #eef1f3;
+    --ink-muted: #9aa7b2;
+    --ink-faint: #6c7885;
+    --border: #2a333c;
+    --accent: #f0a64c;
+    --accent-ink: #1a1206;
+    --accent-soft: #3a2a14;
+    --mono-accent: #5fc4c0;
+    --mono-accent-soft: #16302f;
+    --code-bg: #0e1418;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -16px rgba(0, 0, 0, 0.6);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  ::selection { background: var(--accent-soft); }
+  a { color: var(--mono-accent); }
+
+  h1, h2, h3, .display {
+    font-family: "Big Shoulders Display", system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  .app { display: flex; min-height: 100vh; }
+
+  /* ---------- sidebar ---------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 272px;
+    flex: 0 0 272px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    z-index: 5;
+  }
+  .brand {
+    padding: 22px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand .kicker {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .brand h1 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 0.95;
+    margin: 0;
+    color: var(--ink);
+  }
+  .brand .sub {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  .brand .count {
+    color: var(--mono-accent);
+    font-weight: 600;
+  }
+
+  .filterbox { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .filterbox input {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 11px;
+    color: var(--ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    outline: none;
+  }
+  .filterbox input:focus { border-color: var(--accent); }
+  .filterbox input::placeholder { color: var(--ink-faint); }
+  .filter-status {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  nav.catnav { flex: 1; overflow-y: auto; padding: 6px 0 16px; }
+  nav.catnav a {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    padding: 7px 20px;
+    text-decoration: none;
+    color: var(--ink-muted);
+    font-size: 13px;
+    border-left: 2px solid transparent;
+  }
+  nav.catnav a:hover { color: var(--ink); background: var(--surface-2); }
+  nav.catnav a.active {
+    color: var(--ink);
+    border-left-color: var(--accent);
+    background: var(--surface-2);
+    font-weight: 600;
+  }
+  nav.catnav .navcode {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  nav.catnav .navcount {
+    margin-left: auto;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- main ---------- */
+  main { flex: 1; min-width: 0; padding: 40px 48px 120px; max-width: 980px; }
+
+  .intro { margin-bottom: 44px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .intro p { max-width: 62ch; color: var(--ink-muted); font-size: 14.5px; }
+  .intro .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 18px; font-size: 12px; color: var(--ink-faint); }
+  .legend .swatch { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  section.category { margin-bottom: 56px; scroll-margin-top: 24px; }
+  .cathead {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .cathead .catcode {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 600;
+    background: var(--accent-soft);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .cathead h2 { font-size: 30px; font-weight: 700; margin: 0; color: var(--ink); }
+  .catns {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin: 0 0 22px;
+    padding-left: 2px;
+  }
+
+  .toolgrid { display: flex; flex-direction: column; gap: 14px; }
+
+  .tool {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .tool-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .tool-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .tool-code { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-faint); }
+  .tool-name { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 16.5px; color: var(--ink); }
+  .tool-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .badge.type-mono { background: var(--mono-accent-soft); color: var(--mono-accent); }
+  .badge.type-so { background: var(--accent-soft); color: var(--accent); }
+  .badge.type-static { background: var(--surface-2); color: var(--ink-muted); border-color: var(--border); }
+  .badge.type-plain { background: var(--surface-2); color: var(--ink-muted); border-color: var(--border); }
+  .badge.singleton { background: var(--surface-2); color: var(--ink-muted); border: 1px dashed var(--border); }
+
+  .tool-ns { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-faint); margin-bottom: 10px; word-break: break-all; }
+  .tool-path { color: var(--ink-faint); }
+  .tool-menu { font-size: 11px; color: var(--ink-faint); margin-bottom: 10px; }
+  .tool-menu .mlabel { color: var(--ink-faint); }
+  .tool-menu code { color: var(--mono-accent); background: var(--mono-accent-soft); padding: 1px 5px; border-radius: 3px; }
+
+  .tool-desc { font-size: 14px; color: var(--ink); margin: 10px 0 14px; max-width: 68ch; }
+
+  .tool-section-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin: 14px 0 6px;
+  }
+  .api-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .api-list li { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-muted); padding-left: 14px; position: relative; }
+  .api-list li::before { content: "›"; position: absolute; left: 0; color: var(--mono-accent); }
+  .api-list code.sig { color: var(--ink); font-weight: 500; }
+
+  pre.impl {
+    margin: 0;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  pre.impl .cm { color: var(--ink-faint); font-style: italic; }
+  pre.impl .cls { color: var(--mono-accent); }
+
+  .caveat {
+    margin-top: 12px;
+    font-size: 12.5px;
+    padding: 9px 12px;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  .caveat strong { color: var(--accent); }
+
+  /* A contract member's "must not" is a constraint, not prose, and it was previously rendered in the same
+     grey italic as the contract text directly beside it - which turned a three-member interface into one
+     undifferentiated wall. Same visual weight as a gotcha callout, since it is the same kind of content. */
+  .mustnot {
+    margin: 7px 0 2px;
+    padding: 7px 11px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    font-style: normal;
+    line-height: 1.55;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  .mustnot::before {
+    content: "Must not";
+    display: block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+
+  /* ---- sub-groups within a category ------------------------------------------------------
+     A 50-row category page is a wall. These headings break it into the same sections the
+     toolkit's own folders imply (Math > Randomness & Probability > SeededRandom), so the page
+     can be skimmed structurally instead of read top to bottom. */
+
+  /* Jump strip: the fastest way into a long category, and a table of contents at a glance. */
+  .groupjump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 26px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .groupjump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: border-color 0.12s, color 0.12s;
+  }
+  .groupjump a:hover { border-color: var(--accent); color: var(--accent); }
+  .groupjump .gcount,
+  .tgroup-head .gcount,
+  .navsub .navcount { color: var(--ink-faint); font-size: 10.5px; }
+
+  .tgroup { margin-bottom: 34px; }
+  .tgroup:last-child { margin-bottom: 0; }
+
+  .tgroup-head {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    margin: 0 0 12px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--border);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--accent);
+    /* Deep links land on an entry, not a heading, so the heading must not sit under the topbar
+       when someone clicks a jump-strip link instead. */
+    scroll-margin-top: 72px;
+  }
+
+  /* Sidebar sub-list, shown only for the category you are currently on. */
+  .navsubs {
+    margin: 2px 0 8px;
+    padding: 2px 0 2px 34px;
+    border-left: 1px solid var(--border);
+    margin-left: 14px;
+  }
+  .navsub {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 3px 10px 3px 0 !important;
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-decoration: none;
+  }
+  .navsub:hover { color: var(--accent); }
+
+  @media (max-width: 860px) {
+    .groupjump { gap: 5px; }
+    .groupjump a { font-size: 11px; padding: 3px 8px; }
+  }
+
+  .empty-state { padding: 60px 0; text-align: center; color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; }
+
+  footer.pagefoot {
+    max-width: 980px;
+    padding: 24px 0 60px;
+    color: var(--ink-faint);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  @media (max-width: 860px) {
+    .sidebar { position: fixed; left: 0; bottom: 0; top: auto; width: 100%; height: auto; flex-direction: row; border-right: none; border-top: 1px solid var(--border); }
+    .app { flex-direction: column; }
+    .brand, nav.catnav { display: none; }
+    .filterbox { flex: 1; border-bottom: none; }
+    main { padding: 24px 18px 100px; }
+    .tool-name { font-size: 14.5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; }
+  }
+  html { scroll-behavior: smooth; }
+
+  /* ============================================================
+     Field Manual v2 - collapsible entries, hub, theme toggle,
+     mobile drawer. Additive only: every rule above this banner is
+     the original 2026-08-31 stylesheet, unchanged.
+     ============================================================ */
+
+  /* --- collapsible entry (native <details>, so keyboard nav and Ctrl+F still work) --- */
+  .entry {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+    /* sticky topbar clearance, otherwise every deep link lands underneath it */
+    scroll-margin-top: 84px;
+  }
+  .entry[open] { border-color: var(--mono-accent); }
+  .entry > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 15px 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .entry > summary::-webkit-details-marker { display: none; }
+  .entry > summary::before {
+    content: "\25B8";
+    color: var(--ink-faint);
+    font-size: 11px;
+    line-height: 1;
+    transition: transform 0.12s ease;
+  }
+  .entry[open] > summary::before { transform: rotate(90deg); }
+  .entry > summary:hover { background: var(--surface-2); border-radius: 9px; }
+  .entry-name {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .entry-summary { color: var(--ink-muted); font-size: 13px; flex: 1 1 260px; }
+  .entry-body { padding: 2px 18px 18px; border-top: 1px solid var(--border); margin-top: 2px; }
+  .entry-anchor {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--ink-faint);
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+  }
+  .entry > summary:hover .entry-anchor { opacity: 1; }
+  .entry-anchor:hover { color: var(--mono-accent); }
+
+  /* --- parameter table --- */
+  /* Lets a wide parameter table scroll on its own instead of being clipped by the entry body. */
+  .tablewrap { overflow-x: auto; max-width: 100%; }
+
+  .paramtable { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+  .paramtable th {
+    text-align: left;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    padding: 4px 10px 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .paramtable td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .paramtable tr:last-child td { border-bottom: none; }
+  .paramtable .pname { font-family: "IBM Plex Mono", monospace; color: var(--mono-accent); white-space: nowrap; }
+  .paramtable .ptype { font-family: "IBM Plex Mono", monospace; color: var(--ink-faint); white-space: nowrap; }
+  .paramtable .pdef  { font-family: "IBM Plex Mono", monospace; color: var(--ink-muted); white-space: nowrap; }
+
+  /* --- worked example --- */
+  .worked { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; }
+  .worked ol { margin: 6px 0 0; padding-left: 20px; }
+  .worked li { margin: 3px 0; }
+  .worked .result { margin-top: 8px; font-family: "IBM Plex Mono", monospace; color: var(--mono-accent); }
+  .worked .verified { margin-top: 8px; font-size: 11px; color: var(--ink-faint); }
+
+  /* --- cross-link chips --- */
+  .chipstrip { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .chiplabel { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; }
+  .chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--mono-accent-soft);
+    color: var(--mono-accent);
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+  .chip:hover { border-color: var(--mono-accent); }
+  .chip.dead { background: var(--surface-2); color: var(--ink-faint); }
+
+  /* --- use-case list --- */
+  ul.uses { margin: 4px 0 0; padding-left: 18px; font-size: 13px; color: var(--ink-muted); }
+  ul.uses li { margin: 3px 0; }
+
+  /* --- copy button on code blocks --- */
+  .codewrap { position: relative; }
+  .copybtn {
+    position: absolute; top: 6px; right: 6px;
+    font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+    padding: 3px 8px; border-radius: 5px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--ink-faint); cursor: pointer; opacity: 0; transition: opacity 0.12s ease;
+  }
+  .codewrap:hover .copybtn { opacity: 1; }
+  .copybtn:hover { color: var(--mono-accent); border-color: var(--mono-accent); }
+  .copybtn.done { color: var(--mono-accent); border-color: var(--mono-accent); opacity: 1; }
+
+  /* --- status pill (skeleton vs written) --- */
+  .statuspill {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 2px 7px; border-radius: 20px;
+    background: var(--surface-2); color: var(--ink-faint); border: 1px solid var(--border);
+  }
+
+  /* --- topbar: theme toggle + hamburger + breadcrumb --- */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar .spacer { flex: 1; }
+  .iconbtn {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    padding: 5px 10px; border-radius: 7px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--ink-muted); cursor: pointer;
+  }
+  .iconbtn:hover { color: var(--accent); border-color: var(--accent); }
+  .crumb { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-faint); }
+  .crumb a { color: var(--ink-muted); text-decoration: none; }
+  .crumb a:hover { color: var(--accent); }
+  .hamburger { display: none; }
+
+  /* --- hub category grid --- */
+  .catgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .catcard {
+    display: block; text-decoration: none;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  .catcard:hover { border-color: var(--accent); }
+  .catcard .catcode { margin-bottom: 8px; display: inline-block; }
+  .catcard h3 {
+    font-family: "Big Shoulders Display", sans-serif;
+    text-transform: uppercase; font-size: 21px; font-weight: 700;
+    margin: 4px 0 6px; color: var(--ink); letter-spacing: 0.01em;
+  }
+  .catcard p { font-size: 12.5px; color: var(--ink-muted); margin: 0; }
+  .catcard .n { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-faint); }
+
+  /* --- global search results (hub and every category page) --- */
+  .searchresults { margin-top: 10px; }
+  .sresult {
+    display: block; text-decoration: none; padding: 8px 10px;
+    border-radius: 7px; border: 1px solid transparent;
+  }
+  .sresult:hover { background: var(--surface-2); border-color: var(--border); }
+  .sresult .sname { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink); }
+  .sresult .scat { font-size: 11px; color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; }
+  .sresult .sdesc { font-size: 12px; color: var(--ink-muted); }
+  mark { background: var(--accent-soft); color: var(--ink); border-radius: 2px; padding: 0 1px; }
+
+  /* --- mobile. The original stylesheet did `display:none` on the brand AND the whole
+         nav below 860px, which left a phone with no navigation whatsoever. That was
+         survivable on a single page and disqualifying across 30+ pages, so it is
+         replaced here with a real slide-over drawer. --- */
+  @media (max-width: 860px) {
+    .hamburger { display: inline-block; }
+    .app { display: block; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 82%; max-width: 320px;
+      height: 100vh; z-index: 50; transform: translateX(-102%);
+      transition: transform 0.18s ease; box-shadow: 0 0 40px rgba(0,0,0,0.35);
+      display: block; overflow-y: auto;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .brand, nav.catnav { display: block; }
+    .scrim {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+      z-index: 40; opacity: 0; pointer-events: none; transition: opacity 0.18s ease;
+    }
+    .scrim.open { opacity: 1; pointer-events: auto; }
+    main { padding: 20px 18px 80px; max-width: none; }
+    .entry > summary { padding: 13px 14px; }
+    .entry-body { padding: 2px 14px 16px; }
+  }
+
+  .paramtable .ptuning {
+    margin-top: 4px;
+    color: var(--ink-faint);
+    font-size: 12px;
+    white-space: normal;
+  }

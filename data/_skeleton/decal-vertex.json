@@ -1,0 +1,41 @@
+{
+  "id": "decal-vertex",
+  "name": "DecalVertex",
+  "cat": "Rendering",
+  "src_typeKind": "struct",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Decals/DecalMeshBuilder.cs",
+  "src_lines": [
+    10,
+    14
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One clipped-polygon vertex, carried through Sutherland-Hodgman clipping. `position` is in DECAL-LOCAL space (the projection box normalized to the [-0.5, 0.5] unit cube); `normal` is WORLD space, kept for per-vertex lighting/orientation on the final mesh — interpolated at clip points the same way position is, so a decal wrapping a curved surface shades smoothly instead of faceted per source triangle.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "position",
+      "sig": "public Vector3 position",
+      "kind": "field",
+      "name": "position",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "normal",
+      "sig": "public Vector3 normal",
+      "kind": "field",
+      "name": "normal",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

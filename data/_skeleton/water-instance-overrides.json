@@ -1,0 +1,261 @@
+{
+  "id": "water-instance-overrides",
+  "name": "WaterInstanceOverrides",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/Water/WaterInstanceOverrides.cs",
+  "src_lines": [
+    19,
+    177
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Renderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Water Instance Overrides"
+  },
+  "src_typeComment": "Drop on ANY water surface (Stylized, Realistic, or 2D) to override its visual settings on THIS INSTANCE only, without needing a separate Material asset — e.g. two ponds sharing one Realistic Water material, where one has gentler waves and a murkier tint than the other. Works via a MaterialPropertyBlock, same mechanism as RippleEmitter: writes properties by NAME, so it applies to whichever of the three water shaders is actually assigned, and never touches the shared Material — every OTHER object still using that Material is completely unaffected.  Each group below has its own enable toggle. OFF means \"inherit the Material's own value\" — genuinely inherit, not just \"leave alone\": since a MaterialPropertyBlock has no way to un-set a property once written, turning a group off makes this component copy the Material's CURRENT value for that group's properties into the block instead, which is visually indistinguishable from no override at all and never leaves stale data behind from a previous ON state.",
+  "src_serialized": [
+    {
+      "name": "overrideWaves",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Waves - Realistic & Stylized only, no effect on 2D",
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "waveADirection",
+      "type": "Vector2",
+      "default": "new Vector2(1f, 0.4f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "waveALength",
+      "type": "float",
+      "default": "6f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "waveASteepness",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 0.8f",
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "waveASpeed",
+      "type": "float",
+      "default": "1.2f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "waveBDirection",
+      "type": "Vector2",
+      "default": "new Vector2(0.3f, -1f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "waveBLength",
+      "type": "float",
+      "default": "3.5f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "waveBSteepness",
+      "type": "float",
+      "default": "0.2f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 0.8f",
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "waveBSpeed",
+      "type": "float",
+      "default": "0.9f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "overrideFoam",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Foam",
+      "range": null,
+      "order": 9,
+      "comment": null
+    },
+    {
+      "name": "foamColor",
+      "type": "Color",
+      "default": "Color.white",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 10,
+      "comment": null
+    },
+    {
+      "name": "foamAmount",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": "Crest foam - Stylized only, no effect on Realistic/2D.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 11,
+      "comment": null
+    },
+    {
+      "name": "foamDistance",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "Shoreline foam - all three shaders.",
+      "header": null,
+      "range": "0.05f, 5f",
+      "order": 12,
+      "comment": null
+    },
+    {
+      "name": "overrideColors",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Colors",
+      "range": null,
+      "order": 13,
+      "comment": null
+    },
+    {
+      "name": "shallowColor",
+      "type": "Color",
+      "default": "new Color(0.15f, 0.5f, 0.55f, 0.7f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 14,
+      "comment": null
+    },
+    {
+      "name": "deepColor",
+      "type": "Color",
+      "default": "new Color(0f, 0.15f, 0.25f, 0.95f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 15,
+      "comment": null
+    },
+    {
+      "name": "overrideNormalFlow",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Normal Map Flow - Realistic only, no effect on Stylized/2D",
+      "range": null,
+      "order": 16,
+      "comment": null
+    },
+    {
+      "name": "normalStrength",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 2f",
+      "order": 17,
+      "comment": null
+    },
+    {
+      "name": "normalScrollSpeed1",
+      "type": "Vector2",
+      "default": "new Vector2(0.05f, 0.03f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 18,
+      "comment": null
+    },
+    {
+      "name": "normalScrollSpeed2",
+      "type": "Vector2",
+      "default": "new Vector2(-0.04f, 0.06f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 19,
+      "comment": null
+    },
+    {
+      "name": "overrideReflection",
+      "type": "bool",
+      "default": null,
+      "tooltip": null,
+      "header": "Reflection - Realistic & Stylized only, needs a PlanarReflection component to show anything",
+      "range": null,
+      "order": 20,
+      "comment": null
+    },
+    {
+      "name": "reflectionStrength",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": null,
+      "header": null,
+      "range": "0f, 1f",
+      "order": 21,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Apply()",
+      "sig": "public void Apply()",
+      "kind": "method",
+      "name": "Apply",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/Water/Editor/WaterInstanceOverridesSelfTest.cs",
+  "src_demoScene": [
+    "Water_Demo"
+  ]
+}

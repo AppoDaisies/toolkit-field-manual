@@ -1,0 +1,89 @@
+{
+  "id": "marquee-text",
+  "name": "MarqueeText",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/MarqueeText/MarqueeText.cs",
+  "src_lines": [
+    19,
+    91
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(RectMask2D)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Marquee Text"
+  },
+  "src_typeComment": "Plug-and-play horizontally auto-scrolling \"ticker\" text — for a string too long to fit its box, as an alternative to Toolkit.UI.TextAutoShrinkFitter for when shrinking the font isn't the right answer (a long item name, a news-ticker strip, a marquee credits line). Requires a RectMask2D on this GameObject to actually clip the overflow — without one, the text would just visibly slide past its box's edges.  Technique: a second copy of the label is instantiated, positioned exactly one \"loop length\" (text width + gap) to the right of the first. Both scroll left together at the same speed; whichever one scrolls fully past the left edge gets its position wrapped back around by one loop length. Two copies is always enough for a seamless infinite loop regardless of text length, since only one wrap can ever be \"due\" at a time.",
+  "src_serialized": [
+    {
+      "name": "label",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": "Auto-found among children if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "scrollSpeed",
+      "type": "float",
+      "default": "50f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "gapBetweenLoops",
+      "type": "float",
+      "default": "60f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "onlyScrollIfOverflowing",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "If true, text that already fits the box just sits still instead of scrolling for no reason.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetText(string)",
+      "sig": "public void SetText(string text)",
+      "kind": "method",
+      "name": "SetText",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ComputeWrappedScrollX(float, float, float)",
+      "sig": "public static float ComputeWrappedScrollX(float currentScrollX, float delta, float loopLength)",
+      "kind": "method",
+      "name": "ComputeWrappedScrollX",
+      "static": true,
+      "comment": "The actual wrap-around math, pulled out as a pure function of its inputs (not label.preferredWidth directly) so it's testable without needing a real, laid-out TMP font — see MarqueeTextSelfTest. Public since the self-test lives in a separate Editor assembly."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/MarqueeText/Editor/MarqueeTextSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}

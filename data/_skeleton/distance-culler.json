@@ -1,0 +1,89 @@
+{
+  "id": "distance-culler",
+  "name": "DistanceCuller",
+  "cat": "Optimization",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Optimization",
+  "src_file": "Optimization/DistanceCuller/DistanceCuller.cs",
+  "src_lines": [
+    9,
+    69
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Optimization/Distance Culler"
+  },
+  "src_typeComment": "Drop on anything expensive that doesn't need to run when far from the camera (a particle system, an AI's own Update loop, a complex animator) — disables the target Behaviour(s)/GameObject beyond a distance threshold and re-enables it when back in range. Simple LOD-lite without needing Unity's LOD Group.",
+  "src_serialized": [
+    {
+      "name": "referencePoint",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "Distance from the reference point beyond which the target is disabled. Defaults to Camera.main if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "targetBehaviours",
+      "type": "Behaviour[]",
+      "default": null,
+      "tooltip": "Component(s) to enable/disable based on distance (scripts, Camera, Light, ParticleSystem...). Note: Renderer is NOT a Behaviour in Unity's API, so use targetRenderers below to cull visibility.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "targetRenderers",
+      "type": "Renderer[]",
+      "default": null,
+      "tooltip": "Renderer(s) to enable/disable based on distance — the usual case for visual LOD-lite culling (MeshRenderer, SkinnedMeshRenderer...).",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "targetGameObjects",
+      "type": "GameObject[]",
+      "default": null,
+      "tooltip": "GameObject(s) to activate/deactivate based on distance — more aggressive than disabling components (stops rendering too). Put this DistanceCuller on a DIFFERENT, always-active object (e.g. a parent) rather than one of these — disabling an object this script is itself on would also stop its own Update, permanently freezing it culled with no way to re-enable.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "cullDistance",
+      "type": "float",
+      "default": "30f",
+      "tooltip": "Distance from referencePoint beyond which the target(s) are disabled.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "checkInterval",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "How often (seconds) to re-check distance. 0 = every frame.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    }
+  ],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Optimization_Demo"
+  ]
+}

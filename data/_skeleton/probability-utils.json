@@ -1,0 +1,59 @@
+{
+  "id": "probability-utils",
+  "name": "ProbabilityUtils",
+  "cat": "Math",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.MathUtilities",
+  "src_file": "Math/Probability/ProbabilityUtils.cs",
+  "src_lines": [
+    6,
+    53
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "WeightedPick<T>(IReadOnlyList<(T item, float weight)>)",
+      "sig": "public static T WeightedPick<T>(IReadOnlyList<(T item, float weight)> options)",
+      "kind": "method",
+      "name": "WeightedPick",
+      "static": true,
+      "comment": "Picks one item from a list based on relative weights (they don't need to sum to 1) — the standard loot-table pattern: WeightedPick(new[]{(\"Common\",70f),(\"Rare\",25f),(\"Legendary\",5f)})."
+    },
+    {
+      "id": "Chance(float)",
+      "sig": "public static bool Chance(float probability01) => Random.value < probability01",
+      "kind": "method",
+      "name": "Chance",
+      "static": true,
+      "comment": "true with the given probability, e.g. Chance(0.25f) for a 25% chance."
+    },
+    {
+      "id": "RollDice(string)",
+      "sig": "public static int RollDice(string notation)",
+      "kind": "method",
+      "name": "RollDice",
+      "static": true,
+      "comment": "Parses and rolls simple dice notation (\"2d6\" -> sum of two 1-6 rolls, \"1d20\"/\"d20\" -> one 1-20 roll)."
+    },
+    {
+      "id": "NextGaussian(float, float)",
+      "sig": "public static float NextGaussian(float mean = 0f, float stdDev = 1f)",
+      "kind": "method",
+      "name": "NextGaussian",
+      "static": true,
+      "comment": "Box-Muller transform: converts uniform randomness into a normal (bell-curve) distribution — use for \"usually near the average, rarely extreme\" values (loot rolls, stat variance) instead of the flat feel of plain Random.Range."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "MathFormulas_Demo"
+  ]
+}

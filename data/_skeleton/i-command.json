@@ -1,0 +1,41 @@
+{
+  "id": "i-command",
+  "name": "ICommand",
+  "cat": "UI",
+  "src_typeKind": "interface",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/UndoRedo/ICommand.cs",
+  "src_lines": [
+    8,
+    12
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Standard Command pattern — wrap a reversible action, push it onto a CommandHistory, and Undo()/Redo() walk back and forth. Not tied to UI specifically despite living alongside the other UI-dev tools — works for anything from a level editor's placement tool to a form's \"revert changes\" button.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Execute()",
+      "sig": "void Execute()",
+      "kind": "method",
+      "name": "Execute",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Undo()",
+      "sig": "void Undo()",
+      "kind": "method",
+      "name": "Undo",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

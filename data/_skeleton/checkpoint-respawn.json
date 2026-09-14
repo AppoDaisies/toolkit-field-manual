@@ -1,0 +1,59 @@
+{
+  "id": "checkpoint-respawn",
+  "name": "CheckpointRespawn",
+  "cat": "Gameplay",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Gameplay",
+  "src_file": "Gameplay/Checkpoint/CheckpointRespawn.cs",
+  "src_lines": [
+    11,
+    46
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Health)"
+    ],
+    "addComponentMenu": "Toolkit/Gameplay/Checkpoint Respawn"
+  },
+  "src_typeComment": "Drop on the player alongside Health: call SetCheckpoint(transform) whenever the player reaches a checkpoint (e.g. from a TriggerEventRelay's OnEnter), and this automatically respawns them there — and resets Health — when Health.OnDeath fires. No manual death-handling code needed at the call site.",
+  "src_serialized": [
+    {
+      "name": "respawnDelay",
+      "type": "float",
+      "default": "1.5f",
+      "tooltip": "Delay before respawning, e.g. to let a death animation/screen play.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "UnityEvent()",
+      "sig": "public UnityEvent OnRespawned = new UnityEvent()",
+      "kind": "method",
+      "name": "UnityEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetCheckpoint(Transform)",
+      "sig": "public void SetCheckpoint(Transform checkpoint)",
+      "kind": "method",
+      "name": "SetCheckpoint",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "GameplayArena_Demo"
+  ]
+}

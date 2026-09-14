@@ -1,0 +1,99 @@
+{
+  "id": "weapon-trail",
+  "name": "WeaponTrail",
+  "cat": "Rendering",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Rendering",
+  "src_file": "Rendering/VFX/WeaponTrail/WeaponTrail.cs",
+  "src_lines": [
+    16,
+    84
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(TrailRenderer)"
+    ],
+    "addComponentMenu": "Toolkit/Rendering/Weapon Trail"
+  },
+  "src_typeComment": "Drop on a weapon's tip/edge (a thin child transform near the blade, since a TrailRenderer draws from wherever ITS OWN transform has physically moved — this component just centralizes TrailRenderer's many scattered settings into a few clean Inspector fields with sensible defaults, and adds SetTrailActive() for the actual gameplay use case: turn the trail on for the duration of a swing, off otherwise, rather than leaving it emitting constantly.  Pair with Toolkit/VFX/Weapon Trail (an additive glow shader) on the TrailRenderer's material for the stylized energy-trail look — TrailRenderer works with any material, this component doesn't require that specific shader.",
+  "src_serialized": [
+    {
+      "name": "trailTime",
+      "type": "float",
+      "default": "0.25f",
+      "tooltip": "How long a point stays part of the trail before fading out of the tail end.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "startWidth",
+      "type": "float",
+      "default": "0.3f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "endWidth",
+      "type": "float",
+      "default": "0f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "colorGradient",
+      "type": "Gradient",
+      "default": "CreateDefaultGradient()",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "activeOnStart",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Whether the trail starts emitting immediately on Awake — turn off if a combat system will call SetTrailActive(true) itself when a swing begins.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "SetTrailActive(bool)",
+      "sig": "public void SetTrailActive(bool active)",
+      "kind": "method",
+      "name": "SetTrailActive",
+      "static": false,
+      "comment": "Turns new-point emission on/off — call true at the start of a swing, false at the end. Already- emitted points still fade out naturally over `trailTime` rather than the trail vanishing instantly, which is what TrailRenderer.emitting (not Clear() or enabled) is specifically for."
+    },
+    {
+      "id": "ClearTrail()",
+      "sig": "public void ClearTrail()",
+      "kind": "method",
+      "name": "ClearTrail",
+      "static": false,
+      "comment": "Immediately removes every existing point — use when a weapon teleports/is re-equipped and the OLD trail position would otherwise draw a visible streak across the jump."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "Rendering/VFX/WeaponTrail/Editor/WeaponTrailSelfTest.cs",
+  "src_demoScene": [
+    "WeaponTrail_Demo"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "heatmap-metric",
+  "name": "HeatmapMetric",
+  "cat": "EditorTools",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/LevelTransformGuidance/Editor/HeatmapGrid.cs",
+  "src_lines": [
+    7,
+    15
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "What the cell colour actually measures.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "BoundsVolume",
+    "ObjectCount"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

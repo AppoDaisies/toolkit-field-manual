@@ -1,0 +1,65 @@
+{
+  "id": "wait-for-seconds-cache",
+  "summary": "Static dictionary of WaitForSeconds keyed by duration, so repeated coroutine yields stop allocating.",
+  "problem": "`yield return new WaitForSeconds(0.5f)` inside a loop allocates a fresh object on every single iteration, and every one of them is garbage a moment later. Multiply that by a long-running loop or a few dozen agents and it becomes a steady drip into the GC for no benefit whatsoever, because a WaitForSeconds carries nothing but its duration — Unity's coroutine scheduler tracks each coroutine's own wake time separately, which is exactly why one instance can safely be shared by any number of concurrent coroutines. This class caches one instance per distinct duration and hands the same object back forever.",
+  "workedExample": {
+    "setup": "WaitForSecondsCacheDemoRunner's loop — `yield return WaitForSecondsCache.Get(0.5f);` inside a while(true) — left running for 60 seconds.",
+    "inputs": [
+      {
+        "name": "interval",
+        "value": "0.5 s"
+      },
+      {
+        "name": "run time",
+        "value": "60 s"
+      }
+    ],
+    "steps": [
+      "60 / 0.5 = 120 loop iterations, so 120 yields.",
+      "Written as `yield return new WaitForSeconds(0.5f)`, that is 120 WaitForSeconds allocations, each one garbage as soon as the yield resumes.",
+      "Through the cache, the first Get(0.5f) misses the dictionary, allocates one WaitForSeconds and stores it under the key 0.5f; the remaining 119 calls are dictionary hits returning that same instance.",
+      "Allocations drop from 120 to 1: 1 - (1/120) = 0.9917, about a 99.2% reduction, and the dictionary holds exactly one entry.",
+      "Scale to 50 agents each running the same loop: 6,000 allocations become still 1, because the cache is static and keyed only by duration — not by caller, coroutine, or scene."
+    ],
+    "result": "One WaitForSeconds object exists per distinct duration for the lifetime of the process, no matter how many coroutines yield on it or for how long. The saving is in allocation count and GC pressure, not in per-call speed.",
+    "verifiedBy": "derivation"
+  },
+  "useCases": [
+    "A spawner, turret, or damage-over-time tick that loops on a fixed interval for the whole level.",
+    "Per-agent AI coroutines — re-path every 0.25 s, re-scan for targets every 0.5 s — where the same few intervals repeat across dozens of instances.",
+    "UI polling or animation stagger loops that run continuously while a screen is open.",
+    "Anywhere a profiler capture shows a steady trickle of small GC allocations traced to coroutine yields."
+  ],
+  "usage": {
+    "code": "private IEnumerator FireLoop()\n{\n    while (true)\n    {\n        Shoot();\n        yield return WaitForSecondsCache.Get(0.5f);\n    }\n}",
+    "codeNote": "Drop-in: the returned object is an ordinary WaitForSeconds and behaves identically to one you constructed, including respecting Time.timeScale."
+  },
+  "apiNotes": {
+    "Get(float)": "A TryGetValue on a static Dictionary<float, WaitForSeconds>, constructing and storing on a miss. Returns the same shared instance for every call with the same float value, forever — entries are never evicted and there is no clear method."
+  },
+  "gotchas": [
+    {
+      "title": "Only exactly equal float values share an entry",
+      "body": "The dictionary key is the raw float. Literal durations (0.5f, 1f, 0.25f) collapse to a handful of entries as intended, but a computed duration that differs in the last bit gets its own entry. The pathological case is a value that varies every call — Get(Time.deltaTime), Get(baseDelay * Random.value) — which allocates a new WaitForSeconds on every call anyway AND grows the dictionary without bound, turning the optimisation into a leak. Use this only for a small, fixed set of durations."
+    },
+    {
+      "title": "The cache is static and never cleared",
+      "body": "Entries live for the lifetime of the process: across scene loads, and (in the Editor with Domain Reload disabled) across Play sessions. That is harmless for a dozen fixed durations and a slow leak for generated ones, and there is no API to flush it — you would have to add one."
+    },
+    {
+      "title": "No unscaled equivalent, and do not try to cache one",
+      "body": "WaitForSeconds obeys Time.timeScale, so a cached wait freezes during a timeScale = 0 pause. The pause-proof alternative is WaitForSecondsRealtime, which must NOT be cached or shared: it is a CustomYieldInstruction that stores its own target wake time per instance, so two coroutines sharing one would corrupt each other's timing. Construct those fresh each time."
+    },
+    {
+      "title": "Main thread only",
+      "body": "It is a plain Dictionary with no locking. Concurrent writes from another thread can corrupt it. In practice coroutines only run on the main thread, so this only bites if you call Get from a Task or a job."
+    },
+    {
+      "title": "It saves allocations, not time",
+      "body": "A WaitForSeconds is a tiny object and the dictionary lookup is not free. This is worth doing in loops that repeat many times or across many agents; swapping it into a one-shot Start() coroutine buys nothing and just makes the line longer."
+    }
+  ],
+  "seeAlso": [
+    "CountdownTimer"
+  ]
+}

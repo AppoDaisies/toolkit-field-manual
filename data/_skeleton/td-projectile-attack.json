@@ -1,0 +1,70 @@
+{
+  "id": "td-projectile-attack",
+  "name": "TDProjectileAttack",
+  "cat": "Mechanics",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Mechanics",
+  "src_file": "Mechanics/TowerDefense/TDProjectileAttack.cs",
+  "src_lines": [
+    7,
+    26
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IAttackBehavior"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Tower Defense/TD Projectile Attack"
+  },
+  "src_typeComment": "Physical-projectile tower attack: spawns a TDProjectile that travels to and homes on its target.",
+  "src_serialized": [
+    {
+      "name": "projectilePrefab",
+      "type": "TDProjectile",
+      "default": null,
+      "tooltip": "Prefab with a TDProjectile component. Required.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "muzzle",
+      "type": "Transform",
+      "default": null,
+      "tooltip": "World-space point projectiles spawn from (e.g. a turret barrel tip). Defaults to this transform if left empty.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "projectileSpeed",
+      "type": "float",
+      "default": "15f",
+      "tooltip": "Projectile travel speed in units/second.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Attack(TDEnemy, float)",
+      "sig": "public void Attack(TDEnemy target, float damage)",
+      "kind": "method",
+      "name": "Attack",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "TowerDefense_Demo"
+  ]
+}

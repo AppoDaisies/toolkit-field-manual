@@ -1,0 +1,74 @@
+{
+  "id": "bulk-hierarchy-tools-window",
+  "name": "BulkHierarchyToolsWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorUtilities",
+  "src_file": "EditorTools/BulkHierarchyTools/Editor/BulkHierarchyToolsWindow.cs",
+  "src_lines": [
+    19,
+    152
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Bulk Hierarchy Tools"
+    ]
+  },
+  "src_typeComment": "Toolkit/Bulk Hierarchy Tools: two batch operations for a multi-object Hierarchy selection, applied to EACH selected object INDIVIDUALLY rather than to the selection as a group (Unity's own \"Group Selected\", Ctrl+Alt+G, bundles everything under one shared new parent — deliberately not what this does).  - Add Child To Each: creates one new object as a child of every selected object, one per selection — e.g. select 5 panels, add an Image under each of them in one click. Reuses Unity's REAL GameObject creation menu commands (EditorApplication.ExecuteMenuItem) instead of hand-building each object type, so a UI element still gets Unity's own correct defaults (RectTransform sizing, auto-Canvas-creation if a target isn't already under one, etc.) exactly as if you'd used the menu yourself. - Wrap Each In Empty Parent: creates a new empty GameObject as the parent of each selected object, individually, at that object's own world position/rotation — for grouping/offsetting objects one at a time (e.g. wrapping several independent enemies each in their own \"AI root\" for a patrol offset) without lumping them all under one shared node the way Group Selected would.",
+  "src_serialized": [
+    {
+      "name": "selectedOptionIndex",
+      "type": "int",
+      "default": null,
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "customMenuPath",
+      "type": "string",
+      "default": "\"GameObject/Create Empty\"",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<BulkHierarchyToolsWindow>(\"Bulk Hierarchy Tools\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "AddChildToEach(GameObject[], string)",
+      "sig": "public void AddChildToEach(GameObject[] targets, string menuPath)",
+      "kind": "method",
+      "name": "AddChildToEach",
+      "static": false,
+      "comment": "Reuses Unity's OWN creation menu handlers rather than reimplementing per-object-type defaults — deliberately simple (no reflection, no special-casing per menu item) at the cost of only supporting whatever GameObject-creation menu items already exist, which covers every common case.  ExecuteMenuItem's usual \"parent the new object under the current selection\" behavior turns out to depend on there being a real, focused interactive Hierarchy/Scene View — confirmed by a real batch- mode test run: it still creates the object (Selection.activeGameObject afterward IS the new object, same as clicking the menu by hand), but always at the scene root regardless of what was selected. So this explicitly reparents whatever the command just created under the intended target itself, rather than trusting ExecuteMenuItem to have done that part."
+    },
+    {
+      "id": "WrapEachInEmptyParent(GameObject[])",
+      "sig": "public void WrapEachInEmptyParent(GameObject[] targets)",
+      "kind": "method",
+      "name": "WrapEachInEmptyParent",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

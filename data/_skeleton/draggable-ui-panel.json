@@ -1,0 +1,69 @@
+{
+  "id": "draggable-ui-panel",
+  "name": "DraggableUIPanel",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/DraggablePanel/DraggableUIPanel.cs",
+  "src_lines": [
+    9,
+    43
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [
+    "IBeginDragHandler",
+    "IDragHandler"
+  ],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/UI/Draggable UI Panel"
+  },
+  "src_typeComment": "Drop on a UI panel (typically a \"title bar\" child, but works directly on the panel too) to make it drag-to-move — movable HUD elements, debug/inspector-style floating windows.",
+  "src_serialized": [
+    {
+      "name": "panelToMove",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "The panel that actually moves. Defaults to this object's own RectTransform if left empty — assign a different one if this script sits on a title-bar child instead of the panel itself.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "clampToParent",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Keeps the panel fully within its parent's bounds while dragging.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "OnBeginDrag(PointerEventData)",
+      "sig": "public void OnBeginDrag(PointerEventData eventData) { }",
+      "kind": "method",
+      "name": "OnBeginDrag",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "OnDrag(PointerEventData)",
+      "sig": "public void OnDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnDrag",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "UIPolish_Demo"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "toggle-switch",
+  "name": "ToggleSwitch",
+  "cat": "UI",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.UI",
+  "src_file": "UI/ToggleSwitch/ToggleSwitch.cs",
+  "src_lines": [
+    14,
+    63
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "requireComponent": [
+      "typeof(Toggle)"
+    ],
+    "addComponentMenu": "Toolkit/UI/Toggle Switch"
+  },
+  "src_typeComment": "Plug-and-play iOS-style animated toggle switch — built on top of Unity's OWN Toggle component rather than reimplementing click/keyboard/gamepad-navigation handling from scratch, so all of that keeps working exactly as it does on any other Toggle. This just adds the sliding-handle + background-color visual on top, since Unity's stock Toggle only ships with a plain checkbox look.",
+  "src_serialized": [
+    {
+      "name": "handle",
+      "type": "RectTransform",
+      "default": null,
+      "tooltip": "The knob that slides between the off/on positions. Auto-found among children if left empty.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "background",
+      "type": "Image",
+      "default": null,
+      "tooltip": "The track behind the handle, tinted per state. Auto-found on this GameObject if left empty.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "animationDuration",
+      "type": "float",
+      "default": "0.15f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "onColor",
+      "type": "Color",
+      "default": "new Color(0.25f, 0.75f, 0.35f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "offColor",
+      "type": "Color",
+      "default": "new Color(0.6f, 0.6f, 0.6f)",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "handleOffX",
+      "type": "float",
+      "default": "-10f",
+      "tooltip": "The handle's local X position when off vs on, in UI units.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "handleOnX",
+      "type": "float",
+      "default": "10f",
+      "tooltip": null,
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "ApplyVisualState(bool, bool)",
+      "sig": "public void ApplyVisualState(bool isOn, bool instant)",
+      "kind": "method",
+      "name": "ApplyVisualState",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": "UI/ToggleSwitch/Editor/ToggleSwitchSelfTest.cs",
+  "src_demoScene": [
+    "UIExtras_Demo"
+  ]
+}
