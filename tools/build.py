@@ -146,10 +146,9 @@ GROUP_ORDER = {
             "ReadOnlyAttribute", "ReadOnlyDrawer", "TagAttribute", "TagDrawer"]),
         ("Data & Assets", ["CsvTableWindow", "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow",
             "PlayerPrefsEditorWindow", "BatchAssetRenamerWindow"]),
-        ("Scene & Project Tools", ["LevelTransformGuidance", "BulkHierarchyToolsWindow", "FindReferencesWindow",
+        ("Scene & Project Tools", ["LevelTransformGuidance", "SessionRecorder", "BulkHierarchyToolsWindow", "FindReferencesWindow",
             "TodoScannerWindow", "GreyboxPlacerWindow", "GreyboxBlockMarker",
             "LocomotionAnimatorGeneratorWindow"]),
-        ("Session Recorder", ["SessionRecorderWindow", "SessionRecorderService", "SessionHistoryStorage"]),
     ],
     "AI": [
         ("Pathfinding", ["NavMeshAIController", "DijkstraPathfinder", "GraphNode", "FlowField", "FlowFieldGrid",
@@ -342,6 +341,17 @@ def infer_kind(e):
 #   group     which GROUP_ORDER group the composite entry should sit in
 #   sections  ordered (section title, [member type names]) - every remaining member must appear
 SYSTEMS = [
+    {
+        # A SMALL system: one window, no tabs, two supporting scripts. No sub-tool sections to make -
+        # one plain "Supporting scripts" heading is the whole structure it needs.
+        "name": "SessionRecorder",
+        "cat": "EditorTools",
+        "primary": "SessionRecorderWindow",
+        "group": "Scene & Project Tools",
+        "sections": [
+            ("Supporting scripts", ["SessionRecorderService", "SessionHistoryStorage"]),
+        ],
+    },
     {
         "name": "LevelTransformGuidance",
         "cat": "EditorTools",

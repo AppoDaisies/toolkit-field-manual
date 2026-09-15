@@ -1,0 +1,48 @@
+{
+  "id": "toast-notification",
+  "summary": "Singleton toast queue: call Show(\"message\") from anywhere and messages display one at a time.",
+  "overview": [
+    "A short status message that appears, sits for a moment and goes away — \"Saved\", \"Not enough gold\", \"Checkpoint reached\". Call it from anywhere without holding a reference, and a burst of calls queues instead of stacking into unreadable overlapping text."
+  ],
+  "useCases": [
+    "Confirming an action succeeded without interrupting the player with a dialog.",
+    "Surfacing a soft failure — a purchase you cannot afford, an inventory that is full.",
+    "Debug feedback during development, from systems that have no UI of their own."
+  ],
+  "params": [
+    {
+      "field": "panel",
+      "why": "The panel shown and hidden for each toast.",
+      "tuning": "This component can sit on the panel itself — that is the normal setup and it is safe, because hiding is done with a CanvasGroup rather than by deactivating the object."
+    },
+    {
+      "field": "label",
+      "why": "The TMP_Text the message is written into.",
+      "tuning": "Left unwired, toasts still queue and time out correctly — you just never see the text. Nothing errors."
+    },
+    {
+      "field": "displayDuration",
+      "why": "Seconds each toast stays up before the next one shows.",
+      "tuning": "This is per message, so a queue of five at the default 2s takes 10 seconds to drain. Keep it short if bursts are likely."
+    }
+  ],
+  "usage": {
+    "code": "ToastNotification.Instance.Show(\"Checkpoint reached\");\nToastNotification.Instance.Show(\"Not enough gold\");   // queues behind the first",
+    "codeNote": "No reference needed and no null check — Singleton<T>.Instance finds the one in the scene."
+  },
+  "gotchas": [
+    {
+      "title": "Never hide the panel by deactivating its GameObject",
+      "body": "If this component sits on the panel it hides, deactivating that object breaks it twice over: Singleton<T>.Instance uses FindObjectOfType, which skips inactive objects, so Instance silently creates a SECOND empty ToastNotification with nothing wired and every Show() does nothing; and StartCoroutine cannot run on an inactive GameObject, so the queue never processes. It hides via a CanvasGroup for exactly this reason. This was a real bug, not a hypothetical."
+    },
+    {
+      "title": "The queue is drained by a coroutine, so it needs Play mode",
+      "body": "Show() outside Play mode enqueues the message and nothing more — the coroutine that displays it never runs."
+    },
+    {
+      "title": "Waiting is scaled time",
+      "body": "It waits with WaitForSeconds, so a toast shown while the game is paused with Time.timeScale = 0 stays up indefinitely. Pause menus that need toasts want an unscaled wait instead."
+    }
+  ],
+  "seeAlso": ["ModalDialog", "Singleton<T>", "TooltipSystem"]
+}

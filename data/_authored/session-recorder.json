@@ -1,0 +1,39 @@
+{
+  "id": "session-recorder",
+  "summary": "\"Where I Left Off\" — records what you were working on and offers it back after a break.",
+  "overview": [
+    "Picks up the thread after you have been away. It records what you had selected and which scripts you opened as you work, and when you come back after a real gap it opens itself with that timeline and a one-click jump back to each item. Runs on its own with nothing to wire up."
+  ],
+  "features": [
+    { "name": "Note field", "what": "a message to your future self, for the intent no tool can infer." },
+    { "name": "Timeline", "what": "selections, opened scripts and notes, newest first, each with a button that jumps you back to it." },
+    { "name": "Auto-open", "what": "shows itself on the first launch after a gap longer than your away-time setting." }
+  ],
+  "useCases": [
+    "Coming back on Monday to a task you were mid-way through on Friday.",
+    "Leaving yourself a note about what you were about to try, before closing Unity.",
+    "Jumping straight back to the prefab or script you were last working in, without hunting for it."
+  ],
+  "whereToFind": "Toolkit ▸ Where I Left Off — or it opens itself after a gap",
+  "walkthrough": [
+    { "name": "Leave a note for next time", "what": "Free text saved as a timeline entry. Save Note is disabled until you type something." },
+    { "name": "Away-time gap (minutes)", "what": "How long since your last recorded action before this counts as a new session and the window auto-opens. Defaults to 20." },
+    { "name": "Clear History", "what": "Deletes the recorded selections and opened scripts. Notes are entries too, so they go as well — it asks first." },
+    { "name": "Select / Open Scene", "what": "On a timeline row: jumps to the object. If it lived in a different scene, it offers to open that scene first." }
+  ],
+  "gotchas": [
+    {
+      "title": "It cannot see inside your code editor",
+      "body": "Unity has no API into VS Code or Rider, so it records only that you double-clicked a script open — not your tabs, cursor position or unsaved edits. The note field is the intended answer to that gap, and it is deliberately not faked."
+    },
+    {
+      "title": "The gap is measured per Editor process, not per recompile",
+      "body": "It uses SessionState, which survives a script recompile but resets on a real relaunch. That is what stops the window popping up after every recompile — but it also means the gap only gets checked when Unity actually starts."
+    },
+    {
+      "title": "History is per-user and not in version control",
+      "body": "It persists to UserSettings/, the folder Unity reserves for per-user editor state. It will not follow you to another machine and will not appear in a teammate's project."
+    }
+  ],
+  "seeAlso": ["LevelTransformGuidance", "TodoScannerWindow"]
+}
