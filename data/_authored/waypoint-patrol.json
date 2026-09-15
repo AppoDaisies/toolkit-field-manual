@@ -1,0 +1,41 @@
+{
+  "id": "waypoint-patrol",
+  "summary": "Walks an object between waypoints, looping or ping-ponging, with no code.",
+  "overview": [
+    "Assign a list of points and the object walks between them, pausing at each if you want. Enough for basic patrol AI without writing anything. It faces its direction of travel using LookRotation, which assumes 3D — for 2D, turn that off and handle facing yourself."
+  ],
+  "useCases": [
+    "Guard and enemy patrol routes.",
+    "A moving platform between two points.",
+    "A tower-defence enemy walking the path, in Once mode."
+  ],
+  "params": [
+    {
+      "field": "waypoints",
+      "tuning": "At least two. One point means it arrives and stops."
+    },
+    {
+      "field": "arrivalDistance",
+      "tuning": "Too small and a fast mover overshoots and circles forever; too large and it cuts corners."
+    },
+    {
+      "field": "mode",
+      "tuning": "Loop restarts at the first point; PingPong walks back along the list; Once stops at the end, which is what a tower-defence enemy wants."
+    },
+    {
+      "field": "faceMovementDirection",
+      "tuning": "3D only. Turn it off for 2D or the sprite rotates out of the camera plane."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It moves the transform directly",
+      "body": "No physics, no NavMesh, no collision avoidance. It will walk through walls unless the route avoids them."
+    }
+  ],
+  "seeAlso": [
+    "TDEnemy",
+    "SplineFollower",
+    "NavMeshAIController"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "health",
+  "summary": "Drop-in health with damage, heal and death events wired in the Inspector.",
+  "overview": [
+    "Health as a component: wire OnDamaged, OnHealed and OnDeath in the Inspector, or call TakeDamage and Heal from code. It implements IDamageable, so anything that deals damage can do so without knowing this component exists."
+  ],
+  "useCases": [
+    "Player, enemy or destructible prop health.",
+    "Triggering death effects, loot drops or a game-over screen from an event.",
+    "Driving a health bar from NormalizedHealth."
+  ],
+  "params": [
+    {
+      "field": "preventDamageAfterDeath",
+      "tuning": "Leave on unless something should keep taking hits after dying — a ragdoll being shot, a boss with a second phase."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Initialisation is lazy, because Awake is not reliable outside Play mode",
+      "body": "It exposes EnsureInitialized and calls it from every public entry point, which is how a self-test or an editor script can use it before Awake has run. This pattern recurs across the toolkit for exactly that reason."
+    },
+    {
+      "title": "OnDeath can fire more than once without the guard",
+      "body": "With preventDamageAfterDeath off, further damage keeps firing death events. Anything listening should be idempotent or the guard left on."
+    }
+  ],
+  "seeAlso": [
+    "IDamageable",
+    "Hurtbox",
+    "CheckpointRespawn"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "hitbox",
+  "summary": "A melee swing's active region: disabled until you activate it, and hits each target once per swing.",
+  "overview": [
+    "The hit region of a melee attack. Its collider stays DISABLED until Activate — the active-frames window of a swing — so it cannot hit outside the animation's intended timing. It also hits each Hurtbox at most once per activation, so one swing cannot multi-hit the same target."
+  ],
+  "useCases": [
+    "A sword, claw or punch with real active frames.",
+    "A weapon whose hit window is driven by an animation event.",
+    "Any attack that should connect once per swing rather than per frame of overlap."
+  ],
+  "params": [
+    {
+      "field": "source",
+      "tuning": "Who counts as the attacker, for friendly fire and kill attribution. Defaults to this object, which is wrong when the hitbox is on a weapon held by a character."
+    },
+    {
+      "field": "knockbackForce",
+      "tuning": "Applied away from the hitbox, so where you place it changes the direction of the push."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It is inactive until something calls Activate",
+      "body": "A hitbox that never hits anything is usually one nobody activated. MeleeAttack is what normally drives that window."
+    },
+    {
+      "title": "The once-per-swing guard resets on Activate, not on time",
+      "body": "A long active window still only hits each target once. Two hits need two activations."
+    }
+  ],
+  "seeAlso": [
+    "MeleeAttack",
+    "Hurtbox",
+    "HitData"
+  ]
+}

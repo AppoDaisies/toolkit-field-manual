@@ -1,0 +1,22 @@
+{
+  "id": "currency-definition",
+  "summary": "A currency as an asset, so adding Gems is creating a file rather than editing an enum.",
+  "overview": [
+    "Gold, gems, energy — each an asset with a display name, icon and the id used to save balances. Same GameDataAsset pattern as items, so moving Currency standalone means taking that folder too."
+  ],
+  "useCases": [
+    "Adding a new currency without touching code.",
+    "One asset referenced by the wallet, the shop and the UI.",
+    "Currency icons and names in one place."
+  ],
+  "gotchas": [
+    {
+      "title": "The id is what the save file holds",
+      "body": "Renaming the asset is safe; changing its id orphans existing balances."
+    }
+  ],
+  "seeAlso": [
+    "CurrencyWallet",
+    "GameDataAsset"
+  ]
+}

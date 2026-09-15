@@ -1,0 +1,34 @@
+{
+  "id": "i-interactable",
+  "summary": "Two members: the prompt to show, and what happens when the player interacts.",
+  "purpose": "Lets the detector offer and trigger an interaction without knowing what the thing is. A door, a chest and an NPC answer the same two questions differently.",
+  "whenToImplement": "On anything the player can interact with. There is no default implementation — unlike damage, which has Health, every interaction is specific.",
+  "memberContracts": {
+    "InteractionPrompt": {
+      "contract": "The text the prompt UI shows, such as \"Open\" or \"Talk\". Read whenever this becomes the nearest interactable.",
+      "mustNot": "Do not do work in the getter. It is read on every scan while the player stands nearby."
+    },
+    "Interact(GameObject)": {
+      "contract": "Do the thing. Called once per key press, not held. The GameObject passed is the interactor, so a door can check who opened it.",
+      "mustNot": "Do not assume it only happens once. Nothing stops the player interacting with the same object repeatedly — an already-open chest must handle being opened again."
+    }
+  },
+  "calledBy": "InteractionDetector, which reads the prompt while this is the nearest candidate and calls Interact on the key press. Nothing else.",
+  "drivenBy": [
+    "InteractionDetector"
+  ],
+  "useCases": [
+    "Doors, chests, levers and NPCs.",
+    "Pickups that do something more than being collected.",
+    "A context-sensitive prompt whose text changes with state."
+  ],
+  "gotchas": [
+    {
+      "title": "A changing prompt is read live",
+      "body": "Returning \"Open\" or \"Locked\" depending on state works, because it is read each scan rather than cached."
+    }
+  ],
+  "seeAlso": [
+    "InteractionDetector"
+  ]
+}

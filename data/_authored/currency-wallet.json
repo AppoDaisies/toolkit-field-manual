@@ -1,0 +1,33 @@
+{
+  "id": "currency-wallet",
+  "summary": "Multi-currency balances by asset, with events for UI and save data by id.",
+  "overview": [
+    "Add, spend and query per CurrencyDefinition asset rather than hardcoding a gold int. OnBalanceChanged pairs naturally with an animated counter, and saving writes each currency's string id so a save survives assets moving."
+  ],
+  "useCases": [
+    "Gold, gems and energy in one wallet.",
+    "A shop checking affordability before offering a purchase.",
+    "Persisting balances across sessions."
+  ],
+  "params": [
+    {
+      "field": "startingBalances",
+      "tuning": "What a new player begins with. Only applied on a fresh wallet, not over loaded save data."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "TrySpend is the whole transaction",
+      "body": "It checks and deducts together. Checking CanAfford and then adding separately leaves a window where the balance can change underneath you."
+    },
+    {
+      "title": "Loading needs the currency assets to exist",
+      "body": "Saves store ids. A currency asset deleted between sessions means its balance silently disappears."
+    }
+  ],
+  "seeAlso": [
+    "CurrencyDefinition",
+    "AnimatedNumberCounter",
+    "SaveSystem"
+  ]
+}

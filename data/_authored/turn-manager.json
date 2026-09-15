@@ -1,0 +1,33 @@
+{
+  "id": "turn-manager",
+  "summary": "Battle director: runs the turn loop, resolves AI turns and waits for the player's.",
+  "overview": [
+    "Register combatants — actors self-register — call StartBattle, and it runs the whole loop: rebuilding initiative order each round, resolving AI turns through a brain, and pausing on player-controlled actors until your UI submits an action."
+  ],
+  "useCases": [
+    "A classic turn-based RPG battle.",
+    "A tactics encounter where order is decided by a stat.",
+    "Mixed parties of player and AI-controlled actors."
+  ],
+  "params": [
+    {
+      "field": "aiThinkDelay",
+      "tuning": "Purely presentational — it gives the player time to read what the AI did. Zero makes AI turns instant and hard to follow."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "An actor with no brain is treated as player-controlled",
+      "body": "The loop then waits indefinitely for SubmitPlayerAction. An enemy that freezes the battle is usually one missing its UtilityAIBrain."
+    },
+    {
+      "title": "Initiative order is rebuilt each round",
+      "body": "A buff changing initiative mid-battle takes effect next round, not immediately."
+    }
+  ],
+  "seeAlso": [
+    "TurnBasedActor",
+    "UtilityAIBrain",
+    "ActionDefinition"
+  ]
+}

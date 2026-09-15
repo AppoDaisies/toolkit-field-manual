@@ -1,0 +1,32 @@
+{
+  "id": "plant-water-level",
+  "summary": "A plant's watered-ness as a decaying number, with no growth or visual behaviour attached.",
+  "overview": [
+    "Tracks how watered something is and decays it over time. Deliberately nothing else — what the game does with the number, whether that is swapping a mesh, tinting a colour or killing the plant, is left to whatever listens, so this stays usable in a farming sim, a puzzle or a toy."
+  ],
+  "useCases": [
+    "A farming or gardening loop where plants need repeat watering.",
+    "Any resource that drains and must be topped up.",
+    "Driving a visual state from a normalised 0-1 value."
+  ],
+  "params": [
+    {
+      "field": "decayPerSecond",
+      "tuning": "What makes watering a repeated activity rather than a one-off. Zero turns it into a switch."
+    },
+    {
+      "field": "startingNormalizedWater",
+      "tuning": "A fraction of max, so it stays meaningful when you change maxWater."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You have to tick it",
+      "body": "Decay happens in Tick, which something else must call. It does not run itself."
+    }
+  ],
+  "seeAlso": [
+    "WateringCanController",
+    "CountdownTimer"
+  ]
+}

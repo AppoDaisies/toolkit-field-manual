@@ -1,0 +1,41 @@
+{
+  "id": "td-tower",
+  "summary": "Targeting and fire-rate only. What the shot actually does is a separate component.",
+  "overview": [
+    "On a fire-rate timer it finds the closest enemy in range and hands it to whichever IAttackBehavior sits on the same GameObject. This component never executes an attack — that split is how one tower prefab picks hitscan or projectile by which component you add."
+  ],
+  "useCases": [
+    "Any tower, with the attack style chosen by composition.",
+    "Retuning range and rate without touching attack code.",
+    "Adding a new attack style by writing one behaviour."
+  ],
+  "params": [
+    {
+      "field": "enemyMask",
+      "tuning": "Used by the OverlapSphere. A wide mask makes every tower test every collider in range on every shot."
+    },
+    {
+      "field": "fireRate",
+      "tuning": "Shots per second, not seconds between shots — so higher is faster."
+    },
+    {
+      "field": "range",
+      "tuning": "Also the OverlapSphere radius, so it is both a balance number and a performance one."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "A tower with no attack behaviour targets and never fires",
+      "body": "Nothing errors — it just silently does nothing. That is the first thing to check on a dead tower."
+    },
+    {
+      "title": "Closest, not most dangerous",
+      "body": "Targeting is nearest-first with no priority options. Anything smarter means replacing the targeting, not configuring it."
+    }
+  ],
+  "seeAlso": [
+    "IAttackBehavior",
+    "TDHitscanAttack",
+    "TDProjectileAttack"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "targeting-strategies",
+  "summary": "Composable target-selection functions: lowest health, highest health, random.",
+  "overview": [
+    "Plain static selection logic, in the same spirit as the steering and easing helpers. Each returns null when the candidate list is empty or everyone in it is dead, so a caller has one case to handle rather than several."
+  ],
+  "useCases": [
+    "An enemy that finishes off the weakest target.",
+    "A healer picking whoever most needs it.",
+    "Random targeting for an unpredictable boss."
+  ],
+  "gotchas": [
+    {
+      "title": "Null means \"nobody valid\", not an error",
+      "body": "An empty list and a list of corpses both return null. Treat it as the normal end-of-battle case."
+    }
+  ],
+  "seeAlso": [
+    "UtilityAIBrain",
+    "SteeringBehaviors"
+  ]
+}

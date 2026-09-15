@@ -1,0 +1,35 @@
+{
+  "id": "i-damageable",
+  "summary": "One contract for taking damage, so weapons never need to know about the Health component.",
+  "purpose": "Lets hazards, weapons and area effects damage something without referencing Health directly. Anything implementing this can be hurt, whether it is a character, a destructible prop or a shield with its own rules.",
+  "whenToImplement": "When something takes damage but should not use the stock Health component — a boss with layered armour, a shield that absorbs before health, an object that only reacts to certain damage types.",
+  "memberContracts": {
+    "TakeDamage(float)": {
+      "contract": "Apply the damage and do whatever follows from it. The caller does not care how it is stored or whether anything died.",
+      "mustNot": "Do not assume a caller checked IsDead first. Damage arriving at an already-dead target is normal and must be safe."
+    },
+    "IsDead": {
+      "contract": "Whether this is out of the fight. Read by attackers and targeting code to skip it.",
+      "mustNot": "Do not make this expensive — targeting code reads it across every candidate, potentially every frame."
+    }
+  },
+  "calledBy": "Hurtbox funnels every hit into it, whether the hit came from a melee Hitbox, a hitscan shot or a projectile. Targeting strategies read IsDead to skip dead candidates.",
+  "drivenBy": [
+    "Hurtbox"
+  ],
+  "useCases": [
+    "A shield or armour layer that intercepts damage before health.",
+    "Destructible scenery with no health bar and no healing.",
+    "A boss part with its own damage rules."
+  ],
+  "gotchas": [
+    {
+      "title": "Health already implements it",
+      "body": "For an ordinary character there is nothing to write — add Health and you satisfy the contract."
+    }
+  ],
+  "seeAlso": [
+    "Health",
+    "Hurtbox"
+  ]
+}

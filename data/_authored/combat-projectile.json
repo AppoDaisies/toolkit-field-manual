@@ -1,0 +1,29 @@
+{
+  "id": "combat-projectile",
+  "summary": "Straight-line projectile spawned by a ranged attack, hitting the first thing it touches.",
+  "overview": [
+    "Flies straight and deals its hit on first contact. Deliberately NOT the same class as the tower-defence projectile, which homes onto a target and has to survive that target dying mid-flight — two different problems, kept as two classes rather than one with a mode."
+  ],
+  "useCases": [
+    "Arrows, bolts and thrown weapons.",
+    "A slow projectile the player is meant to see coming and dodge.",
+    "Any shot where travel time matters."
+  ],
+  "params": [
+    {
+      "field": "lifetime",
+      "tuning": "The backstop for a shot that never hits anything. Without it, missed projectiles accumulate forever."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It does not home, and will not survive its target vanishing gracefully",
+      "body": "That is the tower-defence projectile's job. This one is aimed once and then travels."
+    }
+  ],
+  "seeAlso": [
+    "RangedAttack",
+    "ProjectileMover",
+    "TDProjectile"
+  ]
+}

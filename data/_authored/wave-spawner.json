@@ -1,0 +1,36 @@
+{
+  "id": "wave-spawner",
+  "summary": "Spawns configured waves in order, of anything prefab-based.",
+  "overview": [
+    "Configure waves in the Inspector and it spawns them one after another. Not tied to enemies — pickups, obstacles, anything prefab-based works the same way."
+  ],
+  "useCases": [
+    "Tower-defence or survival waves.",
+    "A scripted encounter that escalates.",
+    "Periodically spawning pickups or hazards."
+  ],
+  "params": [
+    {
+      "field": "spawnPoints",
+      "tuning": "Chosen randomly per spawn, so a single point means everything appears in one place."
+    },
+    {
+      "field": "delayBetweenWaves",
+      "tuning": "The breathing room between waves. In tower defence this is the build window."
+    },
+    {
+      "field": "autoStart",
+      "tuning": "Turn off when a game manager or a UI button should decide when waves begin."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "A wave finishing is not the same as its enemies dying",
+      "body": "It tracks spawning, not survival. \"All waves complete\" means everything has been spawned, which is why the tower-defence manager also checks the base is still alive."
+    }
+  ],
+  "seeAlso": [
+    "TDGameManager",
+    "ObjectPool"
+  ]
+}

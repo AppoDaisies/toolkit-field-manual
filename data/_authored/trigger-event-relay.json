@@ -1,0 +1,36 @@
+{
+  "id": "trigger-event-relay",
+  "summary": "Wire enter, stay and exit responses on a 3D trigger in the Inspector, with a tag filter.",
+  "overview": [
+    "Drop it on a trigger collider and wire the responses — no code for a \"when the player enters this zone, do X\" setup. The 2D counterpart is a separate component because Unity's 2D and 3D physics callbacks are different methods entirely."
+  ],
+  "useCases": [
+    "Checkpoints, door triggers and zone transitions.",
+    "Damage or heal volumes.",
+    "Triggering a cutscene or spawning a wave on entry."
+  ],
+  "params": [
+    {
+      "field": "requiredTag",
+      "tuning": "Untagged means everything matches, which is rarely what a zone wants."
+    },
+    {
+      "field": "filterByTag",
+      "tuning": "Off ignores the tag entirely and fires for every collider, including projectiles and debris."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It needs a trigger collider and, usually, a rigidbody",
+      "body": "Unity only raises trigger callbacks when at least one of the two objects has a Rigidbody. A static trigger and a static mover never fire."
+    },
+    {
+      "title": "Stay fires every physics step",
+      "body": "Anything expensive wired to OnStay runs at the fixed timestep rate, not once."
+    }
+  ],
+  "seeAlso": [
+    "TriggerEventRelay2D",
+    "CheckpointRespawn"
+  ]
+}

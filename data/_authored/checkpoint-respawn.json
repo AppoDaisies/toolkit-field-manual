@@ -1,0 +1,28 @@
+{
+  "id": "checkpoint-respawn",
+  "summary": "Respawns the player at the last checkpoint when Health fires death, and resets health.",
+  "overview": [
+    "Drop it on the player alongside Health. Call SetCheckpoint when they reach one — typically from a trigger relay — and it respawns them there and resets health when death fires. No death-handling code at the call site."
+  ],
+  "useCases": [
+    "Checkpoint respawning in a platformer or action game.",
+    "Returning to a safe spot after falling out of the world.",
+    "A delay before respawn so a death animation can play."
+  ],
+  "params": [
+    {
+      "field": "respawnDelay",
+      "tuning": "Time for a death animation or screen effect. Zero makes death feel like a teleport."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "With no checkpoint set, it respawns at the start position",
+      "body": "So a player who dies before reaching the first checkpoint goes back to where they began, which is usually right but worth knowing."
+    }
+  ],
+  "seeAlso": [
+    "Health",
+    "TriggerEventRelay"
+  ]
+}

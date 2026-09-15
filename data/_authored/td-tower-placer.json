@@ -1,0 +1,37 @@
+{
+  "id": "td-tower-placer",
+  "summary": "Click to place the selected tower, spending currency through the game manager.",
+  "overview": [
+    "Click a point in the scene to place the currently selected tower prefab, paying for it from the shared wallet. Wire a shop button's OnClick to SelectTowerToPlace to choose what the next click places."
+  ],
+  "useCases": [
+    "A tower shop where the player picks then places.",
+    "Restricting placement to buildable ground via the mask.",
+    "Spending currency as part of placing, in one step."
+  ],
+  "params": [
+    {
+      "field": "placementMask",
+      "tuning": "Layers a click can land on. This is what stops towers being placed on the path or on each other."
+    },
+    {
+      "field": "raycastCamera",
+      "tuning": "Defaults to Camera.main, which breaks quietly in a scene with more than one camera."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Nothing is selected until the shop selects it",
+      "body": "Before the first SelectTowerToPlace call, clicks do nothing. That is correct, and looks broken when testing without the shop UI."
+    },
+    {
+      "title": "It does not check the click is over UI",
+      "body": "Clicking a shop button can also place a tower behind it. Gate it on EventSystem.current.IsPointerOverGameObject."
+    }
+  ],
+  "seeAlso": [
+    "TDGameManager",
+    "TDTower",
+    "RaycastUtils"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ranged-attack",
+  "summary": "Hitscan or projectile, both funnelling into the same Hurtbox as melee does.",
+  "overview": [
+    "The ranged half of the combat core. Hitscan raycasts instantly for guns and lasers; Projectile spawns one that travels and hits on contact for arrows and thrown weapons. Both end up calling the same ReceiveHit, so a target needs no knowledge of which was used."
+  ],
+  "useCases": [
+    "Guns and instant-hit weapons.",
+    "Arrows, thrown weapons and slow projectiles the player can dodge.",
+    "Switching a weapon between the two without touching the target's setup."
+  ],
+  "params": [
+    {
+      "field": "muzzle",
+      "tuning": "Both the origin and the aim direction. A muzzle pointing the wrong way is the usual reason shots miss everything."
+    },
+    {
+      "field": "hitMask",
+      "tuning": "Hitscan only. Remember Physics.queriesHitTriggers defaults to TRUE, so a trigger volume will stop a shot unless you exclude its layer."
+    },
+    {
+      "field": "range",
+      "tuning": "Hitscan only. Projectile range is governed by the projectile's own lifetime instead."
+    },
+    {
+      "field": "projectileSpeed",
+      "tuning": "Projectile only. Fast projectiles can tunnel through thin geometry between frames."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Half the settings are mode-specific",
+      "body": "Range and hit mask do nothing in Projectile mode; the prefab and speed do nothing in Hitscan. Changing an ignored one and seeing no effect is expected."
+    },
+    {
+      "title": "Triggers block hitscan by default",
+      "body": "Physics.queriesHitTriggers is true, so a checkpoint or pickup volume between shooter and target absorbs the shot. Put non-blocking volumes on Ignore Raycast."
+    }
+  ],
+  "seeAlso": [
+    "CombatProjectile",
+    "MeleeAttack",
+    "Hurtbox"
+  ]
+}

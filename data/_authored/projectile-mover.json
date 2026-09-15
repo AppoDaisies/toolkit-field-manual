@@ -1,0 +1,37 @@
+{
+  "id": "projectile-mover",
+  "summary": "Moves a projectile forward with optional gravity, and returns it to a pool if it came from one.",
+  "overview": [
+    "Drop it on a projectile prefab. It moves forward each frame with optional gravity drop and removes itself on lifetime or first hit — detecting a PoolableObject on the same object and releasing through that instead of destroying, so the same prefab works pooled or not."
+  ],
+  "useCases": [
+    "Bullets, arrows and grenades from a pool.",
+    "An arcing ballistic shot, via gravity.",
+    "Any projectile that should not need separate pooled and unpooled versions."
+  ],
+  "params": [
+    {
+      "field": "gravity",
+      "tuning": "Zero is a straight shot; anything above starts an arc. This is acceleration, not a one-off drop."
+    },
+    {
+      "field": "hitMask",
+      "tuning": "Remember triggers are hit by default, so a checkpoint or pickup volume will end a projectile's flight unless excluded."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It detects hits by raycasting ahead, and should have no collider",
+      "body": "Without a collider it also cannot be hit by another projectile's ray. Adding one to \"make it collide\" breaks both properties."
+    },
+    {
+      "title": "Triggers stop it unless masked out",
+      "body": "Physics.queriesHitTriggers defaults to true. Put non-blocking volumes on the Ignore Raycast layer and exclude that layer."
+    }
+  ],
+  "seeAlso": [
+    "ObjectPool",
+    "PoolableObject",
+    "CombatProjectile"
+  ]
+}

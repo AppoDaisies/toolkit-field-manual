@@ -1,0 +1,29 @@
+{
+  "id": "utility-ai-brain",
+  "summary": "Scores every candidate action against the battle state and picks the best. New behaviour is a list entry.",
+  "overview": [
+    "Makes an actor AI-controlled. On its turn the manager asks for an action, and this scores each candidate against the current battle state and returns the highest. A new enemy behaviour is a new candidate entry in the Inspector rather than new code."
+  ],
+  "useCases": [
+    "A healer that prioritises hurt allies.",
+    "An aggressive enemy that focuses whoever is weakest.",
+    "Varying enemy personality by reordering and reweighting candidates."
+  ],
+  "params": [
+    {
+      "field": "candidates",
+      "tuning": "Each pairs an action with how it scores. Tuning the weights is how an enemy's personality is expressed."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Ties are broken by order, not randomly",
+      "body": "Two equally scored candidates always resolve the same way, so an enemy can look robotically predictable. Add a small random term if that matters."
+    }
+  ],
+  "seeAlso": [
+    "TurnManager",
+    "TurnBasedActor",
+    "TargetingStrategies"
+  ]
+}

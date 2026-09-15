@@ -1,0 +1,34 @@
+{
+  "id": "td-game-manager",
+  "summary": "Tower-defence state: base health, the shared wallet, and win or lose.",
+  "overview": [
+    "The central state of a tower-defence game. Enemies report here when they reach the base or die; assign a wave spawner and surviving the last wave with the base intact fires victory automatically."
+  ],
+  "useCases": [
+    "A tower-defence level's lives, currency and end conditions.",
+    "Driving a HUD from base health and currency events.",
+    "Gating tower placement on affordability."
+  ],
+  "params": [
+    {
+      "field": "baseHealth",
+      "tuning": "Lives. Reaching zero is the loss condition."
+    },
+    {
+      "field": "waveSpawner",
+      "tuning": "Optional. Without it there is no automatic victory — you decide when the level is won."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Victory needs both conditions",
+      "body": "All waves complete AND the base still alive. Waves finishing while the base is dead is a loss, not a win."
+    }
+  ],
+  "seeAlso": [
+    "TDEnemy",
+    "TDTowerPlacer",
+    "WaveSpawner",
+    "CurrencyWallet"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "td-hitscan-attack",
+  "summary": "Instant tower attack with an optional brief beam.",
+  "overview": [
+    "Damages immediately with no travel time. A LineRenderer can be assigned to flash a beam for feedback; leave it empty for a silent hit."
+  ],
+  "useCases": [
+    "Laser or gun towers where the shot should always land.",
+    "A tower that must not miss fast enemies.",
+    "Cheap attacks with no projectile to manage."
+  ],
+  "params": [
+    {
+      "field": "beam",
+      "tuning": "Purely visual. Without it the attack still works, it is just invisible."
+    },
+    {
+      "field": "muzzle",
+      "tuning": "Where the beam starts. Unassigned it draws from the tower's origin, which usually looks like it comes out of the base."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It cannot miss, which is a balance decision",
+      "body": "No travel time means fast enemies are no harder to hit. That is the trade against a projectile tower."
+    }
+  ],
+  "seeAlso": [
+    "TDTower",
+    "TDProjectileAttack",
+    "IAttackBehavior"
+  ]
+}

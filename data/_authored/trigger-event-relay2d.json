@@ -1,0 +1,21 @@
+{
+  "id": "trigger-event-relay2d",
+  "summary": "The 2D counterpart, for Collider2D triggers.",
+  "overview": [
+    "Same idea for 2D physics. A separate component rather than a mode, because Unity's 2D trigger callbacks are different methods — one class cannot serve both without reflection or duplication."
+  ],
+  "useCases": [
+    "Pickup and hazard zones in a 2D game.",
+    "Level-exit triggers in a platformer.",
+    "Camera-zone transitions in 2D."
+  ],
+  "gotchas": [
+    {
+      "title": "2D and 3D triggers do not interact",
+      "body": "A Collider2D never fires a 3D callback or the reverse. Mixing them in one scene is the usual reason a trigger seems dead."
+    }
+  ],
+  "seeAlso": [
+    "TriggerEventRelay"
+  ]
+}

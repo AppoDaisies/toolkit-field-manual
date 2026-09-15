@@ -1,0 +1,40 @@
+{
+  "id": "interaction-detector",
+  "summary": "Finds the nearest interactable in range and fires prompt and interact events.",
+  "overview": [
+    "Drop it on the player. It finds the nearest IInteractable within range and fires events to show or hide a prompt and to trigger the interaction on a key press. Detection uses an OverlapSphere, so it works with any collider layout — no trigger volume hand-placed on every interactable."
+  ],
+  "useCases": [
+    "A \"Press E to open\" prompt on doors, chests and NPCs.",
+    "Picking up items by walking near them.",
+    "Any interaction where the nearest thing should win."
+  ],
+  "params": [
+    {
+      "field": "scanInterval",
+      "tuning": "The main cost control — zero scans every frame, which is rarely necessary. A tenth of a second is usually indistinguishable."
+    },
+    {
+      "field": "interactableMask",
+      "tuning": "Narrow it. A wide mask means every collider in range is tested every scan."
+    },
+    {
+      "field": "interactionRange",
+      "tuning": "The OverlapSphere radius. Large radii in a dense scene are where this gets expensive."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Nearest by distance, not by what you are looking at",
+      "body": "Standing between two interactables picks the closer one regardless of facing. Pair it with LookAtTargetFinder if aim should decide."
+    },
+    {
+      "title": "Interactables need colliders",
+      "body": "The OverlapSphere finds colliders, so an interactable without one is invisible to it."
+    }
+  ],
+  "seeAlso": [
+    "IInteractable",
+    "LookAtTargetFinder"
+  ]
+}

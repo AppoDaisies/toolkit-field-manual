@@ -1,0 +1,31 @@
+{
+  "id": "i-knockback-receiver",
+  "summary": "Optional contract for reacting to knockback, since how you get pushed depends on what you are.",
+  "purpose": "Pushing a Rigidbody, nudging a CharacterController and staggering a scripted boss are three different things. Rather than guess, a Hurtbox hands the knockback to this if the target has one, and skips it otherwise.",
+  "whenToImplement": "When something should physically react to being hit. A static prop or a target that only tracks damage needs no implementation at all.",
+  "memberContracts": {
+    "ApplyKnockback(Vector3)": {
+      "contract": "React to a push in the given world direction and magnitude, however suits this object.",
+      "mustNot": "Do not assume a physics body. The whole reason this is an interface is that the right response differs per target."
+    }
+  },
+  "calledBy": "Hurtbox, once per hit, and ONLY if the target implements it. Nothing else calls it.",
+  "drivenBy": [
+    "Hurtbox"
+  ],
+  "useCases": [
+    "Pushing a Rigidbody enemy away from an impact.",
+    "Nudging a CharacterController, which ignores forces entirely.",
+    "A boss that staggers rather than moving."
+  ],
+  "gotchas": [
+    {
+      "title": "Entirely optional",
+      "body": "No implementation means no knockback, silently. That is the intended behaviour, not a missing wire."
+    }
+  ],
+  "seeAlso": [
+    "Hurtbox",
+    "HitData"
+  ]
+}

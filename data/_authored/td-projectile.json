@@ -1,0 +1,27 @@
+{
+  "id": "td-projectile",
+  "summary": "Homing projectile tracking its target's live position, safe if the target dies mid-flight.",
+  "overview": [
+    "Tracks where the target IS, not where it was at launch, and damages on arrival. If the target is destroyed in flight — killed by another tower first — it self-destructs harmlessly instead of erroring on a stale reference. That is the difference between it and the straight-line combat projectile."
+  ],
+  "useCases": [
+    "Tower shots that should follow a moving enemy.",
+    "Any projectile in a scene where targets die frequently."
+  ],
+  "params": [
+    {
+      "field": "hitDistance",
+      "tuning": "How close counts as arrival. Too small and a fast projectile can overshoot between frames and orbit its target."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Homing means it cannot be dodged",
+      "body": "It follows the target until arrival. An enemy that should be able to escape needs a different projectile."
+    }
+  ],
+  "seeAlso": [
+    "TDProjectileAttack",
+    "CombatProjectile"
+  ]
+}

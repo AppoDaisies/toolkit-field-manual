@@ -1,0 +1,23 @@
+{
+  "id": "action-definition",
+  "summary": "A combat action as an asset: add an attack or skill by creating one, with no code change.",
+  "overview": [
+    "An attack, heal or skill as a ScriptableObject rather than hardcoded logic. It builds on GameDataAsset for the id, which is the same pattern items and currencies use — so moving Combat into another project means taking that folder too."
+  ],
+  "useCases": [
+    "A designer adding a skill without a programmer.",
+    "Sharing one action between several enemy types.",
+    "Balancing numbers by editing assets rather than recompiling."
+  ],
+  "gotchas": [
+    {
+      "title": "The target type decides who is offered, not what is legal",
+      "body": "It filters the candidate list. Anything more conditional than that belongs in the brain's scoring."
+    }
+  ],
+  "seeAlso": [
+    "TurnBasedActor",
+    "UtilityAIBrain",
+    "GameDataAsset"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "td-enemy",
+  "summary": "Bridges patrol and health to tower-defence state: damage the base on arrival, grant currency on death.",
+  "overview": [
+    "Drop it on an enemy prefab alongside a patrol set to Once and a Health component. It reports to the game manager when the enemy reaches the base or dies. It also needs a collider of some kind, because that is what tower targeting finds."
+  ],
+  "useCases": [
+    "Standard tower-defence enemies.",
+    "Enemy tiers differing only by reward and base damage.",
+    "Any enemy that walks a fixed route to a goal."
+  ],
+  "params": [
+    {
+      "field": "damageToBase",
+      "tuning": "What reaching the end costs the player. A leaker that costs nothing removes the tension."
+    },
+    {
+      "field": "rewardAmount",
+      "tuning": "The economy's main lever: too generous and towers outpace the waves."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It needs a collider, a Health and a patrol",
+      "body": "Three separate components. Missing the collider is the quiet one: the enemy walks the route and no tower ever sees it."
+    },
+    {
+      "title": "Patrol mode must be Once",
+      "body": "On Loop it walks back to the start instead of reaching the base, and the wave never ends."
+    }
+  ],
+  "seeAlso": [
+    "TDGameManager",
+    "WaypointPatrol",
+    "Health"
+  ]
+}

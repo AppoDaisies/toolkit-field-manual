@@ -1,0 +1,37 @@
+{
+  "id": "turn-based-actor",
+  "summary": "One combatant: links to Health, carries an initiative stat and lists the actions it can use.",
+  "overview": [
+    "A participant in a battle. It self-registers with the manager, holds the initiative that decides turn order, and lists which action assets it can use. Add a brain alongside it and it becomes AI-controlled; without one the manager waits for the player."
+  ],
+  "useCases": [
+    "Party members and enemies in the same battle.",
+    "Giving an enemy a different action list without new code.",
+    "Deciding turn order from a stat rather than a fixed sequence."
+  ],
+  "params": [
+    {
+      "field": "initiative",
+      "tuning": "Higher goes first, re-sorted each round."
+    },
+    {
+      "field": "isAlly",
+      "tuning": "What separates the two teams for targeting. Get it wrong and enemies heal each other correctly and you incorrectly."
+    },
+    {
+      "field": "availableActions",
+      "tuning": "Assets, so two enemies can share an action list or differ entirely with no code change."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "No brain means player-controlled",
+      "body": "That is how the manager tells them apart, so an AI enemy missing its brain stalls the battle waiting for input that never comes."
+    }
+  ],
+  "seeAlso": [
+    "TurnManager",
+    "UtilityAIBrain",
+    "ActionDefinition"
+  ]
+}

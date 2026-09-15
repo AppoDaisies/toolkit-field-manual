@@ -1,0 +1,33 @@
+{
+  "id": "td-projectile-attack",
+  "summary": "Spawns a homing projectile that travels to the target.",
+  "overview": [
+    "The physical alternative to hitscan: spawns a TDProjectile that travels and homes. Slower to land, and visibly so, which is the point."
+  ],
+  "useCases": [
+    "Cannon, arrow or mortar towers with visible shots.",
+    "Attacks where travel time is part of the balance.",
+    "Towers that should visibly miss a very fast enemy."
+  ],
+  "params": [
+    {
+      "field": "projectilePrefab",
+      "tuning": "Required, and must have a TDProjectile on it. Without one, nothing happens and nothing logs."
+    },
+    {
+      "field": "projectileSpeed",
+      "tuning": "The balance lever. Slow enough and fast enemies outrun the shot."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Projectiles are instantiated, not pooled",
+      "body": "A field of fast-firing towers creates and destroys a lot of objects. Pooling is the fix if it shows up in the profiler."
+    }
+  ],
+  "seeAlso": [
+    "TDProjectile",
+    "TDTower",
+    "TDHitscanAttack"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "melee-attack",
+  "summary": "Drives a Hitbox's active window and cooldown, ticked rather than run as a coroutine.",
+  "overview": [
+    "Swing activates the hitbox for a set duration then deactivates it, with a cooldown between swings. Driven by an explicit Tick rather than a coroutine, specifically so a self-test can advance it in exact increments without entering Play mode — the same reasoning behind the tween handle."
+  ],
+  "useCases": [
+    "A melee weapon with real active frames and a rate limit.",
+    "An enemy attack that can be tested headlessly.",
+    "Matching a swing window to an animation's timing."
+  ],
+  "params": [
+    {
+      "field": "activeDuration",
+      "tuning": "The weapon's active frames. Should match the animation's contact window, not its whole length."
+    },
+    {
+      "field": "cooldown",
+      "tuning": "Minimum time between swings. Shorter than activeDuration means the next swing can start before the last one ends."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You have to call Tick",
+      "body": "It is not a coroutine and does not run itself. Nothing happens if nobody advances it."
+    }
+  ],
+  "seeAlso": [
+    "Hitbox",
+    "RangedAttack",
+    "Hurtbox"
+  ]
+}

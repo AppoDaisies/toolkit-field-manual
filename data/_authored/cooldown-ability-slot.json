@@ -1,0 +1,28 @@
+{
+  "id": "cooldown-ability-slot",
+  "summary": "The ability-on-cooldown pattern, wrapping CountdownTimer with progress events for a UI bar.",
+  "overview": [
+    "Call TryUse when the button is pressed; it succeeds or tells you it is not ready. OnCooldownProgress is meant for a radial or fill bar, which is exactly what RadialProgressBar consumes."
+  ],
+  "useCases": [
+    "A player ability with a cooldown and a UI indicator.",
+    "An enemy special attack that cannot spam.",
+    "Any rate-limited action where the player needs to see the wait."
+  ],
+  "params": [
+    {
+      "field": "cooldownDuration",
+      "tuning": "Seconds. The progress event reports 0-1 over this, so the UI does not need to know the duration."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "TryUse returning false is the normal case",
+      "body": "It is how you know the ability is not ready. Treat a false as \"play the denied sound\", not as an error."
+    }
+  ],
+  "seeAlso": [
+    "CountdownTimer",
+    "RadialProgressBar"
+  ]
+}

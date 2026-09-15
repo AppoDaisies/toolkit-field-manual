@@ -1,0 +1,23 @@
+{
+  "id": "hit-data",
+  "summary": "Everything one hit carries, so a Hurtbox understands one shape regardless of the attack type.",
+  "overview": [
+    "The damage, the knockback and who did it. Shared by melee, hitscan and projectile attacks — which is what lets a target need only one receiving component."
+  ],
+  "useCases": [
+    "Passing a hit through a chain of modifiers before it lands.",
+    "Reading who attacked, for kill attribution or aggro.",
+    "Adding a field once and having every attack type carry it."
+  ],
+  "gotchas": [
+    {
+      "title": "It is a struct, so it is copied",
+      "body": "Modifying one you received changes your copy, not the original. That is usually what you want, and surprising if you expected a reference."
+    }
+  ],
+  "seeAlso": [
+    "Hurtbox",
+    "Hitbox",
+    "RangedAttack"
+  ]
+}

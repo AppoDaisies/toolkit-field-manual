@@ -1,0 +1,32 @@
+{
+  "id": "i-attack-behavior",
+  "summary": "One method: execute this tower's attack on a target. Lets a tower pick its style by composition.",
+  "purpose": "Separates how a tower attacks from how it targets. TDTower handles range and timing and then defers to whatever implements this on the same object, so a prefab chooses hitscan or projectile by which component is attached.",
+  "whenToImplement": "When adding an attack style the two built-ins do not cover — a chain attack, a slow field, an area burst.",
+  "memberContracts": {
+    "Attack(TDEnemy, float)": {
+      "contract": "Deal this tower's attack to the given enemy. How — instantly, with a projectile, over an area — is entirely yours.",
+      "mustNot": "Do not assume the target survives to the end of the attack. A travelling projectile must handle its target being killed mid-flight, which is exactly why TDProjectile self-destructs rather than erroring."
+    }
+  },
+  "calledBy": "TDTower, on its fire-rate timer, with the enemy it selected. Nothing else calls it.",
+  "drivenBy": [
+    "TDTower"
+  ],
+  "useCases": [
+    "A splash or area-of-effect tower.",
+    "A slowing or debuff tower that deals no damage.",
+    "A chain attack hitting several enemies."
+  ],
+  "gotchas": [
+    {
+      "title": "It must be on the same GameObject as the tower",
+      "body": "The tower looks locally. A behaviour on a child is not found."
+    }
+  ],
+  "seeAlso": [
+    "TDTower",
+    "TDHitscanAttack",
+    "TDProjectileAttack"
+  ]
+}

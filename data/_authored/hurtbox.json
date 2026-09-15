@@ -1,0 +1,34 @@
+{
+  "id": "hurtbox",
+  "summary": "The always-listening damage receiver, so a target needs one component whatever hit it.",
+  "overview": [
+    "Attach alongside Health, or anything implementing IDamageable. Melee hitboxes, hitscan shots and projectiles all funnel into ReceiveHit, so a target understands ONE hit shape regardless of what attacked it. That is the whole reason the combat core splits this way."
+  ],
+  "useCases": [
+    "A character that can be hit by any attack type.",
+    "Weak points that take extra damage, via the multiplier.",
+    "Reacting to being hit — flash, sound, stagger — without knowing the attacker."
+  ],
+  "params": [
+    {
+      "field": "damageMultiplier",
+      "tuning": "This is how you build weak points and armour: 2 on a head collider, 0.5 on a plated back. Several hurtboxes on one character each with its own multiplier is the intended setup."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It receives hits, it does not store health",
+      "body": "Without a Health or other IDamageable alongside, hits are received and go nowhere."
+    },
+    {
+      "title": "Knockback only applies if the target implements IKnockbackReceiver",
+      "body": "That is optional by design, so a static target simply ignores the knockback part of a hit."
+    }
+  ],
+  "seeAlso": [
+    "Hitbox",
+    "HitData",
+    "IKnockbackReceiver",
+    "Health"
+  ]
+}
