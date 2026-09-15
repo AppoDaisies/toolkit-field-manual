@@ -1,0 +1,37 @@
+{
+  "id": "floating-combat-text-spawner",
+  "summary": "Damage and heal numbers popping over a world point, pooled, with style presets.",
+  "overview": [
+    "The classic RPG hit feedback: numbers pop over a world hit point, drift and fade. A singleton like the fade and transition managers, with presets so damage, heal, miss and status each have a consistent look you configure once."
+  ],
+  "useCases": [
+    "Damage and healing numbers in combat.",
+    "Miss, block and critical callouts.",
+    "Status effect notifications over a character."
+  ],
+  "params": [
+    {
+      "field": "spawnJitterRadius",
+      "tuning": "Random scatter so simultaneous hits do not stack into an unreadable pile. This is the setting that makes rapid combat legible."
+    },
+    {
+      "field": "worldCamera",
+      "tuning": "Used to convert the world point to screen space. Defaults to the main camera, which breaks quietly with more than one."
+    },
+    {
+      "field": "presets",
+      "tuning": "Where the look is defined per kind. Adding a new kind is a preset, not new code."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It pools, so the prefab must be poolable",
+      "body": "A custom prefab needs the matching component so it can hand itself back. Without it, instances accumulate."
+    }
+  ],
+  "seeAlso": [
+    "FloatingCombatText",
+    "ObjectPool",
+    "WorldSpaceUIFollow"
+  ]
+}

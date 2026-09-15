@@ -1,0 +1,35 @@
+{
+  "id": "i-command",
+  "summary": "Execute and Undo. Wrap a reversible action and let the history walk it back and forth.",
+  "purpose": "The standard Command pattern. Not UI-specific despite living beside the UI tools — it works for a level editor's placement tool or a form's revert button equally.",
+  "whenToImplement": "When an action needs to be reversible. If it cannot be undone cleanly, it does not belong in the history at all.",
+  "memberContracts": {
+    "Execute()": {
+      "contract": "Do the action. Called once when first executed, and again on every redo, so it must produce the same result each time.",
+      "mustNot": "Do not capture the state you need to undo INSIDE Execute. Capture it at construction — by redo time the world has already changed."
+    },
+    "Undo()": {
+      "contract": "Put things back exactly as they were. Called with the world in the state Execute left it.",
+      "mustNot": "Do not assume Execute ran immediately before. Several commands may have been undone in between, so undo must depend only on state captured at construction."
+    }
+  },
+  "calledBy": "CommandHistory: Execute when first run and on every redo, Undo when walking back. Nothing else should call either — calling Execute directly bypasses the history and makes undo inconsistent.",
+  "drivenBy": [
+    "CommandHistory"
+  ],
+  "useCases": [
+    "Placing and removing objects in an editor.",
+    "A property change that should be revertible.",
+    "Batched operations undone as one step."
+  ],
+  "gotchas": [
+    {
+      "title": "Redo re-runs Execute, it does not replay a recording",
+      "body": "So Execute must be repeatable and must not depend on the state it happens to find."
+    }
+  ],
+  "seeAlso": [
+    "CommandHistory",
+    "ActionCommand"
+  ]
+}

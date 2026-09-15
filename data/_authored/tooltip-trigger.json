@@ -1,0 +1,24 @@
+{
+  "id": "tooltip-trigger",
+  "summary": "Set the text on any element and hovering shows the tooltip. No code.",
+  "overview": [
+    "Drop it on a button, icon or panel and set the text. Hover shows it through the tooltip system automatically."
+  ],
+  "useCases": [
+    "Adding tooltips across a UI without a script per element.",
+    "Explaining icons that have no label."
+  ],
+  "gotchas": [
+    {
+      "title": "It needs a tooltip system in the scene",
+      "body": "Without one, hovering does nothing. The trigger holds text; it does not draw anything itself."
+    },
+    {
+      "title": "The text is fixed at author time",
+      "body": "For a tooltip whose content depends on state, call the system's Show directly instead."
+    }
+  ],
+  "seeAlso": [
+    "TooltipSystem"
+  ]
+}

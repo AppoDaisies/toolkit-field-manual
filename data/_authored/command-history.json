@@ -1,0 +1,28 @@
+{
+  "id": "command-history",
+  "summary": "Undo and redo stack. A new action after undoing clears the redo future.",
+  "overview": [
+    "Execute runs a command immediately and records it; Undo and Redo walk back and forth. A fresh Execute after undoing clears the redo stack — the standard rule every undo system follows, because the old future no longer applies."
+  ],
+  "useCases": [
+    "A level or map editor's undo.",
+    "A form with revert-changes.",
+    "Any tool where a mistake should be reversible."
+  ],
+  "params": [
+    {
+      "field": "maxHistorySize",
+      "tuning": "The oldest is discarded past this. Commands holding large data (a whole texture) make this a memory decision, not just a convenience one."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Only what you route through it can be undone",
+      "body": "Changing state directly is invisible to the stack and leaves undo doing something inconsistent."
+    }
+  ],
+  "seeAlso": [
+    "ICommand",
+    "ActionCommand"
+  ]
+}

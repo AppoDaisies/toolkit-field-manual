@@ -1,0 +1,28 @@
+{
+  "id": "tooltip-system",
+  "summary": "One tooltip panel that follows the cursor, shown from anywhere.",
+  "overview": [
+    "Add one to your Canvas, assign the panel and text, then call Show from anywhere — or just add a trigger to individual elements for zero-code hover tooltips."
+  ],
+  "useCases": [
+    "Hover descriptions on items and abilities.",
+    "Explaining a setting without cluttering the screen.",
+    "Contextual help on an editor-style UI."
+  ],
+  "params": [
+    {
+      "field": "cursorOffset",
+      "tuning": "In screen pixels. Enough that the cursor does not sit on top of the text, and not so much that the tooltip drifts off screen at the edges."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It does not keep itself on screen",
+      "body": "Near a screen edge the panel can extend past it. Clamping is not built in."
+    }
+  ],
+  "seeAlso": [
+    "TooltipTrigger",
+    "ToastNotification"
+  ]
+}

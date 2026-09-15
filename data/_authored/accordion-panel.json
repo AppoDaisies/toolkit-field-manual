@@ -1,0 +1,33 @@
+{
+  "id": "accordion-panel",
+  "summary": "Expand and collapse a region with an animated height that a layout group re-flows around.",
+  "overview": [
+    "Animates a content region open and closed by driving a LayoutElement's preferred height through the tween engine. Because it animates the LAYOUT value rather than the transform, a surrounding VerticalLayoutGroup re-flows around it — which is what makes a FAQ list or a settings category list work."
+  ],
+  "useCases": [
+    "FAQ or help sections that expand one at a time.",
+    "Settings grouped into collapsible categories.",
+    "A details panel that reveals more without a new screen."
+  ],
+  "params": [
+    {
+      "field": "content",
+      "tuning": "Its natural expanded height is captured, so the content must be laid out correctly before the first collapse."
+    },
+    {
+      "field": "animationDuration",
+      "tuning": "Every frame of the animation re-flows the parent layout, so long durations on a large list are the expensive case."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It animates layout, not the transform",
+      "body": "That is what lets neighbours move out of the way, and it means the cost is a layout rebuild per frame rather than a cheap position change."
+    }
+  ],
+  "seeAlso": [
+    "Tween",
+    "DeferredLayoutRebuilder",
+    "TabGroup"
+  ]
+}

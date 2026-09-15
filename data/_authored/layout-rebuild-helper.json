@@ -1,0 +1,26 @@
+{
+  "id": "layout-rebuild-helper",
+  "summary": "Forces an immediate layout rebuild, fixing the Content Size Fitter one-frame flicker.",
+  "overview": [
+    "Unity defers layout rebuilds to end of frame, so a runtime content change visibly shows the OLD size for one frame before snapping. This walks the hierarchy children-first and rebuilds immediately, which removes the flicker."
+  ],
+  "useCases": [
+    "Text or children added at runtime inside a Content Size Fitter.",
+    "Measuring a layout in the same frame you populated it.",
+    "Any visible one-frame pop after a content change."
+  ],
+  "gotchas": [
+    {
+      "title": "Children first, and that order matters",
+      "body": "Rebuilding a parent before its children measures stale child sizes, which is exactly the bug it exists to avoid."
+    },
+    {
+      "title": "Immediate means expensive",
+      "body": "Use it where the flicker is visible, not as a habit. The deferred rebuild exists for a reason."
+    }
+  ],
+  "seeAlso": [
+    "DeferredLayoutRebuilder",
+    "AccordionPanel"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "aspect-ratio-image-fitter",
+  "summary": "CSS object-fit for a RawImage: Contain letterboxes, Cover crops.",
+  "overview": [
+    "Contain sizes the image to fit entirely within its parent, letterboxed and never cropped. Cover fills the parent entirely, cropped and never letterboxed — pair that with a Mask or RectMask2D on the parent to actually clip the overflow. It reads the assigned texture's own aspect, so it adapts when the texture changes."
+  ],
+  "useCases": [
+    "Photo or thumbnail display where images vary in shape.",
+    "A full-bleed background that must not distort.",
+    "Video or streamed content of unknown aspect."
+  ],
+  "params": [
+    {
+      "field": "mode",
+      "tuning": "Cover without a mask on the parent overflows visibly. That pairing is not optional."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Cover needs a mask to look right",
+      "body": "It deliberately sizes the image beyond the parent. Without clipping, the overflow just draws over its neighbours."
+    }
+  ],
+  "seeAlso": [
+    "TextAutoShrinkFitter",
+    "MasonryLayoutGroup"
+  ]
+}

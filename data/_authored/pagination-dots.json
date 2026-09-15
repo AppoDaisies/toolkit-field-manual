@@ -1,0 +1,32 @@
+{
+  "id": "pagination-dots",
+  "summary": "The row of dots under a carousel, bindable to the toolkit's own paged views.",
+  "overview": [
+    "Usable standalone by calling Setup and SetCurrentIndex from any paging system, and built to bind directly to the toolkit's own card carousel and scroll snap so it just works with either."
+  ],
+  "useCases": [
+    "Page indicators under an onboarding carousel.",
+    "Showing position in a card deck.",
+    "Clickable dots for jumping directly to a page."
+  ],
+  "params": [
+    {
+      "field": "dotPrefab",
+      "tuning": "Optional. A custom dot needs an Image, and a Button too if you want it clickable."
+    },
+    {
+      "field": "clickable",
+      "tuning": "Firing the event is all it does — you still connect that to whatever should change page."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Binding does not survive the source changing page count",
+      "body": "Call Setup again if the number of pages changes at runtime."
+    }
+  ],
+  "seeAlso": [
+    "CardCarousel",
+    "ScrollSnap"
+  ]
+}

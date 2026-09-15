@@ -1,0 +1,31 @@
+{
+  "id": "toggle-switch",
+  "summary": "An iOS-style animated switch built on Unity's own Toggle, so navigation still works.",
+  "overview": [
+    "Built ON TOP of Unity's Toggle rather than reimplementing click, keyboard and gamepad navigation — so all of that keeps working exactly as on any other Toggle. This adds only the sliding handle and the background colour animation."
+  ],
+  "useCases": [
+    "Settings screens with on/off options.",
+    "A mobile-styled UI where a checkbox looks wrong.",
+    "Any toggle that should still be gamepad-navigable."
+  ],
+  "params": [
+    {
+      "field": "handleOffX",
+      "tuning": "The handle's local X in each state, in UI units. These are positions, not offsets, so they depend on your track size."
+    },
+    {
+      "field": "animationDuration",
+      "tuning": "Short. A switch that takes noticeable time feels laggy rather than smooth."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The Toggle is still the source of truth",
+      "body": "Read and write the Toggle's isOn, not this component. It only draws the state."
+    }
+  ],
+  "seeAlso": [
+    "SettingsManager"
+  ]
+}

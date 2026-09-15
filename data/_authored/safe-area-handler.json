@@ -1,0 +1,25 @@
+{
+  "id": "safe-area-handler",
+  "summary": "Keeps content inside the device safe area, and re-applies on rotation.",
+  "overview": [
+    "Drop it on a full-stretch RectTransform, usually a direct child of the Canvas, and it keeps content clear of notches, rounded corners and the home indicator. It re-applies automatically when resolution or orientation changes."
+  ],
+  "useCases": [
+    "Any phone build with a notch or rounded corners.",
+    "Handling rotation without a second layout.",
+    "Keeping controls away from the home indicator."
+  ],
+  "gotchas": [
+    {
+      "title": "Put it on a container, not on each element",
+      "body": "It adjusts the RectTransform it is on. One safe-area container with your UI inside is the pattern; one per element fights itself."
+    },
+    {
+      "title": "The Editor reports a full-screen safe area",
+      "body": "So it looks like it does nothing until you run on a device or use a device simulator."
+    }
+  ],
+  "seeAlso": [
+    "ScreenStackNavigator"
+  ]
+}

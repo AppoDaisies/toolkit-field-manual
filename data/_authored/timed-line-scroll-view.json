@@ -1,0 +1,36 @@
+{
+  "id": "timed-line-scroll-view",
+  "summary": "Auto-scrolling multi-line text synced to a timeline, with the current line highlighted.",
+  "overview": [
+    "The look popularised by synced lyrics in music apps: the current line glides into view and lights up while the rest dim. Equally useful for a teleprompter, a subtitle track, or any multi-line text that should advance itself."
+  ],
+  "useCases": [
+    "Song lyrics synced to audio.",
+    "A teleprompter script.",
+    "Subtitles that scroll rather than replacing a single line."
+  ],
+  "params": [
+    {
+      "field": "lines",
+      "tuning": "In ascending start-time order. Out of order, lines will be skipped rather than sorted."
+    },
+    {
+      "field": "audioSource",
+      "tuning": "Assigned, playback time comes from the audio, so the text cannot drift from the sound."
+    },
+    {
+      "field": "activeFontScale",
+      "tuning": "Scaling the active line re-flows the list, so large values make neighbours visibly shift."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Timings are positional, so editing lines invalidates them",
+      "body": "Inserting a line shifts everything after it. Regenerate rather than patching."
+    }
+  ],
+  "seeAlso": [
+    "TMPTimedHighlighter",
+    "FancyScrollView"
+  ]
+}

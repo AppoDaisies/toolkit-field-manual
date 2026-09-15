@@ -1,0 +1,35 @@
+{
+  "id": "marquee-text",
+  "summary": "Horizontally scrolling ticker text, for when shrinking the font is the wrong answer.",
+  "overview": [
+    "Scrolls text that is too long for its box, as the alternative to auto-shrinking — right for a long item name, a news ticker or a marquee credit line. It requires a RectMask2D on the object so the text is actually clipped."
+  ],
+  "useCases": [
+    "A long item or track name in a narrow strip.",
+    "A news or status ticker.",
+    "Credits or announcements scrolling past."
+  ],
+  "params": [
+    {
+      "field": "onlyScrollIfOverflowing",
+      "tuning": "Leave on. Text that already fits should sit still, not drift for no reason."
+    },
+    {
+      "field": "gapBetweenLoops",
+      "tuning": "Zero makes the end run straight into the beginning, which is unreadable."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It needs a RectMask2D",
+      "body": "Without one the text scrolls outside its box and over its neighbours."
+    },
+    {
+      "title": "Scrolling text is hard to read",
+      "body": "It is the right answer for a name or a ticker, and the wrong one for anything the player must read carefully."
+    }
+  ],
+  "seeAlso": [
+    "TextAutoShrinkFitter"
+  ]
+}

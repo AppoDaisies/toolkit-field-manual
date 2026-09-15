@@ -1,0 +1,28 @@
+{
+  "id": "input-glyph-swapper",
+  "summary": "Swaps a prompt icon between keyboard and gamepad the moment the player switches device.",
+  "overview": [
+    "Drop it on an Image showing something like \"Press [E] to interact\" and it swaps to the gamepad icon the instant the player picks up a controller, and back when they touch the keyboard or mouse — tracked by the shared device monitor, so every prompt in the game switches together."
+  ],
+  "useCases": [
+    "Interaction prompts that match the device in hand.",
+    "Tutorial hints that stay correct when a controller is connected mid-game.",
+    "Any UI showing a button icon."
+  ],
+  "params": [
+    {
+      "field": "targetImage",
+      "tuning": "Auto-found on this GameObject if left empty, which covers the usual case."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It swaps on the device KIND, not the specific pad",
+      "body": "Keyboard and mouse versus gamepad. Showing Xbox versus PlayStation glyphs is a further step this does not take."
+    }
+  ],
+  "seeAlso": [
+    "InputDeviceMonitor",
+    "LegacyInputManager"
+  ]
+}

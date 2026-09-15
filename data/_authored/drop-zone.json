@@ -1,0 +1,31 @@
+{
+  "id": "drop-zone",
+  "summary": "A target region that accepts or rejects a dragged item, optionally reparenting it.",
+  "overview": [
+    "The other half of dragging. It can filter by tag, so a weapon slot rejects a potion, and can reparent the dropped item so it stays where it landed."
+  ],
+  "useCases": [
+    "Equipment slots accepting only the right item type.",
+    "A bin or sell zone.",
+    "Puzzle targets that accept one specific piece."
+  ],
+  "params": [
+    {
+      "field": "acceptedTags",
+      "tuning": "Empty means accept anything. A typo here rejects everything, silently."
+    },
+    {
+      "field": "reparentOnDrop",
+      "tuning": "On, the item becomes a child and stays. Off, it returns to its origin even though the drop succeeded — which is what you want when the zone is a command rather than a container."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It needs to be raycastable",
+      "body": "A zone with no raycast target graphic is never under the pointer, so drops always fail."
+    }
+  ],
+  "seeAlso": [
+    "DraggableItem"
+  ]
+}

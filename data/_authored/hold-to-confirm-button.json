@@ -1,0 +1,32 @@
+{
+  "id": "hold-to-confirm-button",
+  "summary": "Press and hold to confirm, releasing early cancels. Logic only, visuals are yours.",
+  "overview": [
+    "The classic hold-to-delete pattern that protects against an accidental tap doing something destructive. Purely logic and timing — the visual is an optional progress object, so you can use a ring, a bar or nothing."
+  ],
+  "useCases": [
+    "Delete save, reset progress or any destructive action.",
+    "A hold-to-skip cutscene control.",
+    "Confirming on a touchscreen where mis-taps are common."
+  ],
+  "params": [
+    {
+      "field": "holdDuration",
+      "tuning": "Long enough to be deliberate, short enough not to feel broken. Around a second is typical."
+    },
+    {
+      "field": "resetOnRelease",
+      "tuning": "Off keeps partial progress, so a player can build up across several presses — which usually defeats the point of the guard."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Pointer exit cancels too",
+      "body": "Dragging off the button while holding counts as releasing, which is the conventional behaviour and surprising if you expected it to keep counting."
+    }
+  ],
+  "seeAlso": [
+    "RadialProgressBar",
+    "ModalDialog"
+  ]
+}

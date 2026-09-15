@@ -1,0 +1,36 @@
+{
+  "id": "draggable-item",
+  "summary": "A reusable draggable UI item that drops onto a zone or snaps back.",
+  "overview": [
+    "Not tied to any one system — inventory, kiosk menu, puzzle piece. On release it drops onto whichever DropZone is under the pointer if one accepts it, and otherwise snaps back to where it started. It reparents to the root Canvas while dragging so it draws above sibling panels."
+  ],
+  "useCases": [
+    "Dragging items between inventory slots.",
+    "A puzzle where pieces are dragged into place.",
+    "Reordering a list by dragging."
+  ],
+  "params": [
+    {
+      "field": "itemTag",
+      "tuning": "What a zone filters on. Leave empty and every zone with a filter rejects it."
+    },
+    {
+      "field": "draggingAlpha",
+      "tuning": "Below 1 so the item reads as \"in transit\" rather than placed."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Reparenting to the Canvas changes its layout context",
+      "body": "That is what stops it being clipped by a panel, and it means an item inside a layout group will not keep its layout size while dragged."
+    },
+    {
+      "title": "It goes through the EventSystem, not physics",
+      "body": "This is UI dragging. For picking real scene colliders, ClickToSelect is the 3D equivalent."
+    }
+  ],
+  "seeAlso": [
+    "DropZone",
+    "ClickToSelect"
+  ]
+}

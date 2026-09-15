@@ -1,0 +1,37 @@
+{
+  "id": "fly-to-ui-effect",
+  "summary": "The coins-arc-to-the-wallet reward effect, pooled and capped so a big reward stays cheap.",
+  "overview": [
+    "The classic mobile reward feedback: icons arc from a pickup toward a UI target and vanish. It answers the obvious performance question up front in two ways — icons come from the existing object pool rather than Instantiate and Destroy, and a burst is capped so awarding a thousand coins does not spawn a thousand icons."
+  ],
+  "useCases": [
+    "Coins or gems flying to the wallet on pickup.",
+    "XP orbs arcing to a level bar.",
+    "Any reward that should feel collected rather than just counted."
+  ],
+  "params": [
+    {
+      "field": "defaultMaxVisualIcons",
+      "tuning": "The cap that keeps a large reward affordable. Players read a dozen icons as \"lots\" just as well as a hundred."
+    },
+    {
+      "field": "burstStagger",
+      "tuning": "Zero launches them all at once, which reads as one blob rather than a stream."
+    },
+    {
+      "field": "arcHeight",
+      "tuning": "Zero is a straight line and looks mechanical. The arc is most of the effect."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Visual count is not the reward amount",
+      "body": "The cap means icons are decorative. Award the real value separately — never count the icons."
+    }
+  ],
+  "seeAlso": [
+    "ObjectPool",
+    "CurrencyWallet",
+    "FloatingCombatTextSpawner"
+  ]
+}

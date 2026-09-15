@@ -1,0 +1,32 @@
+{
+  "id": "pull-to-refresh",
+  "summary": "The familiar pull-down-at-the-top-of-a-list gesture, with a configurable indicator.",
+  "overview": [
+    "The gesture every mobile app uses: already scrolled to the very top, keep dragging down, and releasing past a threshold fires a refresh. Three ways to supply the indicator — a fully hand-built hierarchy, a prefab, or just a sprite it builds an Image from."
+  ],
+  "useCases": [
+    "Reloading a leaderboard or news feed.",
+    "Re-fetching server data in a mobile-style UI.",
+    "Any list a player expects to be able to refresh by pulling."
+  ],
+  "params": [
+    {
+      "field": "pullThreshold",
+      "tuning": "Too small and ordinary over-scroll triggers a refresh by accident."
+    },
+    {
+      "field": "refreshIndicator",
+      "tuning": "Takes priority over the prefab and sprite options. Supply only one of the three."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You must call EndRefresh",
+      "body": "It fires the event and waits. If your reload never signals completion, the indicator stays up forever."
+    }
+  ],
+  "seeAlso": [
+    "ScrollSnap",
+    "LoadingBarUI"
+  ]
+}

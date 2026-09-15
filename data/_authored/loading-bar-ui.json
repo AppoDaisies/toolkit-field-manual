@@ -1,0 +1,28 @@
+{
+  "id": "loading-bar-ui",
+  "summary": "A loading bar that can be driven by real async progress or simulated, with smoothing.",
+  "overview": [
+    "Plug-and-play loading bar, and its documentation is blunt about the thing most loading bars get wrong: there is no single progress number Unity computes for you. There are only two real sources — an AsyncOperation's progress, and your own count of completed steps — and this can be driven by either, or told to simulate."
+  ],
+  "useCases": [
+    "A scene-load bar driven by real progress.",
+    "A multi-step initialisation where you count the steps.",
+    "A deliberately simulated bar where there is nothing real to measure."
+  ],
+  "params": [
+    {
+      "field": "smoothSpeed",
+      "tuning": "The visible bar chases the real target, so it never jumps. This is why a bar that leaps from 0 to 90 still looks like it filled."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "A simulated bar is a lie, and sometimes the right one",
+      "body": "It is offered explicitly rather than pretended to be real progress. Use it when there is genuinely nothing to measure, not to hide that you did not wire the real thing."
+    }
+  ],
+  "seeAlso": [
+    "AsyncSceneLoader",
+    "RadialProgressBar"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "tab-group",
+  "summary": "A plain tab bar: pair each button with the panel it shows, and it handles the rest.",
+  "overview": [
+    "Pair each Button with the GameObject it should show and it handles the click wiring, panel switching and an active/inactive tint on each tab's own graphic. Nothing else in the toolkit does a plain tab bar — the navigator is a full-screen push and pop, which is a different shape."
+  ],
+  "useCases": [
+    "Inventory, equipment and stats as tabs on one screen.",
+    "Settings categories switched in place.",
+    "Any peer sections where back does not mean anything."
+  ],
+  "params": [
+    {
+      "field": "startIndex",
+      "tuning": "Which tab is selected on enable. Out of range and nothing is selected, which looks like a broken screen."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It tints the button's own graphic",
+      "body": "A tab whose Button has no target graphic shows no active state, even though switching works."
+    }
+  ],
+  "seeAlso": [
+    "ScreenStackNavigator",
+    "AccordionPanel"
+  ]
+}

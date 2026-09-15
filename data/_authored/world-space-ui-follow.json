@@ -1,0 +1,32 @@
+{
+  "id": "world-space-ui-follow",
+  "summary": "Keeps a UI element tracking a world transform, hiding it when behind the camera.",
+  "overview": [
+    "Drop it on a UI element under a Canvas and assign a world transform — for health bars, damage numbers and name tags that live in UI space but follow something in the world."
+  ],
+  "useCases": [
+    "Enemy health bars above their heads.",
+    "Name tags and quest markers.",
+    "Interaction prompts anchored to an object."
+  ],
+  "params": [
+    {
+      "field": "hideWhenBehindCamera",
+      "tuning": "Leave on. Without it, a target behind the camera projects to a mirrored on-screen position and the element appears in the wrong place."
+    },
+    {
+      "field": "worldOffset",
+      "tuning": "How you get a bar above a head rather than at its feet, without an empty child transform."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It does not scale with distance",
+      "body": "The element stays the same screen size however far away the target is. That is usually right for readability and wrong if you want depth."
+    }
+  ],
+  "seeAlso": [
+    "FloatingCombatTextSpawner",
+    "Health"
+  ]
+}

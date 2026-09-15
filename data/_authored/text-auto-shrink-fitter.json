@@ -1,0 +1,32 @@
+{
+  "id": "text-auto-shrink-fitter",
+  "summary": "The TMP auto-size settings that actually mean \"wrap first, then shrink, never overflow\", in one component.",
+  "overview": [
+    "TMP supports auto-sizing, but it takes several settings configured together — auto-sizing on, min and max font size, word wrap, and an overflow fallback — to behave the way people expect. This is exactly that bundle with clear fields."
+  ],
+  "useCases": [
+    "Item and ability names of varying length in a fixed box.",
+    "Localised text where translations are longer than the original.",
+    "Any label that must never overflow its container."
+  ],
+  "params": [
+    {
+      "field": "minFontSize",
+      "tuning": "The real decision. Set too low and long text becomes technically visible and practically unreadable."
+    },
+    {
+      "field": "allowWrapping",
+      "tuning": "On means wrap before shrinking, which keeps text larger. Off forces a single line and shrinks harder."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Shrinking is not always the right answer",
+      "body": "For a long name in a narrow strip, scrolling reads better than tiny text — MarqueeText is the alternative."
+    }
+  ],
+  "seeAlso": [
+    "MarqueeText",
+    "AspectRatioImageFitter"
+  ]
+}

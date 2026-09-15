@@ -1,0 +1,41 @@
+{
+  "id": "fancy-scroll-view",
+  "summary": "Virtualised scroll view with optional curved layouts, instantiating only what is visible.",
+  "overview": [
+    "Only ever instantiates enough cells to cover the visible viewport plus a small buffer, no matter how large the item count, recycling them as the index range moves. Distinct from the lightweight snap scroll, which does neither virtualisation nor curves."
+  ],
+  "useCases": [
+    "A list of thousands of items that must scroll smoothly.",
+    "A carousel where cells scale and fade toward the edges.",
+    "Any list where instantiating every row would be too slow."
+  ],
+  "params": [
+    {
+      "field": "cellPrefab",
+      "tuning": "A prefab, not a scene object — it is cloned into the pool."
+    },
+    {
+      "field": "bufferCells",
+      "tuning": "Extra cells kept beyond the visible count so they are not created mid-scroll. Two or three is usually enough; more just costs memory."
+    },
+    {
+      "field": "curve",
+      "tuning": "Carousel mode uses the two carousel settings; the others ignore them."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Cells are recycled, so never store state on them",
+      "body": "The same cell object represents different items as you scroll. All state belongs in your data, applied in the update callback."
+    },
+    {
+      "title": "Uniform cell size",
+      "body": "Virtualisation needs to know where each cell is without measuring it. Variable heights are what the masonry layout is for."
+    }
+  ],
+  "seeAlso": [
+    "ScrollSnap",
+    "MasonryLayoutGroup",
+    "TimedLineScrollView"
+  ]
+}

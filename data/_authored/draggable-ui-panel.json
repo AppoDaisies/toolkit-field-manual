@@ -1,0 +1,31 @@
+{
+  "id": "draggable-ui-panel",
+  "summary": "Makes a panel drag-to-move, optionally clamped to its parent.",
+  "overview": [
+    "Drop it on a panel, or on a title-bar child, to make it movable — for repositionable HUD elements and floating debug windows."
+  ],
+  "useCases": [
+    "A debug or inspector window the developer can move.",
+    "HUD elements the player can reposition.",
+    "A floating tool palette."
+  ],
+  "params": [
+    {
+      "field": "panelToMove",
+      "tuning": "Defaults to this object's own RectTransform. Set it to the panel root when the component lives on a title bar."
+    },
+    {
+      "field": "clampToParent",
+      "tuning": "Off, a panel can be dragged completely off screen and become unreachable."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Dragging fights a layout group",
+      "body": "A panel under a layout group has its position overwritten every rebuild. Drag panels that are not laid out."
+    }
+  ],
+  "seeAlso": [
+    "DraggableItem"
+  ]
+}

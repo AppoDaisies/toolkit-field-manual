@@ -1,0 +1,32 @@
+{
+  "id": "animated-number-counter",
+  "summary": "Ticks a displayed number toward its target instead of snapping.",
+  "overview": [
+    "Call SetValue instead of writing to the text and the number counts up or down smoothly, which reads far better for score and currency changes. The number format controls how the value itself renders; a separate format string adds a prefix or suffix."
+  ],
+  "useCases": [
+    "Score and currency that should feel earned.",
+    "A stat changing after an upgrade.",
+    "Any number where a jump would be missed by the player."
+  ],
+  "params": [
+    {
+      "field": "countDuration",
+      "tuning": "Fixed regardless of how big the change is, so a huge jump counts at the same speed as a small one."
+    },
+    {
+      "field": "format",
+      "tuning": "The prefix or suffix, with {0} standing in for the number — distinct from numberFormat, which decides how the number itself is written."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Rapid SetValue calls retarget rather than queue",
+      "body": "Each call redirects the animation to the new target from wherever it currently is, which is what you want and means intermediate values are never shown."
+    }
+  ],
+  "seeAlso": [
+    "CurrencyWallet",
+    "NumberFormatter"
+  ]
+}

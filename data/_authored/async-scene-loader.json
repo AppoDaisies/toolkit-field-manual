@@ -1,0 +1,28 @@
+{
+  "id": "async-scene-loader",
+  "summary": "Async scene loading with progress, and a minimum display time so the loading screen cannot flash.",
+  "overview": [
+    "Call LoadScene and wire the progress event to a bar. It enforces a minimum display time, so a load that would finish in one frame does not flash the loading screen — a genuinely fast load still shows for at least that long."
+  ],
+  "useCases": [
+    "A loading screen between levels.",
+    "Showing real progress rather than a fake bar.",
+    "Avoiding the jarring one-frame flash on fast loads."
+  ],
+  "params": [
+    {
+      "field": "minimumDisplayTime",
+      "tuning": "Long enough to read, short enough not to annoy. Around a second is typical."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Unity's progress stops at 0.9 until activation",
+      "body": "AsyncOperation.progress caps there when allowSceneActivation is false. A bar driven straight from it appears to stall just before finishing — which is why this one normalises it."
+    }
+  ],
+  "seeAlso": [
+    "LoadingBarUI",
+    "FadeManager"
+  ]
+}

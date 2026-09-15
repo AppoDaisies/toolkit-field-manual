@@ -1,0 +1,22 @@
+{
+  "id": "input-device-monitor",
+  "summary": "Tracks which KIND of device was used most recently, and fires when it changes.",
+  "overview": [
+    "Reports keyboard-and-mouse versus gamepad — not a specific device. This is what the glyph swapper reads to decide which icon to show, and the swap happens the instant the player touches the other device.",
+    "The actual per-frame polling lives in a separate runner component rather than in this static tracker, so the tracker needs no scene object of its own."
+  ],
+  "useCases": [
+    "Driving every prompt icon in the game from one source.",
+    "Hiding a mouse cursor when a gamepad is picked up.",
+    "Switching UI navigation behaviour by input kind."
+  ],
+  "gotchas": [
+    {
+      "title": "It reports the last used, not the connected",
+      "body": "A connected but untouched gamepad does not change the answer, which is what you want — the icons follow the player's hands, not the hardware."
+    }
+  ],
+  "seeAlso": [
+    "InputGlyphSwapper"
+  ]
+}

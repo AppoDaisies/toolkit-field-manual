@@ -1,0 +1,33 @@
+{
+  "id": "radial-progress-bar",
+  "summary": "Auto-configures an Image for radial fill and exposes a simple SetProgress.",
+  "overview": [
+    "Drop it on a UI Image and it sets up the Image Type and Fill Method for radial fill, exposing a 0-1 API — so you do not have to remember the setup steps every time."
+  ],
+  "useCases": [
+    "Ability cooldown rings.",
+    "A circular loading or charge indicator.",
+    "Hold-to-confirm progress."
+  ],
+  "params": [
+    {
+      "field": "fillSpeed",
+      "tuning": "Zero snaps instantly, which is what a cooldown usually wants. Easing suits a charge-up."
+    },
+    {
+      "field": "fillOrigin",
+      "tuning": "Top is conventional for cooldowns. Getting it wrong makes the ring fill from a strange place."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It reconfigures the Image it is on",
+      "body": "The sprite must have a shape suitable for radial fill. A rectangular sprite fills as a rotating wedge, which looks wrong."
+    }
+  ],
+  "seeAlso": [
+    "CooldownAbilitySlot",
+    "LoadingBarUI",
+    "HoldToConfirmButton"
+  ]
+}

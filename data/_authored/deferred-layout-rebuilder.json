@@ -1,0 +1,22 @@
+{
+  "id": "deferred-layout-rebuilder",
+  "summary": "Coalesces many same-frame rebuild requests into one rebuild at end of frame.",
+  "overview": [
+    "Five children each requesting a rebuild after their own content changed should not make the shared parent lay out five times in one frame. This collects the requests and does the work once."
+  ],
+  "useCases": [
+    "A list where many rows update in the same frame.",
+    "Several independent components sharing one layout parent.",
+    "Reducing layout cost on a busy UI without restructuring it."
+  ],
+  "gotchas": [
+    {
+      "title": "It is the opposite of the immediate helper",
+      "body": "Use this when many things change and cost is the problem; use the immediate rebuild when you need the size NOW. Mixing them up gives you either a flicker or wasted work."
+    }
+  ],
+  "seeAlso": [
+    "LayoutRebuildHelper",
+    "MasonryLayoutGroup"
+  ]
+}

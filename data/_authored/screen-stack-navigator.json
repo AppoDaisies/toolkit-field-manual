@@ -1,0 +1,41 @@
+{
+  "id": "screen-stack-navigator",
+  "summary": "Push, pop and replace panels like a mobile nav stack, with an optional slide.",
+  "overview": [
+    "Manages a stack of screen objects with an optional slide transition on the tween engine. The root screen can never be popped, matching how every mobile nav stack behaves, and Escape can act as the Android back button."
+  ],
+  "useCases": [
+    "Menu flows with a natural back behaviour.",
+    "Settings pages nested several levels deep.",
+    "Any UI where back should mean \"the previous screen\"."
+  ],
+  "params": [
+    {
+      "field": "rootScreen",
+      "tuning": "Must already be active in the scene. It is the floor of the stack and cannot be popped."
+    },
+    {
+      "field": "handleBackButton",
+      "tuning": "Escape stands in for the Android back button. Turn it off if Escape already means something else."
+    },
+    {
+      "field": "transitionDuration",
+      "tuning": "Zero is instant with no animation, which is right for a debug or settings UI."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Screens are toggled with SetActive",
+      "body": "So a screen's Awake runs once but OnEnable runs on every push. State that must reset per visit belongs in OnEnable."
+    },
+    {
+      "title": "It is a stack, not a tab bar",
+      "body": "For peer sections the player switches between freely, TabGroup is the right shape."
+    }
+  ],
+  "seeAlso": [
+    "TabGroup",
+    "AsyncSceneLoader",
+    "Tween"
+  ]
+}

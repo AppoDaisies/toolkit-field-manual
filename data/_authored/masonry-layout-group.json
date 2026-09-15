@@ -1,0 +1,28 @@
+{
+  "id": "masonry-layout-group",
+  "summary": "Pinterest-style grid where each child keeps its own height, packed into the shortest column.",
+  "overview": [
+    "Variable-height children packed into whichever column is currently shortest, unlike GridLayoutGroup's uniform cells. Deliberately a plain component with an explicit Rebuild rather than a full LayoutGroup subclass, which would fight Unity's own layout system over variable heights."
+  ],
+  "useCases": [
+    "An image gallery where pictures differ in aspect.",
+    "A card feed with entries of different lengths.",
+    "Any grid where forcing uniform cells would waste space."
+  ],
+  "params": [
+    {
+      "field": "columnCount",
+      "tuning": "Fixed, not responsive. Changing it for different screen widths is your code's job."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You must call Rebuild",
+      "body": "It does not reflow automatically when children change. That is the trade for not fighting Unity's layout system."
+    }
+  ],
+  "seeAlso": [
+    "RadialLayoutGroup",
+    "DeferredLayoutRebuilder"
+  ]
+}

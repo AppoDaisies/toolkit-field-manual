@@ -1,5 +1,5 @@
 {
-  "id": "flow-field",
+  "id": "flow-field-grid",
   "summary": "One field many agents share: compute once when the goal moves, not once per agent.",
   "overview": [
     "Places a grid in the world, auto-detects obstacles by physics overlap so you never hand-author a blocked-cell array, and computes a direction for every cell pointing toward the goal. Recompute when the goal moves — ONCE, not per agent — and every agent using the grid reads its own cell.",

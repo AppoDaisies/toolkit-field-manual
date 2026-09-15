@@ -1,0 +1,29 @@
+{
+  "id": "scroll-snap",
+  "summary": "Adds snap-to-nearest-item to an ordinary ScrollRect.",
+  "overview": [
+    "Drop it beside a ScrollRect whose content uses a layout group with evenly sized items. Dragging behaves exactly like a normal ScrollRect; releasing eases to the nearest item."
+  ],
+  "useCases": [
+    "A horizontal page or level selector.",
+    "An onboarding carousel.",
+    "Any list where items should land centred rather than anywhere."
+  ],
+  "params": [
+    {
+      "field": "snapSpeed",
+      "tuning": "Too slow feels unresponsive; too fast removes the sense of momentum entirely."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Items must be evenly sized",
+      "body": "The snap target is computed from uniform spacing. Mixed sizes land in the wrong places."
+    }
+  ],
+  "seeAlso": [
+    "PaginationDots",
+    "FancyScrollView",
+    "CardCarousel"
+  ]
+}

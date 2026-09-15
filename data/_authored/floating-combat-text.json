@@ -1,0 +1,22 @@
+{
+  "id": "floating-combat-text",
+  "summary": "One spawned number's animation: pop, drift, fade, then return itself to the pool.",
+  "overview": [
+    "The per-instance half: pop-in scale, drift according to its motion preset, fade over the last part of its life, then hand itself back to the spawner's pool. Kept separate from the spawner so a custom prefab can be built and tested on its own."
+  ],
+  "useCases": [
+    "A custom damage-number prefab with its own look.",
+    "Testing the animation without a combat scene.",
+    "Adding a motion style without touching the spawner."
+  ],
+  "gotchas": [
+    {
+      "title": "It returns itself to the pool",
+      "body": "Do not destroy one yourself — that removes an instance the pool still believes it owns."
+    }
+  ],
+  "seeAlso": [
+    "FloatingCombatTextSpawner",
+    "PoolableObject"
+  ]
+}

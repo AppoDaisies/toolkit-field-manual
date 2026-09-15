@@ -1,0 +1,27 @@
+{
+  "id": "modal-dialog",
+  "summary": "One reusable confirm dialog: call Show with a message and callbacks.",
+  "overview": [
+    "A singleton yes/no dialog, so you stop hand-building a new popup every time something needs confirming."
+  ],
+  "useCases": [
+    "Confirming a destructive action.",
+    "A quit or return-to-menu prompt.",
+    "Any yes/no question that does not deserve its own screen."
+  ],
+  "gotchas": [
+    {
+      "title": "It must never hide by deactivating its own GameObject",
+      "body": "A Singleton finds its instance with FindObjectOfType, which skips inactive objects — so deactivating itself makes Instance silently create a second, empty one. It hides with a CanvasGroup for exactly this reason. This was a real bug in this toolkit, not a hypothetical."
+    },
+    {
+      "title": "One dialog at a time",
+      "body": "Showing a second while one is open replaces the first, and the first's callbacks never fire."
+    }
+  ],
+  "seeAlso": [
+    "ToastNotification",
+    "Singleton<T>",
+    "HoldToConfirmButton"
+  ]
+}

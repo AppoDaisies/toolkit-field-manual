@@ -1,0 +1,36 @@
+{
+  "id": "radial-layout-group",
+  "summary": "Arranges children in a circle or arc. A real LayoutGroup, so it needs no calls.",
+  "overview": [
+    "Use it instead of a Horizontal or Vertical Layout Group to place children around a circle or along an arc. Unlike the masonry grid this IS a proper layout group, so children snap into place automatically with nothing to call."
+  ],
+  "useCases": [
+    "A radial or pie menu.",
+    "Ability icons around a character portrait.",
+    "A clock face or dial."
+  ],
+  "params": [
+    {
+      "field": "startAngle",
+      "tuning": "0 is up. Worth setting deliberately — a menu that starts at an odd angle looks unintentional."
+    },
+    {
+      "field": "arcDegrees",
+      "tuning": "360 spreads evenly all the way round; smaller values make a fan. At exactly 360 the first and last items sit on top of each other unless you account for it."
+    },
+    {
+      "field": "rotateChildrenToFaceOutward",
+      "tuning": "Right for a clock face or dial, wrong for icons that must stay upright to be readable."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "A full 360 arc overlaps its ends",
+      "body": "The first and last child land at the same angle. Use slightly less than 360, or accept the overlap."
+    }
+  ],
+  "seeAlso": [
+    "MasonryLayoutGroup",
+    "PaginationDots"
+  ]
+}

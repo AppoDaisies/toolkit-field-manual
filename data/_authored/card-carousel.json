@@ -1,0 +1,33 @@
+{
+  "id": "card-carousel",
+  "summary": "Swipeable stacked-card deck, with siblings peeking out behind the front card.",
+  "overview": [
+    "Next, Previous and GoTo ease every card to its position and scale for the new index, with the cards behind peeking out and shrinking. Drag-to-advance is deliberately not built in — wire a draggable or raw pointer delta on the front card to whichever method suits."
+  ],
+  "useCases": [
+    "A card-based character or level selector.",
+    "An onboarding flow of stacked pages.",
+    "A deck of items the player flicks through."
+  ],
+  "params": [
+    {
+      "field": "scaleStepDown",
+      "tuning": "How much each card behind shrinks. Small values read as a thick deck; large ones as a receding tunnel."
+    },
+    {
+      "field": "peekOffset",
+      "tuning": "How far the cards behind stick out. Zero hides them entirely and the deck reads as a single card."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Dragging is not included",
+      "body": "It exposes the methods and leaves the gesture to you, so it does not fight whatever input system you use."
+    }
+  ],
+  "seeAlso": [
+    "PaginationDots",
+    "ScrollSnap",
+    "DraggableItem"
+  ]
+}
