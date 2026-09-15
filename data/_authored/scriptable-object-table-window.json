@@ -1,0 +1,23 @@
+{
+  "id": "scriptable-object-table-window",
+  "summary": "Edit many ScriptableObjects of one type side by side, as spreadsheet rows.",
+  "overview": [
+    "Select several assets of the SAME concrete type and see every one as a row, editable in place — including dragging a different object reference straight into a cell, which works because the cells are real property fields rather than text."
+  ],
+  "whereToFind": "Toolkit ▸ ScriptableObject Table View",
+  "useCases": [
+    "Comparing and balancing twenty item assets at once.",
+    "Spotting the outlier in a set of enemy stats.",
+    "Bulk-editing without clicking through assets one at a time."
+  ],
+  "gotchas": [
+    {
+      "title": "One concrete type at a time",
+      "body": "A mixed selection has no common column set. Selecting a base type and its subclasses will not work either."
+    }
+  ],
+  "seeAlso": [
+    "CsvToScriptableObjectImporter",
+    "GameDataAsset"
+  ]
+}

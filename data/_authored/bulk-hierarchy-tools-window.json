@@ -1,0 +1,23 @@
+{
+  "id": "bulk-hierarchy-tools-window",
+  "summary": "Two batch operations applied to each selected object individually, not to the selection as a group.",
+  "overview": [
+    "Add a child to each selected object, or wrap each in its own empty parent. The word EACH is the point: Unity's own Group Selected bundles everything under one shared new parent, which is deliberately not what this does."
+  ],
+  "whereToFind": "Toolkit ▸ Bulk Hierarchy Tools",
+  "useCases": [
+    "Giving fifty props an empty pivot parent each, for rotation offsets.",
+    "Adding a marker or collider child to every selected object at once.",
+    "Restructuring a hierarchy without doing it fifty times by hand."
+  ],
+  "gotchas": [
+    {
+      "title": "Each, not the group",
+      "body": "Twenty selected objects gives twenty new parents, not one. If you wanted one, Unity's Ctrl+Alt+G already does that."
+    }
+  ],
+  "seeAlso": [
+    "BatchAssetRenamerWindow",
+    "GreyboxPlacerWindow"
+  ]
+}

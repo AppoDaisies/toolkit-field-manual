@@ -1,0 +1,22 @@
+{
+  "id": "todo-scanner-window",
+  "summary": "Lists every TODO, FIXME and HACK under Assets, with click-to-open.",
+  "overview": [
+    "Scans every .cs file under Assets for TODO, FIXME and HACK comments and lists them, each jumping straight to the line. The point is that notes left in code are invisible until something gathers them up."
+  ],
+  "whereToFind": "Toolkit ▸ TODO Scanner",
+  "useCases": [
+    "A pre-release sweep for unfinished work.",
+    "Finding the HACKs before they become someone else's problem.",
+    "A quick sense of where the rough edges are in an unfamiliar project."
+  ],
+  "gotchas": [
+    {
+      "title": "It reads every .cs file under Assets",
+      "body": "Including any third-party package that lives there, which can bury your own notes in someone else's."
+    }
+  ],
+  "seeAlso": [
+    "FindReferencesWindow"
+  ]
+}

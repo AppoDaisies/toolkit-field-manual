@@ -1,0 +1,23 @@
+{
+  "id": "read-only-attribute",
+  "summary": "Shows a serialized field in the Inspector but stops it being edited.",
+  "overview": [
+    "For a live debug view — a current state, a computed value — that should be visible but not hand-edited. The attribute type must live OUTSIDE any Editor folder so scripts using it still compile in a player build; only the drawer is editor-only. That split is forced by Unity, not a style choice."
+  ],
+  "useCases": [
+    "Showing a component's current state while it runs.",
+    "Displaying a computed value without letting someone break it.",
+    "Marking a field that is set by code rather than by hand."
+  ],
+  "gotchas": [
+    {
+      "title": "It only stops the Inspector, not code",
+      "body": "The field is still writable from script, and still serialized. It is a UI hint, not a guarantee."
+    }
+  ],
+  "seeAlso": [
+    "ButtonAttribute",
+    "LayerAttribute",
+    "TagAttribute"
+  ]
+}

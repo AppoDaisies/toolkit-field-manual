@@ -1,0 +1,48 @@
+{
+  "id": "watering-can-controller",
+  "summary": "Pours based purely on the spout's own tilt, so anything can drive the can.",
+  "overview": [
+    "Pouring is derived from how far the SPOUT has tilted away from the orientation it started in — there is no \"is pouring\" flag to wire and no assumption about what rotates the can. A mouse drag, a VR grip or an animation can all drive the same transform and this just works."
+  ],
+  "useCases": [
+    "A gardening or farming interaction where tilting pours.",
+    "A VR build where a hand grip rotates the can directly.",
+    "Any pouring or aiming action driven by rotation rather than a button."
+  ],
+  "params": [
+    {
+      "field": "spout",
+      "tuning": "Both where water comes from and the transform whose tilt is measured. Parent it correctly or pouring reads from the wrong axis."
+    },
+    {
+      "field": "tiltStartAngle",
+      "tuning": "Degrees from the spout's OWN starting orientation, not from world up — which is why the can can start at any angle."
+    },
+    {
+      "field": "arcResolution",
+      "tuning": "Sample points along the stream, used for both drawing and for detecting plants. Too few and the stream can step over a small plant."
+    },
+    {
+      "field": "hitRadius",
+      "tuning": "Roughly the stream's thickness. Together with arcResolution this decides what counts as watered."
+    },
+    {
+      "field": "gravityDroop",
+      "tuning": "Purely cosmetic curve on the stream, but it also moves the sample points, so it changes what gets watered."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Tilt is relative to where the spout started",
+      "body": "Reparenting or re-orienting the can at runtime changes the reference. Start it in its resting pose."
+    },
+    {
+      "title": "Watering is sample-point based, not a physical stream",
+      "body": "Plants are found by checking a radius around each sample. A plant between two samples with a small hit radius is missed."
+    }
+  ],
+  "seeAlso": [
+    "PlantWaterLevel",
+    "WaterPourVisual"
+  ]
+}

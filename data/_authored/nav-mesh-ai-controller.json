@@ -1,0 +1,37 @@
+{
+  "id": "nav-mesh-ai-controller",
+  "summary": "Patrol, chase and flee pre-wired over Unity's NavMeshAgent.",
+  "overview": [
+    "A wrapper around NavMeshAgent with the three usual behaviours already written, so dropping it on an agent gives real navmesh movement without hand-coding any of them. It needs an actual BAKED NavMesh in the scene."
+  ],
+  "useCases": [
+    "Standard enemy patrol and chase behaviour.",
+    "An NPC that flees when threatened.",
+    "Switching behaviour from a perception event by setting state."
+  ],
+  "params": [
+    {
+      "field": "state",
+      "tuning": "The whole behaviour switch. Drive it from perception rather than setting it once."
+    },
+    {
+      "field": "fleeDistance",
+      "tuning": "A straight-line target, so a flee can pick a point the navmesh cannot reach, and the agent gets as close as it can."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It needs a baked NavMesh, not just a NavMeshAgent",
+      "body": "Without one the agent never moves and Unity says little about why. Window > AI > Navigation is the first place to look."
+    },
+    {
+      "title": "Flee is away-from, not to-safety",
+      "body": "It picks a point in the opposite direction, which can be a dead end. Real escape routes need a smarter destination."
+    }
+  ],
+  "seeAlso": [
+    "SteeringAgent",
+    "ClickToMoveNavigator",
+    "WaypointPatrol"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "racing-ai-controller",
+  "summary": "Racing AI that slows into corners, rubber-bands and recovers when stuck, all through an internal state machine.",
+  "overview": [
+    "Assign an ordered waypoint path and it drives: easing off into corners, catching up or backing off relative to a rubber-band target, and reversing out when stuck. The behaviour switching is a StateMachine wired internally, so no custom IState code is needed to use it."
+  ],
+  "useCases": [
+    "AI opponents on a lap-based track.",
+    "Keeping a race close with rubber-banding.",
+    "A demo or attract-mode car that drives itself."
+  ],
+  "params": [
+    {
+      "field": "corneringSlowdownStrength",
+      "tuning": "Zero ignores corners entirely and the AI understeers into walls. This is the main difference between a car that looks driven and one that looks scripted."
+    },
+    {
+      "field": "rubberBandTarget",
+      "tuning": "Usually the player. Unassigned, rubber-banding is off and the AI races at its own pace."
+    },
+    {
+      "field": "rubberBandMaxBoost",
+      "tuning": "Keep it modest. Large values are visible to the player as cheating."
+    },
+    {
+      "field": "stuckTimeThreshold",
+      "tuning": "Too short and normal slow corners trigger a recovery reverse mid-race."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It follows waypoints, it does not know the track",
+      "body": "There is no collision or racing line awareness. A path that cuts a corner too tightly drives into the barrier every lap."
+    },
+    {
+      "title": "Rubber-banding is noticeable if overdone",
+      "body": "A large boost keeps races close and makes the player's skill feel irrelevant. Small values, or only applying it when far behind, reads better."
+    }
+  ],
+  "seeAlso": [
+    "RaceProgressTracker",
+    "StateMachine",
+    "WaypointPatrol"
+  ]
+}

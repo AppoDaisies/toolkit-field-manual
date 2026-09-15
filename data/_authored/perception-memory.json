@@ -1,0 +1,32 @@
+{
+  "id": "perception-memory",
+  "summary": "Alert, suspicious, unaware — with timed decay, so losing sight is not instant forgetting.",
+  "overview": [
+    "Turns a momentary \"can see\" into believable awareness. Losing sight drops to suspicious after a delay and to unaware after another, rather than a guard forgetting you the instant you break line of sight."
+  ],
+  "useCases": [
+    "Stealth guards that search where they last saw you.",
+    "An enemy that stays alert briefly after you break cover.",
+    "Driving alert music or UI from a named state."
+  ],
+  "params": [
+    {
+      "field": "alertToSuspiciousDelay",
+      "tuning": "How long full alert persists after losing sight. Too short and breaking line of sight feels like a cheat."
+    },
+    {
+      "field": "suspiciousToUnawareDelay",
+      "tuning": "The search window. This is where a guard should be investigating the last known position."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You have to tick it",
+      "body": "Decay happens in Tick, exposed so a self-test can drive it in exact increments without Play mode. Nothing decays if nobody calls it."
+    }
+  ],
+  "seeAlso": [
+    "VisionCone",
+    "Blackboard"
+  ]
+}

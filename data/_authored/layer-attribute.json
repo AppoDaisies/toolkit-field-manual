@@ -1,0 +1,21 @@
+{
+  "id": "layer-attribute",
+  "summary": "Draws an int field as a Layer dropdown.",
+  "overview": [
+    "Put it above an int and the Inspector shows the layer picker instead of a number, so nobody has to remember that layer 9 is Interactable."
+  ],
+  "useCases": [
+    "A layer index field that should be picked, not typed.",
+    "Avoiding a wrong layer number that fails silently at runtime."
+  ],
+  "gotchas": [
+    {
+      "title": "A layer index, not a LayerMask",
+      "body": "They are different things. A mask is a bitfield of many layers; this picks one index. Use a LayerMask field when you mean several."
+    }
+  ],
+  "seeAlso": [
+    "TagAttribute",
+    "ReadOnlyAttribute"
+  ]
+}

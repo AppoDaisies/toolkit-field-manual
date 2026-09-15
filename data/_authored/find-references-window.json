@@ -1,0 +1,27 @@
+{
+  "id": "find-references-window",
+  "summary": "\"What actually uses this?\" across open scenes and the project, before you rename or delete it.",
+  "overview": [
+    "Drag in an asset or a scene object and search either or both: open scenes, which walks every GameObject and inspects each component, and the project, which searches asset files. The question to ask before a rename, a delete or a refactor."
+  ],
+  "whereToFind": "Toolkit ▸ Find References (also on the Assets context menu)",
+  "useCases": [
+    "Checking whether an asset is safe to delete.",
+    "Finding every prefab that uses a material before changing it.",
+    "Tracking down which scene object holds a reference you cannot find."
+  ],
+  "gotchas": [
+    {
+      "title": "Only OPEN scenes are searched for scene references",
+      "body": "A reference in an unopened scene will not be found. \"No references\" means none in what is currently loaded, plus the project search."
+    },
+    {
+      "title": "A project search reads asset files, so it is not instant",
+      "body": "On a large project this takes a moment. It is still much faster than finding out the hard way."
+    }
+  ],
+  "seeAlso": [
+    "TodoScannerWindow",
+    "ScriptableObjectTableWindow"
+  ]
+}

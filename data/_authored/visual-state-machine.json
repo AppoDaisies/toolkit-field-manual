@@ -1,0 +1,68 @@
+{
+  "id": "visual-state-machine",
+  "summary": "Author a state machine as a node graph asset, then drive it at runtime with one component.",
+  "overview": [
+    "A state machine you draw rather than write. States, transitions, conditions and parameters live in an asset with no scene dependency; a runner component builds a real StateMachine from it at runtime and binds each node to a component that implements IState.",
+    "The split is the point: the graph is data a designer can edit, and the behaviour behind each node is ordinary code."
+  ],
+  "features": [
+    {
+      "name": "Runner",
+      "what": "the component you put in a scene. Builds and drives the machine from an asset."
+    },
+    {
+      "name": "Graph asset",
+      "what": "the reusable definition — states, transitions and parameters, no scene references."
+    },
+    {
+      "name": "Graph data",
+      "what": "the nodes, transitions, conditions and parameters the asset is made of."
+    },
+    {
+      "name": "Graph editor",
+      "what": "the node canvas: drag nodes, connect transitions, edit conditions."
+    }
+  ],
+  "useCases": [
+    "Enemy behaviour a designer can retune without a programmer.",
+    "Game flow — lobby, countdown, playing, round over — authored visually.",
+    "Reusing one behaviour graph across several enemy types."
+  ],
+  "walkthrough": [
+    {
+      "name": "Asset",
+      "what": "The graph this runner drives. Several runners can share one asset."
+    },
+    {
+      "name": "Node binding",
+      "what": "Each graph node resolves to a component implementing IState. A node bound to a component that does not implement it logs a warning and does nothing."
+    },
+    {
+      "name": "Parameters",
+      "what": "Named values transitions test against, in the same spirit as Animator parameters."
+    },
+    {
+      "name": "Conditions",
+      "what": "All clauses on a transition must pass, matching the Animator's AND default."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The graph is shared, the state is not",
+      "body": "Two runners on one asset each build their own machine. Editing the asset changes both; runtime state stays per runner."
+    },
+    {
+      "title": "A node needs a bound component that implements IState",
+      "body": "Otherwise the node exists in the graph and does nothing at runtime, with only a warning to say so."
+    },
+    {
+      "title": "A MonoBehaviour state still has its own Update",
+      "body": "Unity keeps calling it independently of the machine. Put per-frame work in Tick only, or it runs twice."
+    }
+  ],
+  "seeAlso": [
+    "StateMachine",
+    "IState",
+    "Blackboard"
+  ]
+}

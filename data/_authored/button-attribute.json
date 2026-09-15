@@ -1,0 +1,27 @@
+{
+  "id": "button-attribute",
+  "summary": "Draws a button in the Inspector that calls a parameterless method.",
+  "overview": [
+    "Put it above a parameterless method and a button appears in the Inspector that calls it — for Regenerate, Test or Reset actions, without writing a custom Editor. The drawer that renders it lives in an Editor folder, which is why the attribute and its drawer are two files."
+  ],
+  "useCases": [
+    "A Regenerate button on a procedural component.",
+    "Triggering a debug action without entering Play mode.",
+    "Testing a method without a temporary test script."
+  ],
+  "gotchas": [
+    {
+      "title": "Parameterless methods only",
+      "body": "There is nowhere to enter arguments. A method needing input needs a proper custom editor."
+    },
+    {
+      "title": "Changes made by the method need marking dirty",
+      "body": "Editing a serialized value from the button will not persist unless the method marks the object dirty itself."
+    }
+  ],
+  "seeAlso": [
+    "ReadOnlyAttribute",
+    "LayerAttribute",
+    "TagAttribute"
+  ]
+}

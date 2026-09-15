@@ -1,0 +1,20 @@
+{
+  "id": "greybox-block-marker",
+  "summary": "Marks a stamped block so the placer can recognise its own output.",
+  "overview": [
+    "A tag component the placer puts on what it stamps, so it can tell its own blocks from everything else in the scene. Nothing to configure."
+  ],
+  "useCases": [
+    "Letting the placer identify and replace blocks it created.",
+    "Selecting every greyboxed block without hand-picking them."
+  ],
+  "gotchas": [
+    {
+      "title": "It is a marker, not behaviour",
+      "body": "Removing it does not delete the block; it just stops the placer recognising it."
+    }
+  ],
+  "seeAlso": [
+    "GreyboxPlacerWindow"
+  ]
+}

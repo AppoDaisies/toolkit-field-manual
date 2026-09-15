@@ -1,0 +1,27 @@
+{
+  "id": "blackboard",
+  "summary": "Shared key-value AI memory, so perception, combat and movement need no references to each other.",
+  "overview": [
+    "A plain data store for facts an AI's systems all need — last known player position, is alerted, current target. Deliberately not tied to any AI architecture: a squad, a single enemy or a dialogue system can all use it, which is why the dialogue runner gates conditional choices on one."
+  ],
+  "useCases": [
+    "Perception writing a last-known position that movement reads.",
+    "Gating a dialogue choice on a quest flag.",
+    "Squad memory shared between several agents."
+  ],
+  "gotchas": [
+    {
+      "title": "Keys are strings, checked by nobody",
+      "body": "A typo writes a new key rather than failing. Constants are worth the small effort here."
+    },
+    {
+      "title": "It has no notion of staleness",
+      "body": "A last-known position stays until something overwrites it. Expiry is the perception layer's job, not the store's."
+    }
+  ],
+  "seeAlso": [
+    "PerceptionMemory",
+    "DialogueRunner",
+    "VisionCone"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "race-progress-tracker",
+  "summary": "Tracks which checkpoint is next and counts laps, by distance rather than trigger colliders.",
+  "overview": [
+    "Drop it on any racer with an ordered list of checkpoints. It is distance-based rather than trigger-based, so there is no collider setup track-side, and it always requires the NEXT expected checkpoint — which is what stops a racer cutting the course and still scoring a lap."
+  ],
+  "useCases": [
+    "Lap counting and position in a race.",
+    "Preventing course-cutting without physical gates.",
+    "Driving a lap and checkpoint HUD."
+  ],
+  "params": [
+    {
+      "field": "checkpoints",
+      "tuning": "Order matters — it is the ordering that enforces the route."
+    },
+    {
+      "field": "checkpointRadius",
+      "tuning": "Too small and a fast car passes through between frames and never registers the checkpoint."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "A fast racer can tunnel past a small radius",
+      "body": "Checks happen per frame at a position, so at high speed the racer can be past the radius before it is ever tested. Make the radius generous."
+    }
+  ],
+  "seeAlso": [
+    "RacingAIController",
+    "WaypointPatrol"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "player-prefs-editor-window",
+  "summary": "Lists and edits PlayerPrefs, which Unity's own API cannot enumerate.",
+  "overview": [
+    "PlayerPrefs has no \"list all keys\" method, which makes an editor window impossible to build against the API directly. On Windows the prefs live in the registry under HKCU\\Software, one value per key with a hashed suffix, so this reads them from there and gives you the list Unity does not."
+  ],
+  "whereToFind": "Toolkit ▸ PlayerPrefs Editor",
+  "useCases": [
+    "Inspecting what a build actually saved.",
+    "Clearing one stale key without wiping everything.",
+    "Reproducing a bug by editing a saved value directly."
+  ],
+  "gotchas": [
+    {
+      "title": "Key discovery is platform-specific",
+      "body": "It reads the Windows registry. On another platform the list will be empty even though the prefs exist — the Unity API gives nothing to enumerate with."
+    },
+    {
+      "title": "Keys are stored with a hash suffix",
+      "body": "The registry name is not the key name. That translation is why this cannot be a simple list."
+    }
+  ],
+  "seeAlso": [
+    "SaveSystem",
+    "SettingsManager"
+  ]
+}

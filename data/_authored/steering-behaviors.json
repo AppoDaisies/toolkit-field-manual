@@ -1,0 +1,22 @@
+{
+  "id": "steering-behaviors",
+  "summary": "Reynolds-style steering maths. Each function returns a force to add, not a position.",
+  "overview": [
+    "Classic steering formulas as plain static maths: seek, flee, arrive, wander and flock. Each returns a steering FORCE to add to current velocity, not a velocity or a position — that is the distinction that makes them composable. SteeringAgent is the component that applies them."
+  ],
+  "useCases": [
+    "Flocking birds, fish or crowds.",
+    "Smooth pursuit that curves rather than turning on the spot.",
+    "Combining behaviours by summing their forces with weights."
+  ],
+  "gotchas": [
+    {
+      "title": "A force, not a velocity",
+      "body": "Using the return value as a velocity gives movement that snaps rather than steers. It is meant to be added to what the agent is already doing."
+    }
+  ],
+  "seeAlso": [
+    "SteeringAgent",
+    "TargetingStrategies"
+  ]
+}

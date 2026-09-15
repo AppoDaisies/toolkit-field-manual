@@ -1,0 +1,68 @@
+{
+  "id": "flow-field",
+  "summary": "One field many agents share: compute once when the goal moves, not once per agent.",
+  "overview": [
+    "Places a grid in the world, auto-detects obstacles by physics overlap so you never hand-author a blocked-cell array, and computes a direction for every cell pointing toward the goal. Recompute when the goal moves — ONCE, not per agent — and every agent using the grid reads its own cell.",
+    "That is the whole reason to prefer it over per-agent pathfinding for crowds: a hundred agents cost one field, not a hundred searches."
+  ],
+  "features": [
+    {
+      "name": "Flow field",
+      "what": "the algorithm itself, plain C# so it is testable without a scene."
+    },
+    {
+      "name": "Flow field grid",
+      "what": "places the grid in the world and bakes obstacles from physics."
+    },
+    {
+      "name": "Flow field agent",
+      "what": "drops on any number of movers; each samples its current cell and follows the arrow."
+    }
+  ],
+  "useCases": [
+    "A crowd or swarm all heading for the same place.",
+    "Tower-defence enemies streaming toward the base.",
+    "Any case where per-agent pathfinding is the frame's biggest cost."
+  ],
+  "walkthrough": [
+    {
+      "name": "Width / Height",
+      "what": "Cells across and deep. Cost is proportional to width times height, which is why the defaults are modest."
+    },
+    {
+      "name": "Cell Size",
+      "what": "World size of one cell. Larger cells mean a cheaper field and coarser paths."
+    },
+    {
+      "name": "Obstacle Mask",
+      "what": "Layers checked when baking which cells are blocked."
+    },
+    {
+      "name": "Obstacle Check Radius / Height",
+      "what": "The box used to test each cell. Too small and thin walls are missed; too large and doorways close up."
+    },
+    {
+      "name": "Recompute Field",
+      "what": "Call when the goal moves. Once per move, not once per agent."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It is only worth it for many agents",
+      "body": "For one or two, a normal path search is cheaper and more accurate. The win comes entirely from sharing one field."
+    },
+    {
+      "title": "Obstacles are baked, not live",
+      "body": "A door that opens after the bake is still a wall to the field. Re-bake when the layout changes."
+    },
+    {
+      "title": "Agents follow cell arrows, so paths look grid-like",
+      "body": "Movement snaps toward cell directions rather than curving smoothly. Smaller cells help; smoothing on the agent helps more."
+    }
+  ],
+  "seeAlso": [
+    "GridPathfinder",
+    "DijkstraPathfinder",
+    "SteeringAgent"
+  ]
+}

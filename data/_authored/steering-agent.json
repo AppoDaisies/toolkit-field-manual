@@ -1,0 +1,44 @@
+{
+  "id": "steering-agent",
+  "summary": "Drop-in mover over the steering behaviours, including flocking.",
+  "overview": [
+    "Pick a mode, assign a target where one is needed, and it handles velocity integration and facing. It moves the transform directly with no Rigidbody, matching the kinematic style the rest of the toolkit uses."
+  ],
+  "useCases": [
+    "A flock of birds or a school of fish.",
+    "A wandering ambient creature.",
+    "Pursuit that curves naturally rather than turning on the spot."
+  ],
+  "params": [
+    {
+      "field": "maxForce",
+      "tuning": "The turn-rate control. Lower makes wider, more graceful arcs; higher makes sharp, insect-like turns."
+    },
+    {
+      "field": "target",
+      "tuning": "Required for Seek, Flee and Arrive, ignored by Wander. Unassigned in a seek mode, the agent simply sits still."
+    },
+    {
+      "field": "flockNeighborRadius",
+      "tuning": "Flocking looks for other agents within this radius every update, so a large radius in a big flock is the expensive part."
+    },
+    {
+      "field": "separationWeight",
+      "tuning": "Of the three flocking weights, this is the one that stops the flock collapsing into one point. Raise it first if they clump."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "No collision avoidance",
+      "body": "Steering is about direction, not obstacles. Flocks fly through walls unless you add avoidance yourself."
+    },
+    {
+      "title": "Flocking cost grows with flock size",
+      "body": "Each agent looks for neighbours, so cost rises faster than linearly. Keep the radius tight for large flocks."
+    }
+  ],
+  "seeAlso": [
+    "SteeringBehaviors",
+    "NavMeshAIController"
+  ]
+}

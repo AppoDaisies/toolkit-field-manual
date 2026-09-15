@@ -1,0 +1,28 @@
+{
+  "id": "csv-to-scriptable-object-importer",
+  "summary": "Turns a spreadsheet into one data asset per row, matching the header to field names.",
+  "overview": [
+    "Point it at a CSV whose header row matches field names on a GameDataAsset subclass and it creates or updates one asset per row — fifty item stats becoming fifty balanced assets in a click rather than fifty hand edits."
+  ],
+  "whereToFind": "Toolkit ▸ CSV to ScriptableObject Importer",
+  "useCases": [
+    "Importing a designer's balance spreadsheet as item or enemy assets.",
+    "Re-importing after a balance pass, updating rather than duplicating.",
+    "Bulk-creating assets that would be tedious to make by hand."
+  ],
+  "gotchas": [
+    {
+      "title": "Header names must match the field names",
+      "body": "A column with no matching field is ignored silently. Check the first import carefully."
+    },
+    {
+      "title": "It updates existing assets by id",
+      "body": "Which is what makes a re-import safe — and means changing an id in the sheet creates a new asset rather than renaming one."
+    }
+  ],
+  "seeAlso": [
+    "CsvTableWindow",
+    "GameDataAsset",
+    "ItemDefinition"
+  ]
+}

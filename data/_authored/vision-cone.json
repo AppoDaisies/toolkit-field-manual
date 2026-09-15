@@ -1,0 +1,40 @@
+{
+  "id": "vision-cone",
+  "summary": "Field-of-view detection with a line-of-sight check, so hiding behind a wall actually works.",
+  "overview": [
+    "Detects targets within a range and a view angle, then raycasts to confirm nothing blocks the line — which is what makes cover meaningful. Genre-agnostic: a stealth game uses it directly, a racing AI ignores it entirely."
+  ],
+  "useCases": [
+    "Guard detection in a stealth game.",
+    "An enemy noticing the player entering a room.",
+    "Any \"can this see that\" question with obstacles in between."
+  ],
+  "params": [
+    {
+      "field": "eye",
+      "tuning": "Assign a head or eye transform. Left at the object's origin, a guard sees from its feet and cover stops working properly."
+    },
+    {
+      "field": "fieldOfViewAngle",
+      "tuning": "The FULL angle, so 90 means 45 degrees either side."
+    },
+    {
+      "field": "obstacleMask",
+      "tuning": "What blocks sight. Forgetting to include walls is the reason guards see through them."
+    },
+    {
+      "field": "scanInterval",
+      "tuning": "Zero scans every frame. For a dozen guards, a tenth of a second is invisible to the player and much cheaper."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The occlusion ray goes to the target's origin",
+      "body": "A target whose pivot is at its feet can be \"hidden\" by a low wall its head is clearly above. Aim at a chest-height point if that matters."
+    }
+  ],
+  "seeAlso": [
+    "PerceptionMemory",
+    "Blackboard"
+  ]
+}

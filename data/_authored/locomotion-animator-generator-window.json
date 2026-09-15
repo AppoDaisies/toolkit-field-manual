@@ -1,0 +1,27 @@
+{
+  "id": "locomotion-animator-generator-window",
+  "summary": "Builds an Idle/Walk/Run blend tree plus Jump and Hang/Climb from a folder of clips.",
+  "overview": [
+    "Point it at a folder of AnimationClips, or an object with clips as sub-assets such as an imported FBX, and it builds a basic locomotion Animator Controller — matching clips by name with a case-insensitive substring test, so an imported set usually needs no renaming."
+  ],
+  "whereToFind": "Toolkit ▸ Locomotion Animator Generator",
+  "useCases": [
+    "Getting a working controller from a freshly imported animation set.",
+    "Rebuilding a controller after the clip set changes.",
+    "Skipping the manual blend-tree setup while prototyping."
+  ],
+  "gotchas": [
+    {
+      "title": "Name matching is a substring test",
+      "body": "A clip called \"WalkBackwards\" matches \"walk\". Check what it picked before assuming the blend tree is right."
+    },
+    {
+      "title": "It generates a basic controller, not a finished one",
+      "body": "Thresholds, transitions and exit times are a starting point. It saves the tedious part, not the tuning."
+    }
+  ],
+  "seeAlso": [
+    "LocomotionAnimatorDriver",
+    "LocomotionStateMachine"
+  ]
+}

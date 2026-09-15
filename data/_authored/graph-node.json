@@ -1,0 +1,28 @@
+{
+  "id": "graph-node",
+  "summary": "One node in a hand-placed waypoint graph, with per-edge weights that need not be distance.",
+  "overview": [
+    "For open or irregular layouts where a uniform grid does not fit. Edge weight defaults to real distance but can be overridden per edge, so a route can be expensive for reasons that are not physical — danger, difficult terrain, a toll. That override is what makes the graph worth having over a grid."
+  ],
+  "useCases": [
+    "A patrol or navigation network through an irregular building.",
+    "Routes weighted by danger rather than length.",
+    "A small hand-authored graph where baking a navmesh is overkill."
+  ],
+  "params": [
+    {
+      "field": "edges",
+      "tuning": "Directed as authored. Two-way travel means adding the edge on both nodes — a very common omission."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Edges are one-way unless you add both",
+      "body": "A path that works outbound and fails on the return is almost always a missing reverse edge."
+    }
+  ],
+  "seeAlso": [
+    "DijkstraPathfinder",
+    "WaypointPatrol"
+  ]
+}

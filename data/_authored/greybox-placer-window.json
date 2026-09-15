@@ -1,0 +1,28 @@
+{
+  "id": "greybox-placer-window",
+  "summary": "Click in the Scene view to stamp grid-snapped blocks for fast level blockouts.",
+  "overview": [
+    "Click in the Scene view, in Edit mode, to stamp grid-snapped blocks. Deliberately NOT a ProBuilder replacement: it stamps whole prefabs and primitives and does not edit meshes — no vertices, faces, extrude or boolean."
+  ],
+  "whereToFind": "Toolkit ▸ Greybox Placer",
+  "useCases": [
+    "Blocking out a level's shape before any art exists.",
+    "Quickly walling off a space to test traversal.",
+    "Stamping a repeated prefab on a grid without dragging each one."
+  ],
+  "gotchas": [
+    {
+      "title": "Edit mode only",
+      "body": "It stamps into the scene, which is not something to do in Play mode — the results would be discarded on exit."
+    },
+    {
+      "title": "It places, it does not model",
+      "body": "For anything needing a shape that is not a prefab or primitive, this is the wrong tool and ProBuilder is the right one."
+    }
+  ],
+  "seeAlso": [
+    "GreyboxBlockMarker",
+    "LevelTransformGuidance",
+    "GroundSnapper"
+  ]
+}

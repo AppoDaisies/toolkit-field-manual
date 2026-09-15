@@ -1,0 +1,21 @@
+{
+  "id": "tag-attribute",
+  "summary": "Draws a string field as a Tag dropdown.",
+  "overview": [
+    "Put it above a string and the Inspector shows the tag picker instead of a text box — which removes the typo that makes a CompareTag silently never match."
+  ],
+  "useCases": [
+    "A required-tag field on a trigger or detector.",
+    "Any string that must be one of the project's tags."
+  ],
+  "gotchas": [
+    {
+      "title": "It does not validate an existing value",
+      "body": "A tag renamed or deleted later leaves the old string in the field. The dropdown shows valid choices; it does not fix stale ones."
+    }
+  ],
+  "seeAlso": [
+    "LayerAttribute",
+    "TriggerEventRelay"
+  ]
+}

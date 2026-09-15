@@ -1,0 +1,23 @@
+{
+  "id": "csv-table-window",
+  "summary": "Load a CSV, edit it as a grid inside Unity, save it back.",
+  "overview": [
+    "A lightweight in-Editor balancing sheet: load a CSV, edit values in a grid, save. It exists so a small tweak does not mean an Excel or Sheets round-trip every time."
+  ],
+  "whereToFind": "Toolkit ▸ CSV Table Editor",
+  "useCases": [
+    "Tweaking balance numbers without leaving Unity.",
+    "Reviewing a data file quickly without opening a spreadsheet.",
+    "Editing data that is about to be imported into assets."
+  ],
+  "gotchas": [
+    {
+      "title": "It edits the file, not your assets",
+      "body": "Changing a CSV does not update assets already generated from it. Re-run the importer afterwards."
+    }
+  ],
+  "seeAlso": [
+    "CsvToScriptableObjectImporter",
+    "CsvUtility"
+  ]
+}

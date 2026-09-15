@@ -1,0 +1,23 @@
+{
+  "id": "dijkstra-pathfinder",
+  "summary": "Shortest path over a GraphNode network, returning nodes you can feed straight into a patrol.",
+  "overview": [
+    "Searches a hand-placed node graph rather than a grid. The result is a plain list of nodes, and since each is a MonoBehaviour you can feed their transforms straight into WaypointPatrol.SetWaypoints to actually move something along the route."
+  ],
+  "useCases": [
+    "Routing an NPC through a building along authored waypoints.",
+    "Finding the cheapest path where cost is not distance.",
+    "Pathing without baking a navmesh."
+  ],
+  "gotchas": [
+    {
+      "title": "Dijkstra, not A*, so it explores in all directions",
+      "body": "Correct and simple, with no heuristic to aim it at the goal. On a large graph a grid A* or a flow field will be faster."
+    }
+  ],
+  "seeAlso": [
+    "GraphNode",
+    "GridPathfinder",
+    "FlowField"
+  ]
+}
