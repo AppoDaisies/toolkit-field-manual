@@ -392,6 +392,9 @@
     .groupjump a { font-size: 11px; padding: 3px 8px; }
   }
 
+  /* Zero-size anchor so a link to a system's primary type still resolves inside its entry. */
+  .alias-anchor { display: block; height: 0; scroll-margin-top: 78px; }
+
   .empty-state { padding: 60px 0; text-align: center; color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; }
 
   footer.pagefoot {

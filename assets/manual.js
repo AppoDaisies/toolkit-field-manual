@@ -315,6 +315,13 @@
     // A system entry (one tool, many scripts) carries its parts INSIDE its own dropdown, grouped
     // into the sections a user thinks in - Heatmap, Clipping - rather than as sibling rows on the
     // page. Each part is a full entry in its own right, just nested one level down.
+    // A system is named after the tool, so its entry no longer carries the id of the TYPE it was
+    // built from. Keep that id reachable, or a link to the primary (and its own catalog row) lands
+    // nowhere. An empty anchor is enough - openFromHash opens the containing <details>.
+    if (e.systemPrimaryId && e.systemPrimaryId !== e.id) {
+      out.push('<span class="alias-anchor" id="' + esc(e.systemPrimaryId) + '"></span>');
+    }
+
     if (e.systemSections && e.systemSections.length) {
       out.push('<div class="sysparts">' + e.systemSections.map(function (sec) {
         return '<section class="syssec">' +

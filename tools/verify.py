@@ -184,13 +184,17 @@ def main():
     # A composite SYSTEM entry has no skeleton of its own - it is assembled from a primary type at
     # build time. Alias its id to that primary's skeleton so authored prose addressed to the system
     # is still held to the same anti-invention checks (every apiNotes key must be a real member).
+    SYSTEM_ALIAS_IDS = set()
     try:
         from build import SYSTEMS  # noqa
         from extract import slugify as _slug  # noqa
         for spec in SYSTEMS:
             prim_id = _slug(spec["primary"])
             if prim_id in skel:
-                skel.setdefault(_slug(spec["name"]), skel[prim_id])
+                alias_id = _slug(spec["name"])
+                if alias_id not in skel:
+                    skel[alias_id] = skel[prim_id]
+                    SYSTEM_ALIAS_IDS.add(alias_id)
     except Exception as exc:  # noqa: BLE001
         warn(f"[schema] could not alias system entries to their primary type: {exc}")
 
@@ -359,7 +363,10 @@ def main():
         from build import fold_satellites, infer_kind  # noqa
         shadow = []
         for sid, sk in skel.items():
-            if sid in _OMIT:
+            # Skip the system aliases added above: they point at the SAME dict as their primary, so
+            # including them put two identically-named types in one file and the fold then reported
+            # the primary as folded into itself.
+            if sid in _OMIT or sid in SYSTEM_ALIAS_IDS:
                 continue
             c = dict(sk)
             c["entryKind"] = infer_kind(c)
@@ -403,7 +410,12 @@ def main():
                     if n not in real:
                         err(f"[GROUPS] {cat}: group '{label_}' lists '{n}', which is not a type in "
                             f"this category - renamed or deleted?")
-        ungrouped = sorted(real - set(seen) - omitted_names - set(folded_names) - set(system_members))
+        # Compare on the BASE name: the group map and SYSTEMS specs write "ScriptableVariable" while
+        # the extracted type is "ScriptableVariable<T>", and a literal set difference misses that.
+        def base(n):
+            return n.split("<")[0]
+        accounted = {base(x) for x in set(seen) | omitted_names | set(folded_names) | set(system_members)}
+        ungrouped = sorted(n for n in real if base(n) not in accounted)
         if ungrouped:
             warn(f"[groups] {cat}: {len(ungrouped)} type(s) fall into 'Other' because the group map "
                  f"has not been updated: {', '.join(ungrouped)}")

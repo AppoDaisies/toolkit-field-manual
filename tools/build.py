@@ -138,29 +138,21 @@ GROUP_ORDER = {
             "RadialProgressBar"]),
         ("Motion & Effects", ["FlyToUIEffect", "AnimatedNumberCounter", "MarqueeText", "WorldSpaceUIFollow"]),
         ("Floating Combat Text", ["FloatingCombatText", "FloatingCombatTextSpawner"]),
-        ("Device & Platform", ["InputGlyphSwapper", "InputDeviceMonitor", "InputDeviceMonitorRunner"]),
+        ("Device & Platform", ["InputGlyphSwapper", "InputDeviceMonitor"]),
         ("Undo / Redo", ["CommandHistory", "ICommand"]),
     ],
     "EditorTools": [
-        ("Inspector Attributes", ["ButtonAttribute", "ButtonAttributeEditor", "LayerAttribute", "LayerDrawer",
-            "ReadOnlyAttribute", "ReadOnlyDrawer", "TagAttribute", "TagDrawer"]),
-        ("Data & Assets", ["CsvTableWindow", "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow",
-            "PlayerPrefsEditorWindow", "BatchAssetRenamerWindow"]),
-        ("Scene & Project Tools", ["LevelTransformGuidance", "TaskRecaller", "BulkHierarchyToolsWindow", "FindReferencesWindow",
-            "TodoScannerWindow", "GreyboxPlacerWindow", "GreyboxBlockMarker",
-            "LocomotionAnimatorGeneratorWindow"]),
+        ("Level & Scene Tools", ["LevelTransformGuidance", "BulkHierarchyToolsWindow", "GreyboxPlacerWindow",
+            "GreyboxBlockMarker", "LocomotionAnimatorGeneratorWindow"]),
+        ("Project & Assets", ["BatchAssetRenamerWindow", "FindReferencesWindow", "TodoScannerWindow", "CsvTableWindow",
+            "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow", "PlayerPrefsEditorWindow"]),
+        ("Inspector Attributes", ["ButtonAttribute", "LayerAttribute", "ReadOnlyAttribute", "TagAttribute"]),
+        ("Workflow", ["TaskRecaller"]),
     ],
     "AI": [
-        ("Pathfinding", ["NavMeshAIController", "DijkstraPathfinder", "GraphNode", "FlowField", "FlowFieldGrid",
-            "FlowFieldAgent"]),
-        # Split the way you actually meet it: the thing you put in a scene, the graph
-        # data it reads, and the editor that authors that data.
-        ("Visual State Machine", [
-            ("Runtime", ["VisualStateMachineRunner", "VisualStateMachineAsset"]),
-            ("Graph data", ["VSMNode", "VSMTransition", "VSMCondition", "VSMParameter"]),
-            ("Editor", ["VisualStateMachineEditorWindow", "VSMGraphView", "VSMGraphNode"]),
-        ]),
-        ("Perception", ["VisionCone", "PerceptionMemory", "Blackboard"]),
+        ("Pathfinding", ["NavMeshAIController", "DijkstraPathfinder", "GraphNode", "FlowField"]),
+        ("Behaviour", ["VisualStateMachine", "Blackboard"]),
+        ("Perception", ["VisionCone", "PerceptionMemory"]),
         ("Steering", ["SteeringAgent", "SteeringBehaviors"]),
         ("Racing", ["RacingAIController", "RaceProgressTracker"]),
     ],
@@ -170,8 +162,7 @@ GROUP_ORDER = {
         ("Turn-Based Combat", ["TurnManager", "TurnBasedActor", "ActionDefinition", "TargetingStrategies", "UtilityAIBrain"]),
     ],
     "Kiosk": [
-        ("QR Codes", ["QrCodeGenerator", "QrDataEncoder", "QrMatrixBuilder", "QrFormatInfo", "QrGaloisField",
-            "QrVersionInfo"]),
+        ("QR Codes", ["QrCodeGenerator"]),
         ("Runtime & Resources", ["StreamingAssetLoader", "VideoPlayerLifecycleManager", "MemoryUsageWatchdog",
             "LruCache<TKey, TValue>"]),
         ("Session & Attract", ["IdleAttractManager", "SessionTimeoutManager"]),
@@ -183,27 +174,18 @@ GROUP_ORDER = {
         ("Patrol & Spawning", ["WaypointPatrol", "WaveSpawner"]),
         ("Interaction", ["InteractionDetector", "IInteractable"]),
     ],
-    "PageCurl": [
-        ("Core", ["BookPageCurl", "PageCurlMeshBuilder", "PageContent", "ICurlSurface", "ITextureDisplay"]),
-        ("Canvas (UI)", ["PageCurlGraphic", "PageCurlDragHandler", "RawImageTextureDisplay"]),
-        ("World (3D)", ["PageCurlMeshRenderer", "PageCurlDragHandler3D", "MeshRendererTextureDisplay"]),
-    ],
     "Gameplay": [
         ("Health & Damage", ["Health", "IDamageable", "ProjectileMover"]),
         ("Progression & Economy", ["CurrencyWallet", "CurrencyDefinition", "CooldownAbilitySlot", "CheckpointRespawn"]),
         ("World Interaction", ["TriggerEventRelay", "TriggerEventRelay2D", "WateringCanController", "PlantWaterLevel"]),
     ],
-    "PathBuilder": [
-        ("Spline & Path", ["SplinePath", "SplineFollower", "PathBuilder"]),
-        ("Editor Integration", ["PathBuilderEditor", "SplinePathEditor", "SplinePathSceneEditing"]),
-    ],
     "ScriptableObjects": [
-        ("Variables", ["ScriptableVariable<T>", "FloatVariable", "IntVariable", "BoolVariable"]),
+        ("Variables", ["ScriptableVariables"]),
         ("Events", ["GameEvent", "GameEventListener"]),
         ("Runtime Sets", ["GameObjectRuntimeSet", "RuntimeSetRegistrar"]),
     ],
     "Tweening": [
-        ("Tween Core", ["Tween", "TweenRunner", "TweenHandle", "TweenExtensions"]),
+        ("Tween Core", ["Tween"]),
         ("Fades & Transitions", ["FadeManager", "ShaderTransitionManager"]),
         ("Punch", ["PunchEffects"]),
     ],
@@ -342,6 +324,65 @@ def infer_kind(e):
 #   sections  ordered (section title, [member type names]) - every remaining member must appear
 SYSTEMS = [
     {
+        "name": "VisualStateMachine",
+        "cat": "AI",
+        "primary": "VisualStateMachineRunner",
+        "group": "Behaviour",
+        "sections": [
+            ("Graph asset", ["VisualStateMachineAsset"]),
+            ("Graph data", ["VSMNode", "VSMTransition", "VSMCondition", "VSMParameter"]),
+            ("Graph editor", ["VisualStateMachineEditorWindow", "VSMGraphView", "VSMGraphNode"]),
+        ],
+    },
+    {
+        "name": "FlowField",
+        "cat": "AI",
+        "primary": "FlowFieldGrid",
+        "group": "Pathfinding",
+        "sections": [
+            ("Supporting scripts", ["FlowField", "FlowFieldAgent"]),
+        ],
+    },
+    {
+        "name": "PageCurl",
+        "cat": "PageCurl",
+        "primary": "BookPageCurl",
+        "group": None,
+        "sections": [
+            ("Shared core", ["PageCurlMeshBuilder", "PageContent", "ICurlSurface", "ITextureDisplay"]),
+            ("Canvas (UI) book", ["PageCurlGraphic", "PageCurlDragHandler", "RawImageTextureDisplay"]),
+            ("World (3D) book", ["PageCurlMeshRenderer", "PageCurlDragHandler3D", "MeshRendererTextureDisplay"]),
+        ],
+    },
+    {
+        "name": "PathBuilder",
+        "cat": "PathBuilder",
+        "primary": "PathBuilder",
+        "group": None,
+        "sections": [
+            ("Path core", ["SplinePath", "SplineFollower"]),
+            ("Editor integration", ["PathBuilderEditor", "SplinePathEditor", "SplinePathSceneEditing"]),
+        ],
+    },
+    {
+        "name": "Tween",
+        "cat": "Tweening",
+        "primary": "Tween",
+        "group": "Tween Core",
+        "sections": [
+            ("Supporting scripts", ["TweenRunner", "TweenHandle", "TweenExtensions"]),
+        ],
+    },
+    {
+        "name": "ScriptableVariables",
+        "cat": "ScriptableObjects",
+        "primary": "ScriptableVariable",
+        "group": "Variables",
+        "sections": [
+            ("Concrete variable assets", ["FloatVariable", "IntVariable", "BoolVariable"]),
+        ],
+    },
+    {
         # A SMALL system: one window, no tabs, two supporting scripts. No sub-tool sections to make -
         # one plain "Supporting scripts" heading is the whole structure it needs.
         "name": "TaskRecaller",
@@ -401,16 +442,41 @@ def build_systems(entries):
             print(f"  WARN system '{spec['name']}': unknown member(s) {', '.join(missing)}")
 
         composite = dict(primary)
-        composite["id"] = slugify(spec["name"])
+        # A system is named after the TOOL, and that name sometimes already belongs to one of its
+        # own parts - the FlowField system contains a type called FlowField. Two elements sharing an
+        # id breaks the anchor for both, so fall back to the primary's id, which is always unique.
+        taken = {e["id"] for e in entries}
+        wanted = slugify(spec["name"])
+        member_ids = {m["id"] for sec in sections for m in sec["entries"]}
+        composite["id"] = wanted if wanted not in (taken - {primary["id"]}) or wanted not in member_ids \
+            else primary["id"]
+        if composite["id"] != wanted:
+            print(f"  note system '{spec['name']}': id '{wanted}' is taken by one of its own parts, "
+                  f"using '{composite['id']}'")
         composite["name"] = spec["name"]
         composite["cat"] = spec["cat"]
         composite["isSystem"] = True
         composite["systemOf"] = primary["name"]
+        composite["systemPrimaryId"] = primary["id"]
         composite["systemSections"] = sections
         absorbed.add(primary["id"])
         composites.append(composite)
 
     return composites, absorbed
+
+
+# Types that belong inside another entry but cannot be folded automatically, because the fold rule
+# only reaches types declared in the SAME file. A [ReadOnly] attribute and the ReadOnlyDrawer that
+# renders it are one feature split across two files only because Unity forces a PropertyDrawer to
+# live in an Editor/ folder - exactly the split documented in the Unity lessons, and not something a
+# reader should have to reassemble.
+FOLD_INTO = {
+    "ButtonAttributeEditor": "ButtonAttribute",
+    "LayerDrawer": "LayerAttribute",
+    "ReadOnlyDrawer": "ReadOnlyAttribute",
+    "TagDrawer": "TagAttribute",
+    "InputDeviceMonitorRunner": "InputDeviceMonitor",
+}
 
 
 def fold_satellites(entries):
@@ -446,6 +512,19 @@ def fold_satellites(entries):
             primary.setdefault("parts", []).append(e)
             e["foldedInto"] = primary["id"]
             folded[e["id"]] = primary["id"]
+
+    # Explicit cross-file folds, applied after the same-file pass.
+    by_name = {e["name"].split("<")[0]: e for e in entries}
+    for child_name, owner_name in FOLD_INTO.items():
+        child, owner = by_name.get(child_name), by_name.get(owner_name)
+        if child is None or owner is None:
+            print(f"  WARN FOLD_INTO: {child_name} -> {owner_name} - one of them does not exist")
+            continue
+        if "foldedInto" in child:
+            continue
+        owner.setdefault("parts", []).append(child)
+        child["foldedInto"] = owner["id"]
+        folded[child["id"]] = owner["id"]
 
     # Keep a part's own order stable and predictable: enums first (they are what a reader is
     # usually looking up), then structs, then classes, each alphabetically.
@@ -544,12 +623,24 @@ def main():
 
     # Systems are assembled AFTER folding so each member keeps the enums declared in its own file.
     composites, absorbed = build_systems(top_level)
+    # The catalog drives global search and the headline count, so it must list the COMPOSITE and
+    # treat everything it absorbed - including the primary the composite was built from - as a child
+    # pointing at it. Without the primary here, searching "LevelTransformGuidanceWindow" landed on a
+    # row that no longer exists, and "LevelTransformGuidance" could not be found at all.
     absorbed_by = {}
     for c in composites:
         for sec in c["systemSections"]:
             for m in sec["entries"]:
                 absorbed_by[m["id"]] = c["id"]
+        primary_id = c.get("systemPrimaryId")
+        if primary_id and primary_id != c["id"]:
+            absorbed_by[primary_id] = c["id"]
         absorbed_by.pop(c["id"], None)
+    # A composite whose id fell back to its primary's REPLACES that primary in the catalog - the
+    # primary is absorbed, so listing it instead of the composite would show the helper's name
+    # ("FlowFieldGrid") where the tool's name ("FlowField") belongs.
+    composite_ids = {c["id"] for c in composites}
+    catalog_entries = [e for e in entries if e["id"] not in composite_ids] + composites
     if composites:
         top_level = [e for e in top_level if e["id"] not in absorbed] + composites
         print(f"build: {len(composites)} system entr(y/ies) absorbed {len(absorbed)} type(s)")
@@ -620,7 +711,7 @@ def main():
             "search": (e["name"] + " " + e["src_ns"] + " " + summarise(e)).lower(),
         }, **({"parent": e["foldedInto"]} if "foldedInto" in e
               else {"parent": absorbed_by[e["id"]]} if e["id"] in absorbed_by
-              else {})) for e in entries],
+              else {})) for e in catalog_entries],
     }
     with open(os.path.join(REPO, "assets", "catalog.js"), "w", encoding="utf-8") as fh:
         fh.write("window.FM_INDEX = ")
