@@ -1,0 +1,40 @@
+{
+  "id": "grid-placer",
+  "summary": "Click a cell to place a prefab snapped to the grid, with a hover highlight.",
+  "overview": [
+    "Click or tap a cell and the assigned prefab is placed there, snapped to the grid, with a highlight following the cursor. Assign a GridComponent and it works immediately; it raycasts a ground plane, so that plane needs to be on the mask layers."
+  ],
+  "useCases": [
+    "Placing towers, buildings or walls on a playfield.",
+    "A level editor where the designer clicks to paint props.",
+    "Any build mode that needs snapping without a bespoke input path."
+  ],
+  "params": [
+    {
+      "field": "raycastMask",
+      "tuning": "Must include the layer of the ground collider under the grid. If nothing places, this is almost always why."
+    },
+    {
+      "field": "raycastCamera",
+      "tuning": "Leave empty to use Camera.main, which is fine until a scene has more than one camera."
+    },
+    {
+      "field": "clickOccupiedRemoves",
+      "tuning": "Turns a second click into a delete, which is usually what a build mode wants."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "3D ground-plane raycasting only",
+      "body": "It targets an XZ ground plane. A 2D (XY) setup needs a different raycast path."
+    },
+    {
+      "title": "It needs a collider to hit",
+      "body": "The grid gizmo is not a surface. Without a plane or terrain collider beneath it, every click misses."
+    }
+  ],
+  "seeAlso": [
+    "GridComponent",
+    "GridPathfinder"
+  ]
+}

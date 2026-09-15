@@ -1,0 +1,32 @@
+{
+  "id": "frame-budget-processor",
+  "summary": "Queue work instead of doing it all at once, spread across frames to avoid a hitch.",
+  "overview": [
+    "Enqueue actions rather than running a big batch in one frame, and it drains a fixed number per frame. Good for spawning or initialising many objects, migrating a large save, or generating a big procedural grid. Not a singleton on purpose — add one per queue when you want separately paced budgets."
+  ],
+  "useCases": [
+    "Spawning a large wave without a visible stall.",
+    "Rebuilding a big UI list a few rows per frame.",
+    "Running a one-off migration on load while the loading screen animates."
+  ],
+  "params": [
+    {
+      "field": "maxActionsPerFrame",
+      "tuning": "The whole tuning surface. Too low and a large queue takes visibly long; too high and you have reinvented the hitch."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Work is spread, not made cheaper",
+      "body": "A thousand expensive actions still cost the same total. This buys a smooth frame rate, not less work."
+    },
+    {
+      "title": "Order is preserved, completion time is not predictable",
+      "body": "Actions run in the order queued, but how long the queue takes depends on frame rate. Do not assume it finishes within a fixed number of seconds."
+    }
+  ],
+  "seeAlso": [
+    "UpdateManager",
+    "ObjectPool"
+  ]
+}

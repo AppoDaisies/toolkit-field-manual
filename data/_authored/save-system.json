@@ -1,0 +1,27 @@
+{
+  "id": "save-system",
+  "summary": "File-based save and load through JsonUtility, as a structured alternative to PlayerPrefs.",
+  "overview": [
+    "Writes a serializable object to a file and reads it back, using Unity's built-in JsonUtility. A structured alternative to PlayerPrefs for anything bigger than a setting. Kept dependency-free on purpose — data JsonUtility cannot handle goes through JsonHelper instead, which is a separate tool so this one needs no package."
+  ],
+  "useCases": [
+    "Player progress, inventory contents or level completion.",
+    "Any save where PlayerPrefs would mean flattening an object into keys.",
+    "A save format you can open and read while debugging."
+  ],
+  "gotchas": [
+    {
+      "title": "JsonUtility cannot serialize Dictionaries, interfaces or polymorphic types",
+      "body": "They come back empty rather than erroring, which looks like data loss. Use JsonHelper for those."
+    },
+    {
+      "title": "Files are plain JSON on disk",
+      "body": "Readable while debugging, and equally readable to a player who wants to edit their save. Anything that must not be tampered with needs its own protection."
+    }
+  ],
+  "seeAlso": [
+    "JsonHelper",
+    "GameDataAsset",
+    "SettingsManager"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "game-data-registry",
+  "summary": "Generic id-to-asset lookup for GameDataAsset subclasses. Subclass it concretely to create the asset.",
+  "overview": [
+    "Turns a saved string id back into the asset it names. Unity does not allow [CreateAssetMenu] on a generic type, so make a concrete subclass to actually create one — ItemRegistry is exactly that."
+  ],
+  "useCases": [
+    "Resolving ids from a save file back into assets.",
+    "Listing every item or enemy of a type for a debug menu or shop.",
+    "Keeping asset lookup in one place rather than Resources.Load calls."
+  ],
+  "params": [
+    {
+      "field": "entries",
+      "tuning": "An explicit list, not an automatic scan. Anything missing here is invisible to lookup, with no error."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You cannot create the generic asset directly",
+      "body": "That is a Unity limitation, not an oversight. Subclass it concretely and put [CreateAssetMenu] on the subclass."
+    }
+  ],
+  "seeAlso": [
+    "GameDataAsset",
+    "ItemRegistry"
+  ]
+}

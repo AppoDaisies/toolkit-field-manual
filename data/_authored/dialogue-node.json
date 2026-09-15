@@ -1,0 +1,25 @@
+{
+  "id": "dialogue-node",
+  "summary": "One line of dialogue as a ScriptableObject: speaker, portrait, text, and either a next node or choices.",
+  "overview": [
+    "A scene-independent asset holding one line, chained into a conversation by pointing nextNode at the following line or by listing choices. Same relationship to DialogueRunner that VisualStateMachineAsset has to its runner: the tree is data, editable without touching code or a scene."
+  ],
+  "useCases": [
+    "Authoring a whole conversation as assets a writer can edit without opening a scene.",
+    "Reusing a shared line (a shopkeeper greeting) from several branches.",
+    "Version-controlling dialogue as individual files so two people can edit different branches."
+  ],
+  "gotchas": [
+    {
+      "title": "Choices take precedence over nextNode",
+      "body": "If a node has any choices, nextNode is not used. Leaving a stale nextNode on a branching node is harmless but misleading to read."
+    },
+    {
+      "title": "Nothing detects a cycle",
+      "body": "Pointing a node back at an earlier one is legal and useful for a loop, but a branch with no exit will never end the conversation."
+    }
+  ],
+  "seeAlso": [
+    "DialogueRunner"
+  ]
+}

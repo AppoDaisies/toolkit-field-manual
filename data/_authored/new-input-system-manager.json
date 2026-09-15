@@ -1,0 +1,27 @@
+{
+  "id": "new-input-system-manager",
+  "summary": "The same input facade backed by the Input System package, polling devices directly.",
+  "overview": [
+    "Same surface as LegacyInputManager, backed by the Input System package. It polls Keyboard, Mouse and Gamepad directly rather than requiring a pre-authored .inputactions asset, so there is nothing to set up beyond installing the package.",
+    "The whole file is inside an ENABLE_INPUT_SYSTEM guard, so in a project without the package it simply is not compiled rather than breaking the build."
+  ],
+  "useCases": [
+    "A project already on the Input System that wants one input facade instead of scattered device reads.",
+    "Gamepad and keyboard support without authoring an actions asset first.",
+    "Swapping input backends by changing which component is in the scene."
+  ],
+  "gotchas": [
+    {
+      "title": "Polling devices means no rebinding and no action maps",
+      "body": "Direct device reads are what make it zero-setup, and also what rules out the Input System's rebinding, control schemes and action maps. Author an .inputactions asset when you need those."
+    },
+    {
+      "title": "Absent entirely without the package",
+      "body": "It compiles only when Unity defines ENABLE_INPUT_SYSTEM. A scene referencing it in a project without the package loses the component reference."
+    }
+  ],
+  "seeAlso": [
+    "LegacyInputManager",
+    "InputDeviceMonitor"
+  ]
+}

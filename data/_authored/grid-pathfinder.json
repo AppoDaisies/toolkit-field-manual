@@ -1,0 +1,33 @@
+{
+  "id": "grid-pathfinder",
+  "summary": "A* over a GridComponent's cells, kept as its own component so you only pay for it if you add it.",
+  "overview": [
+    "Standalone A* across a grid's cells. Kept separate from GridComponent on purpose: you only pay for pathfinding if you actually add it, and it can be swapped for a different algorithm later without touching the grid or the placer."
+  ],
+  "useCases": [
+    "Unit movement on a tile-based board.",
+    "Enemy routing around player-placed walls in a tower-defence map.",
+    "Checking a route exists before allowing a placement that would block it."
+  ],
+  "params": [
+    {
+      "field": "allowDiagonals",
+      "tuning": "Independent of the grid's own neighbour setting, so the two can disagree — worth keeping them in step."
+    },
+    {
+      "field": "preventCornerCutting",
+      "tuning": "Leave on for anything with physical size, or diagonal moves will clip through the corner between two walls."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Paths are recomputed, not cached",
+      "body": "Each request runs a fresh search. Pathing a large crowd every frame is the usual way this becomes the frame's most expensive thing — a flow field suits that case better."
+    }
+  ],
+  "seeAlso": [
+    "GridComponent",
+    "FlowField",
+    "DijkstraPathfinder"
+  ]
+}

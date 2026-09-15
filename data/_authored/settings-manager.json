@@ -1,0 +1,50 @@
+{
+  "id": "settings-manager",
+  "summary": "Options-menu backend: volume, quality and fullscreen, persisted through the existing SaveSystem.",
+  "overview": [
+    "Everything behind a standard options screen, so the screen itself is just buttons and sliders wired to these methods. Volume routes into an AudioMixer if you assign one, quality goes through QualitySettings and fullscreen through Screen. It saves through the toolkit's existing SaveSystem rather than inventing its own file format."
+  ],
+  "useCases": [
+    "A pause or main-menu options panel, with no backend code of your own.",
+    "Applying the player's saved preferences on boot before the first scene renders.",
+    "Driving audio levels through a mixer without wiring every slider to it by hand."
+  ],
+  "params": [
+    {
+      "field": "audioMixer",
+      "why": "Optional AudioMixer to route volume changes into.",
+      "tuning": "Entirely optional. With none assigned the volume setters still track and persist their values, they just skip the audio routing — so an options screen still works before you have a mixer."
+    },
+    {
+      "field": "masterVolumeParam",
+      "why": "Name of the exposed float parameter on the mixer for master volume.",
+      "tuning": "Must match the EXPOSED parameter name on the mixer exactly, which is not the same as the group name. A mismatch fails silently."
+    },
+    {
+      "field": "musicVolumeParam",
+      "why": "Exposed mixer parameter for music volume."
+    },
+    {
+      "field": "sfxVolumeParam",
+      "why": "Exposed mixer parameter for SFX volume."
+    },
+    {
+      "field": "saveFileName",
+      "why": "File the settings persist to, via SaveSystem."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Quality level starts as -1, meaning unset",
+      "body": "It is filled in from QualitySettings.GetQualityLevel() on first use rather than being assumed to be 0, so a fresh install inherits the project's own default instead of silently dropping to the lowest setting."
+    },
+    {
+      "title": "Mixer volumes are decibels, not a 0-1 slider",
+      "body": "A linear slider mapped straight onto a mixer parameter sounds wrong — most of the audible range sits in the top fraction of the slider. Convert logarithmically when you set it."
+    }
+  ],
+  "seeAlso": [
+    "SaveSystem",
+    "Singleton<T>"
+  ]
+}

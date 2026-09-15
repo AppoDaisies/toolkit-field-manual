@@ -1,0 +1,26 @@
+{
+  "id": "number-formatter",
+  "summary": "Numbers as players read them: grouped thousands, compact K/M/B, and ordinals.",
+  "overview": [
+    "Three ways to show a number to a player rather than to a programmer. All culture-invariant, so a machine with a different locale does not silently switch thousands separators to periods and change what the UI says."
+  ],
+  "useCases": [
+    "Currency and score displays that need to stay readable at large values.",
+    "Leaderboard positions (1st, 2nd, 3rd) without a special case per rank.",
+    "Compact HUD counters where a full number would not fit."
+  ],
+  "gotchas": [
+    {
+      "title": "ToCompact rounds, so it is not reversible",
+      "body": "1,249 and 1,151 both display as \"1.2K\". Fine for a HUD, wrong for anything the player is meant to reconcile exactly, like a transaction total."
+    },
+    {
+      "title": "Ordinals are English-only",
+      "body": "The st/nd/rd/th rule, including the 11-13 exception, is hard-coded. A localised build needs its own ordinal handling."
+    }
+  ],
+  "seeAlso": [
+    "TimeFormatter",
+    "StringUtils"
+  ]
+}

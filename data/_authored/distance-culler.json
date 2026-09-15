@@ -1,0 +1,40 @@
+{
+  "id": "distance-culler",
+  "summary": "Disables expensive behaviours, renderers or objects beyond a distance, and re-enables them in range.",
+  "overview": [
+    "LOD-lite without an LOD Group: put it on anything expensive that does not need to run when far away — a particle system, an AI's own Update, a complex animator — and it disables the targets past a threshold, re-enabling them when the reference point comes back."
+  ],
+  "useCases": [
+    "Turning off distant particle systems and animators in a large scene.",
+    "Stopping far-away AI thinking without unloading it.",
+    "A cheap first pass at scene cost before committing to LOD groups or streaming."
+  ],
+  "params": [
+    {
+      "field": "referencePoint",
+      "tuning": "Usually the camera or the player. Left empty it falls back to the main camera, which is wrong the moment you have a cinematic camera too."
+    },
+    {
+      "field": "checkInterval",
+      "tuning": "Seconds between checks, not frames. Raise it for many cullers — the check itself is the cost you are trying to avoid."
+    },
+    {
+      "field": "cullDistance",
+      "tuning": "One threshold with no hysteresis, so an object sitting exactly at the boundary toggles repeatedly."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Disabling a Behaviour is not free to undo",
+      "body": "Re-enabling a particle system or animator restarts it from its current state, which can look like a pop. For anything visually continuous, cull the renderer rather than the behaviour."
+    },
+    {
+      "title": "No hysteresis at the boundary",
+      "body": "An object hovering at exactly cullDistance flips on and off each check. Give it a margin by culling a little further out than you think you need."
+    }
+  ],
+  "seeAlso": [
+    "UpdateManager",
+    "FrameBudgetProcessor"
+  ]
+}

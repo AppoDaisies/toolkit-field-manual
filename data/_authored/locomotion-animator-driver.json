@@ -1,0 +1,32 @@
+{
+  "id": "locomotion-animator-driver",
+  "summary": "Bridges locomotion state onto an Animator, so the movement components can stay animation-agnostic.",
+  "overview": [
+    "The runtime bridge the locomotion components deliberately do not provide themselves. Both are animation-agnostic on purpose — UnityEvents only, no Animator reference — so a project with no animation set pays nothing. Add this on the same GameObject once a real Animator exists, and it forwards state into Animator parameters."
+  ],
+  "useCases": [
+    "Connecting the character controller to an Animator without editing either.",
+    "Swapping animation sets by changing parameter names rather than code.",
+    "Removing animation entirely by deleting one component."
+  ],
+  "params": [
+    {
+      "field": "speedParameter",
+      "tuning": "Must match the Animator parameter name exactly. A mismatch fails silently — Unity logs nothing for an unknown parameter name."
+    },
+    {
+      "field": "locomotion",
+      "tuning": "Leave unassigned and it looks on its own GameObject."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Parameter names are strings, checked by nobody",
+      "body": "A typo, or renaming a parameter in the Animator, breaks the link with no error. If a character animates in the wrong state, check these names first."
+    }
+  ],
+  "seeAlso": [
+    "LocomotionStateMachine",
+    "LedgeClimbController"
+  ]
+}

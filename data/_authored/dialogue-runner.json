@@ -1,0 +1,64 @@
+{
+  "id": "dialogue-runner",
+  "summary": "Dialogue tree runner: assign the UI references, call StartDialogue(rootNode).",
+  "overview": [
+    "Walks a tree of DialogueNode assets and drives your dialogue UI: speaker name, portrait, body text and a button per available choice. It reuses toolkit pieces rather than duplicating them — TMPTypewriterEffect for the character-by-character reveal and Blackboard for conditional choices — and both are optional and null-checked, so it works with neither assigned."
+  ],
+  "useCases": [
+    "An NPC conversation with branching choices, authored entirely as assets.",
+    "A linear cutscene or tutorial script with no branching at all.",
+    "Choices that only appear once a quest flag is set, via a Blackboard key."
+  ],
+  "params": [
+    {
+      "field": "blackboard",
+      "why": "Optional. Gates choices that declare a requiredBlackboardKey.",
+      "tuning": "Leave unassigned if no choice is conditional — conditional choices are then simply always shown."
+    },
+    {
+      "field": "dialoguePanel",
+      "why": "The root object shown while dialogue is running and hidden when it ends."
+    },
+    {
+      "field": "speakerNameText",
+      "why": "Label for the speaker's name. Blank on a node means a narrator line."
+    },
+    {
+      "field": "portraitImage",
+      "why": "Optional portrait shown beside the speaker name."
+    },
+    {
+      "field": "bodyText",
+      "why": "The TMP_Text the line is written into."
+    },
+    {
+      "field": "typewriter",
+      "why": "Optional. If assigned, text reveals character by character instead of appearing at once.",
+      "tuning": "Without it the line appears instantly, which is the right choice for a fast-forward or accessibility option."
+    },
+    {
+      "field": "choiceButtonContainer",
+      "why": "Parent the choice buttons are spawned under."
+    },
+    {
+      "field": "choiceButtonPrefab",
+      "why": "An inactive template Button, cloned once per available choice.",
+      "tuning": "Rebuilt from scratch on every node, so do not cache references to the spawned buttons."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Choice buttons are destroyed and rebuilt per node",
+      "body": "Anything you wired onto a spawned button will not survive advancing. Wire behaviour to the choice data, not to the button instance."
+    },
+    {
+      "title": "A node with no choices and no nextNode ends the conversation",
+      "body": "That is how you terminate a branch. An unintentionally empty nextNode looks identical to a deliberate ending."
+    }
+  ],
+  "seeAlso": [
+    "DialogueNode",
+    "TMPTypewriterEffect",
+    "Blackboard"
+  ]
+}

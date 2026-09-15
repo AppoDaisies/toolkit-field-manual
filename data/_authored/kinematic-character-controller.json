@@ -1,0 +1,41 @@
+{
+  "id": "kinematic-character-controller",
+  "summary": "One controller for both top-down and simple 3D platformer movement, on Unity's CharacterController.",
+  "overview": [
+    "Movement for two common cases from one component: turn gravity and jump off for top-down, on for a simple platformer. It sits on Unity's own CharacterController, so slopes and steps are handled properly rather than hand-rolled. Input comes through LegacyInputManager — one line in Update swaps it to the Input System version."
+  ],
+  "useCases": [
+    "A top-down or isometric player that walks and faces its direction of travel.",
+    "A simple 3D platformer character without writing collision code.",
+    "A prototype player you expect to replace later, but need working now."
+  ],
+  "params": [
+    {
+      "field": "useGravity",
+      "tuning": "Off for top-down. With it off, jump is meaningless even if allowJump is ticked."
+    },
+    {
+      "field": "jumpHeight",
+      "tuning": "A height in metres, not an impulse, so it stays predictable when you change gravity."
+    },
+    {
+      "field": "rotateToFaceMovement",
+      "tuning": "Turn off for a character that should keep facing a target while strafing."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The transform pivot is the capsule CENTRE, not the feet",
+      "body": "Unity's CharacterController defaults to centre (0,0,0) and height 2, which puts the pivot a full metre above the ground contact. Anything computing a height \"above the feet\" must derive it from center and height rather than assuming the pivot is at ground level."
+    },
+    {
+      "title": "Kinematic, so it does not push rigidbodies",
+      "body": "CharacterController resolves collisions by sliding, not by physics. Pushing crates needs an OnControllerColliderHit of your own."
+    }
+  ],
+  "seeAlso": [
+    "LocomotionStateMachine",
+    "LedgeClimbController",
+    "LegacyInputManager"
+  ]
+}

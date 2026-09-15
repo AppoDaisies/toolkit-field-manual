@@ -1,0 +1,44 @@
+{
+  "id": "terrain-heightmap-generator",
+  "summary": "Procedural terrain: builds a heightmap with fBm noise and applies it to this object's Terrain.",
+  "overview": [
+    "Generates a heightmap through NoiseUtils.Fbm and writes it straight onto the GameObject's Terrain. Click Generate, or call it from code in the Editor or at runtime, to reroll. It reads the TerrainData's current heightmap resolution each time, so it works with whatever terrain size you already set up."
+  ],
+  "useCases": [
+    "Blocking out landscape shape before hand-sculpting.",
+    "Rerolling terrain quickly while tuning a look.",
+    "Runtime terrain for a procedurally generated world."
+  ],
+  "params": [
+    {
+      "field": "noiseScale",
+      "tuning": "The single biggest control on how the terrain reads. Too small and it is noise, too large and it is one smooth hill."
+    },
+    {
+      "field": "octaves",
+      "tuning": "More octaves means finer detail at a linear cost. Clamped to at least 1 — a zero would otherwise have produced a NaN heightmap."
+    },
+    {
+      "field": "heightMultiplier",
+      "tuning": "Scales the normalised noise into world height. Because fBm is normalised to 0-1 regardless of octave count, raising octaves does not change the range — so this stays valid when you add detail."
+    },
+    {
+      "field": "randomizeSeedOnGenerate",
+      "tuning": "Turn off to get the same terrain every time, which is what you want once you are tuning rather than exploring."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It overwrites the Terrain's heightmap",
+      "body": "Hand-sculpted work on that terrain is gone. Generate first, sculpt after."
+    },
+    {
+      "title": "Terrain edges do not match neighbours",
+      "body": "Each terrain is generated independently, so tiles placed side by side will not line up at their seams without offsetting the sample position deliberately."
+    }
+  ],
+  "seeAlso": [
+    "NoiseUtils",
+    "CaveGenerator"
+  ]
+}

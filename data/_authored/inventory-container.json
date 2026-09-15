@@ -1,0 +1,34 @@
+{
+  "id": "inventory-container",
+  "summary": "Fixed-capacity slot inventory with automatic stacking, and save data that survives by item id.",
+  "overview": [
+    "A slot-based inventory that stacks automatically and has a fixed capacity. Add and remove by ItemDefinition reference at runtime; saving writes each item's string id, resolved back through an ItemRegistry on load, so a save file does not depend on asset references surviving."
+  ],
+  "useCases": [
+    "A player backpack with a slot limit.",
+    "A chest or shop stock using the same container type.",
+    "Persisting what the player carries across sessions."
+  ],
+  "params": [
+    {
+      "field": "capacity",
+      "tuning": "Slots, not items — a stack of 99 occupies one slot. Changing it on a live save leaves items beyond the new limit unreachable rather than deleted."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Loading needs an ItemRegistry",
+      "body": "Saves store ids, not asset references. Without a registry containing the item, a load silently drops it."
+    },
+    {
+      "title": "Stacking is by ItemDefinition identity",
+      "body": "Two assets describing the same thing will not stack together. One asset per item is the rule."
+    }
+  ],
+  "seeAlso": [
+    "ItemDefinition",
+    "ItemRegistry",
+    "EquipmentManager",
+    "SaveSystem"
+  ]
+}

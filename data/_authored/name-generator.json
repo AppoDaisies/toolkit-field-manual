@@ -1,0 +1,40 @@
+{
+  "id": "name-generator",
+  "summary": "Markov-chain name generator: learns from sample names and produces new ones that sound alike.",
+  "overview": [
+    "Trains a chain of character n-grams from a list of sample names, then samples it to make new ones. The results sound like the training set without ever copying one exactly. A fantasy corpus is built in so it works with no setup; supply your own list to change the flavour entirely."
+  ],
+  "useCases": [
+    "NPC, town or item names that feel consistent with a setting.",
+    "Filling a large world with names without writing them all.",
+    "Re-flavouring a game by swapping the training list rather than the code."
+  ],
+  "params": [
+    {
+      "field": "order",
+      "tuning": "How many characters of context each step sees. Low is more inventive and more nonsense; high starts reproducing the training names almost verbatim. Two or three is the usual sweet spot."
+    },
+    {
+      "field": "trainingNames",
+      "tuning": "Leave empty for the built-in fantasy corpus. A small custom list (under about 20) tends to echo its inputs."
+    },
+    {
+      "field": "minLength",
+      "tuning": "Guards against one-syllable output. Set too close to maxLength and generation can retry a lot."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It can emit a training name verbatim",
+      "body": "Nothing forbids it, and a high order makes it likely. Check against the source list if names must be original."
+    },
+    {
+      "title": "Output quality is entirely the training set",
+      "body": "A mixed corpus produces mush. Names that share a sound produce names that share a sound."
+    }
+  ],
+  "seeAlso": [
+    "SeededRandom",
+    "ProbabilityUtils"
+  ]
+}

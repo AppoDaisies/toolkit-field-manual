@@ -1,0 +1,27 @@
+{
+  "id": "update-manager",
+  "summary": "One central Update loop. Register ITickables instead of giving every object its own Update.",
+  "overview": [
+    "A single Update that ticks a plain C# list. Add this one component to the scene and any ITickable anywhere can register itself — nothing else needs wiring. The point is scale: hundreds of separate MonoBehaviour Update calls each pay a native-to-managed transition, and one loop over a list does not."
+  ],
+  "useCases": [
+    "Mob swarms, bullet-hell projectiles or large crowds where per-object Update shows up in the profiler.",
+    "Pooled objects that should stop ticking the moment they are returned.",
+    "Getting deterministic tick order, which Unity does not guarantee across separate components."
+  ],
+  "gotchas": [
+    {
+      "title": "Register and unregister in OnEnable and OnDisable, not Awake and OnDestroy",
+      "body": "A pooled object is disabled rather than destroyed. Registering in Awake leaves it ticking while it sits in the pool."
+    },
+    {
+      "title": "One throwing tickable stops the rest",
+      "body": "They share a loop, so an exception in one halts the whole tick for that frame. That is the cost of the saving; keep tick bodies defensive."
+    }
+  ],
+  "seeAlso": [
+    "ITickable",
+    "ObjectPool",
+    "Singleton<T>"
+  ]
+}

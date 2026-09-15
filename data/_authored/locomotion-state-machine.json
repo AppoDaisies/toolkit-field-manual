@@ -1,0 +1,33 @@
+{
+  "id": "locomotion-state-machine",
+  "summary": "Classifies locomotion state by watching the controller. Purely observational, never drives movement.",
+  "overview": [
+    "Watches an existing KinematicCharacterController's velocity and grounded flag, plus an optional LedgeClimbController, and reports which locomotion state the character is in. It never moves anything — that split is the whole point, so the thing that decides movement and the thing that describes it stay independent."
+  ],
+  "useCases": [
+    "Driving an Animator without the movement code knowing an Animator exists.",
+    "Triggering footstep audio or VFX from a state change rather than polling velocity.",
+    "Debugging movement by reading a named state instead of raw numbers."
+  ],
+  "params": [
+    {
+      "field": "walkSpeedThreshold",
+      "tuning": "Below this the character reads as idle. Set it just above the drift a controller produces when standing still, or it flickers between idle and walk."
+    },
+    {
+      "field": "runSpeedThreshold",
+      "tuning": "Must be above walkSpeedThreshold. They are not validated against each other."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It reports state, it does not cause it",
+      "body": "Changing a threshold changes what the state is CALLED, never how fast the character moves. If movement feels wrong, the controller is the place to look."
+    }
+  ],
+  "seeAlso": [
+    "KinematicCharacterController",
+    "LocomotionAnimatorDriver",
+    "StateMachine"
+  ]
+}

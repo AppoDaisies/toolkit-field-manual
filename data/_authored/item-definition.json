@@ -1,0 +1,23 @@
+{
+  "id": "item-definition",
+  "summary": "An item as a ScriptableObject asset, so adding an item is creating an asset rather than editing code.",
+  "overview": [
+    "Items as assets instead of hardcoded strings or an enum: add one by creating an asset, with no code change and no recompile. It builds on GameDataAsset for the string id used to save, load and look items up — so moving Inventory into another project means taking that folder too."
+  ],
+  "useCases": [
+    "Designer-authored items with no programmer in the loop.",
+    "Referencing the same item from loot tables, shops and the inventory without duplicating data.",
+    "Saving what the player owns as stable ids rather than asset paths."
+  ],
+  "gotchas": [
+    {
+      "title": "The id is what saves, so renaming it breaks saves",
+      "body": "Renaming the ASSET is safe. Changing the id inside it orphans every save that referenced the old one."
+    }
+  ],
+  "seeAlso": [
+    "ItemRegistry",
+    "InventoryContainer",
+    "GameDataAsset"
+  ]
+}

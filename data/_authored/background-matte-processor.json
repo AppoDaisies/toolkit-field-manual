@@ -1,0 +1,20 @@
+{
+  "id": "background-matte-processor",
+  "summary": "The matting itself, separated from the window so it is callable and testable without a GUI.",
+  "overview": [
+    "The actual background-removal pass behind BackgroundMatteWindow, kept as a plain class with an Options struct so it can be driven from your own editor script or a test rather than only from the window."
+  ],
+  "useCases": [
+    "Running the same matte from your own import pipeline instead of by hand.",
+    "Trying threshold settings on one image before committing to a batch."
+  ],
+  "gotchas": [
+    {
+      "title": "Editor-only by placement",
+      "body": "It lives in an Editor/ folder, so it is not available at runtime. This project has no .asmdef files, which means folder placement is the only thing separating editor from runtime code."
+    }
+  ],
+  "seeAlso": [
+    "BackgroundMatteWindow"
+  ]
+}

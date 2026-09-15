@@ -1,0 +1,27 @@
+{
+  "id": "cave-generator",
+  "summary": "Cellular-automata cave generation. A reference implementation with four knobs.",
+  "overview": [
+    "Seeds a grid with walls at a fill probability, then smooths it repeatedly with the classic 4-5 rule: a cell becomes wall if five or more of its eight neighbours are walls. Deliberately a REFERENCE implementation — grid size, fill probability, iterations and seed are the only settings, so the algorithm stays readable."
+  ],
+  "useCases": [
+    "Organic cave or cavern layouts for a roguelike.",
+    "A starting point to adapt rather than a finished generator.",
+    "Learning how cellular-automata generation actually behaves by changing one knob at a time."
+  ],
+  "gotchas": [
+    {
+      "title": "It can produce disconnected pockets",
+      "body": "The 4-5 rule smooths shapes, it does not guarantee everything is reachable. Connectivity is a separate pass you have to add."
+    },
+    {
+      "title": "Fill probability is far more sensitive than it looks",
+      "body": "A few percent either side of the usual 45 is the difference between open caverns and near-solid rock."
+    }
+  ],
+  "seeAlso": [
+    "MazeGenerator",
+    "SeededRandom",
+    "NoiseUtils"
+  ]
+}

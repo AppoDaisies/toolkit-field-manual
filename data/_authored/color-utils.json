@@ -1,0 +1,25 @@
+{
+  "id": "color-utils",
+  "summary": "Colour maths Unity omits: hex conversion, hue rotation, and related colours for procedural palettes.",
+  "overview": [
+    "Colour helpers Unity's Color API does not provide: parse and emit hex strings, and derive related colours from a base hue. The palette side is the useful half — rotate one brand colour to get a set of visually distinct team colours, or a complementary highlight, without hand-picking each one."
+  ],
+  "useCases": [
+    "Generating N distinct team or player colours from one base hue.",
+    "Reading colours authored as hex in a spreadsheet, ScriptableObject or JSON.",
+    "Deriving a highlight or outline colour that stays in keeping with a base colour."
+  ],
+  "gotchas": [
+    {
+      "title": "A malformed hex string returns magenta, it does not throw",
+      "body": "FromHex logs a warning and hands back magenta, so a typo in authored data shows up loudly on screen instead of crashing. Do not treat a magenta result as a valid colour."
+    },
+    {
+      "title": "ToHex drops alpha unless you ask for it",
+      "body": "The default is 6 digits. Pass includeAlpha: true for the 8-digit form, or a translucent colour round-trips as opaque."
+    }
+  ],
+  "seeAlso": [
+    "NumberFormatter"
+  ]
+}

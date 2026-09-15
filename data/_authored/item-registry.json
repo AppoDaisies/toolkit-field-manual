@@ -1,0 +1,22 @@
+{
+  "id": "item-registry",
+  "summary": "Concrete registry of ItemDefinitions, so id-to-asset lookup works at load time.",
+  "overview": [
+    "A concrete subclass of the generic data registry, which exists because Unity does not allow [CreateAssetMenu] on a generic type. Its job is turning a saved string id back into the ItemDefinition asset it names."
+  ],
+  "useCases": [
+    "Resolving a save file's item ids back into assets on load.",
+    "Looking an item up by id from a loot table or console command."
+  ],
+  "gotchas": [
+    {
+      "title": "Items must be listed in it to be findable",
+      "body": "It is an explicit list, not an automatic scan. An item missing from the registry loads as nothing, with no error."
+    }
+  ],
+  "seeAlso": [
+    "ItemDefinition",
+    "GameDataRegistry<T>",
+    "InventoryContainer"
+  ]
+}

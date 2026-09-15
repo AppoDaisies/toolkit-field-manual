@@ -1,0 +1,43 @@
+{
+  "id": "touch-gesture-recognizer",
+  "summary": "Swipe, pinch and long-press events from touch, with an automatic mouse fallback for Editor testing.",
+  "overview": [
+    "Drop it anywhere in the scene — it does not need to be on a particular object — and wire OnSwipe, OnPinch and OnLongPress in the Inspector. It uses the legacy Input.touches API so there is no package to install, and falls back to the mouse automatically so you can test gestures in the Editor without a device."
+  ],
+  "useCases": [
+    "Swipe navigation between screens or cards on mobile.",
+    "Pinch-to-zoom on a map, photo or inspection view.",
+    "Long-press to open a context menu or pick up an item."
+  ],
+  "params": [
+    {
+      "field": "swipeThreshold",
+      "why": "Minimum screen-pixel distance for a drag to count as a swipe.",
+      "tuning": "Pixels, not inches, so the same value feels different across screen densities. Scale it by Screen.dpi if you ship to a wide device range."
+    },
+    {
+      "field": "longPressDuration",
+      "why": "Seconds a touch must be held, without moving, to fire OnLongPress.",
+      "tuning": "Below about 0.4s it starts firing on ordinary taps; above about 1s it feels unresponsive."
+    },
+    {
+      "field": "longPressMaxDrift",
+      "why": "How far a held touch may wander and still count as a long press rather than a drag.",
+      "tuning": "Raise it if long presses are being lost on a device where fingers naturally drift."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "OnSwipe reports a direction, not a distance",
+      "body": "The Vector2 is normalised, so it tells you which way the swipe went and nothing about how far or how fast. Track that yourself if a flick needs momentum."
+    },
+    {
+      "title": "The mouse fallback cannot produce a pinch",
+      "body": "Pinch needs two touches. Swipe and long press are testable in the Editor; pinch has to be checked on a device."
+    }
+  ],
+  "seeAlso": [
+    "LegacyInputManager",
+    "ScrollSnap"
+  ]
+}

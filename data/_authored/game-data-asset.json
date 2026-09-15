@@ -1,0 +1,29 @@
+{
+  "id": "game-data-asset",
+  "summary": "Base for designer-facing config assets, carrying the string Id used to save and look them up.",
+  "overview": [
+    "Subclass this for item, enemy or level data instead of hardcoding values or wiring raw JSON for data that never leaves the Editor. The Id it carries is what saves reference, so a save file survives assets being moved or renamed."
+  ],
+  "useCases": [
+    "Item, enemy or level configuration a designer edits as assets.",
+    "Any data that wants an id stable across renames.",
+    "Populating a registry for id-based lookup at load time."
+  ],
+  "params": [
+    {
+      "field": "id",
+      "tuning": "Treat it as permanent once anything has saved. The asset name can change freely; this cannot."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Nothing enforces that ids are unique",
+      "body": "Two assets sharing an id resolve unpredictably through a registry. It is worth a one-off check when adding many at once."
+    }
+  ],
+  "seeAlso": [
+    "GameDataRegistry<T>",
+    "ItemDefinition",
+    "SaveSystem"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "json-helper",
+  "summary": "Newtonsoft Json.NET wrapper for data JsonUtility cannot serialize.",
+  "overview": [
+    "Use this instead of SaveSystem when the data has Dictionaries, interfaces or polymorphic types — the things Unity's built-in JsonUtility silently drops. Kept as its own tool so SaveSystem stays dependency-free.",
+    "Requires the Newtonsoft Json package: Window > Package Manager > Add package by name > com.unity.nuget.newtonsoft-json."
+  ],
+  "useCases": [
+    "Saving a Dictionary keyed by id without flattening it into parallel lists.",
+    "Serializing a list holding several subclasses through a base type.",
+    "Talking to an external API or data file that already uses real JSON."
+  ],
+  "gotchas": [
+    {
+      "title": "It needs a package that is not installed by default",
+      "body": "Without com.unity.nuget.newtonsoft-json the file does not compile. That is the trade for handling types JsonUtility cannot."
+    },
+    {
+      "title": "Polymorphism needs type information in the file",
+      "body": "Round-tripping a base-typed list only works if the settings write type names. Reading such a file from an untrusted source is a known risk in every JSON library."
+    }
+  ],
+  "seeAlso": [
+    "SaveSystem"
+  ]
+}

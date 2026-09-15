@@ -1,0 +1,26 @@
+{
+  "id": "time-formatter",
+  "summary": "Seconds to display strings: mm:ss, hh:mm:ss, and a compact \"1h 6m\" form.",
+  "overview": [
+    "Turns a raw seconds float into the string a player reads. Takes floats rather than TimeSpan specifically so it drops straight into a Time.deltaTime-driven countdown with no conversion step in between."
+  ],
+  "useCases": [
+    "Cooldown and countdown timers on the HUD.",
+    "Playtime and best-time stats on a results or profile screen.",
+    "A compact remaining-time label where mm:ss would be too precise to be useful."
+  ],
+  "gotchas": [
+    {
+      "title": "Negative input clamps to zero",
+      "body": "A countdown that overshoots past zero shows 00:00 rather than a negative time. If you need to know it overshot, check the value before formatting it."
+    },
+    {
+      "title": "Seconds are floored, not rounded",
+      "body": "59.9 seconds displays as 00:59, so a timer appears to reach zero a moment before it actually does. That is the conventional behaviour for a countdown, but it matters if the display is meant to match a logged value."
+    }
+  ],
+  "seeAlso": [
+    "NumberFormatter",
+    "CountdownTimer"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "legacy-input-manager",
+  "summary": "Input facade over the classic Input Manager, using Unity's default axis and button names.",
+  "overview": [
+    "One place to ask for movement, look and buttons, backed by the classic Input Manager. It uses Unity's stock axis names (Horizontal, Vertical, Mouse X/Y, Fire1, Jump) so it works with no project setup at all.",
+    "It is a standalone ALTERNATIVE to NewInputSystemManager, not a runtime-swappable backend. Add whichever matches your project's input setting rather than switching between them, so neither depends on Active Input Handling being set to \"Both\"."
+  ],
+  "useCases": [
+    "A project on the classic Input Manager that wants gameplay code free of Input.GetAxis calls.",
+    "Prototyping where installing and configuring the Input System package is not worth it yet.",
+    "Keeping a single call site to swap later, by replacing the component rather than editing callers."
+  ],
+  "gotchas": [
+    {
+      "title": "An unknown axis or button name throws in Unity",
+      "body": "Queries are routed through a guard so a missing name does not take the game down, but the input simply never fires — check the Input Manager if a button seems dead."
+    },
+    {
+      "title": "Requires Active Input Handling to include the old manager",
+      "body": "With the project set to \"Input System Package (New)\" only, every query returns nothing. That is the setting to check first."
+    }
+  ],
+  "seeAlso": [
+    "NewInputSystemManager",
+    "Singleton<T>"
+  ]
+}

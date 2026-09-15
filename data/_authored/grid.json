@@ -1,0 +1,21 @@
+{
+  "id": "grid",
+  "summary": "Plain 2D array with cell/local-space conversion built in. No MonoBehaviour, no world plane.",
+  "overview": [
+    "The data structure under the grid tools: a typed 2D array that knows how to convert between a cell coordinate and a local-space position. Deliberately not a MonoBehaviour and deliberately not tied to a world plane — GridComponent decides whether it maps to XZ or XY, which keeps this reusable for both."
+  ],
+  "useCases": [
+    "Grid logic in a plain C# class, testable without a scene.",
+    "A second grid of a different type overlaid on the same space, such as a cost field beside a tile map.",
+    "Reusing the conversion maths without taking on a component."
+  ],
+  "gotchas": [
+    {
+      "title": "Local space, so world placement is someone else's job",
+      "body": "Positions it returns are local. Anything world-facing has to go through the component that owns it, or through your own transform."
+    }
+  ],
+  "seeAlso": [
+    "GridComponent"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "i-tickable",
+  "summary": "One method, Tick(deltaTime), so UpdateManager can drive an object instead of Unity calling Update.",
+  "purpose": "The contract UpdateManager drives. It exists so a central loop can tick anything — a MonoBehaviour, a pooled projectile, a plain C# object — without each one paying for its own Unity Update callback.",
+  "whenToImplement": "When there will be many of a thing and per-object Update cost is real: projectiles, crowd agents, swarm enemies. For a handful of objects, an ordinary Update is simpler and costs nothing worth measuring.",
+  "memberContracts": {
+    "Tick(float)": {
+      "contract": "One frame of behaviour. deltaTime is passed in rather than read, so the manager decides what time means — scaled, unscaled, or a fixed step.",
+      "mustNot": "Do not read Time.deltaTime inside. Taking the passed value is what lets the manager change the clock for everything at once."
+    }
+  },
+  "calledBy": "UpdateManager, once per frame, in registration order. Nothing calls it otherwise — an unregistered ITickable simply never ticks, with no error.",
+  "drivenBy": [
+    "UpdateManager"
+  ],
+  "useCases": [
+    "Projectiles that tick from a pool without their own Update.",
+    "Crowd or swarm agents where the count makes per-object Update expensive.",
+    "Plain C# simulation objects with no GameObject at all."
+  ],
+  "gotchas": [
+    {
+      "title": "A MonoBehaviour implementing it still has its own Update",
+      "body": "Unity keeps calling Update independently. Put the per-frame work in Tick only, or it runs twice."
+    }
+  ],
+  "seeAlso": [
+    "UpdateManager"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "csv-utility",
+  "summary": "Dependency-free CSV parse and write that handles quoted fields correctly.",
+  "overview": [
+    "Reads and writes the CSV dialect Excel and Google Sheets use natively, so a spreadsheet is a practical data pipeline into Unity with no .xlsx library involved. It handles the part a naive string.Split(',') gets wrong: commas and newlines inside quoted fields, and a doubled \"\" meaning a literal quote."
+  ],
+  "useCases": [
+    "Authoring item, enemy or dialogue tables in a spreadsheet and reading them at runtime or import time.",
+    "Exporting captured play data for analysis in a spreadsheet.",
+    "Round-tripping data through the CSV Table Editor window without a binary format."
+  ],
+  "gotchas": [
+    {
+      "title": "Rows are string arrays, not typed objects",
+      "body": "Parse returns List<string[]> with no header handling and no type conversion. Deciding row 0 is a header, and turning \"12\" into an int, is the caller's job."
+    },
+    {
+      "title": "Ragged rows are preserved, not padded",
+      "body": "A row with fewer fields than the header comes back shorter. Index defensively, or normalise after parsing."
+    }
+  ],
+  "seeAlso": [
+    "CsvTableWindow",
+    "CsvToScriptableObjectImporter"
+  ]
+}

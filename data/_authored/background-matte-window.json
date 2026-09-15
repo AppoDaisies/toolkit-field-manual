@@ -1,0 +1,25 @@
+{
+  "id": "background-matte-window",
+  "summary": "Batch tool: point it at a folder of images and it mattes each background transparent.",
+  "overview": [
+    "Takes a folder of images, removes a roughly solid background from each, and writes the results to an output folder. No assumptions about what the images are — copy the folder into any project that needs \"remove the background from a batch of scans or photos\" and it works standalone."
+  ],
+  "useCases": [
+    "Cleaning up scanned or photographed art before it becomes sprites.",
+    "Stripping a flat backdrop from a batch of product or prop renders.",
+    "Preparing reference images where a solid background would show as a box in-game."
+  ],
+  "gotchas": [
+    {
+      "title": "It expects a roughly SOLID background",
+      "body": "The matte is a colour-similarity decision, so a textured, gradient or busy background will not come out cleanly. Check a couple of results before running a large batch."
+    },
+    {
+      "title": "It writes to a separate output folder",
+      "body": "Originals are not modified, which is deliberate — but it also means a re-run appends to the output rather than updating in place."
+    }
+  ],
+  "seeAlso": [
+    "BackgroundMatteProcessor"
+  ]
+}

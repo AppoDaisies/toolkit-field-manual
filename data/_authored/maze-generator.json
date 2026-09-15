@@ -1,0 +1,26 @@
+{
+  "id": "maze-generator",
+  "summary": "Recursive-backtracker maze generation, producing a perfect maze.",
+  "overview": [
+    "Produces a \"perfect\" maze: exactly one path between any two cells, no loops and no isolated areas. A reference implementation on purpose, with grid size and seed as the only knobs. Read the result through each cell's wall flags."
+  ],
+  "useCases": [
+    "Maze levels or dungeon corridors with a guaranteed solution.",
+    "A layout where you need to know a route always exists.",
+    "A base to add loops or rooms to, once the perfect maze is not what you want."
+  ],
+  "gotchas": [
+    {
+      "title": "Perfect means no loops, which reads as tedious at scale",
+      "body": "Exactly one route between any two points is mathematically tidy and unfun to walk in a large maze. Knocking out a few extra walls afterwards is the usual fix."
+    },
+    {
+      "title": "Recursive backtracking favours long corridors",
+      "body": "It is a property of the algorithm, not a setting. A different algorithm is the answer if you want a different character."
+    }
+  ],
+  "seeAlso": [
+    "CaveGenerator",
+    "SeededRandom"
+  ]
+}

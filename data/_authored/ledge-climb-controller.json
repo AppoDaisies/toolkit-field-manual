@@ -1,0 +1,45 @@
+{
+  "id": "ledge-climb-controller",
+  "summary": "Raycast ledge climbing: detect, snap to a hang, climb up. Scaffolding for a fuller traversal system.",
+  "overview": [
+    "Detects a ledge ahead, snaps the character to a hang position, and plays a climb-up. It is deliberately the SCAFFOLDING for a traversal system rather than the finished thing: the climb motion is a position lerp along a curve because no animation set exists yet, but every moment an animation system would need to hook is already an event."
+  ],
+  "useCases": [
+    "Prototyping traversal before any climb animation exists.",
+    "A simple mantle over waist-height geometry in a platformer.",
+    "A base to replace the lerp with root motion once animations arrive."
+  ],
+  "params": [
+    {
+      "field": "ledgeMask",
+      "tuning": "Keep this tight. Anything on these layers counts as climbable, including props you did not intend."
+    },
+    {
+      "field": "minLedgeHeightAboveFeet",
+      "tuning": "Measured from the FEET, derived from the CharacterController's centre and height rather than the transform pivot — getting that wrong aimed the check a metre high and missed every ledge."
+    },
+    {
+      "field": "climbDuration",
+      "tuning": "Purely the lerp length. Once a real climb animation exists this should match its length, or the character arrives before or after the animation does."
+    },
+    {
+      "field": "climbCurve",
+      "tuning": "Shapes the lerp so the climb does not move at a constant speed, which reads as robotic."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "No climb animation is wired in",
+      "body": "Grab and ClimbUp move the character by lerping its position. With only Idle/Walk/Run/Jump built, a character will slide up the wall in its idle pose. That is expected at this stage, not a bug."
+    },
+    {
+      "title": "Detection is a raycast, so thin or angled ledges are missed",
+      "body": "It checks straight ahead at a fixed height then down for a surface. A ledge approached at a sharp angle, or one thinner than the check, will not register."
+    }
+  ],
+  "seeAlso": [
+    "KinematicCharacterController",
+    "LocomotionStateMachine",
+    "LocomotionAnimatorDriver"
+  ]
+}

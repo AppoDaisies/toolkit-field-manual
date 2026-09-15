@@ -1,0 +1,26 @@
+{
+  "id": "string-utils",
+  "summary": "Truncation with an ellipsis, count-aware pluralisation, and camelCase to Title Case.",
+  "overview": [
+    "Three string jobs that come up in every UI and get written slightly wrong each time. Truncate keeps the ellipsis inside the length budget rather than adding to it; Pluralize picks the word from the count; CamelToTitleCase splits on case boundaries, so it works on any identifier without a lookup table."
+  ],
+  "useCases": [
+    "Fitting an item or quest name into a fixed-width label.",
+    "Writing \"1 coin\" / \"2 coins\" without a conditional at every call site.",
+    "Turning a serialized field or enum name into a readable label in a debug or editor UI."
+  ],
+  "gotchas": [
+    {
+      "title": "Pluralize only handles the regular +s case",
+      "body": "\"enemy\" would become \"enemys\". Pass the plural explicitly for irregular words: Pluralize(2, \"enemy\", \"enemies\")."
+    },
+    {
+      "title": "Truncate counts the suffix inside maxLength",
+      "body": "The result never exceeds maxLength, so the visible text is shorter than you might expect for a short budget with a long suffix."
+    }
+  ],
+  "seeAlso": [
+    "NumberFormatter",
+    "TimeFormatter"
+  ]
+}

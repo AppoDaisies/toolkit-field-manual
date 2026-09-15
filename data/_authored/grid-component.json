@@ -1,0 +1,41 @@
+{
+  "id": "grid-component",
+  "summary": "The grid foundation: drop it on an empty object for a visualised grid plus world/cell conversion.",
+  "overview": [
+    "Set width, height and cell size and you immediately have a visualised grid and conversion between world positions and cell coordinates. The other grid tools reference this component rather than duplicating the conversion maths, so there is one definition of where cell (3,4) actually is."
+  ],
+  "useCases": [
+    "A tile-based building or tower-defence playfield.",
+    "Snapping placement to a grid without writing rounding maths.",
+    "A board for a turn-based or puzzle game."
+  ],
+  "params": [
+    {
+      "field": "plane",
+      "tuning": "XZ for a 3D ground plane, XY for 2D. This is the decision Grid<T> deliberately does not make, so it can serve both."
+    },
+    {
+      "field": "cellSize",
+      "tuning": "In world units. Changing it after placing objects does not move them — they keep their world positions and stop lining up."
+    },
+    {
+      "field": "allowDiagonalNeighbors",
+      "tuning": "Affects what neighbour queries return, which is what GridPathfinder walks."
+    },
+    {
+      "field": "drawGizmo",
+      "tuning": "Editor only, so leaving it on costs nothing in a build."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Cell coordinates are local, not world",
+      "body": "The grid is laid out in this object's local space, so moving or rotating the GameObject moves the whole grid. That is what lets you place a grid on a moving platform, and what surprises you if you rotate it by accident."
+    }
+  ],
+  "seeAlso": [
+    "Grid<T>",
+    "GridPlacer",
+    "GridPathfinder"
+  ]
+}

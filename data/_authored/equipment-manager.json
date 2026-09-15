@@ -1,0 +1,28 @@
+{
+  "id": "equipment-manager",
+  "summary": "Typed equipment slots layered on an existing inventory, which stays the source of truth.",
+  "overview": [
+    "Weapon, head, body and accessory slots composed on top of an existing InventoryContainer rather than storing items of its own. Equipping REMOVES one from the inventory and unequipping ADDS it back, so the inventory remains the single answer to \"does the player own this\"."
+  ],
+  "useCases": [
+    "An equipment screen backed by the same inventory the bag screen shows.",
+    "Stat bonuses derived from what is currently equipped.",
+    "Preventing an item being both worn and sold at the same time."
+  ],
+  "params": [
+    {
+      "field": "inventory",
+      "tuning": "Required — this component stores nothing itself, so with no inventory assigned equipping has nowhere to take from."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Unequipping needs a free slot",
+      "body": "Because the item goes back into the inventory, unequipping into a full bag has to fail or drop. Check capacity before offering the action."
+    }
+  ],
+  "seeAlso": [
+    "InventoryContainer",
+    "ItemDefinition"
+  ]
+}
