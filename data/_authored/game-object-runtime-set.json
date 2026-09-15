@@ -1,0 +1,26 @@
+{
+  "id": "game-object-runtime-set",
+  "summary": "An asset holding the live list of active instances, kept current by the objects themselves.",
+  "overview": [
+    "Tracks something like \"all active enemies\". Objects add and remove themselves as they enable and disable, so anything holding this asset always sees the current set without a FindObjectsOfType scan."
+  ],
+  "useCases": [
+    "Finding the nearest enemy without scanning the scene.",
+    "A live count for a wave or objective UI.",
+    "Iterating every active pickup to apply a global effect."
+  ],
+  "gotchas": [
+    {
+      "title": "It is an asset, so it survives leaving Play mode",
+      "body": "With Domain Reload disabled, stale entries can persist into the next session. Clearing on start is the usual safeguard."
+    },
+    {
+      "title": "Registration order is spawn order, not a sort",
+      "body": "The list reflects when things enabled. Anything needing nearest or strongest has to sort it."
+    }
+  ],
+  "seeAlso": [
+    "RuntimeSetRegistrar",
+    "GameEvent"
+  ]
+}

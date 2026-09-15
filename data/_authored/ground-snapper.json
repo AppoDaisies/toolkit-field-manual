@@ -1,0 +1,36 @@
+{
+  "id": "ground-snapper",
+  "summary": "Keeps an object sitting on the ground, optionally tilted to the slope. Runs at runtime.",
+  "overview": [
+    "Raycasts down and repositions the object onto whatever is below, optionally rotating it to match the surface. Distinct from the editor-time Greybox Placer: this runs in play, continuously if you want."
+  ],
+  "useCases": [
+    "Props that must stay on uneven terrain as it changes.",
+    "Objects on a moving platform that should track its surface.",
+    "Dropping spawned items onto the ground without physics."
+  ],
+  "params": [
+    {
+      "field": "raycastHeight",
+      "tuning": "The ray starts this far ABOVE the object. Too small and an object already slightly sunk can never find the surface it is inside."
+    },
+    {
+      "field": "alignToNormal",
+      "tuning": "Right for crates and rocks, wrong for anything that should stay upright like a character or a signpost."
+    },
+    {
+      "field": "snapEveryFrame",
+      "tuning": "Only needed for moving surfaces. Otherwise one snap on enable is enough, and far cheaper."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It snaps the pivot, not the base",
+      "body": "A model whose pivot sits at its centre will end up half-buried. heightOffset is the adjustment, but a pivot at the foot of the mesh is the real fix."
+    }
+  ],
+  "seeAlso": [
+    "GreyboxPlacerWindow",
+    "RaycastUtils"
+  ]
+}

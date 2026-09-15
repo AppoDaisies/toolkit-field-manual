@@ -1,0 +1,32 @@
+{
+  "id": "tmp-word-highlighter",
+  "summary": "Highlights listed words by recolouring vertices, with no extra objects and no layout change.",
+  "overview": [
+    "List the words and the colour each should take, and it tints them by recolouring the existing text mesh — no extra Image objects behind the text, no change to layout. Matching is by literal text, so every occurrence of a word gets the same treatment."
+  ],
+  "useCases": [
+    "Colouring item or character names inside body text.",
+    "Highlighting keywords in a tutorial or help panel.",
+    "Rarity colours applied consistently wherever a name appears."
+  ],
+  "params": [
+    {
+      "field": "highlights",
+      "tuning": "Re-applied when the text changes, so it survives the string being replaced."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Literal matching catches substrings",
+      "body": "Highlighting \"art\" also colours the middle of \"start\". Distinct words, or rich-text tags, are the way round it."
+    },
+    {
+      "title": "Use TMPTimedHighlighter for a timeline",
+      "body": "This addresses words by text, so every occurrence is the same colour at all times. Highlighting by position over time is a different component on purpose."
+    }
+  ],
+  "seeAlso": [
+    "TMPTimedHighlighter",
+    "TMPWaveEffect"
+  ]
+}

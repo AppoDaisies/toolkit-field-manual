@@ -1,0 +1,33 @@
+{
+  "id": "smooth-follow-camera",
+  "summary": "Offset plus smoothed follow. Works for 2D and 3D because it is only that.",
+  "overview": [
+    "Assign a target and it keeps a world-space offset from it, smoothed. Deliberately nothing more, which is why it serves both 2D and 3D: for 2D, put your usual camera distance in the offset's Z and lock Z so gameplay depth never drifts."
+  ],
+  "useCases": [
+    "A 2D platformer or top-down camera following the player.",
+    "A fixed-angle 3D camera that trails a vehicle or character.",
+    "Any object that should trail another smoothly, not only cameras."
+  ],
+  "params": [
+    {
+      "field": "followSharpness",
+      "tuning": "A rate, not a duration, and frame-rate independent. Higher is snappier; there is no setting for \"arrives in N seconds\" because exponential smoothing never quite arrives."
+    },
+    {
+      "field": "lockZPosition",
+      "tuning": "Turn on for 2D. Most 2D targets never move in Z, so without it a stray Z on the target drags the camera out of its plane."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The offset is world space, not local",
+      "body": "It does not rotate with the target, so the camera will not orbit as the target turns. That is what makes it a fixed-angle camera — use PlayerCameraRig if you want orbiting."
+    }
+  ],
+  "seeAlso": [
+    "PlayerCameraRig",
+    "CameraShake",
+    "CursorPanCamera"
+  ]
+}

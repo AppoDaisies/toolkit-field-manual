@@ -1,0 +1,32 @@
+{
+  "id": "tmp-typewriter-effect",
+  "summary": "Reveals TMP text character by character, with an event on completion and an instant-complete call.",
+  "overview": [
+    "Types text out rather than showing it at once. Exposes Play, CompleteInstantly and an OnTypingComplete event, which is what a dialogue runner needs to let a second click skip to the end of the line."
+  ],
+  "useCases": [
+    "Dialogue and cutscene text reveal.",
+    "A tutorial or tip that draws attention as it appears.",
+    "A skip-on-input flow, using CompleteInstantly."
+  ],
+  "params": [
+    {
+      "field": "charactersPerSecond",
+      "tuning": "Around 30-50 reads as natural speech. Above about 80 the effect stops being visible."
+    },
+    {
+      "field": "playOnEnable",
+      "tuning": "Turn off when something else owns the timing, such as a dialogue runner calling Play per line."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Rich-text tags are not characters",
+      "body": "Tags reveal with the character they attach to rather than being typed out, which is what you want — but it means the visible count does not match the string length."
+    }
+  ],
+  "seeAlso": [
+    "DialogueRunner",
+    "TMPWordHighlighter"
+  ]
+}

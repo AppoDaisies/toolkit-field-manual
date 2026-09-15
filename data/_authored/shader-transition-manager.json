@@ -1,0 +1,29 @@
+{
+  "id": "shader-transition-manager",
+  "summary": "Shader-driven screen transition (radial wipe, dissolve) instead of a flat colour fade.",
+  "overview": [
+    "The fancier alternative to a colour fade: any material whose shader exposes a _Progress float can drive the transition. Kept as a separate component rather than folded into FadeManager, so the plain fade stays simple and needs no material."
+  ],
+  "useCases": [
+    "A radial wipe or iris between scenes.",
+    "A dissolve or burn transition matching a game's art direction.",
+    "Any custom transition, by writing a shader with one progress property."
+  ],
+  "params": [
+    {
+      "field": "transitionMaterial",
+      "tuning": "The shader MUST expose a float named _Progress. A material without it fails silently — nothing animates and nothing logs."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The material is shared state",
+      "body": "Driving the same material asset from two transitions at once fights. Instance it if that is possible in your setup."
+    }
+  ],
+  "seeAlso": [
+    "FadeManager",
+    "DissolveEffect",
+    "Tween"
+  ]
+}

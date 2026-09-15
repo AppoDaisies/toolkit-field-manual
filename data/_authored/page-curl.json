@@ -1,0 +1,73 @@
+{
+  "id": "page-curl",
+  "summary": "Page-turn book that works unchanged as UI or as a 3D world-space object.",
+  "overview": [
+    "A book you can turn the pages of, by button or by dragging a corner. The same controller drives a Canvas book and a real 3D one without changing, because it only ever talks to its surfaces through two small interfaces — so the curl maths, the drag handling and the page list are written once and the rendering is swapped."
+  ],
+  "features": [
+    {
+      "name": "Book controller",
+      "what": "owns the page list, the current spread and the turn, by button or drag."
+    },
+    {
+      "name": "Curl surface",
+      "what": "the one animated page being turned, reused for both directions."
+    },
+    {
+      "name": "Backing surfaces",
+      "what": "the flat left and right pages of the current spread."
+    },
+    {
+      "name": "Canvas and World variants",
+      "what": "the same setup rendered as a UI Graphic or as a real procedural mesh."
+    }
+  ],
+  "useCases": [
+    "An in-game book, journal or codex with real page turns.",
+    "A photo album or recipe book on a kiosk or tablet build.",
+    "A 3D book prop the player can pick up and leaf through."
+  ],
+  "walkthrough": [
+    {
+      "name": "Pages",
+      "what": "The page textures in order. currentPageIndex starts pointing at the first spread."
+    },
+    {
+      "name": "Left / Right backing",
+      "what": "The two static pages of the current spread. These never animate."
+    },
+    {
+      "name": "Curl surface",
+      "what": "The ONE page that animates, reused for turns in both directions rather than one per side."
+    },
+    {
+      "name": "Hinge anchor",
+      "what": "Marks the spine's position and rotation, which is what the curl bends around."
+    },
+    {
+      "name": "Flip duration",
+      "what": "Length of a button-driven turn. Drag-driven turns follow the finger instead."
+    },
+    {
+      "name": "Drag commit threshold",
+      "what": "How far through the turn (0-1) a drag must get before releasing completes it rather than snapping back."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "One curl surface, not one per side",
+      "body": "The same overlay is reused for forward and backward turns. Duplicating it per direction is the common mis-setup and leaves a stale page visible."
+    },
+    {
+      "title": "Pages are textures, with no separate front and back art",
+      "body": "Deliberately texture-only. A page showing different art on its reverse is two entries in the list, not one page with two sides."
+    },
+    {
+      "title": "The 3D drag handler needs a collider, the UI one needs a RectTransform",
+      "body": "They are different components for that reason. Mixing them up means drags simply never register."
+    }
+  ],
+  "seeAlso": [
+    "BookPageCurl"
+  ]
+}

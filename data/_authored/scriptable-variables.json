@@ -1,0 +1,26 @@
+{
+  "id": "scriptable-variables",
+  "summary": "Shared values as assets, so two systems can read the same number without referencing each other.",
+  "overview": [
+    "A value held in an asset instead of a singleton or a cross-scene reference. The health bar reads the same FloatVariable the player writes, and neither needs to find the other. The generic base cannot be created directly — Unity disallows [CreateAssetMenu] on a generic type — so the concrete Float, Int and Bool subclasses exist to be creatable."
+  ],
+  "useCases": [
+    "Player health, score or currency shared between gameplay and UI.",
+    "A difficulty or debug flag read in many places.",
+    "Decoupling two systems that only need to agree on one number."
+  ],
+  "gotchas": [
+    {
+      "title": "Asset values persist in the Editor between Play sessions",
+      "body": "Changes made at runtime are written into the asset and survive stopping. That is useful for tuning and a real trap for player state — reset on start if it should not carry over."
+    },
+    {
+      "title": "Shared means shared",
+      "body": "Two scenes using the same asset share one value. That is the point, and also why per-instance state does not belong here."
+    }
+  ],
+  "seeAlso": [
+    "GameEvent",
+    "GameDataAsset"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "key-button",
+  "summary": "One key on a VirtualKeyboard: a lowercase and uppercase character paired with a Button.",
+  "overview": [
+    "A single key. It holds the two characters and relabels itself when shift changes; the keyboard owns the shift state and the typing, so this reports clicks and nothing more."
+  ],
+  "useCases": [
+    "Building a custom keyboard layout key by key.",
+    "A numeric or symbol pad reusing the same key component."
+  ],
+  "gotchas": [
+    {
+      "title": "It does not type anything itself",
+      "body": "It reports a click to the keyboard, which decides what the character is given shift state. A key with no keyboard above it does nothing."
+    }
+  ],
+  "seeAlso": [
+    "VirtualKeyboard"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "game-event-listener",
+  "summary": "Reacts to a GameEvent asset with an Inspector-wired response. No code for simple cases.",
+  "overview": [
+    "Drop it on whatever should react, assign the event asset and wire the response in the Inspector. For anything simple — play a sound, show a panel, disable an object — that is the whole integration."
+  ],
+  "useCases": [
+    "Showing a game-over screen when a death event is raised.",
+    "Triggering audio or VFX from a gameplay event without a script.",
+    "Letting a designer hook a new reaction without a programmer."
+  ],
+  "params": [
+    {
+      "field": "gameEvent",
+      "tuning": "One listener per event. To react to two events, add two components."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It only listens while enabled",
+      "body": "Registration happens in OnEnable and unregisters in OnDisable, so a disabled object misses events entirely rather than queueing them."
+    }
+  ],
+  "seeAlso": [
+    "GameEvent"
+  ]
+}

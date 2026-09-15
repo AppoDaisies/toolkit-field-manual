@@ -1,0 +1,21 @@
+{
+  "id": "raycast-debug-visualizer",
+  "summary": "Draws the actual ray and its hit point in the Scene view, instead of guessing why a raycast missed.",
+  "overview": [
+    "Draws the ray and a hit marker — a small three-axis cross plus the surface normal — colour-coded green for a hit and red for a miss. The point is to see what the raycast really did rather than reasoning about it from code."
+  ],
+  "useCases": [
+    "Working out why a raycast is not hitting what you expect.",
+    "Checking a mask is excluding what you think it is.",
+    "Seeing the surface normal at a hit point while tuning alignment."
+  ],
+  "gotchas": [
+    {
+      "title": "Editor-only by design",
+      "body": "The drawing calls are conditional, so they compile out of a build. A visualisation you rely on in-game needs real geometry, not this."
+    }
+  ],
+  "seeAlso": [
+    "RaycastUtils"
+  ]
+}

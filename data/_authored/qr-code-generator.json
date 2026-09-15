@@ -1,0 +1,29 @@
+{
+  "id": "qr-code-generator",
+  "summary": "Dependency-free QR encoder producing a Texture2D. Versions 1-4, error correction level M.",
+  "overview": [
+    "Generates a QR code as a Texture2D with no external library and no camera or scanner integration — for \"scan to continue on your phone\" flows. Scope is deliberately narrow: versions 1 to 4, error correction level M, alphanumeric or byte mode chosen automatically."
+  ],
+  "useCases": [
+    "A kiosk handing a session off to the visitor's phone.",
+    "Showing a short URL or code that is easier to scan than to type.",
+    "A printed or on-screen code generated from runtime data."
+  ],
+  "gotchas": [
+    {
+      "title": "Scan-test the first code before relying on it",
+      "body": "The Reed-Solomon maths, the bit-stream construction against the published worked example, and the format-info computation are all covered by the self-test. The exact module placement — where the finder, timing and alignment patterns sit — was written from the standard algorithm rather than copied from a checked reference, and cannot be verified without a real scanner."
+    },
+    {
+      "title": "A quiet zone is included and is not optional",
+      "body": "The blank border is part of the spec. Cropping it, or drawing the texture edge-to-edge against busy art, can stop a scanner locking on."
+    },
+    {
+      "title": "Capacity is small at versions 1-4",
+      "body": "Long URLs will not fit. Shorten the link rather than expecting it to scale."
+    }
+  ],
+  "seeAlso": [
+    "StreamingAssetLoader"
+  ]
+}

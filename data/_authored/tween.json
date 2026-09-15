@@ -1,0 +1,27 @@
+{
+  "id": "tween",
+  "summary": "Tween engine with no setup: start a tween from anywhere and get a handle back.",
+  "overview": [
+    "Call Tween.Float, Tween.Vector3 or Tween.Color and the tween starts immediately — no GameObject to add, no component to configure — returning a TweenHandle you can pause or kill. TweenExtensions adds the DOTween-style shortcuts on top, and one central runner ticks everything rather than each tween owning an Update."
+  ],
+  "useCases": [
+    "Animating UI without a dependency on a tweening asset.",
+    "Short one-off moves, fades and colour changes from gameplay code.",
+    "Anything needing to be cancelled mid-flight, via the handle."
+  ],
+  "gotchas": [
+    {
+      "title": "Keep the handle if the target can die",
+      "body": "A tween holding a destroyed transform is the classic source of a null reference mid-animation. Kill it when the object goes away — or return it to a pool, which disables it and has the same effect."
+    },
+    {
+      "title": "Zero setup means nothing stops you double-tweening",
+      "body": "Two tweens on the same property both run and fight. Kill the previous handle before starting a replacement."
+    }
+  ],
+  "seeAlso": [
+    "FadeManager",
+    "PunchEffects",
+    "EasingFunctions"
+  ]
+}

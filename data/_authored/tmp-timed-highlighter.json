@@ -1,0 +1,36 @@
+{
+  "id": "tmp-timed-highlighter",
+  "summary": "Highlights words on a timeline: karaoke lyrics, voiced captions, timed subtitles.",
+  "overview": [
+    "Highlights word by word against a timeline rather than by text match. A separate component from the plain word highlighter on purpose: that one colours every occurrence of a word the same, this one addresses words by position so the same word can highlight at one moment and not another."
+  ],
+  "useCases": [
+    "Karaoke-style lyrics.",
+    "Captions that follow a voice line.",
+    "Timed subtitles synced to an AudioSource."
+  ],
+  "params": [
+    {
+      "field": "timings",
+      "tuning": "One entry per word, in reading order. Populating it by hand is the slow path — the evenly-spread and JSON helpers exist for that reason."
+    },
+    {
+      "field": "audioSource",
+      "tuning": "Optional. Assigned, playback time is read from it, so the highlight follows the audio rather than a separate clock that can drift."
+    },
+    {
+      "field": "keepPreviousHighlighted",
+      "tuning": "On reads as progressive fill, off as a single moving highlight."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Timings are positional, so editing the text invalidates them",
+      "body": "Adding a word shifts every timing after it. Regenerate rather than patching by hand."
+    }
+  ],
+  "seeAlso": [
+    "TMPWordHighlighter",
+    "DialogueRunner"
+  ]
+}

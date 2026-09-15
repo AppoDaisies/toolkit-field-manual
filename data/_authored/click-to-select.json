@@ -1,0 +1,37 @@
+{
+  "id": "click-to-select",
+  "summary": "Click a 3D object to select it, with events as the selection changes.",
+  "overview": [
+    "Raycasts on click and fires OnSelected and OnDeselected as the selection changes — the RTS \"click a unit\" behaviour. Distinct from the UI drag tools, which go through UGUI's EventSystem rather than real scene colliders."
+  ],
+  "useCases": [
+    "Selecting units or buildings in a strategy game.",
+    "Click-to-inspect in a 3D scene or product viewer.",
+    "Picking a target for an ability."
+  ],
+  "params": [
+    {
+      "field": "selectableMask",
+      "tuning": "Keep it narrow. With everything selectable, clicking the ground deselects by selecting the ground."
+    },
+    {
+      "field": "sourceCamera",
+      "tuning": "Falls back to Camera.main, which is fine until the scene has more than one camera."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It does not know about UI",
+      "body": "A click on a UI panel over the scene still raycasts through to whatever is behind it. Gate it on EventSystem.current.IsPointerOverGameObject when you have full-screen UI."
+    },
+    {
+      "title": "It needs colliders",
+      "body": "A renderer alone is not hittable. Objects without a collider can never be selected."
+    }
+  ],
+  "seeAlso": [
+    "ClickToMoveNavigator",
+    "RaycastUtils",
+    "LookAtTargetFinder"
+  ]
+}

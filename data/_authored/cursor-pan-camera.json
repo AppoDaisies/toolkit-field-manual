@@ -1,0 +1,44 @@
+{
+  "id": "cursor-pan-camera",
+  "summary": "Top-down camera panning in two independent styles: edge pan and drag pan.",
+  "overview": [
+    "Two panning styles in one component, each toggled separately. Edge pan is the MOBA and RTS default — push the cursor to the screen edge and the camera keeps moving. Drag pan holds a mouse button and drags the world. Both can be on at once."
+  ],
+  "useCases": [
+    "An RTS or MOBA camera over a battlefield.",
+    "A city-builder or strategy map the player drags around.",
+    "A top-down level editor view."
+  ],
+  "params": [
+    {
+      "field": "edgeThickness",
+      "tuning": "In pixels, so it feels narrower on a high-density display. Around 10-20 is typical at 1080p."
+    },
+    {
+      "field": "requireCursorInWindow",
+      "tuning": "Leave on for multi-monitor setups, or the camera keeps panning after the cursor leaves the game window."
+    },
+    {
+      "field": "panOnGroundPlaneXZ",
+      "tuning": "The usual choice for a 3D top-down view. Turn it off for a 2D XY setup."
+    },
+    {
+      "field": "useBounds",
+      "tuning": "Without bounds the player can pan off the map entirely, which nearly always reads as a bug."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Edge pan and drag pan can fight",
+      "body": "With both enabled, a drag that ends near the screen edge continues as an edge pan. Usually fine, occasionally surprising."
+    },
+    {
+      "title": "Panning ignores terrain height",
+      "body": "It moves on a flat plane, so over tall terrain the camera can end up underground. Add your own height sampling if the map is not roughly flat."
+    }
+  ],
+  "seeAlso": [
+    "SmoothFollowCamera",
+    "RaycastUtils"
+  ]
+}

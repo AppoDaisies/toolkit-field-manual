@@ -1,0 +1,36 @@
+{
+  "id": "memory-usage-watchdog",
+  "summary": "Samples allocated memory on device and fires when it crosses a threshold, optionally cleaning up.",
+  "overview": [
+    "Periodically samples total allocated memory and fires when it crosses a limit, without the Editor profiler attached. Aimed at the failure mode a 24/7 kiosk hits: memory creeping up over a long session because nothing explicitly unloads."
+  ],
+  "useCases": [
+    "An unattended build that must survive days without a restart.",
+    "Catching a leak on device that does not show in a short Editor session.",
+    "Triggering a cleanup before loading a large batch of assets."
+  ],
+  "params": [
+    {
+      "field": "checkInterval",
+      "tuning": "Seconds. The sample itself is cheap; the cleanup it can trigger is not."
+    },
+    {
+      "field": "thresholdMB",
+      "tuning": "Total allocated, not just textures. Set it from a real device reading, not a guess."
+    },
+    {
+      "field": "autoCleanupOnThreshold",
+      "tuning": "Cleanup frees unreferenced assets and forces a GC, which can cause a multi-frame hitch — which is why it is not run on every check."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Crossing the threshold means it is already too late to be subtle",
+      "body": "Cleanup is the blunt response. Treat a firing watchdog as a signal to find what is not being unloaded, not as the fix."
+    }
+  ],
+  "seeAlso": [
+    "StreamingAssetLoader",
+    "VideoPlayerLifecycleManager"
+  ]
+}

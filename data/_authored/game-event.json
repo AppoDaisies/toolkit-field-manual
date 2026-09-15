@@ -1,0 +1,26 @@
+{
+  "id": "game-event",
+  "summary": "A decoupled event as an asset: anyone raises it, any number of listeners react, neither knows the other.",
+  "overview": [
+    "An event that lives as an asset. Any script calls Raise() on it; any number of GameEventListener components react. The raiser never holds a reference to the listeners and vice versa. Create one asset per distinct event and drag it into both sides."
+  ],
+  "useCases": [
+    "\"Player died\" or \"level complete\" broadcast to UI, audio and analytics at once.",
+    "Letting a designer wire a reaction in the Inspector with no code.",
+    "Breaking a hard reference between two systems that should not know about each other."
+  ],
+  "gotchas": [
+    {
+      "title": "Listeners are runtime registrations, not saved in the asset",
+      "body": "The asset is the channel, not the subscriber list. Who is listening depends entirely on what is enabled in the scene."
+    },
+    {
+      "title": "Raise order is registration order, and not something to rely on",
+      "body": "If two listeners must happen in sequence, make that explicit rather than depending on which enabled first."
+    }
+  ],
+  "seeAlso": [
+    "GameEventListener",
+    "GameObjectRuntimeSet"
+  ]
+}

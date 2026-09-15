@@ -1,0 +1,25 @@
+{
+  "id": "tmp-link-handler",
+  "summary": "Detects clicks on TMP rich-text <link> tags and reports the link id.",
+  "overview": [
+    "Drop it on a TMP_Text containing link tags and it fires OnLinkClicked with the link's id string. Works for UI and 3D world-space text — world-space needs the rendering camera passed, since there is no parent Canvas to infer it from."
+  ],
+  "useCases": [
+    "Clickable terms, credits or help references inside body text.",
+    "An inline keyword that opens a glossary entry.",
+    "Choice text embedded in a dialogue line rather than on buttons."
+  ],
+  "gotchas": [
+    {
+      "title": "World-space text needs a camera",
+      "body": "With no parent Canvas there is nothing to infer the camera from, so hit-testing fails silently until one is supplied."
+    },
+    {
+      "title": "It reports the id, not the visible text",
+      "body": "The id in the tag is what you get. Keeping ids stable while the display text is localised is the point of the split."
+    }
+  ],
+  "seeAlso": [
+    "TMPWordHighlighter"
+  ]
+}

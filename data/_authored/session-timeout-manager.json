@@ -1,0 +1,35 @@
+{
+  "id": "session-timeout-manager",
+  "summary": "Scoped \"are you still there?\" for one in-progress flow, warning before it resets.",
+  "overview": [
+    "Scoped to a single flow — a form, a checkout — through explicit Start and End calls, and it warns before resetting rather than resetting silently. The standard public-kiosk safety net for a flow someone walked away from half-finished."
+  ],
+  "useCases": [
+    "Resetting a part-completed form after the visitor leaves.",
+    "A countdown warning before clearing entered details.",
+    "Protecting personal data left on screen in a public place."
+  ],
+  "params": [
+    {
+      "field": "timeoutDuration",
+      "tuning": "Measured from the last meaningful ACTION, not the last frame."
+    },
+    {
+      "field": "warningDuration",
+      "tuning": "The countdown window before the reset. Too short and nobody can react to it."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Call NotifyActivity on real actions, not every frame",
+      "body": "Pushing the timeout out on every frame means it never fires, which defeats the point. A button press or a field edit is the right trigger."
+    },
+    {
+      "title": "Distinct from IdleAttractManager",
+      "body": "That one watches the whole kiosk to trigger an attract screen. This one is scoped to one flow and is started and ended explicitly."
+    }
+  ],
+  "seeAlso": [
+    "IdleAttractManager"
+  ]
+}

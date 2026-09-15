@@ -1,0 +1,32 @@
+{
+  "id": "fade-manager",
+  "summary": "Screen fade with genuinely zero setup: it creates its own overlay canvas if you do not give it one.",
+  "overview": [
+    "Call FadeManager.Instance.FadeOut from anywhere. If no overlay Image is assigned it builds its own full-screen Canvas and Image on first use, at a high sorting order so it draws over everything — so there is nothing to wire in the scene at all."
+  ],
+  "useCases": [
+    "Fading out before a scene load and back in after.",
+    "A death or transition blackout.",
+    "Covering a moment of heavy loading."
+  ],
+  "params": [
+    {
+      "field": "overlayImage",
+      "tuning": "Assign one only when it needs to sit at a particular place in your canvas order. Otherwise let it build its own."
+    },
+    {
+      "field": "fadeColor",
+      "tuning": "Black is conventional; white reads as a flash, which suits a different kind of moment."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The auto-created overlay blocks raycasts while opaque",
+      "body": "That is usually what you want during a transition, and a problem if you fade out and never fade back in."
+    }
+  ],
+  "seeAlso": [
+    "ShaderTransitionManager",
+    "Tween"
+  ]
+}

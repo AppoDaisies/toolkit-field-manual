@@ -1,0 +1,23 @@
+{
+  "id": "raycast-utils",
+  "summary": "Shared screen-to-world raycast helpers, so the same logic is not hand-copied at each call site.",
+  "overview": [
+    "The screen-position-to-world-point logic that was otherwise being rewritten inline in several places — the grid placer, the tower placer and a couple of demo runners each had their own version. New mouse and screen-picking code should come through here rather than adding a fourth."
+  ],
+  "useCases": [
+    "Turning a mouse position into a world point on a ground plane.",
+    "Picking a point under the cursor for placement or targeting.",
+    "Falling back to a mathematical plane when there is no collider to hit."
+  ],
+  "gotchas": [
+    {
+      "title": "The plane overload needs no collider, the raycast overload does",
+      "body": "ScreenPointToPlane intersects a mathematical plane and always succeeds. The raycast versions need something physical and can miss — pick according to whether an empty area should still give you a point."
+    }
+  ],
+  "seeAlso": [
+    "GridPlacer",
+    "ClickToSelect",
+    "RaycastDebugVisualizer"
+  ]
+}

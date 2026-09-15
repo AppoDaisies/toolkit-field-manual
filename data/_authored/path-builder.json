@@ -1,0 +1,100 @@
+{
+  "id": "path-builder",
+  "summary": "Author a spline, then either scatter prefabs along it or extrude a road mesh from it.",
+  "overview": [
+    "A path you place points on in the Scene view, and two things that consume it: spawn a prefab repeatedly along it, or extrude a road-style mesh. The spline half is usable entirely on its own — drop it with the follower for a patrol route or camera rail and never touch the generation side."
+  ],
+  "features": [
+    {
+      "name": "Spline path",
+      "what": "hand-placed points evaluated as a Catmull-Rom curve, authored in local space so moving the object moves the whole path."
+    },
+    {
+      "name": "Prefab spacing",
+      "what": "repeats a prefab along the path at a fixed distance or by the prefab's own bounds."
+    },
+    {
+      "name": "Road mesh",
+      "what": "extrudes a ribbon of geometry along the path, with UVs that tile by world length."
+    },
+    {
+      "name": "Spline follower",
+      "what": "moves a transform along the path at constant world speed at runtime."
+    }
+  ],
+  "useCases": [
+    "Fences, walls, lamp posts or barriers placed evenly along a curve.",
+    "A road or track through a level without modelling it.",
+    "A patrol route, camera rail or conveyor at runtime, using only the spline and follower."
+  ],
+  "walkthrough": [
+    {
+      "group": "Path",
+      "name": "Points",
+      "what": "The path, authored in the object's LOCAL space. Moving or rotating the object moves the whole path with it."
+    },
+    {
+      "group": "Path",
+      "name": "Tension",
+      "what": "0 gives a smooth curve through every point. Higher tightens it toward straight segments."
+    },
+    {
+      "group": "Path",
+      "name": "Length Samples Per Segment",
+      "what": "Accuracy of the arc-length table. Raise it only if constant-speed movement looks uneven on sharp curves."
+    },
+    {
+      "group": "Generate",
+      "name": "Mode",
+      "what": "Prefab spacing or road mesh."
+    },
+    {
+      "group": "Generate",
+      "name": "Spacing Mode",
+      "what": "Fixed Distance uses a world-unit gap; Prefab Bounds measures the prefab so pieces meet end to end."
+    },
+    {
+      "group": "Generate",
+      "name": "Bounds Axis",
+      "what": "Which local axis of the prefab counts as its length. Get this wrong and pieces overlap or leave gaps."
+    },
+    {
+      "group": "Generate",
+      "name": "Align To Tangent",
+      "what": "Rotates each instance so its local +Z follows the path."
+    },
+    {
+      "group": "Generate",
+      "name": "Road Width / Cross Section Height",
+      "what": "The ribbon's width across the path and the thickness of the slab."
+    },
+    {
+      "group": "Generate",
+      "name": "Road UV Tile Length",
+      "what": "World units of road per UV tile, so the texture does not stretch on long paths."
+    },
+    {
+      "group": "Generate",
+      "name": "Generate",
+      "what": "Runs it. Nothing regenerates automatically, so editing points stays cheap on a large path."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Generation is manual, on purpose",
+      "body": "Nothing rebuilds as you drag a point. That is the same rule the guidance hub follows — no per-frame work in the Editor — and it means what you see is the last Generate, not the current path."
+    },
+    {
+      "title": "Regenerating replaces the spawned instances",
+      "body": "Hand-edits to a generated instance are lost on the next Generate. Tweak the path or the overrides instead."
+    },
+    {
+      "title": "Instances spawn ACTIVE, which was once a real bug here",
+      "body": "Cloning an inactive template yields an inactive clone that never renders. The spawner forces the clone active — a lesson this project learned seven separate times."
+    }
+  ],
+  "seeAlso": [
+    "SplineUtils",
+    "BezierUtils"
+  ]
+}

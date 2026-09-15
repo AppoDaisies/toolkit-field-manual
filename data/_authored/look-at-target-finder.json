@@ -1,0 +1,33 @@
+{
+  "id": "look-at-target-finder",
+  "summary": "Continuously answers \"what am I looking at\" and fires an event when the answer changes.",
+  "overview": [
+    "Raycasts from the screen centre, crosshair style, or straight out of this transform, and fires OnTargetChanged whenever what it finds changes. Distinct from a hitscan attack, which is a one-shot \"fire now\" rather than a standing query."
+  ],
+  "useCases": [
+    "A \"Press E to interact\" prompt that appears when you look at something.",
+    "Highlighting whatever is under the crosshair.",
+    "Enemy or object tooltips in a first-person view."
+  ],
+  "params": [
+    {
+      "field": "useScreenCenter",
+      "tuning": "On for a first or third-person crosshair. Off to raycast from the object's own forward, for an NPC's gaze or a turret."
+    },
+    {
+      "field": "targetMask",
+      "tuning": "Narrow this, or the world geometry behind your target becomes the target."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It raycasts every frame",
+      "body": "One raycast is cheap; one per frame per finder across many objects is not. Give NPC gaze checks an interval rather than running this on everything."
+    }
+  ],
+  "seeAlso": [
+    "RaycastUtils",
+    "InteractionDetector",
+    "ClickToSelect"
+  ]
+}

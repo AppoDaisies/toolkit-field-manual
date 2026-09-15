@@ -1,0 +1,33 @@
+{
+  "id": "streaming-asset-loader",
+  "summary": "Loads textures from StreamingAssets on demand, evicting the least recently used.",
+  "overview": [
+    "Loads Texture2D assets from StreamingAssets when they are asked for, instead of baking every image into the build, and drops the least recently used once the cache is full. The direct answer to memory bloat on a kiosk with a large image library.",
+    "It uses UnityWebRequestTexture rather than File I/O specifically because StreamingAssets lives inside a compressed APK on Android and cannot be read with System.IO there — so this behaves the same on every platform."
+  ],
+  "useCases": [
+    "A product or gallery kiosk with hundreds of images.",
+    "Content that ships beside the build and can be updated without rebuilding.",
+    "Keeping memory flat across a long unattended session."
+  ],
+  "params": [
+    {
+      "field": "maxCachedItems",
+      "tuning": "Textures, not megabytes. A cache of 20 small icons and 20 full-screen photos are very different amounts of memory."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Loading is asynchronous",
+      "body": "It calls back rather than returning the texture, so code that assumes an immediate result will read null."
+    },
+    {
+      "title": "An evicted texture is gone, not merely unreferenced",
+      "body": "Anything still displaying it will show a destroyed texture. Re-request instead of caching the reference yourself."
+    }
+  ],
+  "seeAlso": [
+    "LruCache<TKey, TValue>",
+    "MemoryUsageWatchdog"
+  ]
+}

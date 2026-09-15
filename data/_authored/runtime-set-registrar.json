@@ -1,0 +1,26 @@
+{
+  "id": "runtime-set-registrar",
+  "summary": "Adds its GameObject to a runtime set while enabled, and removes it when disabled.",
+  "overview": [
+    "The other half of a runtime set. Drop it on anything that should count itself — an enemy, a pickup, any spawned instance you want a live list of."
+  ],
+  "useCases": [
+    "Making every spawned enemy countable without the spawner tracking them.",
+    "Keeping a pooled object out of the set while it sits in the pool."
+  ],
+  "params": [
+    {
+      "field": "runtimeSet",
+      "tuning": "Unassigned, the object simply never registers — silently, which is the usual reason a set looks empty."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Pooled objects rely on this being enable-driven",
+      "body": "Because it registers in OnEnable and unregisters in OnDisable, a pooled object correctly leaves the set when returned. Registering in Awake instead would leave dead entries in it."
+    }
+  ],
+  "seeAlso": [
+    "GameObjectRuntimeSet"
+  ]
+}

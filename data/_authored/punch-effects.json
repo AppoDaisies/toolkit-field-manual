@@ -1,0 +1,22 @@
+{
+  "id": "punch-effects",
+  "summary": "Punch and shake juice for any Transform, built on the tween engine.",
+  "overview": [
+    "Static helpers for the short feedback that makes an interaction feel solid — a scale punch on a button press, a shake on an invalid action. For cameras specifically, CameraShake remains the better choice: it accumulates trauma across overlapping hits rather than replaying a fixed punch."
+  ],
+  "useCases": [
+    "A button that pops when pressed.",
+    "An inventory slot that shakes on an invalid drop.",
+    "A world object reacting to a hit without an animation."
+  ],
+  "gotchas": [
+    {
+      "title": "It animates the transform, so it fights a layout system",
+      "body": "Punching a UI element under a Layout Group means the group keeps overwriting the position. Punch a child, or disable the layout while it plays."
+    }
+  ],
+  "seeAlso": [
+    "CameraShake",
+    "Tween"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "video-player-lifecycle-manager",
+  "summary": "Enforces prepare, play, stop, release on a VideoPlayer instead of leaving decoders allocated.",
+  "overview": [
+    "Wraps a VideoPlayer so each clip goes through a clean cycle rather than leaving the previous clip's decoder and RenderTexture allocated between plays. It owns its own looping, rather than using the VideoPlayer's native isLooping, specifically so every loop goes through the same stop-and-release path instead of keeping one decoder session alive forever."
+  ],
+  "useCases": [
+    "An attract-mode video looping for hours on a kiosk.",
+    "A playlist of clips where memory must stay flat.",
+    "Any long-running build where video memory creeps up over a session."
+  ],
+  "params": [
+    {
+      "field": "loopSingleClip",
+      "tuning": "Turn off when you are managing a playlist yourself, so it does not restart the clip you just finished."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Native looping is deliberately not used",
+      "body": "isLooping keeps one decoder session alive indefinitely, which is the leak this exists to avoid. Re-calling PlayClip costs a prepare per loop and that is the trade."
+    }
+  ],
+  "seeAlso": [
+    "MemoryUsageWatchdog",
+    "StreamingAssetLoader"
+  ]
+}

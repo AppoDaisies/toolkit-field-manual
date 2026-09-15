@@ -1,0 +1,41 @@
+{
+  "id": "camera-shake",
+  "summary": "Trauma-based screen shake: add trauma on impact and it decays and stacks on its own.",
+  "overview": [
+    "Call AddTrauma(0..1) when something hits, explodes or lands, instead of setting a duration and strength. Trauma decays by itself and several hits stack naturally rather than cutting each other off. It runs in LateUpdate so it layers on top of whatever already positioned the camera that frame."
+  ],
+  "useCases": [
+    "Impact feedback for hits, explosions and hard landings.",
+    "Continuous rumble by topping trauma up each frame while something is ongoing.",
+    "Shake that survives overlapping events without restarting."
+  ],
+  "params": [
+    {
+      "field": "maxOffset",
+      "tuning": "The offset at FULL trauma. Most hits should add well under 1 trauma, so the usual shake is a fraction of this."
+    },
+    {
+      "field": "traumaDecayPerSecond",
+      "tuning": "Controls how long a shake lasts. Higher is snappier; low values let repeated hits build into a sustained rumble."
+    },
+    {
+      "field": "noiseSpeed",
+      "tuning": "Changes the character, not the size — slow reads as a rolling sway, fast as a sharp rattle."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Trauma is squared before it is applied",
+      "body": "That is what makes small hits subtle and big ones dramatic. It also means doubling the trauma you add roughly quadruples the visible shake."
+    },
+    {
+      "title": "LateUpdate order matters",
+      "body": "It layers on top of the camera's position for that frame. A follow camera that also runs in LateUpdate can fight it depending on execution order."
+    }
+  ],
+  "seeAlso": [
+    "PunchEffects",
+    "SmoothFollowCamera",
+    "PlayerCameraRig"
+  ]
+}

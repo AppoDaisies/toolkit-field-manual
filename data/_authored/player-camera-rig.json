@@ -1,0 +1,57 @@
+{
+  "id": "player-camera-rig",
+  "summary": "First and third-person player camera with collision, smoothing and FOV boost. No rig hierarchy to build.",
+  "overview": [
+    "Drop it on a Camera, assign the player, pick a mode. There is no pivot hierarchy to construct because position is computed from the target plus yaw, pitch and distance rather than from parented objects — which is also why switching between first and third person is just a mode change."
+  ],
+  "useCases": [
+    "A third-person character camera that pulls in when a wall would block it.",
+    "First-person with the target turning to face the camera's yaw.",
+    "Switching between the two at runtime without rebuilding anything."
+  ],
+  "params": [
+    {
+      "field": "collisionMask",
+      "tuning": "Leave foliage, props and small clutter OUT, or the camera lurches forward every time a blade of grass crosses the line."
+    },
+    {
+      "field": "collisionRadius",
+      "tuning": "It spherecasts rather than raycasts so thin geometry and corners cannot slip through. Roughly the camera's near-plane size is a sensible starting point."
+    },
+    {
+      "field": "minDistance",
+      "tuning": "The floor the collision pull-in respects. Too small and the camera ends up inside the character."
+    },
+    {
+      "field": "positionSharpness",
+      "tuning": "Frame-rate independent, like the follow camera. Higher is snappier."
+    },
+    {
+      "field": "rotateTargetToYaw",
+      "tuning": "Standard for first person, usually wrong for third — it stops the character being able to face away from the camera."
+    },
+    {
+      "field": "movingFovBoost",
+      "tuning": "A small amount reads as speed. More than a few degrees reads as a fisheye."
+    },
+    {
+      "field": "shakeWhileMoving",
+      "tuning": "Head bob. Worth exposing as an accessibility option — it makes some players motion sick."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Pitch clamps, yaw does not",
+      "body": "minPitch and maxPitch stop the camera flipping over. Yaw wraps freely, which is what you want, but means a raw yaw value grows without bound."
+    },
+    {
+      "title": "lockCursor makes the Editor awkward",
+      "body": "It hides and locks the cursor to the window, which is right in a build and irritating while testing. Escape releases it in the Editor."
+    }
+  ],
+  "seeAlso": [
+    "PlayerCameraRigSetup",
+    "SmoothFollowCamera",
+    "CameraShake"
+  ]
+}

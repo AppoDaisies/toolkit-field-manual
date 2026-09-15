@@ -1,0 +1,32 @@
+{
+  "id": "virtual-keyboard",
+  "summary": "Touch-friendly on-screen keyboard that types into a TMP_InputField.",
+  "overview": [
+    "An on-screen keyboard for a kiosk with no physical keyboard, editing a TMP_InputField's text and caret directly. It drives a grid of KeyButtons you build at author time rather than generating layout at runtime — matching the convention the rest of the UI toolkit follows, so the layout is something you can see and adjust in the scene."
+  ],
+  "useCases": [
+    "Entering a name or email on a touch kiosk.",
+    "A search field on a public display.",
+    "Any build with a touchscreen and no keyboard attached."
+  ],
+  "params": [
+    {
+      "field": "target",
+      "tuning": "Rebindable at runtime through Bind, which is how one keyboard serves a username and a password field."
+    },
+    {
+      "field": "keys",
+      "tuning": "The KeyButtons of your author-time layout. Build the QWERTY or numeric layout once and reuse it."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The layout is built by you, not generated",
+      "body": "That is deliberate, and it means adding a key is a scene edit rather than a setting."
+    }
+  ],
+  "seeAlso": [
+    "KeyButton",
+    "TouchGestureRecognizer"
+  ]
+}

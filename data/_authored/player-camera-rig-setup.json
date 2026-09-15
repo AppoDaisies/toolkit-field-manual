@@ -1,0 +1,21 @@
+{
+  "id": "player-camera-rig-setup",
+  "summary": "One-click rig setup, offered instead of shipping a prefab.",
+  "overview": [
+    "Wires the rig onto objects in YOUR scene, which is the one thing a prefab cannot do. A prefab would bake a camera and its settings into a binary asset that cannot be diffed or hand-edited, and it still would not know which object is your player."
+  ],
+  "whereToFind": "Toolkit ▸ Camera ▸ Set Up Third Person Camera On Selection (and the first-person variant)",
+  "useCases": [
+    "Setting up a player camera in a new scene without hand-assigning fields.",
+    "Getting a working third-person camera in one step while prototyping."
+  ],
+  "gotchas": [
+    {
+      "title": "It acts on the current selection",
+      "body": "The menu item is disabled with nothing selected. Select the player first, not the camera."
+    }
+  ],
+  "seeAlso": [
+    "PlayerCameraRig"
+  ]
+}

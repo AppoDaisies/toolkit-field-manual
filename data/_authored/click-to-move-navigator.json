@@ -1,0 +1,33 @@
+{
+  "id": "click-to-move-navigator",
+  "summary": "Click the ground to send a NavMeshAgent there.",
+  "overview": [
+    "Point-and-click movement: click a walkable surface and the attached NavMeshAgent is sent to that point. It is the only thing in the toolkit bridging a raycast to navigation — the grid placer is for snapped placement, not for moving something that already exists."
+  ],
+  "useCases": [
+    "Point-and-click movement in an RPG or adventure game.",
+    "Ordering a selected unit to a destination in a strategy game.",
+    "Moving a companion or pet to a marked spot."
+  ],
+  "params": [
+    {
+      "field": "groundMask",
+      "tuning": "Should match the geometry the NavMesh was baked from. A click that lands off the NavMesh is silently dropped."
+    },
+    {
+      "field": "mouseButton",
+      "tuning": "Right click is conventional for move orders in strategy games, left in adventure games."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The click point must be on the NavMesh, not just on a collider",
+      "body": "Raycasting a surface and being able to path to it are different questions. A click on unbaked geometry hits but does nothing."
+    }
+  ],
+  "seeAlso": [
+    "ClickToSelect",
+    "NavMeshAIController",
+    "RaycastUtils"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "idle-attract-manager",
+  "summary": "Detects no input for a period and fires, so an attract loop can take over.",
+  "overview": [
+    "Watches for mouse, touch and keyboard input and fires when none has happened for long enough — wire that to an attract video, a slideshow or a return to the home screen. Any input resets it and ends idle exactly once per idle period, not on every input frame."
+  ],
+  "useCases": [
+    "An attract loop on a kiosk between visitors.",
+    "Returning to the home screen after someone walks away.",
+    "Dimming or sleeping a display after inactivity."
+  ],
+  "params": [
+    {
+      "field": "idleTimeout",
+      "tuning": "Long enough that reading a screen does not trigger it. Thirty seconds is short for anything with text on it."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It polls the legacy Input class",
+      "body": "Matching this project's LegacyInputManager default. On a project using the Input System package, the detection block is the part to swap."
+    },
+    {
+      "title": "It watches the whole application, not one flow",
+      "body": "For \"are you still there\" inside a single form or checkout, SessionTimeoutManager is the scoped version."
+    }
+  ],
+  "seeAlso": [
+    "SessionTimeoutManager",
+    "LegacyInputManager"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "lru-cache",
+  "summary": "Minimal generic LRU cache, plain C# with no Unity dependency.",
+  "overview": [
+    "A least-recently-used cache: reading an entry marks it most recent, and adding past capacity evicts the oldest through a callback so the caller decides what eviction means — destroying a texture, closing a handle. Used by StreamingAssetLoader but with no dependency on it, so it is testable and reusable standalone."
+  ],
+  "useCases": [
+    "Bounding memory for anything loaded on demand.",
+    "Caching expensive computations with a hard ceiling.",
+    "Unit-testable caching logic outside a scene."
+  ],
+  "gotchas": [
+    {
+      "title": "Eviction is your callback's job",
+      "body": "The cache drops the reference; it does not know a Texture2D needs destroying. Nothing is freed unless onEvicted does it."
+    },
+    {
+      "title": "TryGet counts as a use",
+      "body": "That is what makes it LRU rather than FIFO, and it means a read can change what gets evicted next."
+    }
+  ],
+  "seeAlso": [
+    "StreamingAssetLoader"
+  ]
+}

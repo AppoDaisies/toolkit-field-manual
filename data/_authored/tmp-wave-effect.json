@@ -1,0 +1,32 @@
+{
+  "id": "tmp-wave-effect",
+  "summary": "Classic per-character sine wave, without forcing a text re-layout every frame.",
+  "overview": [
+    "Offsets each character's mesh vertices in a running wave. It caches the clean, unanimated vertex positions once whenever the text changes rather than calling ForceMeshUpdate every frame — which avoids a full re-layout per frame and, more importantly, avoids the re-entrancy that made an earlier version recurse."
+  ],
+  "useCases": [
+    "A title or banner with movement.",
+    "Emphasising a word or phrase in dialogue.",
+    "A floating, dreamlike look for narration."
+  ],
+  "params": [
+    {
+      "field": "amplitude",
+      "tuning": "In local text units, so the same value looks bigger on larger text."
+    },
+    {
+      "field": "frequency",
+      "tuning": "Phase offset between adjacent characters. Higher makes a tighter ripple; very high starts to look like noise."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It fights anything else that rewrites the mesh",
+      "body": "Another effect calling ForceMeshUpdate on the same text invalidates the cached positions. Combining per-character effects on one TMP_Text needs care."
+    }
+  ],
+  "seeAlso": [
+    "TMPWordHighlighter",
+    "TMPTypewriterEffect"
+  ]
+}
