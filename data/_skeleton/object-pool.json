@@ -7,7 +7,7 @@
   "src_file": "Core/ObjectPool/ObjectPool.cs",
   "src_lines": [
     8,
-    106
+    164
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [],
@@ -63,11 +63,11 @@
   "src_members": [
     {
       "id": "Initialize(GameObject, int, bool, Transform)",
-      "sig": "public void Initialize(GameObject newPrefab, int newPrewarmCount = 0, bool newAllowGrowth = true, Transform newPoolParent = null)",
+      "sig": "public void Initialize(GameObject newPrefab, int newPrewarmCount = -1, bool newAllowGrowth = true, Transform newPoolParent = null)",
       "kind": "method",
       "name": "Initialize",
       "static": false,
-      "comment": "Configures this pool from code — for a component that creates its own ObjectPool at runtime (e.g. via gameObject.AddComponent&lt;ObjectPool&gt;()) instead of pre-wiring one in the Inspector. Safe to call regardless of whether Awake has already run (Awake skips prewarming when prefab is still null)."
+      "comment": "Configures this pool from code — for a component that creates its own ObjectPool at runtime (e.g. via gameObject.AddComponent&lt;ObjectPool&gt;()) instead of pre-wiring one in the Inspector. Safe to call regardless of whether Awake has already run (Awake skips prewarming when prefab is still null). newPrewarmCount defaults to -1 meaning \"leave whatever is already configured\", NOT 0. It used to default to 0, so calling Initialize(prefab) to set just the prefab silently overwrote the Inspector's prewarm count with zero and removed the prewarming the field was asking for."
     },
     {
       "id": "Get(Vector3, Quaternion)",
@@ -79,7 +79,7 @@
     },
     {
       "id": "Get()",
-      "sig": "public GameObject Get() => Get(poolParent.position, poolParent.rotation)",
+      "sig": "public GameObject Get() => Get(poolParent != null ? poolParent.position : transform.position,",
       "kind": "method",
       "name": "Get",
       "static": false,

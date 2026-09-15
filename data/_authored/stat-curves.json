@@ -57,8 +57,8 @@
       "body": "Only the exact-1 case is special-cased (via Mathf.Approximately, so near-1 values route there too). A growthRate of 0.9 produces a converging series — the XP requirement approaches a ceiling and later levels become nearly free — and a negative growthRate makes Mathf.Pow oscillate in sign. Neither errors. Keep growthRate above 1 unless you have deliberately designed a decelerating curve."
     },
     {
-      "title": "Swapping minDistance and maxDistance silently inverts the falloff",
-      "body": "Both falloff functions call InverseLerp(maxDistance, minDistance, distance) with no validation, so passing them the wrong way round produces a curve that deals MORE damage further away. Nothing warns you; the only symptom is that the explosion feels backwards."
+      "title": "The two distances are ordered for you, so a transposed call is safe",
+      "body": "Passing them the wrong way round used to invert the curve completely: with (5, 30) transposed to (30, 5), a target at point blank took 0 and one at maximum range took full damage. That reads as a balance problem rather than a bug, so both falloffs now order the pair before using it."
     },
     {
       "title": "Both falloffs clamp, so there is no negative or extrapolated damage",

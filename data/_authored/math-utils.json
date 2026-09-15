@@ -70,7 +70,7 @@
     },
     {
       "title": "DeltaAngle duplicates UnityEngine.Mathf.DeltaAngle",
-      "body": "Not a trap, just worth knowing: this is functionally the same as Unity's built-in. It exists so the toolkit's angle handling is visible and self-contained on top of its own Mod. Either is fine; do not assume this one does something extra."
+      "body": "Not a trap, and now said so in the source rather than only here: it is functionally the same as Unity's built-in, kept so the toolkit's angle handling is visible and self-contained on top of its own Mod. Either is fine; this one does nothing extra."
     }
   ],
   "seeAlso": [

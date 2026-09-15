@@ -60,12 +60,12 @@
       "body": "Every roll after the first uses a chance strictly greater than baseChance, and the guarantee caps the tail. So if a design document says '5% drop rate', typing 0.05 into baseChance produces something meaningfully more generous. Decide whether baseChance or the observed rate is the number you are balancing against, and simulate a few thousand rolls to check."
     },
     {
-      "title": "FailCount cannot be saved or restored",
-      "body": "It is an auto-property with a private setter, and it is not a serialized field — so it does not survive a domain reload, does not round-trip through a save file, and there is no API to set it. baseChance and guaranteedAfter (both [SerializeField]) DO persist, which makes the asymmetry easy to miss. If pity progress must survive a session, this class cannot express that as written."
+      "title": "Pity progress persists, via a serialized field",
+      "body": "FailCount was an auto-property with a private setter and therefore invisible to Unity's serializer — config survived a save and the player's accumulated bad luck did not, which is exactly backwards for the gacha case. It is now a [SerializeField] behind a read-only property, with LoadFailCount to restore it from a save (clamped, so a stored value cannot make the next roll a certainty)."
     },
     {
-      "title": "guaranteedAfter of 0 or 1 makes every roll succeed",
-      "body": "The guard is `FailCount >= guaranteedAfter — 1`. With guaranteedAfter = 1 that is 0 >= 0, and with 0 it is 0 >= -1 — both true on a fresh timer, so chance is forced to 1 every time. Neither value is validated. Keep guaranteedAfter at 2 or more."
+      "title": "guaranteedAfter is clamped to at least 1",
+      "body": "At 0 the guarantee test read `0 >= -1`, true on a brand-new timer, so every roll succeeded and baseChance was ignored — verified at 1000 successes in 1000 rolls. It now clamps to 1, which means \"guaranteed within one attempt\" and so still always succeeds — that is the coherent reading of the value, not a bug. Anything below 2 makes baseChance irrelevant."
     },
     {
       "title": "Roll() draws from the global UnityEngine.Random stream",

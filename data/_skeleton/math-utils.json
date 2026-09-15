@@ -7,7 +7,7 @@
   "src_file": "Math/MathUtils/MathUtils.cs",
   "src_lines": [
     5,
-    61
+    66
   ],
   "src_base": null,
   "src_implements": [],
@@ -56,7 +56,7 @@
       "kind": "method",
       "name": "DeltaAngle",
       "static": true,
-      "comment": "Shortest signed difference between two angles in degrees, always in [-180, 180]. Use this instead of subtracting angles directly to avoid the 359-to-1-degree wraparound bug."
+      "comment": "Shortest signed difference between two angles in degrees, always in [-180, 180]. Use this instead of subtracting angles directly to avoid the 359-to-1-degree wraparound bug. Functionally identical to UnityEngine.Mathf.DeltaAngle - kept so the toolkit's angle handling is visible and self-contained on top of its own Mod. Either is fine; this one does nothing extra."
     },
     {
       "id": "Damp(float, float, float, float)",
@@ -88,7 +88,7 @@
       "kind": "method",
       "name": "DirectionTo",
       "static": true,
-      "comment": "Direction and distance packed together, saves a redundant (b - a).normalized elsewhere."
+      "comment": "The normalized direction from one point to another - a readability helper for (b - a).normalized. It does NOT also hand back the distance; use Vector3.Distance if you need that too. Returns Vector3.zero when from == to, because Unity's .normalized does, which is safer than a NaN but still not a valid forward vector for Quaternion.LookRotation."
     }
   ],
   "src_enumValues": [],

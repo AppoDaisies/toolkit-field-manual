@@ -51,8 +51,8 @@
       "body": "\"2d0\" becomes two calls to Random.Range(1, 1), which returns 1 each time, for a total of 2. No exception, no warning — just a constant where you expected randomness. Negative sides behave similarly oddly."
     },
     {
-      "title": "A zero-weight entry in first position can still be picked",
-      "body": "The comparison is `roll <= cumulative`, and Random.Range(0f, total) can return exactly 0. If the first option has weight 0 its cumulative is also 0, and 0 <= 0 matches. Vanishingly rare, but real. Filter zero-weight entries out, or at least never put them first."
+      "title": "Zero-weight entries are skipped entirely",
+      "body": "They used to be pickable: Random.Range(0f, total) can return exactly 0 and the test was `roll <= cumulative`, so an entry weighted 0 in first position won that roll despite excluding itself. Zero and negative weights are now skipped outright, and a list where EVERY weight is zero throws rather than silently returning something."
     },
     {
       "title": "NextGaussian is unbounded",

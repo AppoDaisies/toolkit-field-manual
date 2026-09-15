@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.Core",
   "src_file": "Core/StateMachine/StateMachine.cs",
   "src_lines": [
-    8,
-    52
+    9,
+    69
   ],
   "src_base": null,
   "src_implements": [],

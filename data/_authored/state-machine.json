@@ -48,8 +48,8 @@
       "body": "CheckTransitions walks the list in registration order and does `SetState(to); return;` on the first condition that is true — so registration order is priority order, and one rule at most fires per Tick. A broad any-state rule registered early shadows everything after it while its condition holds, which is usually exactly what you want for 'any state -> Dead' and exactly what you do not want for a permissive catch-all."
     },
     {
-      "title": "A self-transition silently blocks the rest of the table",
-      "body": "If a rule's 'to' is the state you are already in, SetState returns early and does nothing — but CheckTransitions has already committed to its `return`. So while that condition is true, no other transition is ever evaluated and the machine appears stuck for no visible reason. Never register a rule where from and to are the same instance."
+      "title": "A self-transition is refused rather than accepted",
+      "body": "A rule whose from and to were the same state wedged the machine: the check found it, called SetState, which returned immediately because that state was already current, and then returned out of the loop — blocking every later rule for as long as the condition held. AddTransition now rejects it with an error, and an any-state rule pointing at the current state is skipped rather than ending the scan."
     },
     {
       "title": "SetState cannot re-enter the current state",

@@ -70,20 +70,20 @@
       "body": "Release's only guard is `if (poolable != null && poolable.IsPooled) return;`. On a plain prefab there is no PoolableObject, so two systems both reacting to the same 'death' and both calling Release push the same GameObject onto the stack twice — and two later Get() calls then hand out the same live object to two owners. The source comment flags this explicitly. Add a PoolableObject to any prefab that more than one system can retire."
     },
     {
-      "title": "Prewarm only ever runs once per pool",
-      "body": "A private `prewarmed` flag latches true the first time Awake or Initialize prewarms. Calling Initialize() a second time with a different prefab swaps the prefab field but performs no prewarm, and — worse — the stack still holds instances of the OLD prefab, which Get() will happily hand out until it drains. Treat a pool as single-prefab for its lifetime and add a second ObjectPool for a second prefab."
+      "title": "Changing the prefab rebuilds the pool",
+      "body": "A private latch meant a second Initialize with a different prefab swapped the field but kept the OLD prefab's instances, so the pool went on handing out the previous prefab until the stack drained — a swap that looked like it worked and then quietly did the wrong thing. Initialize now detects a prefab change, destroys the pooled instances and prewarms again."
     },
     {
-      "title": "Initialize() silently resets prewarmCount to 0",
-      "body": "Its signature is Initialize(prefab, newPrewarmCount = 0, ...), so calling Initialize(myPrefab) on a pool that was also configured in the Inspector overwrites the serialized prewarmCount (default 10) with 0 and prewarms nothing. Always pass newPrewarmCount explicitly."
+      "title": "Initialize leaves prewarmCount alone unless you pass one",
+      "body": "The parameter defaulted to 0, so calling Initialize(prefab) to set just the prefab overwrote the Inspector's count with zero and removed the prewarming that field was asking for. It now defaults to -1, meaning \"keep what is configured\"."
     },
     {
       "title": "allowGrowth = false makes Get() return null",
       "body": "It does not throw, and it does not recycle the oldest live object — it just returns null. Every call site needs a null check; the Core demo runner does `if (instance != null) spawnCount++`. Silent no-spawns are the usual symptom of a too-small pool with growth disabled."
     },
     {
-      "title": "Pooled objects stay parented to poolParent, so its scale leaks in",
-      "body": "Instances are created with Instantiate(prefab, poolParent) and Get() never unparents them. Get() writes world position and rotation but never touches scale, so a poolParent with a non-identity scale visually resizes every object the pool hands out, and a rotated poolParent skews it. Keep the pool GameObject at scale 1 and rotation identity, or point poolParent at a dedicated clean empty."
+      "title": "The prefab's scale is restored on the way out, and a scaled pool parent is reported",
+      "body": "Instances stay parented on purpose — pooled UI parents its pool to a Canvas, and a RectTransform outside a Canvas does not render at all, so unparenting would break every UI pool to fix a transform problem. Get now restores the prefab's own localScale, and a pool parent with a non-identity world scale logs a warning once, since that is a setup mistake rather than something to silently compensate for."
     },
     {
       "title": "A recycled object keeps all its old state",

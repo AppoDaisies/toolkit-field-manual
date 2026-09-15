@@ -52,8 +52,8 @@
   },
   "gotchas": [
     {
-      "title": "A prewarmed instance has IsPooled == false while it sits in the pool",
-      "body": "IsPooled only becomes true inside NotifyDespawned, which only runs on an actual Release. Instances created by Prewarm go straight onto the stack having never been spawned, so they report IsPooled false. The double-release guard therefore does not protect an instance that has never been handed out — Release()-ing one of those pushes it onto the stack a second time."
+      "title": "IsPooled starts true, so prewarmed instances are protected",
+      "body": "It defaulted to false, and a prewarmed instance has never been spawned so NotifySpawned had never run — which meant the double-release guard did not recognise those instances as already pooled, and releasing one pushed it onto the stack twice. Two later Get calls could then hand out the same live object. It now starts true."
     },
     {
       "title": "Release() destroys the object when SourcePool is null",

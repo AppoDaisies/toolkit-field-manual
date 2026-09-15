@@ -41,12 +41,12 @@
       "body": "Awake is protected virtual. Declaring `private void Awake()` in your subclass hides it rather than overriding it, so nothing registers the instance, the duplicate guard never runs and persistAcrossScenes is ignored — with no compiler error. Always `protected override void Awake()` and call base.Awake() first. The same applies to OnApplicationQuit."
     },
     {
-      "title": "isQuitting is a static that is never reset to false",
-      "body": "OnApplicationQuit latches it, and from then on Instance returns null forever — a deliberate guard against resurrecting a manager during teardown, so anything touching Instance from OnDestroy/OnApplicationQuit must null-check. The sting is in the Editor: Unity also calls OnApplicationQuit when you leave Play mode, so with Domain Reload disabled (Enter Play Mode Options) the flag and the stale instance reference survive into the next Play session and Instance returns null from the very first frame. Keep Domain Reload on, or reset both statics from a [RuntimeInitializeOnLoadMethod]."
+      "title": "The shutdown flag resets at the start of every play session",
+      "body": "Unity fires OnApplicationQuit when you leave PLAY MODE too, not only when a build exits. With Domain Reload disabled the static latched true at the end of one session and Instance returned null from the first frame of the NEXT one. Both the flag and the cached instance are now cleared by a RuntimeInitializeOnLoadMethod, which runs whether or not domain reload is on."
     },
     {
-      "title": "The constraint is `where T : MonoBehaviour`, not `where T : Singleton<T>`",
-      "body": "Nothing stops you writing `class Foo : Singleton<Bar>`. It compiles, and then `instance = this as T` evaluates to null, so Foo's Awake registers nothing, the duplicate guard is inert, and the first Foo.Instance access auto-creates a stray Bar GameObject. Always pass your own type as T."
+      "title": "The constraint is now `where T : Singleton<T>`",
+      "body": "With the looser MonoBehaviour constraint, `class Foo : Singleton<Bar>` compiled and then `this as T` silently evaluated to null, leaving Instance permanently empty with nothing to explain it. That mistake no longer compiles. All 17 subclasses in the toolkit already used the correct form."
     },
     {
       "title": "DontDestroyOnLoad only works on a root GameObject",

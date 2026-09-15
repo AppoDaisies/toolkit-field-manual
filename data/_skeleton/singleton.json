@@ -6,16 +6,16 @@
   "src_ns": "Toolkit.Core",
   "src_file": "Core/Singleton/Singleton.cs",
   "src_lines": [
-    6,
-    51
+    11,
+    76
   ],
-  "src_base": "MonoBehaviour where T : MonoBehaviour",
+  "src_base": "MonoBehaviour where T : Singleton<T>",
   "src_implements": [],
   "src_static": false,
   "src_internal": false,
   "src_runtime": true,
   "src_attributes": {},
-  "src_typeComment": "Generic MonoBehaviour singleton. Inherit as: public class GameManager : Singleton<GameManager>",
+  "src_typeComment": "Generic MonoBehaviour singleton. Inherit as: public class GameManager : Singleton<GameManager>  The constraint is `where T : Singleton<T>` (the curiously recurring pattern), NOT `where T : MonoBehaviour`. With the looser constraint, `class Foo : Singleton<Bar>` compiled happily and then `this as T` silently evaluated to null at runtime, leaving Instance permanently empty with nothing to explain why. This way that mistake will not compile.",
   "src_serialized": [
     {
       "name": "persistAcrossScenes",

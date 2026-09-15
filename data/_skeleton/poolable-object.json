@@ -7,7 +7,7 @@
   "src_file": "Core/ObjectPool/PoolableObject.cs",
   "src_lines": [
     9,
-    66
+    74
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [],
@@ -57,11 +57,19 @@
     },
     {
       "id": "IsPooled",
-      "sig": "public bool IsPooled { get; private set; }",
+      "sig": "public bool IsPooled { get; private set; } = true",
       "kind": "property",
       "name": "IsPooled",
       "static": false,
-      "comment": "True while this instance is sitting inactive in its pool. ObjectPool checks this to reject a double-release (e.g. two different scripts both calling Release() on the same object), which would otherwise push the same instance into the pool twice and let two later Get() calls hand out the same live object."
+      "comment": "True while this instance is sitting inactive in its pool. ObjectPool checks this to reject a double-release (e.g. two different scripts both calling Release() on the same object), which would otherwise push the same instance into the pool twice and let two later Get() calls hand out the same live object. Starts TRUE. A prewarmed instance has never been spawned, so NotifySpawned has never run; with a default of false the double-release guard in ObjectPool.Release did not recognise those instances as already pooled, and releasing one pushed it onto the stack a second time - after which two Get() calls could hand out the same live object."
+    },
+    {
+      "id": "PrefabLocalScale",
+      "sig": "public Vector3 PrefabLocalScale { get; set; } = Vector3.one",
+      "kind": "property",
+      "name": "PrefabLocalScale",
+      "static": false,
+      "comment": "The prefab's own localScale, captured when the pool creates this instance. Parenting applies the parent's scale, so the pool restores this on the way out."
     },
     {
       "id": "NotifySpawned()",

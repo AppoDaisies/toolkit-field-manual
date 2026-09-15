@@ -7,7 +7,7 @@
   "src_file": "Math/Probability/PityTimer.cs",
   "src_lines": [
     11,
-    40
+    56
   ],
   "src_base": null,
   "src_implements": [],
@@ -36,12 +36,22 @@
       "range": null,
       "order": 1,
       "comment": null
+    },
+    {
+      "name": "failCount",
+      "type": "int",
+      "default": null,
+      "tooltip": "Consecutive failures so far. Serialized so pity progress survives a save; set it from LoadFailCount when restoring.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": "SERIALIZED, not an auto-property. The whole point of a pity timer is that bad luck carries across sessions: as a { get; private set; } auto-property this was invisible to Unity's serializer, so the CONFIG saved and the player's accumulated progress toward the guarantee did not - exactly backwards for the gacha case the class is named after."
     }
   ],
   "src_members": [
     {
       "id": "FailCount",
-      "sig": "public int FailCount { get; private set; }",
+      "sig": "public int FailCount => failCount",
       "kind": "property",
       "name": "FailCount",
       "static": false,
@@ -73,11 +83,19 @@
     },
     {
       "id": "Reset()",
-      "sig": "public void Reset() => FailCount = 0",
+      "sig": "public void Reset() => failCount = 0",
       "kind": "method",
       "name": "Reset",
       "static": false,
       "comment": null
+    },
+    {
+      "id": "LoadFailCount(int)",
+      "sig": "public void LoadFailCount(int value) => failCount = Mathf.Clamp(value, 0, Mathf.Max(1, guaranteedAfter) - 1)",
+      "kind": "method",
+      "name": "LoadFailCount",
+      "static": false,
+      "comment": "Restores accumulated pity from a save. Clamped, because a value at or beyond the guarantee would make the next roll a certainty regardless of what the save actually meant."
     }
   ],
   "src_enumValues": [],
