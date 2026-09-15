@@ -1,0 +1,238 @@
+{
+  "id": "localization-manager",
+  "name": "LocalizationManager",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationManager.cs",
+  "src_lines": [
+    29,
+    362
+  ],
+  "src_base": "Singleton<LocalizationManager>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Localization/Localization Manager"
+  },
+  "src_typeComment": "Drop this in the first scene, assign a LocaleRegistry, done: every LocalizedText in the project reads from it and updates the moment the language changes.  Lookup order for one key: the CURRENT locale, then the FALLBACK locale, then the missing-key display. The fallback step is what makes a half-translated language usable — the lines the translator has finished appear in their language, the rest stay readable in the fallback rather than going blank.",
+  "src_serialized": [
+    {
+      "name": "registry",
+      "type": "LocaleRegistry",
+      "default": null,
+      "tooltip": "Every language the game ships with. Create one via Assets > Create > Toolkit > Localization > Locale Registry, or let the Localization Importer build it for you.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "defaultLocaleCode",
+      "type": "string",
+      "default": "\"en\"",
+      "tooltip": "Locale code used when there is no saved choice and no system-language match.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "fallbackLocaleCode",
+      "type": "string",
+      "default": "\"en\"",
+      "tooltip": "Locale code consulted when a key is missing from the current locale. Normally the language the game was written in. Leave empty to disable fallback.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "matchSystemLanguageOnFirstRun",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "On a first launch (no saved choice), pick the locale whose Target System Language matches the device. Only locales that actually declare one can be matched.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "rememberSelection",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Persist the chosen language in PlayerPrefs so it survives a restart. A single string does not justify its own save file, which is why this does not go through SaveSystem.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "playerPrefsKey",
+      "type": "string",
+      "default": "\"Toolkit.Localization.Locale\"",
+      "tooltip": "PlayerPrefs key used when Remember Selection is on.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "missingKeyDisplay",
+      "type": "MissingKeyDisplay",
+      "default": "MissingKeyDisplay.MarkedKey",
+      "tooltip": "What to show for a key that exists in neither the current nor the fallback locale.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "logMissingKeys",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Log a warning the FIRST time each missing key is asked for. Once per key, not once per frame — a LocalizedText on every label would otherwise flood the console.",
+      "header": null,
+      "range": null,
+      "order": 7,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "LocaleChangedEvent()",
+      "sig": "public LocaleChangedEvent OnLocaleChanged = new LocaleChangedEvent()",
+      "kind": "method",
+      "name": "LocaleChangedEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentLocaleCode",
+      "sig": "public string CurrentLocaleCode",
+      "kind": "property",
+      "name": "CurrentLocaleCode",
+      "static": false,
+      "comment": "These call EnsureInitialized like every other public entry point does. They are the ones most likely to be touched FIRST — a language picker reads AvailableLocaleCodes before anything asks for a string — and an expression-bodied property that skipped the lazy-init would report an empty toolkit for no visible reason."
+    },
+    {
+      "id": "CurrentLocaleDisplayName",
+      "sig": "public string CurrentLocaleDisplayName",
+      "kind": "property",
+      "name": "CurrentLocaleDisplayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "CurrentFont",
+      "sig": "public TMP_FontAsset CurrentFont",
+      "kind": "property",
+      "name": "CurrentFont",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "AvailableLocaleCodes",
+      "sig": "public IReadOnlyList<string> AvailableLocaleCodes",
+      "kind": "property",
+      "name": "AvailableLocaleCodes",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Get(string)",
+      "sig": "public string Get(string key)",
+      "kind": "method",
+      "name": "Get",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Get(string, params object[])",
+      "sig": "public string Get(string key, params object[] args)",
+      "kind": "method",
+      "name": "Get",
+      "static": false,
+      "comment": "string.Format is wrapped because a translator turning \"You have {0} coins\" into \"You have {0 coins\" throws FormatException at runtime, in a language nobody on the team reads. Falling back to the unformatted template keeps the game running and names the offending key in the console."
+    },
+    {
+      "id": "IsTranslated(string)",
+      "sig": "public bool IsTranslated(string key)",
+      "kind": "method",
+      "name": "IsTranslated",
+      "static": false,
+      "comment": "True only if the CURRENT locale has the key — i.e. it is genuinely translated, not merely resolvable through the fallback. That distinction is what a translation-progress readout needs."
+    },
+    {
+      "id": "HasKey(string)",
+      "sig": "public bool HasKey(string key)",
+      "kind": "method",
+      "name": "HasKey",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TranslatedKeyCount",
+      "sig": "public int TranslatedKeyCount",
+      "kind": "property",
+      "name": "TranslatedKeyCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetDisplayName(string)",
+      "sig": "public string GetDisplayName(string localeCode)",
+      "kind": "method",
+      "name": "GetDisplayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetFont(string)",
+      "sig": "public TMP_FontAsset GetFont(string localeCode)",
+      "kind": "method",
+      "name": "GetFont",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetLocale(string)",
+      "sig": "public bool SetLocale(string localeCode)",
+      "kind": "method",
+      "name": "SetLocale",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetRegistry(LocaleRegistry)",
+      "sig": "public void SetRegistry(LocaleRegistry newRegistry)",
+      "kind": "method",
+      "name": "SetRegistry",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Rebuild()",
+      "sig": "public void Rebuild()",
+      "kind": "method",
+      "name": "Rebuild",
+      "static": false,
+      "comment": "Re-reads every LocaleAsset in the registry. DISCARDS anything added by AddOrOverrideLocale — call it only when the registry itself changed, then re-apply runtime files."
+    },
+    {
+      "id": "AddOrOverrideLocale(string, string, IDictionary<string, string>)",
+      "sig": "public void AddOrOverrideLocale(string localeCode, string displayName, IDictionary<string, string> strings)",
+      "kind": "method",
+      "name": "AddOrOverrideLocale",
+      "static": false,
+      "comment": "Adds a language that has no asset at all, or layers text on top of one that does — this is how LocalizationFileLoader feeds a CSV/JSON read at runtime (a community translation, a hotfix wording change) into the same lookup the shipped assets use. Existing keys are overwritten, untouched keys are left alone, so a patch file only needs the lines it actually changes."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Localization_Demo"
+  ]
+}

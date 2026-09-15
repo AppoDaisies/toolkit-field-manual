@@ -1,0 +1,41 @@
+{
+  "id": "locale-entry",
+  "name": "LocaleEntry",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocaleAsset.cs",
+  "src_lines": [
+    13,
+    21
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One row of a locale's translation table. A class rather than a struct so Unity's Inspector gives it proper reorderable-list behaviour, and [TextArea] so a long sentence doesn't have to be edited through a one-line field.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "key",
+      "sig": "public string key",
+      "kind": "field",
+      "name": "key",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "text",
+      "sig": "public string text",
+      "kind": "field",
+      "name": "text",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

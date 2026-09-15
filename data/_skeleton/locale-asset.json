@@ -1,0 +1,132 @@
+{
+  "id": "locale-asset",
+  "name": "LocaleAsset",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocaleAsset.cs",
+  "src_lines": [
+    31,
+    103
+  ],
+  "src_base": "GameDataAsset",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Localization/Locale\", fileName = \"Locale_en\""
+  },
+  "src_typeComment": "One language, as an asset: a locale code (the inherited `id` field — \"en\", \"fr\", \"de\", \"en-PT\"), a human-readable name for a language picker, and a flat key -> text table.  This is a GameDataAsset subclass on purpose: LocaleRegistry is a GameDataRegistry<LocaleAsset>, so looking a language up by its code is the registry's existing GetById() and nothing new had to be written for it. ONE ASSET PER LANGUAGE, not one per string — a per-string asset would mean thousands of .asset files and a merge conflict on every translation pass.",
+  "src_serialized": [
+    {
+      "name": "displayName",
+      "type": "string",
+      "default": "\"\"",
+      "tooltip": "Shown to the player in a language picker, in that language — \"English\", \"Français\", \"Deutsch\". The inherited Id above is the code the game uses internally.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "systemLanguage",
+      "type": "SystemLanguage",
+      "default": "SystemLanguage.Unknown",
+      "tooltip": "Which Application.systemLanguage this locale serves. Set it and LocalizationManager can pick this language automatically on a player's first launch. Leave Unknown to opt out of auto-detection — the code is never guessed from the id, so a non-standard code like \"en-PT\" cannot be mis-detected.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "fontOverride",
+      "type": "TMP_FontAsset",
+      "default": null,
+      "tooltip": "Optional. A font asset to swap in while this locale is active — the practical answer to a language whose glyphs the default font does not contain. LocalizedText applies it automatically.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "entries",
+      "type": "List<LocaleEntry>",
+      "default": "new List<LocaleEntry>()",
+      "tooltip": "The translation table. Normally filled in by the CSV/JSON importer (Toolkit > Localization Importer) rather than typed by hand.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "DisplayName",
+      "sig": "public string DisplayName => string.IsNullOrEmpty(displayName) ? Id : displayName",
+      "kind": "property",
+      "name": "DisplayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TargetSystemLanguage",
+      "sig": "public SystemLanguage TargetSystemLanguage => systemLanguage",
+      "kind": "property",
+      "name": "TargetSystemLanguage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "FontOverride",
+      "sig": "public TMP_FontAsset FontOverride => fontOverride",
+      "kind": "property",
+      "name": "FontOverride",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Entries",
+      "sig": "public IReadOnlyList<LocaleEntry> Entries => entries",
+      "kind": "property",
+      "name": "Entries",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TryGet(string, out string)",
+      "sig": "public bool TryGet(string key, out string value)",
+      "kind": "method",
+      "name": "TryGet",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Has(string)",
+      "sig": "public bool Has(string key)",
+      "kind": "method",
+      "name": "Has",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Count",
+      "sig": "public int Count",
+      "kind": "property",
+      "name": "Count",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ToDictionary()",
+      "sig": "public Dictionary<string, string> ToDictionary()",
+      "kind": "method",
+      "name": "ToDictionary",
+      "static": false,
+      "comment": "A copy, so LocalizationManager can merge runtime-loaded text on top of it without editing the asset (which would dirty it in the Editor and persist a runtime-only override into source control)."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

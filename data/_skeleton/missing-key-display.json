@@ -1,0 +1,28 @@
+{
+  "id": "missing-key-display",
+  "name": "MissingKeyDisplay",
+  "cat": "Data",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationManager.cs",
+  "src_lines": [
+    12,
+    17
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "What a key that has no translation ANYWHERE should render as. The default is deliberately the loud one: a missing string that silently renders as plausible text is the easiest localisation bug to ship.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Key",
+    "MarkedKey",
+    "Empty"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

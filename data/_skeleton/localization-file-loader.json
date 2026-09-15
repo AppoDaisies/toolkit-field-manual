@@ -1,0 +1,148 @@
+{
+  "id": "localization-file-loader",
+  "name": "LocalizationFileLoader",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationFileLoader.cs",
+  "src_lines": [
+    36,
+    142
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Localization/Localization File Loader"
+  },
+  "src_typeComment": "OPTIONAL. Loads a translation file at runtime and layers it over the locales the game shipped with — the answer to \"we found a typo in the German text\" or \"a player translated it into Polish\" without rebuilding. Delete this script if you only ever want the LocaleAssets that ship in the registry; nothing else in the folder depends on it.  Keys that the file does not mention are left alone, so a patch file only needs the lines it changes, and a CSV can introduce a language that has no asset at all.",
+  "src_serialized": [
+    {
+      "name": "format",
+      "type": "LocalizationFileFormat",
+      "default": "LocalizationFileFormat.Csv",
+      "tooltip": "CSV = one sheet with a column per language. JSON = one file holding one language.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "location",
+      "type": "LocalizationFileLocation",
+      "default": "LocalizationFileLocation.StreamingAssets",
+      "tooltip": "Where the file lives. StreamingAssets ships with the build; PersistentDataPath is for a file downloaded or dropped in after install.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "filePath",
+      "type": "string",
+      "default": "\"Localization/extra.csv\"",
+      "tooltip": "Path within that location, e.g. \"Localization/extra.csv\". For Absolute Path, the full path.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "jsonLocaleCode",
+      "type": "string",
+      "default": "\"en\"",
+      "tooltip": "JSON only: the locale code this file's text belongs to. A CSV names its own languages in the header, so this is ignored for CSV.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "jsonDisplayName",
+      "type": "string",
+      "default": "\"\"",
+      "tooltip": "JSON only: the name to show in a language picker if this file introduces a brand-new locale.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "loadOnStart",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Load as soon as this component starts. Turn off to call Load() yourself at a controlled moment.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "activateAfterLoad",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "After loading, switch the game to the first locale the file provided. Useful when the file IS the language the player asked for; leave off when it is just a patch.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "LocalizationLoadedEvent()",
+      "sig": "public LocalizationLoadedEvent OnLoaded = new LocalizationLoadedEvent()",
+      "kind": "method",
+      "name": "LocalizationLoadedEvent",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "IsLoaded",
+      "sig": "public bool IsLoaded { get; private set; }",
+      "kind": "property",
+      "name": "IsLoaded",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LoadedKeyCount",
+      "sig": "public int LoadedKeyCount { get; private set; }",
+      "kind": "property",
+      "name": "LoadedKeyCount",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "LastError",
+      "sig": "public string LastError { get; private set; } = \"\"",
+      "kind": "property",
+      "name": "LastError",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Load()",
+      "sig": "public void Load() => StartCoroutine(LoadRoutine())",
+      "kind": "method",
+      "name": "Load",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Apply(string)",
+      "sig": "public void Apply(string fileText)",
+      "kind": "method",
+      "name": "Apply",
+      "static": false,
+      "comment": "Exposed separately so text fetched some other way — a web response, an in-game text box, a test — can go through exactly the same merge path as a file on disk."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Localization_Demo"
+  ]
+}

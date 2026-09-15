@@ -1,0 +1,27 @@
+{
+  "id": "localization-file-format",
+  "name": "LocalizationFileFormat",
+  "cat": "Data",
+  "src_typeKind": "enum",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationFileLoader.cs",
+  "src_lines": [
+    10,
+    14
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [
+    "Csv",
+    "Json"
+  ],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,26 @@
+{
+  "id": "locale-registry",
+  "name": "LocaleRegistry",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocaleRegistry.cs",
+  "src_lines": [
+    13,
+    15
+  ],
+  "src_base": "GameDataRegistry<LocaleAsset>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Localization/Locale Registry\", fileName = \"LocaleRegistry\""
+  },
+  "src_typeComment": "The list of every language the game ships with. This is the concrete subclass GameDataRegistry<T>'s own comment asks for — Unity cannot put [CreateAssetMenu] on a generic type, so the pattern is to subclass it once per data type. Nothing else is needed: GetById(\"fr\") and All come from the base class.  Assign one of these to LocalizationManager and every LocaleAsset in its list becomes a selectable language.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,41 @@
+{
+  "id": "localization-json",
+  "name": "LocalizationJson",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationJson.cs",
+  "src_lines": [
+    26,
+    182
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Reads and writes the other shape translations arrive in: ONE FILE PER LANGUAGE, a flat object of key -> text.  { \"ui.start\": \"Start\", \"ui.quit\": \"Quit\" }  Nested objects are flattened with dots, so the equally common  { \"ui\": { \"start\": \"Start\", \"quit\": \"Quit\" } }  produces exactly the same keys — which is what makes a file exported from a web translation tool drop straight in.  WHY THIS EXISTS RATHER THAN JsonHelper: a localisation file is a string -> string map and nothing else, and JsonUtility cannot deserialize a Dictionary at all. The toolkit's JsonHelper can, but it needs the Newtonsoft package, and the convention here is that a tool does not drag a package in for one narrow job — the same reasoning that produced CsvUtility instead of a spreadsheet library. If your file has numbers, arrays or nested non-string values, it is not a localisation file: use JsonHelper for it.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Parse(string)",
+      "sig": "public static Dictionary<string, string> Parse(string json)",
+      "kind": "method",
+      "name": "Parse",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ToJson(IReadOnlyDictionary<string, string>, bool)",
+      "sig": "public static string ToJson(IReadOnlyDictionary<string, string> strings, bool prettyPrint = true)",
+      "kind": "method",
+      "name": "ToJson",
+      "static": true,
+      "comment": "Always written flat, one key per line, sorted — a localisation file lives in source control and gets re-exported constantly, so a stable line order is what keeps its diffs readable."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

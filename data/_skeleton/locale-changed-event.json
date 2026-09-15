@@ -1,0 +1,24 @@
+{
+  "id": "locale-changed-event",
+  "name": "LocaleChangedEvent",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationManager.cs",
+  "src_lines": [
+    20,
+    20
+  ],
+  "src_base": "UnityEvent<string>",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

@@ -1,0 +1,33 @@
+{
+  "id": "localized-text-editor",
+  "name": "LocalizedTextEditor",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.EditorTools",
+  "src_file": "Data/Localization/Editor/LocalizedTextEditor.cs",
+  "src_lines": [
+    14,
+    112
+  ],
+  "src_base": "Editor",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {},
+  "src_typeComment": "A localisation key is an opaque string, so the one thing this inspector has to answer is \"did I spell it right, and what does it actually say?\" — without entering Play mode. It shows the key's text in every language the project has, and offers a picker of the keys that really exist, which is the difference between a typo caught now and a #ui.strat_button# in a screenshot later.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "OnInspectorGUI()",
+      "sig": "public override void OnInspectorGUI()",
+      "kind": "method",
+      "name": "OnInspectorGUI",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

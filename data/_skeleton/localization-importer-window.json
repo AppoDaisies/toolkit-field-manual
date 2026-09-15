@@ -1,0 +1,61 @@
+{
+  "id": "localization-importer-window",
+  "name": "LocalizationImporterWindow",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.EditorTools",
+  "src_file": "Data/Localization/Editor/LocalizationImporterWindow.cs",
+  "src_lines": [
+    16,
+    287
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Localization Importer"
+    ]
+  },
+  "src_typeComment": "Toolkit > Localization Importer: turns a translator's spreadsheet into LocaleAssets plus the LocaleRegistry that lists them, and exports the round trip back out so new keys reach the translator.  Re-importing UPDATES the existing assets in place rather than replacing them, so their GUIDs survive and every scene reference to the registry keeps working — the whole point of doing this through the AssetDatabase instead of writing .asset files directly.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<LocalizationImporterWindow>(\"Localization Importer\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "Import(LocalizationTable, string, string)",
+      "sig": "public static string Import(LocalizationTable table, string outputFolder, string registryName)",
+      "kind": "method",
+      "name": "Import",
+      "static": true,
+      "comment": "Public and static so the self-test can drive the whole import without a window open."
+    },
+    {
+      "id": "BuildTableFromRegistry(LocaleRegistry)",
+      "sig": "public static LocalizationTable BuildTableFromRegistry(LocaleRegistry registry)",
+      "kind": "method",
+      "name": "BuildTableFromRegistry",
+      "static": true,
+      "comment": "The union of every key in every locale, sorted — a key that only the newest language has still needs to reach the translator working on the others. Sorted rather than encounter-ordered so two exports of the same data produce byte-identical files and source control stays quiet."
+    },
+    {
+      "id": "EnsureFolder(string)",
+      "sig": "public static void EnsureFolder(string folder)",
+      "kind": "method",
+      "name": "EnsureFolder",
+      "static": true,
+      "comment": "AssetDatabase.CreateFolder only makes ONE level at a time, so \"Assets/A/B/C\" has to be walked."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

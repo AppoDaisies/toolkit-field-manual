@@ -84,7 +84,7 @@ CATS = [
     ("Settings",             "Settings",              "Volume, quality and fullscreen persistence."),
     ("InputManagers",        "Input Managers",        "Legacy Input and the new Input System behind one wrapper."),
     ("Input",                "Touch Input",           "Touch gesture recognition."),
-    ("Data",                 "Data / CSV",            "CSV parsing and conversion utilities."),
+    ("Data",                 "Data & Localization",   "CSV parsing, and the key-to-text localisation system built on it."),
     ("BackgroundMatte",      "Background Matte",      "Editor-time texture background removal."),
     ("EditorTools",          "Editor Tools",          "Windows and wizards: level guidance, renamers, CSV tables, task recall."),
 ]
@@ -291,6 +291,17 @@ def infer_kind(e):
 #   group     which GROUP_ORDER group the composite entry should sit in
 #   sections  ordered (section title, [member type names]) - every remaining member must appear
 SYSTEMS = [
+    {
+        "name": "Localization",
+        "cat": "Data",
+        "primary": "LocalizationManager",
+        "sections": [
+            ("Language data", ["LocaleAsset", "LocaleRegistry"]),
+            ("In the scene", ["LocalizedText", "LocalizationFileLoader"]),
+            ("File formats", ["LocalizationCsv", "LocalizationJson"]),
+            ("Editor integration", ["LocalizationImporterWindow", "LocalizedTextEditor"]),
+        ],
+    },
     {
         "name": "TaskRecaller",
         "cat": "EditorTools",

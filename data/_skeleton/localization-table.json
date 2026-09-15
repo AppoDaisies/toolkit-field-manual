@@ -1,0 +1,65 @@
+{
+  "id": "localization-table",
+  "name": "LocalizationTable",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationCsv.cs",
+  "src_lines": [
+    10,
+    27
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "A whole translation sheet in memory: the locale codes across the top, the keys down the side, and the text in between. Kept as a plain data holder so the CSV shape and the asset shape never have to know about each other — the importer, the exporter and the runtime file loader all meet here.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "List<string>()",
+      "sig": "public readonly List<string> LocaleCodes = new List<string>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "List<string>()",
+      "sig": "public readonly List<string> Keys = new List<string>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "ByLocale",
+      "sig": "public readonly Dictionary<string, Dictionary<string, string>> ByLocale = new Dictionary<string, Dictionary<string, string>>()",
+      "kind": "field",
+      "name": "ByLocale",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetLocale(string)",
+      "sig": "public Dictionary<string, string> GetLocale(string localeCode)",
+      "kind": "method",
+      "name": "GetLocale",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "TranslatedCount(string)",
+      "sig": "public int TranslatedCount(string localeCode)",
+      "kind": "method",
+      "name": "TranslatedCount",
+      "static": false,
+      "comment": "How many of this sheet's keys the locale actually has text for — the number a translation-progress readout is asking for."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

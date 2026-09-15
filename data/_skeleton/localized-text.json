@@ -1,0 +1,110 @@
+{
+  "id": "localized-text",
+  "name": "LocalizedText",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizedText.cs",
+  "src_lines": [
+    15,
+    116
+  ],
+  "src_base": "MonoBehaviour",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "addComponentMenu": "Toolkit/Localization/Localized Text"
+  },
+  "src_typeComment": "Drop this on any label, type a key, and it shows that key's text in the current language — and swaps the instant the language changes. This is the component you actually use day to day; everything else in the folder exists to feed it.  The target label is found on this same GameObject if you do not assign one, so the whole setup is \"Add Component, type key\". Both TextMeshPro and legacy UI.Text are supported because a project that predates TMP should not have to migrate its UI before it can be translated.",
+  "src_serialized": [
+    {
+      "name": "key",
+      "type": "string",
+      "default": null,
+      "tooltip": "The lookup key, e.g. \"ui.start_button\". The same key exists in every locale — that is what makes switching language work.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "tmpTarget",
+      "type": "TMP_Text",
+      "default": null,
+      "tooltip": "Optional. Leave empty and the TextMeshPro or UI.Text component on this GameObject is used.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
+      "name": "uiTarget",
+      "type": "Text",
+      "default": null,
+      "tooltip": "Optional. A legacy UI.Text target, for projects not on TextMeshPro. Only used when there is no TMP target.",
+      "header": null,
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "applyLocaleFont",
+      "type": "bool",
+      "default": "true",
+      "tooltip": "Apply the active locale's Font Override (if it has one) to this label. Turn off for a label whose font is deliberately fixed, like a logo.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Key",
+      "sig": "public string Key => key",
+      "kind": "property",
+      "name": "Key",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetKey(string)",
+      "sig": "public void SetKey(string newKey)",
+      "kind": "method",
+      "name": "SetKey",
+      "static": false,
+      "comment": "Swap which line this label shows — e.g. one reusable status label that says \"Saved\" or \"Failed\"."
+    },
+    {
+      "id": "SetArguments(params object[])",
+      "sig": "public void SetArguments(params object[] args)",
+      "kind": "method",
+      "name": "SetArguments",
+      "static": false,
+      "comment": "Supply the values for a key whose text contains {0}, {1}, ... They are remembered, so the label re-formats itself correctly when the player switches language without the caller doing anything."
+    },
+    {
+      "id": "ClearArguments()",
+      "sig": "public void ClearArguments()",
+      "kind": "method",
+      "name": "ClearArguments",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Refresh()",
+      "sig": "public void Refresh()",
+      "kind": "method",
+      "name": "Refresh",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": [
+    "Localization_Demo"
+  ]
+}

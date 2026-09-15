@@ -1,0 +1,116 @@
+{
+  "id": "localization",
+  "summary": "Key-to-text localisation: one CSV or JSON in, every label in the game switches language.",
+  "overview": [
+    "Your UI stops holding text and starts holding KEYS. A label says \"menu.start\", and what the player reads comes from whichever language is active — so adding a language is a spreadsheet column, not a pass over every scene. It is a lookup table you or a translator fill in ahead of time, not machine translation: nothing is generated at runtime.",
+    "Built on the pieces that were already here — a language is a GameDataAsset and the list of them is a GameDataRegistry, so looking one up by code is the registry's existing GetById; the sheet is read by CsvUtility, so a comma inside a translated sentence survives."
+  ],
+  "features": [
+    { "name": "Locale assets", "what": "one asset per language, holding its key-to-text table, display name and an optional font." },
+    { "name": "LocalizedText", "what": "drop it next to any TMP_Text or UI.Text, type a key, and it rewrites itself whenever the language changes." },
+    { "name": "Fallback chain", "what": "a key missing from the current language is answered by the fallback language instead of rendering blank." },
+    { "name": "Format arguments", "what": "\"You have {0} coins\" takes its values once and keeps them across every language switch." },
+    { "name": "CSV / JSON import", "what": "one sheet with a column per language, or one flat JSON file per language, turned into assets in one click." },
+    { "name": "CSV export", "what": "the round trip back out — every key, translations filled in, gaps blank, ready to hand back to a translator." },
+    { "name": "Runtime loading", "what": "an optional loader reads a CSV or JSON at Play time and layers it over the shipped languages, or adds one that has no asset at all." }
+  ],
+  "useCases": [
+    "Shipping a game in more than one language without duplicating a scene per language.",
+    "Handing a translator a spreadsheet, getting it back, and re-importing it without touching any scene.",
+    "Patching a typo in a shipped language, or accepting a community translation, without a rebuild.",
+    "Seeing at a glance which lines a half-finished language still owes you."
+  ],
+  "params": [
+    {
+      "field": "registry",
+      "why": "The list of every language the game ships with.",
+      "tuning": "The one field that must be set. Left empty, the manager warns once and every key renders as a missing-key marker — which is loud on purpose, because a silently English build is the failure that ships."
+    },
+    {
+      "field": "defaultLocaleCode",
+      "why": "The language used when there is no saved choice and no system-language match.",
+      "tuning": "Normally the language the game was written in. If the code names no locale in the registry, the first locale is used instead and the console says so."
+    },
+    {
+      "field": "fallbackLocaleCode",
+      "why": "The language consulted when the current one has no text for a key.",
+      "tuning": "This is what makes a half-translated language shippable. Leave it empty only if you would rather see the missing-key marker than the original wording."
+    },
+    {
+      "field": "matchSystemLanguageOnFirstRun",
+      "why": "On a first launch, pick the language matching the device.",
+      "tuning": "Only matches locales whose Target System Language is set — the code is never guessed, so a non-standard code like \"en-PT\" can never be picked by accident. Turn it off for a demo or a test that must start the same way every time."
+    },
+    {
+      "field": "rememberSelection",
+      "why": "Persist the chosen language across restarts.",
+      "tuning": "Writes one PlayerPrefs string rather than a save file. Worth turning off in a scene you are testing, or your own machine keeps answering with yesterday's click."
+    },
+    {
+      "field": "playerPrefsKey",
+      "why": "The PlayerPrefs key used to remember the choice.",
+      "tuning": "Change it only if it collides with something; changing it later resets every existing player's language to the default."
+    },
+    {
+      "field": "missingKeyDisplay",
+      "why": "What a key with no text anywhere renders as.",
+      "tuning": "MarkedKey (#ui.start#) is the default because it is impossible to miss in a screenshot. Key is quieter for a shipped build; Empty hides the problem and should be a deliberate choice."
+    },
+    {
+      "field": "logMissingKeys",
+      "why": "Warn the first time each missing key is asked for.",
+      "tuning": "Once per key, not once per frame — a label refreshing every frame would otherwise bury the console. The set is cleared on a language change, so a gap in the NEW language still gets reported."
+    }
+  ],
+  "usage": {
+    "code": "// Most labels need no code at all: add a LocalizedText beside the TMP_Text and type the key.\n\n// Reading a string from anywhere, holding no reference:\nstring title = LocalizationManager.Instance.Get(\"demo.title\");\nstring coins = LocalizationManager.Instance.Get(\"hud.score\", 7, 10);   // fills {0} and {1}\n\n// A language picker button:\nLocalizationManager.Instance.SetLocale(\"fr\");\n\n// Arguments for a label are set ONCE and survive every later language change:\nLocalizedText greeting = greetingLabel.GetComponent<LocalizedText>();\ngreeting.SetArguments(playerName);",
+    "codeNote": "Building the assets is a separate, one-off step: Toolkit > Localization Importer, point it at a CSV whose header is key,en,fr,de and press Import."
+  },
+  "apiNotes": {
+    "Get(string)": "The whole point of the tool. Current locale, then the fallback locale, then the missing-key display — it never throws and never returns null, so a label always has something to render.",
+    "Get(string, params object[])": "Same lookup, then string.Format. A broken format string in a translation returns the raw template and names the key in the console rather than throwing FormatException in a language nobody on the team reads.",
+    "SetLocale(string)": "Returns false for a code that names no locale, leaving the current language untouched. Re-selecting the language already active is a no-op and does NOT fire OnLocaleChanged, so a picker can call it freely.",
+    "IsTranslated(string)": "Asks about the CURRENT locale only. This is the one that distinguishes a real translation from a fallback hit — HasKey cannot, because it counts the fallback as an answer.",
+    "HasKey(string)": "True if anything will render for this key, in the current locale or the fallback. Use it to spot a key that is genuinely absent everywhere.",
+    "AvailableLocaleCodes": "The codes a language picker should offer, in registry order, with any locale added at runtime appended. Reading it initialises the manager, so it is safe as the first call.",
+    "AddOrOverrideLocale(string, string, IDictionary<string, string>)": "Merges text into a language or creates one that has no asset at all. Keys not mentioned are left alone, so a patch file only carries the lines it changes — and the LocaleAsset on disk is never modified.",
+    "Rebuild()": "Re-reads the registry. It DISCARDS everything AddOrOverrideLocale added, so re-apply your runtime files after calling it.",
+    "CurrentFont": "The active locale's Font Override, or null. LocalizedText applies it for you; you only need this to font-swap something that is not a LocalizedText."
+  },
+  "gotchas": [
+    {
+      "title": "A blank cell means UNTRANSLATED, not empty string",
+      "body": "An empty cell in the sheet, and an entry with empty text in a locale asset, are both skipped entirely rather than stored — so the fallback language answers instead of the player reading a blank label. A half-filled sheet is the normal state of a translation project, so this is the behaviour that matters most. If you genuinely want a line to render as nothing, give that key a space, not an empty cell."
+    },
+    {
+      "title": "The default font cannot draw most of the world's languages",
+      "body": "Unity's LiberationSans SDF ships as a STATIC atlas of about 250 characters — Latin-1 and some punctuation. French, German, Spanish and the Nordic languages are fine; Chinese, Japanese, Korean, Arabic, Hebrew, Thai and Cyrillic render as empty boxes. That is a font problem, not a localisation one: give that LocaleAsset a Font Override built with the right character set and LocalizedText swaps to it automatically."
+    },
+    {
+      "title": "Re-importing updates in place, and never touches the three hand-set fields",
+      "body": "A second import writes to the same assets, so their GUIDs survive and every scene reference keeps working. Display Name, Target System Language and Font Override are deliberately left alone — they are authored once per language, not re-sent with every sheet a translator returns."
+    },
+    {
+      "title": "Runtime loading is a coroutine, so its text lands a frame or two late",
+      "body": "LocalizationFileLoader reads through UnityWebRequest rather than File.ReadAllText, because on Android StreamingAssets lives inside the compressed APK where System.IO cannot open it at all. The cost is that the file arrives after Start. Labels do not need handling for this — the merge fires OnLocaleChanged and every LocalizedText re-reads itself — but code that samples a string in Start may see the pre-patch text."
+    },
+    {
+      "title": "LocalizedText writes to a text component on its OWN GameObject",
+      "body": "Leave the target fields empty and it looks for a TMP_Text, then a UI.Text, on the same object — not in children. On a Button, the component belongs on the Label child, not on the Button."
+    },
+    {
+      "title": "LocalizationJson reads strings only",
+      "body": "A flat (or nested, dot-flattened) object of text. A number, array or boolean value stops the parse at that point, keeps everything read before it, and logs where. That is the whole format a localisation file needs; anything richer is a data file, and JsonHelper is the tool for it."
+    },
+    {
+      "title": "The importer cannot read a CsvToScriptableObject-style sheet, and vice versa",
+      "body": "That tool's columns are FIELDS of one asset per row. A translation sheet is transposed — columns are languages, rows are keys — which is why this has its own importer window. The two are not interchangeable, and the parsing itself is shared through CsvUtility."
+    }
+  ],
+  "seeAlso": [
+    "CsvUtility",
+    "GameData",
+    "CsvToScriptableObjectImporter",
+    "Singleton<T>"
+  ]
+}

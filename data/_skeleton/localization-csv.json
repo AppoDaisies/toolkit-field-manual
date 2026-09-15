@@ -1,0 +1,65 @@
+{
+  "id": "localization-csv",
+  "name": "LocalizationCsv",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationCsv.cs",
+  "src_lines": [
+    45,
+    164
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "Converts between a translator's spreadsheet and the toolkit's key -> text tables.  THE SHEET SHAPE IS ONE COLUMN PER LANGUAGE, one row per key:  key,en,fr,de ui.start,Start,Démarrer,Starten ui.quit,Quit,Quitter,  which is the shape a translator is actually handed, because every language sits side by side and an untranslated cell is visibly blank. Note this is TRANSPOSED relative to CsvToScriptableObjectImporter, whose columns are FIELDS of one asset per row — that tool cannot read this shape, which is why the localisation importer is its own window. The CSV parsing itself is the existing CsvUtility, so quoted commas and newlines inside a translated sentence are handled here for free.  A blank cell means NOT TRANSLATED, not \"empty string\" — it is skipped entirely so the fallback locale fills the gap. A translator's half-finished sheet is the normal case, not an error.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "DefaultKeyColumnName",
+      "sig": "public const string DefaultKeyColumnName = \"key\"",
+      "kind": "const",
+      "name": "DefaultKeyColumnName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Parse(string, string)",
+      "sig": "public static LocalizationTable Parse(string csvText, string keyColumnName = DefaultKeyColumnName)",
+      "kind": "method",
+      "name": "Parse",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ParseRows(IReadOnlyList<string[]>, string)",
+      "sig": "public static LocalizationTable ParseRows(IReadOnlyList<string[]> rows, string keyColumnName = DefaultKeyColumnName)",
+      "kind": "method",
+      "name": "ParseRows",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "BuildRows(LocalizationTable, string)",
+      "sig": "public static List<string[]> BuildRows(LocalizationTable table, string keyColumnName = DefaultKeyColumnName)",
+      "kind": "method",
+      "name": "BuildRows",
+      "static": true,
+      "comment": "The round trip: hand a translator back a sheet containing every key that currently exists, with the translations already done filled in and the rest blank. This is how new keys reach them without anyone diffing asset files by hand."
+    },
+    {
+      "id": "ToCsv(LocalizationTable, string)",
+      "sig": "public static string ToCsv(LocalizationTable table, string keyColumnName = DefaultKeyColumnName)",
+      "kind": "method",
+      "name": "ToCsv",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}
