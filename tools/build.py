@@ -112,8 +112,8 @@ GROUP_ORDER = {
         ("Scalars & Noise", ["MathUtils", "NoiseUtils"]),
     ],
     "Core": [
-        ("Lifetime & Instances", ["Singleton<T>", "ObjectPool", "PoolableObject"]),
-        ("State", ["StateMachine", "IState"]),
+        ("Lifetime & Instances", ["Singleton<T>", "ObjectPool"]),
+        ("State", ["StateMachine"]),
         ("Time & Coroutines", ["CountdownTimer", "WaitForSecondsCache"]),
         ("Extensions", ["ExtensionMethods"]),
     ],
@@ -124,7 +124,7 @@ GROUP_ORDER = {
         ("UI Effects", ["UIEdgeGlow", "UIBlurSource", "UIRippleEffect"]),
         ("Object Effects", ["DissolveEffect", "ForceFieldEffect", "GlitchEffect", "HologramEffect", "HighlightToggle",
             "WeaponTrail"]),
-        ("Decals & Surfaces", ["DecalProjector", "DecalMeshBuilder", "GrassBendEmitter"]),
+        ("Decals & Surfaces", ["Decals", "GrassBendEmitter"]),
         ("Post-processing & Plumbing", ["SpeedRadialBlur", "MaterialPropertyBlockHelper"]),
     ],
     "UI": [
@@ -133,33 +133,25 @@ GROUP_ORDER = {
             "LayoutRebuildHelper", "SafeAreaHandler"]),
         ("Scrolling", ["FancyScrollView", "ScrollSnap", "PullToRefresh", "TimedLineScrollView"]),
         ("Navigation", ["ScreenStackNavigator", "TabGroup", "PaginationDots", "AsyncSceneLoader"]),
-        ("Input & Controls", ["DraggableItem", "DropZone", "DraggableUIPanel", "HoldToConfirmButton", "ToggleSwitch"]),
-        ("Feedback & Overlays", ["ToastNotification", "ModalDialog", "TooltipSystem", "TooltipTrigger", "LoadingBarUI",
-            "RadialProgressBar"]),
-        ("Motion & Effects", ["FlyToUIEffect", "AnimatedNumberCounter", "MarqueeText", "WorldSpaceUIFollow"]),
-        ("Floating Combat Text", ["FloatingCombatText", "FloatingCombatTextSpawner"]),
-        ("Device & Platform", ["InputGlyphSwapper", "InputDeviceMonitor"]),
-        ("Undo / Redo", ["CommandHistory", "ICommand"]),
+        ("Input & Controls", ["DragAndDrop", "DraggableUIPanel", "HoldToConfirmButton", "ToggleSwitch"]),
+        ("Feedback & Overlays", ["ToastNotification", "ModalDialog", "Tooltips", "LoadingBarUI", "RadialProgressBar"]),
+        ("Motion & Effects", ["FlyToUIEffect", "FloatingCombatText", "AnimatedNumberCounter", "MarqueeText",
+            "WorldSpaceUIFollow"]),
+        ("Device & Platform", ["InputGlyphs"]),
+        ("Undo / Redo", ["UndoRedo"]),
     ],
     "EditorTools": [
-        ("Level & Scene Tools", ["LevelTransformGuidance", "BulkHierarchyToolsWindow", "GreyboxPlacerWindow",
-            "GreyboxBlockMarker", "LocomotionAnimatorGeneratorWindow"]),
-        ("Project & Assets", ["BatchAssetRenamerWindow", "FindReferencesWindow", "TodoScannerWindow", "CsvTableWindow",
-            "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow", "PlayerPrefsEditorWindow"]),
+        ("Level & Scene Tools", ["LevelTransformGuidance", "GreyboxPlacer", "BulkHierarchyTools", "LocomotionAnimatorGenerator"]),
+        ("Project & Assets", ["BatchAssetRenamer", "FindReferences", "TodoScanner", "CsvTableEditor",
+            "CsvToScriptableObjectImporter", "ScriptableObjectTableView", "PlayerPrefsEditor"]),
         ("Inspector Attributes", ["ButtonAttribute", "LayerAttribute", "ReadOnlyAttribute", "TagAttribute"]),
         ("Workflow", ["TaskRecaller"]),
     ],
     "AI": [
         ("Pathfinding", ["NavMeshAIController", "DijkstraPathfinder", "GraphNode", "FlowField"]),
-        ("Behaviour", ["VisualStateMachine", "Blackboard"]),
-        ("Perception", ["VisionCone", "PerceptionMemory"]),
-        ("Steering", ["SteeringAgent", "SteeringBehaviors"]),
-        ("Racing", ["RacingAIController", "RaceProgressTracker"]),
-    ],
-    "Combat": [
-        ("Hitboxes & Attacks", ["Hitbox", "Hurtbox", "HitData", "MeleeAttack", "RangedAttack", "CombatProjectile",
-            "IKnockbackReceiver"]),
-        ("Turn-Based Combat", ["TurnManager", "TurnBasedActor", "ActionDefinition", "TargetingStrategies", "UtilityAIBrain"]),
+        ("Behaviour", ["VisualStateMachine", "Steering", "Blackboard"]),
+        ("Perception", ["Perception"]),
+        ("Racing", ["RacingAI"]),
     ],
     "Kiosk": [
         ("QR Codes", ["QrCodeGenerator"]),
@@ -168,42 +160,18 @@ GROUP_ORDER = {
         ("Session & Attract", ["IdleAttractManager", "SessionTimeoutManager"]),
         ("On-Screen Input", ["VirtualKeyboard", "KeyButton"]),
     ],
-    "Mechanics": [
-        ("Tower Defense", ["TDGameManager", "TDTower", "TDTowerPlacer", "TDEnemy", "TDProjectile", "TDProjectileAttack",
-            "TDHitscanAttack", "IAttackBehavior"]),
-        ("Patrol & Spawning", ["WaypointPatrol", "WaveSpawner"]),
-        ("Interaction", ["InteractionDetector", "IInteractable"]),
+    "Combat": [
+        ("Hitboxes & Attacks", ["HitboxCombat"]),
+        ("Turn-Based Combat", ["TurnManager", "TurnBasedActor", "ActionDefinition", "TargetingStrategies", "UtilityAIBrain"]),
     ],
     "Gameplay": [
-        ("Health & Damage", ["Health", "IDamageable", "ProjectileMover"]),
-        ("Progression & Economy", ["CurrencyWallet", "CurrencyDefinition", "CooldownAbilitySlot", "CheckpointRespawn"]),
-        ("World Interaction", ["TriggerEventRelay", "TriggerEventRelay2D", "WateringCanController", "PlantWaterLevel"]),
-    ],
-    "ScriptableObjects": [
-        ("Variables", ["ScriptableVariables"]),
-        ("Events", ["GameEvent", "GameEventListener"]),
-        ("Runtime Sets", ["GameObjectRuntimeSet", "RuntimeSetRegistrar"]),
-    ],
-    "Tweening": [
-        ("Tween Core", ["Tween"]),
-        ("Fades & Transitions", ["FadeManager", "ShaderTransitionManager"]),
-        ("Punch", ["PunchEffects"]),
-    ],
-    "Camera": [
-        ("Player Camera Rig", ["PlayerCameraRig", "PlayerCameraRigSetup"]),
-        ("Follow & Effects", ["SmoothFollowCamera", "CursorPanCamera", "CameraShake"]),
+        ("Health & Damage", ["Health", "ProjectileMover"]),
+        ("Progression & Economy", ["Currency", "CooldownAbilitySlot", "CheckpointRespawn"]),
+        ("World Interaction", ["TriggerEventRelay", "Watering"]),
     ],
     "Raycasting": [
         ("Selection & Movement", ["ClickToSelect", "ClickToMoveNavigator", "LookAtTargetFinder"]),
         ("Placement & Debug", ["GroundSnapper", "RaycastUtils", "RaycastDebugVisualizer"]),
-    ],
-    "Inventory": [
-        ("Items", ["ItemDefinition", "ItemRegistry"]),
-        ("Containers & Equipment", ["InventoryContainer", "EquipmentManager"]),
-    ],
-    "TMPEffects": [
-        ("Reveal & Motion", ["TMPTypewriterEffect", "TMPWaveEffect"]),
-        ("Highlighting & Links", ["TMPWordHighlighter", "TMPTimedHighlighter", "TMPLinkHandler"]),
     ],
 }
 
@@ -324,10 +292,29 @@ def infer_kind(e):
 #   sections  ordered (section title, [member type names]) - every remaining member must appear
 SYSTEMS = [
     {
+        "name": "TaskRecaller",
+        "cat": "EditorTools",
+        "primary": "TaskRecallerWindow",
+        "sections": [
+            ("Supporting scripts", ["TaskRecallerService", "SessionHistoryStorage"]),
+        ],
+    },
+    {
+        "name": "LevelTransformGuidance",
+        "cat": "EditorTools",
+        "primary": "LevelTransformGuidanceWindow",
+        "sections": [
+            ("Window & tab framework", ["ILtgTab", "LtgGuiUtility"]),
+            ("Heatmap", ["LtgHeatmapTab", "HeatmapGrid"]),
+            ("Clipping", ["LtgClippingTab", "ClippingCandidateFinder", "ClippingHighlightRenderer"]),
+            ("Measuring tape", ["LtgMeasuringTapeTab", "MeasurementUnits"]),
+            ("Snap to mouse", ["LtgSnapToMouseTab"]),
+        ],
+    },
+    {
         "name": "VisualStateMachine",
         "cat": "AI",
         "primary": "VisualStateMachineRunner",
-        "group": "Behaviour",
         "sections": [
             ("Graph asset", ["VisualStateMachineAsset"]),
             ("Graph data", ["VSMNode", "VSMTransition", "VSMCondition", "VSMParameter"]),
@@ -338,7 +325,6 @@ SYSTEMS = [
         "name": "FlowField",
         "cat": "AI",
         "primary": "FlowFieldGrid",
-        "group": "Pathfinding",
         "sections": [
             ("Supporting scripts", ["FlowField", "FlowFieldAgent"]),
         ],
@@ -347,7 +333,6 @@ SYSTEMS = [
         "name": "PageCurl",
         "cat": "PageCurl",
         "primary": "BookPageCurl",
-        "group": None,
         "sections": [
             ("Shared core", ["PageCurlMeshBuilder", "PageContent", "ICurlSurface", "ITextureDisplay"]),
             ("Canvas (UI) book", ["PageCurlGraphic", "PageCurlDragHandler", "RawImageTextureDisplay"]),
@@ -358,7 +343,6 @@ SYSTEMS = [
         "name": "PathBuilder",
         "cat": "PathBuilder",
         "primary": "PathBuilder",
-        "group": None,
         "sections": [
             ("Path core", ["SplinePath", "SplineFollower"]),
             ("Editor integration", ["PathBuilderEditor", "SplinePathEditor", "SplinePathSceneEditing"]),
@@ -368,7 +352,6 @@ SYSTEMS = [
         "name": "Tween",
         "cat": "Tweening",
         "primary": "Tween",
-        "group": "Tween Core",
         "sections": [
             ("Supporting scripts", ["TweenRunner", "TweenHandle", "TweenExtensions"]),
         ],
@@ -377,34 +360,292 @@ SYSTEMS = [
         "name": "ScriptableVariables",
         "cat": "ScriptableObjects",
         "primary": "ScriptableVariable",
-        "group": "Variables",
         "sections": [
             ("Concrete variable assets", ["FloatVariable", "IntVariable", "BoolVariable"]),
         ],
     },
     {
-        # A SMALL system: one window, no tabs, two supporting scripts. No sub-tool sections to make -
-        # one plain "Supporting scripts" heading is the whole structure it needs.
-        "name": "TaskRecaller",
-        "cat": "EditorTools",
-        "primary": "TaskRecallerWindow",
-        "group": "Scene & Project Tools",
+        "name": "ObjectPool",
+        "cat": "Core",
+        "primary": "ObjectPool",
         "sections": [
-            ("Supporting scripts", ["TaskRecallerService", "SessionHistoryStorage"]),
+            ("Supporting scripts", ["PoolableObject"]),
         ],
     },
     {
-        "name": "LevelTransformGuidance",
-        "cat": "EditorTools",
-        "primary": "LevelTransformGuidanceWindow",
-        "group": "Scene & Project Tools",
+        "name": "StateMachine",
+        "cat": "Core",
+        "primary": "StateMachine",
         "sections": [
-            ("Window & tab framework", ["ILtgTab", "LtgGuiUtility"]),
-            ("Heatmap", ["LtgHeatmapTab", "HeatmapGrid"]),
-            ("Clipping", ["LtgClippingTab", "ClippingCandidateFinder", "ClippingHighlightRenderer"]),
-            ("Measuring tape", ["LtgMeasuringTapeTab", "MeasurementUnits"]),
-            ("Snap to mouse", ["LtgSnapToMouseTab"]),
+            ("Supporting scripts", ["IState"]),
         ],
+    },
+    {
+        "name": "UpdateManager",
+        "cat": "Optimization",
+        "primary": "UpdateManager",
+        "sections": [
+            ("Supporting scripts", ["ITickable"]),
+        ],
+    },
+    {
+        "name": "GameData",
+        "cat": "Persistence",
+        "primary": "GameDataAsset",
+        "sections": [
+            ("Supporting scripts", ["GameDataRegistry"]),
+        ],
+    },
+    {
+        "name": "Health",
+        "cat": "Gameplay",
+        "primary": "Health",
+        "sections": [
+            ("Supporting scripts", ["IDamageable"]),
+        ],
+    },
+    {
+        "name": "Currency",
+        "cat": "Gameplay",
+        "primary": "CurrencyWallet",
+        "sections": [
+            ("Supporting scripts", ["CurrencyDefinition"]),
+        ],
+    },
+    {
+        "name": "TriggerEventRelay",
+        "cat": "Gameplay",
+        "primary": "TriggerEventRelay",
+        "sections": [
+            ("2D variant", ["TriggerEventRelay2D"]),
+        ],
+    },
+    {
+        "name": "Watering",
+        "cat": "Gameplay",
+        "primary": "WateringCanController",
+        "sections": [
+            ("Supporting scripts", ["PlantWaterLevel"]),
+        ],
+    },
+    {
+        "name": "Interaction",
+        "cat": "Mechanics",
+        "primary": "InteractionDetector",
+        "sections": [
+            ("Supporting scripts", ["IInteractable"]),
+        ],
+    },
+    {
+        "name": "TowerDefense",
+        "cat": "Mechanics",
+        "primary": "TDGameManager",
+        "sections": [
+            ("Towers & enemies", ["TDTower", "TDTowerPlacer", "TDEnemy"]),
+            ("Attack behaviours", ["IAttackBehavior", "TDHitscanAttack", "TDProjectileAttack", "TDProjectile"]),
+        ],
+    },
+    {
+        "name": "HitboxCombat",
+        "cat": "Combat",
+        "primary": "Hitbox",
+        "sections": [
+            ("Volumes & hit data", ["Hurtbox", "HitData", "IKnockbackReceiver"]),
+            ("Attacks", ["MeleeAttack", "RangedAttack", "CombatProjectile"]),
+        ],
+    },
+    {
+        "name": "RacingAI",
+        "cat": "AI",
+        "primary": "RacingAIController",
+        "sections": [
+            ("Supporting scripts", ["RaceProgressTracker"]),
+        ],
+    },
+    {
+        "name": "Steering",
+        "cat": "AI",
+        "primary": "SteeringAgent",
+        "sections": [
+            ("Supporting scripts", ["SteeringBehaviors"]),
+        ],
+    },
+    {
+        "name": "Perception",
+        "cat": "AI",
+        "primary": "VisionCone",
+        "sections": [
+            ("Supporting scripts", ["PerceptionMemory"]),
+        ],
+    },
+    {
+        "name": "PlayerCameraRig",
+        "cat": "Camera",
+        "primary": "PlayerCameraRig",
+        "sections": [
+            ("Supporting scripts", ["PlayerCameraRigSetup"]),
+        ],
+    },
+    {
+        "name": "Locomotion",
+        "cat": "Controller",
+        "primary": "LocomotionStateMachine",
+        "sections": [
+            ("Supporting scripts", ["LedgeClimbController", "LocomotionAnimatorDriver"]),
+        ],
+    },
+    {
+        "name": "Decals",
+        "cat": "Rendering",
+        "primary": "DecalProjector",
+        "sections": [
+            ("Supporting scripts", ["DecalMeshBuilder"]),
+        ],
+    },
+    {
+        "name": "GameEvents",
+        "cat": "ScriptableObjects",
+        "primary": "GameEvent",
+        "sections": [
+            ("Supporting scripts", ["GameEventListener"]),
+        ],
+    },
+    {
+        "name": "RuntimeSets",
+        "cat": "ScriptableObjects",
+        "primary": "GameObjectRuntimeSet",
+        "sections": [
+            ("Supporting scripts", ["RuntimeSetRegistrar"]),
+        ],
+    },
+    {
+        "name": "DragAndDrop",
+        "cat": "UI",
+        "primary": "DraggableItem",
+        "sections": [
+            ("Supporting scripts", ["DropZone"]),
+        ],
+    },
+    {
+        "name": "Tooltips",
+        "cat": "UI",
+        "primary": "TooltipSystem",
+        "sections": [
+            ("Supporting scripts", ["TooltipTrigger"]),
+        ],
+    },
+    {
+        "name": "UndoRedo",
+        "cat": "UI",
+        "primary": "CommandHistory",
+        "sections": [
+            ("Supporting scripts", ["ICommand"]),
+        ],
+    },
+    {
+        "name": "FloatingCombatText",
+        "cat": "UI",
+        "primary": "FloatingCombatTextSpawner",
+        "sections": [
+            ("Supporting scripts", ["FloatingCombatText"]),
+        ],
+    },
+    {
+        "name": "InputGlyphs",
+        "cat": "UI",
+        "primary": "InputGlyphSwapper",
+        "sections": [
+            ("Supporting scripts", ["InputDeviceMonitor"]),
+        ],
+    },
+    {
+        "name": "GreyboxPlacer",
+        "cat": "EditorTools",
+        "primary": "GreyboxPlacerWindow",
+        "sections": [
+            ("Supporting scripts", ["GreyboxBlockMarker"]),
+        ],
+    },
+    {
+        "name": "BackgroundMatte",
+        "cat": "BackgroundMatte",
+        "primary": "BackgroundMatteWindow",
+        "sections": [
+            ("Supporting scripts", ["BackgroundMatteProcessor"]),
+        ],
+    },
+    {
+        "name": "Grid",
+        "cat": "Grid",
+        "primary": "GridComponent",
+        "sections": [
+            ("Data structure", ["Grid"]),
+            ("Grid tools", ["GridPathfinder", "GridPlacer"]),
+        ],
+    },
+    {
+        "name": "BatchAssetRenamer",
+        "cat": "EditorTools",
+        "primary": "BatchAssetRenamerWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "BulkHierarchyTools",
+        "cat": "EditorTools",
+        "primary": "BulkHierarchyToolsWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "CsvTableEditor",
+        "cat": "EditorTools",
+        "primary": "CsvTableWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "FindReferences",
+        "cat": "EditorTools",
+        "primary": "FindReferencesWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "PlayerPrefsEditor",
+        "cat": "EditorTools",
+        "primary": "PlayerPrefsEditorWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "ScriptableObjectTableView",
+        "cat": "EditorTools",
+        "primary": "ScriptableObjectTableWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "TodoScanner",
+        "cat": "EditorTools",
+        "primary": "TodoScannerWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
+    },
+    {
+        "name": "LocomotionAnimatorGenerator",
+        "cat": "EditorTools",
+        "primary": "LocomotionAnimatorGeneratorWindow",
+        # No sections: this tool is one script, but the class is named after the
+        # implementation rather than the tool. The name comes from its own [MenuItem].
+        "sections": [],
     },
 ]
 
