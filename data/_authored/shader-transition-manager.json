@@ -12,13 +12,17 @@
   "params": [
     {
       "field": "transitionMaterial",
-      "tuning": "The shader MUST expose a float named _Progress. A material without it fails silently — nothing animates and nothing logs."
+      "tuning": "The shader MUST expose a float named _Progress, and must declare a _MainTex texture property even if it never samples it (see gotchas). A material without _Progress fails silently — nothing animates and nothing logs."
     }
   ],
   "gotchas": [
     {
       "title": "The material is shared state",
       "body": "Driving the same material asset from two transitions at once fights. Instance it if that is possible in your setup."
+    },
+    {
+      "title": "A custom transition shader must declare _MainTex, even unused",
+      "body": "The overlay is a UI Image, and a UI Graphic binds its own texture into _MainTex on every mesh rebuild. A shader without the property makes Unity log \"doesn't have a texture property '_MainTex'\" over and over — which is what all seven Toolkit/ScreenTransitions shaders used to do. They now declare it as an unused white texture. Do the same in your own: the effect never has to sample it, the binding just needs somewhere to land."
     }
   ],
   "seeAlso": [
