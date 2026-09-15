@@ -1,0 +1,45 @@
+{
+  "id": "ltg-snap-to-mouse-tab",
+  "summary": "Snap To Mouse tab: select an object, hover the Scene view, press a key and it teleports to what the mouse points at.",
+  "overview": [
+    "A placement tool for the tedious part of dressing a level: getting props to actually sit on the ground. Select the object, point the mouse where you want it, press the key, done — no hand-editing Y positions, no dragging against a gizmo and hoping.",
+    "It is a ONE-SHOT action rather than a held-key drag or a click-to-place mode, which is what makes it safe to leave the tab open while you work: nothing happens until you press the key."
+  ],
+  "walkthrough": [
+    {
+      "step": "Select a GameObject in the Hierarchy.",
+      "whatYouSee": "If nothing is selected the tab says so with a warning rather than silently doing nothing when you press the key."
+    },
+    {
+      "step": "Set Surface Mask to the geometry you want to land on.",
+      "whatYouSee": "Only those layers are raycast, so a prop will not snap onto a trigger volume or another prop unless you allow it."
+    },
+    {
+      "step": "Hover the Scene view and press V (or whatever you set as the Snap Key).",
+      "whatYouSee": "The object jumps once to the surface under the mouse, keeping its current rotation."
+    },
+    {
+      "step": "Tick 'Also align rotation to the surface normal' and press again on a slope.",
+      "whatYouSee": "The object's up axis rotates to match the surface as well as moving there, taking the minimal rotation from its current orientation — what you want for a prop that should sit flush on a ramp or hillside."
+    }
+  ],
+  "useCases": [
+    "Scattering rocks, crates and foliage across uneven terrain without touching a single Y value.",
+    "Dropping a prop precisely onto a ledge or stair tread that is awkward to hit with a drag gizmo.",
+    "Re-seating props that ended up floating after terrain was re-sculpted under them."
+  ],
+  "gotchas": [
+    {
+      "title": "3D only, by design — no fixed-plane fallback",
+      "body": "It always raycasts real colliders. A measuring point can be abstract, but a snapped prop should not float in mid-air, and a fallback plane would let the snap land somewhere with no real surface under it. If the mouse is not over collidable geometry, nothing moves."
+    },
+    {
+      "title": "It snaps the object's pivot, not its base",
+      "body": "The transform lands on the surface, so a prop whose pivot sits at its centre will end up half-buried. Prefabs intended for this want their pivot at the foot of the model."
+    }
+  ],
+  "seeAlso": [
+    "GreyboxPlacerWindow",
+    "LevelTransformGuidance"
+  ]
+}

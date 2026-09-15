@@ -145,6 +145,13 @@
     var out = [];
     var kind = e.entryKind || "tool";
 
+    // The lead paragraph: what this tool IS and what it is for, before any wiring detail. Everything
+    // below it answers "how"; this answers "why would I open this at all".
+    if (e.overview) {
+      out.push('<div class="overview">' + (Array.isArray(e.overview) ? e.overview : [e.overview])
+        .map(function (para) { return "<p>" + esc(para) + "</p>"; }).join("") + "</div>");
+    }
+
     if (e.src_attributes && e.src_attributes.addComponentMenu) {
       out.push('<div class="tool-menu"><span class="mlabel">Add Component:</span> <code>' +
         esc(e.src_attributes.addComponentMenu) + "</code></div>");
@@ -270,7 +277,11 @@
       out.push('<div class="sysparts">' + e.systemSections.map(function (sec) {
         return '<section class="syssec">' +
           '<h4 class="syssec-head" id="' + groupSlug(e.id + "-" + sec.title) + '">' +
-          esc(sec.title) + '<span class="gcount">' + sec.entries.length + "</span></h4>" +
+          '<span class="syssec-title">' + esc(sec.title) + "</span>" +
+          // "scripts", not "components": these are editor classes, an interface and static helpers.
+          // In Unity "component" means a MonoBehaviour you attach, which none of these are.
+          '<span class="partcount">' + sec.entries.length + " script" +
+          (sec.entries.length === 1 ? "" : "s") + "</span></h4>" +
           sec.entries.map(function (m) { return renderEntry(m, true); }).join("") +
           "</section>";
       }).join("") + "</div>");

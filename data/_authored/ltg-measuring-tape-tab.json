@@ -1,0 +1,49 @@
+{
+  "id": "ltg-measuring-tape-tab",
+  "summary": "Measuring Tape tab: click points in the Scene view to measure real distances, labelled per segment.",
+  "overview": [
+    "Answers a specific dimensional question: how far apart are these two things, actually. Is that doorway the width the design document says, is that jump gap reachable, is this corridor wide enough for two characters to pass.",
+    "Every recorded point is a true world position rather than something inferred from the camera, so a measurement does not change when you orbit. Chain as many points as you like — A to B to C to D — and each segment gets its own label at its midpoint."
+  ],
+  "walkthrough": [
+    {
+      "step": "Left-click two points on real geometry in the Scene view.",
+      "whatYouSee": "A line between them with the distance labelled at the midpoint."
+    },
+    {
+      "step": "Keep clicking to add more points.",
+      "whatYouSee": "A chain, with a distance label per segment, plus a running total."
+    },
+    {
+      "step": "Click somewhere with no geometry under the cursor, in 3D mode.",
+      "whatYouSee": "Nothing is recorded. The click is REJECTED rather than guessed at — that is what guarantees every point is a real, camera-independent position."
+    },
+    {
+      "step": "Switch to 2D mode to measure across open space.",
+      "whatYouSee": "Points project onto a fixed world plane you choose (Z, Y or X) instead of needing a surface. It is a FIXED plane, never the camera's current view, so points stay put as you orbit between clicks."
+    },
+    {
+      "step": "Middle-click in the Scene view, or press Clear Points.",
+      "whatYouSee": "Everything resets. Middle-click is deliberate: left stays camera orbit and right stays Unity's own context menu and fly-look, so the tape never steals a button you need."
+    }
+  ],
+  "useCases": [
+    "Checking a doorway, corridor or jump gap against the numbers in a design document.",
+    "Measuring a multi-leg route by chaining points, rather than adding up separate measurements.",
+    "Confirming prop spacing reads consistently along a street or corridor."
+  ],
+  "gotchas": [
+    {
+      "title": "Badge is the only label style guaranteed to stay readable",
+      "body": "Auto Contrast raycasts under the label, reads that material's colour and picks black or white text. It works on flat-coloured greybox, but a material's base colour often is not what you actually see once textures and lighting apply, so it guesses wrong on finished art. Badge draws a dark backing so the text never sits directly on the scene — hence the default."
+    },
+    {
+      "title": "2D mode measures on the plane, not through the world",
+      "body": "Because points are projected onto a fixed plane, a distance in 2D mode is the distance on that plane. That is exactly what you want for a floor-plan measurement and exactly wrong for anything with height in it."
+    }
+  ],
+  "seeAlso": [
+    "MeasurementUnits",
+    "LevelTransformGuidance"
+  ]
+}

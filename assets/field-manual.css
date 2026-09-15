@@ -496,6 +496,32 @@
     flex: 0 0 12px;
   }
 
+  /* The lead paragraph of an entry: what the tool is for, before any wiring detail. Set slightly
+     larger and with a rule under it so it reads as an introduction rather than another section. */
+  .overview {
+    margin: 2px 0 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .overview p { margin: 0 0 9px; font-size: 14px; line-height: 1.68; color: var(--ink); }
+  .overview p:last-child { margin-bottom: 0; }
+
+  /* The count beside a section title is metadata, not part of the title - so it is smaller, muted,
+     labelled with its unit, and set in mono to sit apart from the heading it follows. */
+  .partcount {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--ink-faint);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 1px 8px;
+  }
+  .syssec-title { letter-spacing: 0.08em; }
+
   /* ---- a system entry's nested parts -------------------------------------------------------
      One tool, many scripts: the parts live inside the tool's own dropdown, grouped into the
      sections a user thinks in. Indented against a rule so the nesting is obvious at a glance. */

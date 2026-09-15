@@ -181,8 +181,28 @@ def main():
         print("verify: no authored entries yet - nothing to check.")
         return 0
 
+    # A composite SYSTEM entry has no skeleton of its own - it is assembled from a primary type at
+    # build time. Alias its id to that primary's skeleton so authored prose addressed to the system
+    # is still held to the same anti-invention checks (every apiNotes key must be a real member).
+    try:
+        from build import SYSTEMS  # noqa
+        from extract import slugify as _slug  # noqa
+        for spec in SYSTEMS:
+            prim_id = _slug(spec["primary"])
+            if prim_id in skel:
+                skel.setdefault(_slug(spec["name"]), skel[prim_id])
+    except Exception as exc:  # noqa: BLE001
+        warn(f"[schema] could not alias system entries to their primary type: {exc}")
+
     # name -> id, for cross-link + snippet resolution
     name_to_id = {s["name"].split("<")[0]: sid for sid, s in skel.items()}
+    # A composite system is a real, linkable entry even though no extracted type carries its name.
+    try:
+        from build import SYSTEMS as _SYS  # noqa
+        for spec in _SYS:
+            name_to_id.setdefault(spec["name"], _slug(spec["name"]))
+    except Exception:  # noqa: BLE001
+        pass
     members_by_name = {
         s["name"].split("<")[0]: {m["name"] for m in s["src_members"]}
         for s in skel.values()

@@ -464,21 +464,31 @@ def main():
         e["summary"] = summarise(e)
 
     # Merge authored prose, which may never touch a src_ key.
-    authored = 0
-    if os.path.isdir(AUTH):
-        by_id = {e["id"]: e for e in entries}
-        for p in sorted(glob.glob(os.path.join(AUTH, "*.json"))):
-            a = json.load(open(p, encoding="utf-8"))
+    def merge_authored(targets, warn_unmatched):
+        """Overlay authored prose onto entries, by id. Never lets prose touch a src_ key."""
+        by_id = {e["id"]: e for e in targets}
+        n = 0
+        for path in sorted(glob.glob(os.path.join(AUTH, "*.json"))):
+            a = json.load(open(path, encoding="utf-8"))
             tgt = by_id.get(a.get("id"))
             if not tgt:
-                print(f"  WARN authored file has no matching skeleton: {os.path.basename(p)}")
+                if warn_unmatched:
+                    print(f"  WARN authored file has no matching skeleton: {os.path.basename(path)}")
                 continue
             for k, v in a.items():
                 if k.startswith("src_") or k in ("id", "cat"):
                     continue
                 tgt[k] = v
             tgt["status"] = "published"
-            authored += 1
+            n += 1
+        return n
+
+    authored = 0
+    if os.path.isdir(AUTH):
+        # A composite system entry does not exist yet at this point - it is assembled later from its
+        # primary type - so an authored file addressed to it is expected to miss here and is merged
+        # in a second pass below rather than warned about.
+        authored = merge_authored(entries, warn_unmatched=False)
 
     # ---- cross-reference: who mentions whom, derived from source, not authored ----
     names = {e["name"].split("<")[0]: e["id"] for e in entries}
@@ -533,6 +543,9 @@ def main():
     if composites:
         top_level = [e for e in top_level if e["id"] not in absorbed] + composites
         print(f"build: {len(composites)} system entr(y/ies) absorbed {len(absorbed)} type(s)")
+        # Second pass: a composite only exists now, so authored prose addressed to it merges here.
+        if os.path.isdir(AUTH):
+            authored += merge_authored(composites, warn_unmatched=False)
     print(f"build: folded {len(folded)} satellite type(s) into their owner "
           f"({len(entries)} types -> {len(top_level)} entries)")
 
