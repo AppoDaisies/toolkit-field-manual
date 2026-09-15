@@ -296,10 +296,11 @@ SYSTEMS = [
         "cat": "Data",
         "primary": "LocalizationManager",
         "sections": [
-            ("Language data", ["LocaleAsset", "LocaleRegistry"]),
+            ("Language data", ["LocaleAsset", "LocaleRegistry", "LocalizedStringAsset"]),
             ("In the scene", ["LocalizedText", "LocalizationFileLoader"]),
             ("File formats", ["LocalizationCsv", "LocalizationBundleJson", "LocalizationJson"]),
-            ("Editor integration", ["LocalizationImporterWindow", "LocalizedTextEditor"]),
+            ("Editor integration", ["LocalizationImporterWindow", "LocalizationEditorWindow",
+                "LocalizationSceneSetup", "LocalizedTextEditor"]),
         ],
     },
     {

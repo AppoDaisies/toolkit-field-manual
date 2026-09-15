@@ -2,7 +2,8 @@
   "id": "localized-text",
   "summary": "Put it on a label, type a key, and the text follows the current language forever after.",
   "overview": [
-    "The component you actually use. Everything else in the folder exists to feed this one. Add it beside a TextMeshPro label, type a key, and that label shows the key's text in the current language and rewrites itself the moment the language changes — no code, no manual refresh, nothing to subscribe to."
+    "The component you actually use. Everything else in the folder exists to feed this one. Add it beside a TextMeshPro label, type a key, and that label shows the key's text in the current language and rewrites itself the moment the language changes — no code, no manual refresh, nothing to subscribe to.",
+    "TWO WAYS TO NAME THE KEY, mixable in one project: TYPE it into Key — quickest, and right for a one-off label or a key decided at runtime — or DRAG a LocalizedStringAsset into Key Asset, so the key lives in one place and renaming it reaches every label at once. The ASSET WINS when both are set."
   ],
   "useCases": [
     "Every piece of fixed UI text in the game: menu items, button labels, headings, tooltips.",
@@ -11,9 +12,14 @@
   ],
   "params": [
     {
+      "field": "keyAsset",
+      "why": "OPTIONAL. Drag a LocalizedStringAsset here instead of typing a key.",
+      "tuning": "When set it WINS over the typed Key, and the inspector greys that field out and shows which key the asset holds. Use it for keys you might rename or that several labels share; a typed key is still right for a one-off. The Localization Importer can generate one asset per key in a single pass."
+    },
+    {
       "field": "key",
       "why": "REQUIRED. The lookup key, e.g. \"menu.start\". The same key exists in every language — that is what makes switching work.",
-      "tuning": "Leave it EMPTY and the component does nothing at all: the label keeps whatever text it was authored with, no warning. That is deliberate, so a half-built screen is not covered in markers, but it also means a forgotten key looks exactly like a working one. The inspector's Pick Key button lists the keys that really exist, and previews the text in every language underneath."
+      "tuning": "Leave it EMPTY and the component does nothing at all: the label keeps whatever text it was authored with, no warning. That is deliberate, so a half-built screen is not covered in markers, but it also means a forgotten key looks exactly like a working one. Ignored entirely while a Key Asset is assigned. The inspector's Pick Key button lists the keys that really exist, and previews the text in every language underneath."
     },
     {
       "field": "tmpTarget",
@@ -37,11 +43,16 @@
   },
   "apiNotes": {
     "SetArguments(params object[])": "Stored, not applied once. That is the difference that matters: a formatted label survives a language switch without the caller doing anything, because Refresh re-formats from the stored values every time.",
-    "SetKey(string)": "Swaps which line this label shows and refreshes immediately. Useful for one reusable status or prompt label.",
+    "SetKey(string)": "Swaps which line this label shows and refreshes immediately. It also CLEARS any key asset — otherwise the asset would keep winning and the call would silently do nothing.",
     "Refresh()": "Re-reads the current language. Called for you on enable and on every language change; you only need it after changing something the component cannot see.",
-    "Key": "Read-only. Useful for a tool or a test that wants to check what a label is bound to."
+    "Key": "The RESOLVED key: the asset's key when one is assigned, otherwise the typed string. Read-only, and what a tool or test should check rather than either field.",
+    "SetKeyAsset(LocalizedStringAsset)": "Points the label at a key asset from code. Deliberately NOT an overload of SetKey: SetKey(null) would then be ambiguous between a string and an asset and would fail to compile at the call site."
   },
   "gotchas": [
+    {
+      "title": "When both a key asset and a typed key are set, the ASSET wins",
+      "body": "Not \"whichever is non-empty\": a half-migrated label carrying a stale typed key and an asset has to behave predictably, and \"the asset is the source of truth\" is the rule that is easy to state and visible in the inspector. The matching consequence in code is that SetKey(string) clears the asset."
+    },
     {
       "title": "It writes to a text component on its OWN GameObject, not a child",
       "body": "Auto-detection is GetComponent, not GetComponentInChildren — deliberately, so a panel full of labels cannot accidentally all bind to the first one. On a Button, put this on the Label child."
@@ -55,5 +66,9 @@
       "body": "Two labels showing the same key can hold different arguments. Equally, a label whose key has no placeholders ignores its arguments entirely rather than erroring."
     }
   ],
-  "seeAlso": ["Localization", "LocaleAsset"]
+  "seeAlso": [
+    "LocalizedStringAsset",
+    "Localization",
+    "LocaleAsset"
+  ]
 }

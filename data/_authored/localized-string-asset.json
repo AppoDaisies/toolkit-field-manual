@@ -1,0 +1,52 @@
+{
+  "id": "localized-string-asset",
+  "summary": "A key you DRAG instead of a key you type. Optional, and mixable with typed keys.",
+  "overview": [
+    "A localisation key is a magic string. Type \"menu.strat\" instead of \"menu.start\" and nothing complains until a screenshot shows #menu.strat#; rename a key in the sheet and every scene that typed the old one silently breaks, with no reference anywhere to find them. Point LocalizedText at one of these assets instead and the key lives in exactly ONE place — rename it here, or in the Localization Editor, and every user of it follows.",
+    "Same idea as the toolkit's ScriptableVariable and GameEvent assets: several unrelated objects agree by pointing at one asset rather than by repeating a literal at each site.",
+    "ENTIRELY OPTIONAL, and the two styles mix freely in one project. A typed key is still right for a one-off label or a key decided at runtime. Create these for the keys you reference often enough that a typo would cost you — or let the Localization Importer generate one per key in a registry, in a single pass."
+  ],
+  "useCases": [
+    "A key used by several labels, or one you expect to rename.",
+    "Letting a designer wire a label by dragging, with no chance of a typo.",
+    "Finding every user of a key — select the asset and use Find References.",
+    "Holding a key in plain C# without holding a string, via Value and Format."
+  ],
+  "params": [
+    {
+      "field": "key",
+      "why": "REQUIRED. The lookup key this asset stands for, e.g. \"menu.start\".",
+      "tuning": "Change it here and every LocalizedText pointing at this asset follows — that is the entire point of the asset existing. The Localization Editor's rename does this for you across the locales and the key assets together, which is the safer way to do it."
+    },
+    {
+      "field": "context",
+      "why": "A note for whoever edits the translations: where this line appears, how much room it has, who is speaking.",
+      "tuning": "Optional and never shown to a player. It is displayed under the field on any LocalizedText using this asset, which is where a translator-facing note is actually useful."
+    }
+  ],
+  "usage": {
+    "code": "// The normal use is drag-and-drop in the Inspector, with no code at all.\n\n// In code, a field can hold the asset rather than a string — so a typo cannot\n// compile and Find References works:\n[SerializeField] private LocalizedStringAsset notEnoughGold;\n\nToastNotification.Instance.Show(notEnoughGold.Value);\nstatusLabel.text = coinsLine.Format(coinsHeld, coinsTotal);",
+    "codeNote": "Value and Format fall back to returning the key itself when there is no LocalizationManager yet — safe to call from an editor tool or outside Play mode rather than throwing."
+  },
+  "apiNotes": {
+    "Key": "What LocalizedText actually looks up. Reading this rather than storing a copy is what makes a rename take effect everywhere at once.",
+    "Value": "The current language's text for this key, straight from the manager. Returns the key itself when no manager exists yet, so an inspector or editor tool can call it safely.",
+    "Format(params object[])": "Value plus string.Format, for a key whose text contains {0}, {1}. Same broken-format-string protection as the manager: a bad translation returns the template rather than throwing.",
+    "SetKey(string)": "Deliberately NOT editor-only. The Localization Editor's rename uses it, but a runtime tool that builds keys is a legitimate thing to write, and an #if UNITY_EDITOR here would make the asset behave differently in a build."
+  },
+  "gotchas": [
+    {
+      "title": "The asset WINS over a typed key on the same component",
+      "body": "When both are set, LocalizedText uses the asset and the typed Key field is inert — the inspector greys it out and says so. The rule is deliberately not \"whichever is non-empty\": a half-migrated label with a stale typed key and an asset has to behave predictably. Note the matching consequence in code: SetKey(string) CLEARS the asset, or it would appear to do nothing."
+    },
+    {
+      "title": "It is not a GameDataAsset, unlike LocaleAsset",
+      "body": "GameDataAsset exists to be looked up by Id out of a GameDataRegistry — exactly what a language needs and exactly what a key does not, since a key asset is referenced directly by the field that drags it. Inheriting would have bought nothing and re-inflicted the one genuinely confusing thing about LocaleAsset: an inherited `id` field, drawn above everything else, that you have to know is really the code."
+    },
+    {
+      "title": "Generating assets does not validate them",
+      "body": "The importer generates one asset per key that exists in the registry AT THAT MOMENT. Rename a key in the sheet afterwards and the old asset still holds the old key — it will resolve to nothing. Re-generating reports those as orphans rather than deleting them, because they are usually the trail back to references you need to fix."
+    }
+  ],
+  "seeAlso": ["LocalizedText", "Localization", "ScriptableVariables", "GameEvent"]
+}

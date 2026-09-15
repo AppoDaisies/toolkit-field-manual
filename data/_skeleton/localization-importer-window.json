@@ -7,7 +7,7 @@
   "src_file": "Data/Localization/Editor/LocalizationImporterWindow.cs",
   "src_lines": [
     16,
-    372
+    452
   ],
   "src_base": "EditorWindow",
   "src_implements": [],
@@ -37,6 +37,14 @@
       "name": "Import",
       "static": true,
       "comment": "Public and static so the self-test can drive the whole import without a window open.  `metadata` is supplied only by a JSON bundle import. It is the reason a bundle CAN set a language's display name and system language while a CSV cannot: the bundle states them explicitly, so writing them is honouring the file, whereas a CSV import that touched them would be silently clobbering hand-set values with nothing."
+    },
+    {
+      "id": "GenerateKeyAssets(LocaleRegistry, string)",
+      "sig": "public static string GenerateKeyAssets(LocaleRegistry registry, string folder)",
+      "kind": "method",
+      "name": "GenerateKeyAssets",
+      "static": true,
+      "comment": "Public and static for the same reason Import is: the self-test drives it with no window open.  Matched by PATH, not by scanning for a matching key, so re-running updates the same assets and every LocalizedText already pointing at one keeps working. That is the whole value of a key asset, and it would be undone by a generator that deleted and recreated."
     },
     {
       "id": "BuildTableFromRegistry(LocaleRegistry)",

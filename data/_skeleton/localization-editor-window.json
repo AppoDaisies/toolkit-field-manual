@@ -1,0 +1,37 @@
+{
+  "id": "localization-editor-window",
+  "name": "LocalizationEditorWindow",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.EditorTools",
+  "src_file": "Data/Localization/Editor/LocalizationEditorWindow.cs",
+  "src_lines": [
+    18,
+    319
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Localization Editor"
+    ]
+  },
+  "src_typeComment": "Toolkit > Localization Editor: every language side by side, editable in place.  The importer round trip is right for a translator and wrong for you fixing one word. This edits the LocaleAssets directly — no file, no export, no re-import — and does the two things a spreadsheet cannot: RENAMING A KEY updates every language AND every LocalizedStringAsset pointing at it in one action, and an untranslated cell is visibly blank next to the language that does have it.  Reads the assets' RAW entry lists rather than their runtime lookups, deliberately: the lookup drops empty text (that is what makes the fallback work), and an empty cell is precisely what this window exists to show you.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow() => GetWindow<LocalizationEditorWindow>(\"Localization Editor\")",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

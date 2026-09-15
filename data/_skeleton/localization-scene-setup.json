@@ -1,0 +1,28 @@
+{
+  "id": "localization-scene-setup",
+  "name": "LocalizationSceneSetup",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.EditorTools",
+  "src_file": "Data/Localization/Editor/LocalizationSceneSetup.cs",
+  "src_lines": [
+    18,
+    98
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Localization/Set Up In This Scene"
+    ]
+  },
+  "src_typeComment": "Toolkit > Localization > Set Up In This Scene.  The four steps between \"I imported a sheet\" and \"a label shows French\" are: make a GameObject, add a LocalizationManager, find the registry, assign it. None of them is a decision — which is exactly the kind of thing a menu item should do for you. Same reasoning and shape as PlayerCameraRigSetup: not a prefab, because a prefab could not find YOUR registry, and the component is already plug-and-play on its own, so this is convenience rather than a requirement.  Safe to run twice: an existing manager is configured and selected rather than duplicated — which also makes it a usable \"did I wire this up?\" check on a scene someone else built.",
+  "src_serialized": [],
+  "src_members": [],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

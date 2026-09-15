@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.Data.Localization",
   "src_file": "Data/Localization/LocalizedText.cs",
   "src_lines": [
-    15,
-    116
+    20,
+    143
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [],
@@ -17,16 +17,26 @@
   "src_attributes": {
     "addComponentMenu": "Toolkit/Localization/Localized Text"
   },
-  "src_typeComment": "Drop this on any label, type a key, and it shows that key's text in the current language — and swaps the instant the language changes. This is the component you actually use day to day; everything else in the folder exists to feed it.  The target label is found on this same GameObject if you do not assign one, so the whole setup is \"Add Component, type key\". Both TextMeshPro and legacy UI.Text are supported because a project that predates TMP should not have to migrate its UI before it can be translated.",
+  "src_typeComment": "Drop this on any label, type a key, and it shows that key's text in the current language — and swaps the instant the language changes. This is the component you actually use day to day; everything else in the folder exists to feed it.  The target label is found on this same GameObject if you do not assign one, so the whole setup is \"Add Component, type key\". Both TextMeshPro and legacy UI.Text are supported because a project that predates TMP should not have to migrate its UI before it can be translated.  TWO WAYS TO NAME THE KEY, and you can mix them freely in one project: * TYPE it into Key — quickest, right for a one-off label or a key decided at runtime. * DRAG a LocalizedStringAsset into Key Asset — the key then lives in one asset, so renaming it updates every label at once and a typo is impossible. The asset WINS when both are set.",
   "src_serialized": [
+    {
+      "name": "keyAsset",
+      "type": "LocalizedStringAsset",
+      "default": null,
+      "tooltip": "OPTIONAL. Drag a Localized String asset here instead of typing a key below. The asset WINS if set, and it is the drag-and-drop option: rename the key in one place and every label using it follows.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
     {
       "name": "key",
       "type": "string",
       "default": null,
-      "tooltip": "The lookup key, e.g. \"ui.start_button\". The same key exists in every locale — that is what makes switching language work.",
+      "tooltip": "The lookup key, e.g. \"ui.start_button\", when you are not using a Localized String asset. The same key exists in every locale — that is what makes switching language work.",
       "header": null,
       "range": null,
-      "order": 0,
+      "order": 1,
       "comment": null
     },
     {
@@ -36,7 +46,7 @@
       "tooltip": "Optional. Leave empty and the TextMeshPro or UI.Text component on this GameObject is used.",
       "header": null,
       "range": null,
-      "order": 1,
+      "order": 2,
       "comment": null
     },
     {
@@ -46,7 +56,7 @@
       "tooltip": "Optional. A legacy UI.Text target, for projects not on TextMeshPro. Only used when there is no TMP target.",
       "header": null,
       "range": null,
-      "order": 2,
+      "order": 3,
       "comment": null
     },
     {
@@ -56,16 +66,24 @@
       "tooltip": "Apply the active locale's Font Override (if it has one) to this label. Turn off for a label whose font is deliberately fixed, like a logo.",
       "header": null,
       "range": null,
-      "order": 3,
+      "order": 4,
       "comment": null
     }
   ],
   "src_members": [
     {
       "id": "Key",
-      "sig": "public string Key => key",
+      "sig": "public string Key => keyAsset != null ? keyAsset.Key : key",
       "kind": "property",
       "name": "Key",
+      "static": false,
+      "comment": "The asset wins when both are set. Deliberately not \"whichever is non-empty\": a half-migrated label with a stale typed key AND an asset must behave predictably, and \"the asset is the source of truth\" is the rule that is easy to state and easy to see in the inspector, which greys the string out."
+    },
+    {
+      "id": "KeyAsset",
+      "sig": "public LocalizedStringAsset KeyAsset => keyAsset",
+      "kind": "property",
+      "name": "KeyAsset",
       "static": false,
       "comment": null
     },
@@ -75,7 +93,15 @@
       "kind": "method",
       "name": "SetKey",
       "static": false,
-      "comment": "Swap which line this label shows — e.g. one reusable status label that says \"Saved\" or \"Failed\"."
+      "comment": "Swap which line this label shows — e.g. one reusable status label that says \"Saved\" or \"Failed\".  CLEARS the asset reference, because otherwise the asset would keep winning and this call would silently do nothing — the single most confusing thing this hybrid could have done."
+    },
+    {
+      "id": "SetKeyAsset(LocalizedStringAsset)",
+      "sig": "public void SetKeyAsset(LocalizedStringAsset newKeyAsset)",
+      "kind": "method",
+      "name": "SetKeyAsset",
+      "static": false,
+      "comment": "NOT an overload of SetKey, deliberately: SetKey(null) would then be ambiguous between a string and an asset and would not compile at the call site — a trap set for whoever writes the clearing code six months from now. A separate name costs nothing and cannot be ambiguous."
     },
     {
       "id": "SetArguments(params object[])",

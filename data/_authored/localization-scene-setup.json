@@ -1,0 +1,35 @@
+{
+  "id": "localization-scene-setup",
+  "summary": "One menu item that creates the manager, finds the registry and wires them together.",
+  "overview": [
+    "The steps between \"I imported a sheet\" and \"a label shows French\" are: make a GameObject, add a LocalizationManager, find the registry, assign it, pick a default and fallback language. None of them is a decision \u2014 which is exactly the kind of thing a menu item should do for you.",
+    "Offered instead of a prefab for the same reason as the camera rig's one-click setup: a prefab could not find YOUR registry. The component is already plug-and-play on its own, so this is convenience rather than a requirement."
+  ],
+  "useCases": [
+    "Setting up localisation in a new scene without looking anything up.",
+    "Checking whether a scene someone else built is actually wired \u2014 it is safe to run on a scene that already has a manager.",
+    "Getting sensible default and fallback locale codes instead of typing \"en\" into a project that is not in English."
+  ],
+  "whereToFind": "Toolkit \u25b8 Localization \u25b8 Set Up In This Scene",
+  "walkthrough": [
+    { "name": "Existing manager", "what": "Configured and selected rather than duplicated, so running it twice is harmless." },
+    { "name": "Registry", "what": "Assigned automatically when the project contains exactly ONE LocaleRegistry. With several it says so and leaves the choice to you; with none it tells you to import a sheet first." },
+    { "name": "Default / Fallback Locale Code", "what": "Both set to the FIRST locale in the registry, which is nearly always the language the game was written in \u2014 and always a better guess than a hardcoded \"en\"." },
+    { "name": "Result", "what": "Logged in full: what it created, what it assigned, and what to do next." }
+  ],
+  "gotchas": [
+    {
+      "title": "It deliberately does NOT create a registry when none exists",
+      "body": "An empty registry would let the scene look wired while every key rendered as a missing-key marker \u2014 worse than an obviously missing reference. Import a sheet first with the Localization Importer."
+    },
+    {
+      "title": "It only handles the scene-level wiring",
+      "body": "Labels still need a LocalizedText each. That part is genuinely per-label work and nothing can guess which of your labels are meant to be translated."
+    },
+    {
+      "title": "It will not choose between several registries",
+      "body": "A project with more than one LocaleRegistry gets a report and no assignment, rather than a coin toss that silently ships the wrong set of languages."
+    }
+  ],
+  "seeAlso": ["Localization", "LocalizationImporterWindow", "PlayerCameraRigSetup"]
+}

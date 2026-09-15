@@ -16,6 +16,10 @@
       "what": "drop it next to any TMP_Text or UI.Text, type a key, and it rewrites itself whenever the language changes."
     },
     {
+      "name": "Draggable key assets",
+      "what": "optional LocalizedStringAssets you drag onto a label instead of typing a key, so a typo is impossible and a rename reaches every user."
+    },
+    {
       "name": "Fallback chain",
       "what": "a key missing from the current language is answered by the fallback language instead of rendering blank."
     },
@@ -34,6 +38,14 @@
     {
       "name": "Runtime loading",
       "what": "an optional loader reads a file at Play time and layers it over the shipped languages, or adds one that has no asset at all."
+    },
+    {
+      "name": "Localization Editor",
+      "what": "every language side by side, editable in place, with a rename that updates all of them and the key assets at once."
+    },
+    {
+      "name": "One-click scene setup",
+      "what": "a menu item that creates the manager, finds the registry and picks sensible default and fallback languages."
     }
   ],
   "useCases": [
@@ -135,6 +147,10 @@
     {
       "title": "The importer cannot read a CsvToScriptableObject-style sheet, and vice versa",
       "body": "That tool's columns are FIELDS of one asset per row. A translation sheet is transposed — columns are languages, rows are keys — which is why this has its own importer window. The two are not interchangeable, and the parsing itself is shared through CsvUtility."
+    },
+    {
+      "title": "A rename reaches key ASSETS, not typed keys",
+      "body": "The Localization Editor's rename updates every locale and every LocalizedStringAsset, because both are assets it can find. A key TYPED into a LocalizedText lives inside a scene or prefab with no reference to follow, so it is left behind. That is the practical argument for using a key asset on anything you might rename — and it is why the two styles are allowed to coexist rather than one replacing the other."
     }
   ],
   "seeAlso": [
@@ -158,12 +174,16 @@
       "whatYouSee": "\"Français\" instead of \"fr\" in a picker"
     },
     {
-      "step": "Add a LocalizationManager to your first scene and drag the LocaleRegistry onto its Registry field. Set Default Locale Code and Fallback Locale Code to the language the game was written in.",
-      "whatYouSee": "nothing yet — but leave Registry empty and every key in the game renders as #key#"
+      "step": "Wire the scene: Toolkit > Localization > Set Up In This Scene creates the LocalizationManager, assigns the registry if the project has exactly one, and sets Default and Fallback Locale Code to its first language. Doing it by hand is fine too — it is one component and one reference.",
+      "whatYouSee": "a selected LocalizationManager and a console line saying exactly what it wired"
     },
     {
       "step": "On each label, add a LocalizedText component and type its key. The inspector previews the text in every language and has a Pick Key button listing the keys that really exist.",
       "whatYouSee": "the preview showing the line in each language, or a warning that the key resolves nowhere"
+    },
+    {
+      "step": "OPTIONAL, for keys you would hate to mistype: press Generate Key Assets in the importer, then DRAG the resulting Localized String asset onto a label's Key Asset field instead of typing the key. The two styles mix freely — the asset just wins where both are set.",
+      "whatYouSee": "the typed Key field greying out, with the asset's key shown under it"
     },
     {
       "step": "For a line with a value in it — \"You have {0} coins\" — call SetArguments once from your own code. The values are remembered and re-applied on every later language change.",
@@ -176,6 +196,10 @@
     {
       "step": "When keys have been added, press Export CSV in the importer and send that sheet out. It contains every key, with what exists filled in and the rest blank.",
       "whatYouSee": "exactly what the translator still owes you"
+    },
+    {
+      "step": "To fix wording later, use Toolkit > Localization Editor rather than the sheet: every language side by side, and renaming a key there updates all of them and every key asset in one action.",
+      "whatYouSee": "a rename that does not break the scenes already using the key"
     }
   ]
 }

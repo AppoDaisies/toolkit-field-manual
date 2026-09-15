@@ -1,0 +1,88 @@
+{
+  "id": "localized-string-asset",
+  "name": "LocalizedStringAsset",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizedStringAsset.cs",
+  "src_lines": [
+    27,
+    61
+  ],
+  "src_base": "ScriptableObject",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {
+    "createAssetMenu": "menuName = \"Toolkit/Localization/Localized String\", fileName = \"Key_NewString\""
+  },
+  "src_typeComment": "A key you DRAG instead of a key you TYPE.  The problem it solves: a localisation key is a magic string. Type \"menu.strat\" instead of \"menu.start\" and nothing complains until a screenshot shows #menu.strat#; rename a key in the sheet and every scene that typed the old one silently breaks, with no reference anywhere to find. Point LocalizedText at one of these assets instead and the key lives in exactly ONE place — rename it here, or rename it in the Localization Editor, and every user of it follows.  Same idea as the toolkit's ScriptableVariable/GameEvent assets: several unrelated objects agree by pointing at one asset rather than by repeating a literal at each site.  ENTIRELY OPTIONAL. LocalizedText still takes a plain string key, and that is still the right choice for a one-off label or a key built at runtime. Create these for the keys you reference from scenes and inspectors often enough that a typo would cost you — or let the Localization Importer generate one per key in a registry, in one pass.  WHY THIS IS NOT A GameDataAsset, unlike LocaleAsset: GameDataAsset exists to be LOOKED UP BY ID out of a GameDataRegistry, which is exactly what a language needs and exactly what a key does not — a key asset is referenced directly by the field that drags it, never searched for. Inheriting would have bought nothing and re-inflicted the one genuinely confusing thing about LocaleAsset: an `id` field on the base class, drawn above everything else, that you have to know is really the code.",
+  "src_serialized": [
+    {
+      "name": "key",
+      "type": "string",
+      "default": "\"\"",
+      "tooltip": "The lookup key this asset stands for, e.g. \"menu.start\". Change it here and every LocalizedText pointing at this asset follows — that is the entire point.",
+      "header": null,
+      "range": null,
+      "order": 0,
+      "comment": null
+    },
+    {
+      "name": "context",
+      "type": "string",
+      "default": "\"\"",
+      "tooltip": "Optional note for whoever edits the translations — where this line appears, how much room it has, who is speaking. Never shown to a player.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    }
+  ],
+  "src_members": [
+    {
+      "id": "Key",
+      "sig": "public string Key => key",
+      "kind": "property",
+      "name": "Key",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Context",
+      "sig": "public string Context => context",
+      "kind": "property",
+      "name": "Context",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Value",
+      "sig": "public string Value",
+      "kind": "property",
+      "name": "Value",
+      "static": false,
+      "comment": "Convenience so a plain C# caller can hold one of these instead of a string and never touch the manager directly. Returns the key itself when there is no manager yet (in the Editor, outside Play mode) rather than throwing, so an inspector or a tool can call it safely."
+    },
+    {
+      "id": "Format(params object[])",
+      "sig": "public string Format(params object[] args)",
+      "kind": "method",
+      "name": "Format",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetKey(string)",
+      "sig": "public void SetKey(string newKey) => key = newKey",
+      "kind": "method",
+      "name": "SetKey",
+      "static": false,
+      "comment": "Used by the Localization Editor's rename, which has to update every asset pointing at the old key. Editor-only in practice, but not #if'd: a runtime tool that builds keys is a legitimate thing to write, and an #if UNITY_EDITOR here would make this asset behave differently in a build."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

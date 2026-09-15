@@ -1,0 +1,45 @@
+{
+  "id": "localization-editor-window",
+  "summary": "Every language side by side, editable in place. Renaming a key updates all of them at once.",
+  "overview": [
+    "The importer round trip is right for a translator and wrong for you fixing one word. This edits the LocaleAssets directly \u2014 no file, no export, no re-import \u2014 with one row per key and one column per language, and an untranslated cell visibly blank beside the language that does have it.",
+    "It also does the thing a spreadsheet cannot do safely: RENAMING A KEY updates every language AND every LocalizedStringAsset pointing at it, in one action. Rename a key in a sheet and every scene that typed the old one breaks silently."
+  ],
+  "useCases": [
+    "Fixing a word without opening a spreadsheet or re-importing.",
+    "Adding a key and filling it in across every language in one pass.",
+    "Renaming a key safely once it is already used.",
+    "Checking how much of a language is done \u2014 each column header carries its own count.",
+    "Finding a line you half remember: the filter searches the TEXT as well as the keys."
+  ],
+  "whereToFind": "Toolkit \u25b8 Localization Editor",
+  "walkthrough": [
+    { "name": "Registry", "what": "The LocaleRegistry to edit. Its locales become the columns." },
+    { "name": "Filter", "what": "Matches keys AND translated text, case-insensitively \u2014 so you can find a line by something you remember of its wording." },
+    { "name": "Reload", "what": "Re-reads the assets. Use it after an import, or if something edited them outside this window." },
+    { "name": "Save Assets", "what": "Flushes to disk. Edits apply to the assets immediately and mark them dirty; this is what makes Unity write them out now rather than at some later moment." },
+    { "name": "New Key / Add", "what": "Adds a row. Disabled for a key that already exists. The key exists only in this window until you type text for it in at least one language." },
+    { "name": "Key cell", "what": "Renames on Enter or focus loss, across every language and every Localized String asset. Refuses to rename onto an existing key rather than merging two keys and discarding one language's text." },
+    { "name": "Text cell", "what": "Commits on Enter or focus loss. Clearing a cell REMOVES that entry, which is what makes the fallback language answer for it again." },
+    { "name": "\u00d7", "what": "Removes the key from every language. Asks first, and says how many Localized String assets still point at it." }
+  ],
+  "gotchas": [
+    {
+      "title": "A LocalizedText that TYPED the key is not updated by a rename",
+      "body": "The rename reaches every locale asset and every LocalizedStringAsset, because both are assets it can find. A typed key lives inside a scene or prefab and there is no reference to follow. That asymmetry is the strongest practical argument for key assets on anything you might rename \u2014 and the rename's own console message says so."
+    },
+    {
+      "title": "Clearing a cell deletes the entry rather than storing an empty one",
+      "body": "That is deliberate: it keeps the assets the same shape the importer writes, and an empty entry and a missing entry mean the same thing at runtime anyway. The row does not disappear while you are working \u2014 the window remembers the key for the session \u2014 but a key left empty in every language is gone after a Reload, because a key with no text in any language does not exist."
+    },
+    {
+      "title": "Edits are immediate, not staged",
+      "body": "There is no Apply or Revert. Each committed cell writes to its asset through SerializedObject straight away, so Ctrl+Z works exactly as it does in the Inspector, and Save Assets only controls when the file is written."
+    },
+    {
+      "title": "It draws every visible row each repaint",
+      "body": "Fine for a few hundred keys, which is where the table shape is most useful anyway. For a very large project, filter first \u2014 or do bulk work in a spreadsheet, which is what the CSV export is for."
+    }
+  ],
+  "seeAlso": ["Localization", "LocalizationImporterWindow", "LocalizedStringAsset", "LocaleAsset"]
+}
