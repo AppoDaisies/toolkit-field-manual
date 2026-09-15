@@ -13,7 +13,8 @@ Checks:
   3. snippet symbols     - every `Thing.Member(` in a code block resolves to a documented
                            type's real member, or to a Unity/BCL whitelist entry
   4. cross-links         - every seeAlso / drivenBy target resolves to a documented entry
-  5. coverage ledger     - every extracted type is either an entry or explicitly omitted
+  5. coverage ledger     - every extracted type is an entry of its own, rendered inside another
+                           entry (folded satellite / system part), or explicitly omitted
   6. schema              - required keys per entryKind, summary length, id validity
   7. provenance          - a workedExample declares verifiedBy, and a 'selftest:<file>' claim must
                            point at a file that really exists
@@ -29,6 +30,7 @@ Usage:  python tools/verify.py [--cat <category-slug>]
 """
 
 import argparse
+import io
 import json
 import os
 import re
@@ -37,6 +39,40 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, ".."))
+
+
+def rendered_ids():
+    """Every entry id the BUILT site actually shows, nested ones included.
+
+    Read back out of data/*.js rather than recomputed from build.py's rules, so this measures what
+    a reader can really reach instead of re-asserting the same fold logic that produced it.
+    """
+    ids = set()
+
+    def walk(e):
+        if e.get("id"):
+            ids.add(e["id"])
+        if e.get("systemPrimaryId"):          # the type a SYSTEM entry was built from
+            ids.add(e["systemPrimaryId"])
+        for part in e.get("parts") or []:     # satellites folded into their owner
+            walk(part)
+        for section in e.get("systemSections") or []:
+            for member in section.get("entries") or []:
+                walk(member)
+
+    for path in glob.glob(os.path.join(REPO, "data", "*.js")):
+        text = io.open(path, encoding="utf-8").read().strip()
+        match = re.search(r"\]\s*=\s*(\{.*\});?\s*$", text, re.S)
+        if not match:
+            continue
+        try:
+            payload = json.loads(match.group(1))
+        except ValueError:
+            continue
+        for entry in payload.get("entries", []):
+            walk(entry)
+    return ids
+
 SKEL = os.path.join(REPO, "data", "_skeleton")
 AUTH = os.path.join(REPO, "data", "_authored")
 # Where the Unity toolkit source lives. Defaults to a path RELATIVE to this repo, which is correct
@@ -433,10 +469,16 @@ def main():
     except Exception:
         OMIT = {}
     if not args.cat:
-        missing = [sid for sid in skel if sid not in auth and sid not in OMIT]
+        # A type needs no authored file of its own if it RENDERS inside another entry: a satellite
+        # folded into its owner ("parts"), a member of a SYSTEM section, or the primary a system
+        # entry was built from. Comparing skeletons against authored files alone counted all of
+        # those as gaps, so this warning fired permanently on a complete manual - which trains you
+        # to ignore the one check meant to catch a genuinely undocumented tool.
+        missing = [sid for sid in skel
+                   if sid not in auth and sid not in OMIT and sid not in rendered_ids()]
         if missing:
-            warn(f"[coverage] {len(missing)} extracted types are neither authored nor omitted "
-                 f"(expected while authoring is in progress)")
+            warn(f"[coverage] {len(missing)} extracted type(s) are neither authored, omitted, nor "
+                 f"rendered inside another entry: {', '.join(sorted(missing)[:8])}")
 
     # 10 - privacy. The repo is PUBLIC, so a hardcoded personal path would be permanent in history.
     # Deliberately an error rather than a warning: a warning still lets the push happen.
