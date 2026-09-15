@@ -52,6 +52,19 @@
   }
 
   /* ---------- shared section renderers ---------- */
+  // A tooltip may contain real newlines - an author wrote a paragraph break into the [Tooltip].
+  // HTML collapses those to a space, so the two halves ran together as one wall of text.
+  function escLines(t) {
+    return esc(t == null ? "" : t)
+      .replace(/\n{2,}/g, '</span><span class="tline">')
+      .replace(/\n/g, "<br>");
+  }
+  function multiline(t) {
+    var html = escLines(t);
+    return html.indexOf("tline") === -1 && html.indexOf("<br>") === -1
+      ? html
+      : '<span class="tline">' + html + "</span>";
+  }
   function label(t) { return '<div class="tool-section-label">' + esc(t) + "</div>"; }
   function prose(t) { return t ? "<p>" + esc(t) + "</p>" : ""; }
   function code(src, note) {
@@ -81,12 +94,12 @@
       var why = n.why || s.tooltip || "";
       // NOT .pdef - that class is white-space:nowrap for short type/default tokens, and
       // tuning advice is a full sentence, so it overflowed the table off the page.
-      var tuning = n.tuning ? '<div class="ptuning">' + esc(n.tuning) + "</div>" : "";
+      var tuning = n.tuning ? '<div class="ptuning">' + multiline(n.tuning) + "</div>" : "";
       return "<tr><td class=\"pname\">" + esc(s.name) + "</td>" +
         '<td class="ptype">' + esc(s.type) + "</td>" +
         '<td class="pdef">' + esc(s.default == null ? "-" : s.default) +
         (s.range ? " <span>[" + esc(s.range) + "]</span>" : "") + "</td>" +
-        "<td>" + esc(why) + tuning + "</td></tr>";
+        "<td>" + multiline(why) + tuning + "</td></tr>";
     }).join("");
     // The type/default cells are white-space:nowrap, so the table has a min-content width that
     // exceeds a phone viewport. Without this wrapper it was simply CLIPPED - and the column that
@@ -198,7 +211,7 @@
         if (p.src_serialized && p.src_serialized.length) {
           body += '<ul class="partvals">' + p.src_serialized.map(function (f) {
             return "<li><code>" + esc(f.type + " " + f.name) + "</code>" +
-              (f.tooltip ? " \u2014 " + esc(f.tooltip) : "") + "</li>";
+              (f.tooltip ? " \u2014 " + multiline(f.tooltip) : "") + "</li>";
           }).join("") + "</ul>";
         }
         if (!body && p.src_members && p.src_members.length) {

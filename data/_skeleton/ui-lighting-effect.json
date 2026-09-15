@@ -136,7 +136,7 @@
       "name": "normalMap",
       "type": "Texture",
       "default": null,
-      "tooltip": "Needs a real normal map to look like anything other than a flat tint shift — Properties defaults to Unity's built-in flat \\\"bump\\\" texture.",
+      "tooltip": "Needs a real normal map to look like anything other than a flat tint shift — Properties defaults to Unity's built-in flat \"bump\" texture.",
       "header": "Scene Light",
       "range": null,
       "order": 11,

@@ -181,6 +181,42 @@ def parse_attr_list(attr_lines):
     return found
 
 
+_CS_ESCAPES = {
+    "n": chr(10), "r": chr(13), "t": chr(9), "0": chr(0),
+    chr(34): chr(34), chr(39): chr(39), chr(92): chr(92),
+}
+
+
+def decode_cs_string(text):
+    """Turn the RAW source text of a C# string literal into the string it actually represents.
+
+    The extractor reads source, not a compiled assembly, so a [Tooltip("...")] arrives with its
+    escapes intact: a deliberate paragraph break came through as a literal backslash-n and rendered
+    on the page as "\\n\\n", and an escaped quote rendered as \\". Only ever applied to text that
+    was genuinely wrapped in quotes - a // comment is raw text where a backslash means nothing, and
+    decoding it would mangle things like a regex or a generic written as List\\<T\\>.
+
+    Verbatim literals (@"...") would need different rules, but the toolkit has none; if one is ever
+    added it would arrive here with its @ already stripped and its doubled quotes intact.
+    """
+    if chr(92) not in text:
+        return text
+    out = []
+    i = 0
+    while i < len(text):
+        c = text[i]
+        if c == chr(92) and i + 1 < len(text):
+            nxt = text[i + 1]
+            if nxt in _CS_ESCAPES:
+                out.append(_CS_ESCAPES[nxt])
+                i += 2
+                continue
+            # Not a C# escape we know - keep the backslash so nothing is silently lost.
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
 def attr_arg(attr, quoted=True):
     m = re.search(r"\((.*)\)\s*$", attr, re.S)
     if not m:
@@ -188,7 +224,9 @@ def attr_arg(attr, quoted=True):
     arg = m.group(1).strip()
     if quoted:
         q = re.match(r'^\s*"(.*)"\s*$', arg, re.S)
-        return q.group(1) if q else arg
+        # Decode ONLY when this really was a quoted string literal. An unquoted argument list
+        # (a Range, a CreateAssetMenu spec) is code, not text, and must pass through untouched.
+        return decode_cs_string(q.group(1)) if q else arg
     return arg
 
 

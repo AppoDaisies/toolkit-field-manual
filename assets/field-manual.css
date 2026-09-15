@@ -496,6 +496,11 @@
     flex: 0 0 12px;
   }
 
+  /* A [Tooltip] that contains a blank line is one author writing two paragraphs - usually "mode A
+     does this / mode B does that". Rendered as separate blocks so the halves do not run together. */
+  .tline { display: block; }
+  .tline + .tline { margin-top: 7px; }
+
   /* ---- types declared in the same .cs file -------------------------------------------------
      Rendered inside their owner rather than as sibling rows. Indented and rule-marked so they read
      as belonging to the entry, not as a second list of tools. */

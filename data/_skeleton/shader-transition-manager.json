@@ -23,7 +23,7 @@
       "name": "transitionMaterial",
       "type": "Material",
       "default": null,
-      "tooltip": "A material using a shader with a \\\"_Progress\\\" float property — e.g. Toolkit/ScreenTransitions/RadialWipe or Toolkit/ScreenTransitions/DissolveTransition. Required; there's no sensible auto-created default the way FadeManager has a flat color.",
+      "tooltip": "A material using a shader with a \"_Progress\" float property — e.g. Toolkit/ScreenTransitions/RadialWipe or Toolkit/ScreenTransitions/DissolveTransition. Required; there's no sensible auto-created default the way FadeManager has a flat color.",
       "header": null,
       "range": null,
       "order": 0,

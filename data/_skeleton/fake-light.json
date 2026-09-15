@@ -143,7 +143,7 @@
       "name": "influenceMode",
       "type": "FakeLightInfluenceMode",
       "default": "FakeLightInfluenceMode.UniformTint",
-      "tooltip": "UniformTint (default): a single flat colour swap for the WHOLE renderer via MaterialPropertyBlock — zero setup, works on ANY material, but a large surface tints uniformly regardless of where on it the light is actually nearest.\\n\\nPerPixel: real per-fragment falloff via a shared global array (see FakeLightInclude.cginc) — only the geometry actually near the light is affected, like a real point light. Requires the material's shader to sample SampleFakeLights() (Toolkit/FakeLight/PerPixelReceiver already does).",
+      "tooltip": "UniformTint (default): a single flat colour swap for the WHOLE renderer via MaterialPropertyBlock — zero setup, works on ANY material, but a large surface tints uniformly regardless of where on it the light is actually nearest.\n\nPerPixel: real per-fragment falloff via a shared global array (see FakeLightInclude.cginc) — only the geometry actually near the light is affected, like a real point light. Requires the material's shader to sample SampleFakeLights() (Toolkit/FakeLight/PerPixelReceiver already does).",
       "header": null,
       "range": null,
       "order": 12,

@@ -33,7 +33,7 @@
       "name": "percentText",
       "type": "TMP_Text",
       "default": null,
-      "tooltip": "Optional — shows the percentage as text, e.g. \\\"45%\\\". Leave empty if not needed.",
+      "tooltip": "Optional — shows the percentage as text, e.g. \"45%\". Leave empty if not needed.",
       "header": null,
       "range": null,
       "order": 1,

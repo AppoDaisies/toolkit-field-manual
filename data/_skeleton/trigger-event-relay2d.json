@@ -26,7 +26,7 @@
       "name": "requiredTag",
       "type": "string",
       "default": "\"Untagged\"",
-      "tooltip": "Only objects with this tag fire the events. Leave as \\\"Untagged\\\" to respond to anything.",
+      "tooltip": "Only objects with this tag fire the events. Leave as \"Untagged\" to respond to anything.",
       "header": null,
       "range": null,
       "order": 0,

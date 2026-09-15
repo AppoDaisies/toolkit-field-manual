@@ -56,7 +56,7 @@
       "name": "format",
       "type": "string",
       "default": "\"{0}\"",
-      "tooltip": "Optional prefix/suffix, e.g. \\\" coins\\\" — {0} is replaced with the formatted number.",
+      "tooltip": "Optional prefix/suffix, e.g. \" coins\" — {0} is replaced with the formatted number.",
       "header": null,
       "range": null,
       "order": 3,

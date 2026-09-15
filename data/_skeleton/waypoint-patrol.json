@@ -43,7 +43,7 @@
       "name": "arrivalDistance",
       "type": "float",
       "default": "0.1f",
-      "tooltip": "How close (units) counts as \\\"arrived\\\" at a waypoint.",
+      "tooltip": "How close (units) counts as \"arrived\" at a waypoint.",
       "header": null,
       "range": null,
       "order": 2,
