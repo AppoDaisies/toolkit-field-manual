@@ -263,6 +263,19 @@
     rel += chipStrip("See also", e.seeAlso);
     if (rel) { out.push(label("Related")); out.push(rel); }
 
+    // A system entry (one tool, many scripts) carries its parts INSIDE its own dropdown, grouped
+    // into the sections a user thinks in - Heatmap, Clipping - rather than as sibling rows on the
+    // page. Each part is a full entry in its own right, just nested one level down.
+    if (e.systemSections && e.systemSections.length) {
+      out.push('<div class="sysparts">' + e.systemSections.map(function (sec) {
+        return '<section class="syssec">' +
+          '<h4 class="syssec-head" id="' + groupSlug(e.id + "-" + sec.title) + '">' +
+          esc(sec.title) + '<span class="gcount">' + sec.entries.length + "</span></h4>" +
+          sec.entries.map(function (m) { return renderEntry(m, true); }).join("") +
+          "</section>";
+      }).join("") + "</div>");
+    }
+
     var demos = e.src_demoScene;
     if (typeof demos === "string") demos = [demos];
     if (demos && demos.length) {
@@ -288,7 +301,18 @@
     return b.join("");
   }
 
-  function renderEntry(e) {
+  // Filtering the page searches each row's data-search. A system's members live inside the parent
+  // row, so their names have to reach the parent too or typing "heatmap" would hide the only row
+  // that contains it.
+  function sysText(e) {
+    return (e.systemSections || []).map(function (sec) {
+      return sec.title + " " + sec.entries.map(function (m) {
+        return m.name + " " + (m.summary || "");
+      }).join(" ");
+    }).join(" ");
+  }
+
+  function renderEntry(e, nested) {
     // A folded satellite no longer owns a row, so its name has to reach the PARENT's search text
     // or filtering for "FakeLightType" would come back empty.
     var partText = (e.parts || []).map(function (p) {
@@ -297,8 +321,9 @@
     var searchText = (e.name + " " + (e.src_ns || "") + " " + (e.summary || "") + " " +
       (e.src_members || []).map(function (m) { return m.id; }).join(" ") + " " +
       (e.src_serialized || []).map(function (s) { return s.name; }).join(" ") + " " +
-      partText).toLowerCase();
-    return '<details class="entry" id="' + esc(e.id) + '" data-search="' + esc(searchText) + '">' +
+      partText + " " + sysText(e)).toLowerCase();
+    return '<details class="entry' + (nested ? " subentry" : "") + '" id="' + esc(e.id) +
+      '" data-search="' + esc(searchText) + '">' +
       '<summary><span class="entry-name">' + esc(e.name) + "</span>" +
       '<span class="entry-summary">' + esc(e.summary || e.src_typeComment || "") + "</span>" +
       '<span class="tool-badges">' + badgesFor(e) + "</span>" +
@@ -324,7 +349,9 @@
     // row is noise. build.py decides that, not this file.
     var groups = d.groups || [];
     if (!groups.length) {
-      host.innerHTML = d.entries.map(renderEntry).join("");
+      // NOT .map(renderEntry): Array.map passes (value, index, array), so the index landed in
+      // renderEntry's `nested` flag and every row after the first rendered as a nested sub-entry.
+      host.innerHTML = d.entries.map(function (e) { return renderEntry(e); }).join("");
       return;
     }
 
@@ -430,6 +457,16 @@
           n.hidden = !match;
           if (match) { n.open = true; hits++; }
         });
+        // A nested component can match while its system parent does not. Hiding the parent would
+        // hide the match with it, so re-show and open every ancestor of a visible row. Counted
+        // AFTER this, so the tally reflects rows you can actually see.
+        nodes.forEach(function (n) {
+          if (n.hidden) return;
+          for (var a = n.parentElement; a; a = a.parentElement) {
+            if (a.classList && a.classList.contains("entry")) { a.hidden = false; a.open = true; }
+          }
+        });
+        hits = nodes.filter(function (n) { return !n.hidden; }).length;
         // A group heading left standing over zero visible rows reads as a broken filter.
         Array.prototype.slice.call(document.querySelectorAll(".tsub")).forEach(function (sub) {
           var any = Array.prototype.slice.call(sub.querySelectorAll(".entry"))
@@ -482,6 +519,9 @@
       var owner = part.closest("details.entry");
       if (owner) {
         owner.open = true;
+        for (var a2 = owner.parentElement; a2; a2 = a2.parentElement) {
+          if (a2.tagName && a2.tagName.toLowerCase() === "details") a2.open = true;
+        }
         // A setTimeout(0) here fired before the just-opened <details> had laid out, so the scroll
         // landed on a stale position. Two frames guarantees layout has settled first.
         requestAnimationFrame(function () {
@@ -494,6 +534,11 @@
     var target = document.getElementById(id);
     if (!target) return;
     if (target.tagName.toLowerCase() === "details") target.open = true;
+    // A nested component sits inside its system's <details>. Opening only the target leaves it
+    // inside a closed parent, so the link appears to do nothing.
+    for (var anc = target.parentElement; anc; anc = anc.parentElement) {
+      if (anc.tagName && anc.tagName.toLowerCase() === "details") anc.open = true;
+    }
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     target.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
   }

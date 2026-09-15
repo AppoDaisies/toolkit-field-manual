@@ -21,8 +21,14 @@ import os
 import re
 import glob
 import collections
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+# Reuse the extractor's slug rule rather than re-deriving it: these slugs are permanent URLs, and
+# a second implementation would drift (its trailing-digit handling is the whole reason it exists).
+from extract import slugify  # noqa: E402
+
 REPO = os.path.abspath(os.path.join(HERE, ".."))
 SKEL = os.path.join(REPO, "data", "_skeleton")
 AUTH = os.path.join(REPO, "data", "_authored")
@@ -136,21 +142,13 @@ GROUP_ORDER = {
         ("Undo / Redo", ["CommandHistory", "ICommand"]),
     ],
     "EditorTools": [
-        # One window with four tabs, so the manual says so: the shell first, then a
-        # section per tab holding that tab plus the machinery only it uses.
-        ("Level Transform Guidance", [
-            ("Window & tab framework", ["LevelTransformGuidanceWindow", "ILtgTab", "LtgGuiUtility"]),
-            ("Heatmap tab", ["LtgHeatmapTab", "HeatmapGrid"]),
-            ("Clipping tab", ["LtgClippingTab", "ClippingCandidateFinder", "ClippingHighlightRenderer"]),
-            ("Measuring tape tab", ["LtgMeasuringTapeTab", "MeasurementUnits"]),
-            ("Snap to mouse tab", ["LtgSnapToMouseTab"]),
-        ]),
         ("Inspector Attributes", ["ButtonAttribute", "ButtonAttributeEditor", "LayerAttribute", "LayerDrawer",
             "ReadOnlyAttribute", "ReadOnlyDrawer", "TagAttribute", "TagDrawer"]),
         ("Data & Assets", ["CsvTableWindow", "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow",
             "PlayerPrefsEditorWindow", "BatchAssetRenamerWindow"]),
-        ("Scene & Project Tools", ["BulkHierarchyToolsWindow", "FindReferencesWindow", "TodoScannerWindow",
-            "GreyboxPlacerWindow", "GreyboxBlockMarker", "LocomotionAnimatorGeneratorWindow"]),
+        ("Scene & Project Tools", ["LevelTransformGuidance", "BulkHierarchyToolsWindow", "FindReferencesWindow",
+            "TodoScannerWindow", "GreyboxPlacerWindow", "GreyboxBlockMarker",
+            "LocomotionAnimatorGeneratorWindow"]),
         ("Session Recorder", ["SessionRecorderWindow", "SessionRecorderService", "SessionHistoryStorage"]),
     ],
     "AI": [
@@ -331,6 +329,80 @@ def infer_kind(e):
     return "tool"
 
 
+# ---------------------------------------------------------------------------------------------
+# SYSTEMS. Some tools are one thing you use but many scripts you read. Level Transform Guidance is
+# a single editor window with four tabs across 11 files - listing those as 11 sibling rows told the
+# reader "here are 11 tools", which is wrong. A system collapses to ONE entry named after the TOOL
+# (LevelTransformGuidance, not LevelTransformGuidanceWindow), and its dropdown holds the parts,
+# sorted into the sections a user actually thinks in: Heatmap, Clipping, Measuring tape.
+#
+#   name      the entry's display name - the tool's name, not its main class's name
+#   cat       which category the single resulting entry lives in
+#   primary   the type whose own documentation becomes the entry's body (the window itself)
+#   group     which GROUP_ORDER group the composite entry should sit in
+#   sections  ordered (section title, [member type names]) - every remaining member must appear
+SYSTEMS = [
+    {
+        "name": "LevelTransformGuidance",
+        "cat": "EditorTools",
+        "primary": "LevelTransformGuidanceWindow",
+        "group": "Scene & Project Tools",
+        "sections": [
+            ("Window & tab framework", ["ILtgTab", "LtgGuiUtility"]),
+            ("Heatmap", ["LtgHeatmapTab", "HeatmapGrid"]),
+            ("Clipping", ["LtgClippingTab", "ClippingCandidateFinder", "ClippingHighlightRenderer"]),
+            ("Measuring tape", ["LtgMeasuringTapeTab", "MeasurementUnits"]),
+            ("Snap to mouse", ["LtgSnapToMouseTab"]),
+        ],
+    },
+]
+
+
+def build_systems(entries):
+    """Turn each SYSTEMS spec into one composite entry and absorb its members.
+
+    Returns (composite entries, set of absorbed member ids). The composite reuses the PRIMARY type's
+    extracted data verbatim - namespace, file, parameters, API, demo scene - so nothing is invented;
+    only the display name and the nested sections are added on top.
+    """
+    by_name = {e["name"].split("<")[0]: e for e in entries}
+    composites, absorbed = [], set()
+
+    for spec in SYSTEMS:
+        primary = by_name.get(spec["primary"])
+        if primary is None:
+            print(f"  WARN system '{spec['name']}': primary type "
+                  f"'{spec['primary']}' not found - skipped")
+            continue
+
+        sections, missing = [], []
+        for title, names in spec["sections"]:
+            members = []
+            for n in names:
+                m = by_name.get(n)
+                if m is None:
+                    missing.append(n)
+                    continue
+                members.append(m)
+                absorbed.add(m["id"])
+            if members:
+                sections.append({"title": title, "entries": members})
+        if missing:
+            print(f"  WARN system '{spec['name']}': unknown member(s) {', '.join(missing)}")
+
+        composite = dict(primary)
+        composite["id"] = slugify(spec["name"])
+        composite["name"] = spec["name"]
+        composite["cat"] = spec["cat"]
+        composite["isSystem"] = True
+        composite["systemOf"] = primary["name"]
+        composite["systemSections"] = sections
+        absorbed.add(primary["id"])
+        composites.append(composite)
+
+    return composites, absorbed
+
+
 def fold_satellites(entries):
     """Collapse same-file helper types into the entry for the type the FILE is named after.
 
@@ -449,6 +521,18 @@ def main():
     # its own derived "used by" data, and BEFORE grouping so groups only ever see top-level entries.
     folded = fold_satellites(entries)
     top_level = [e for e in entries if "foldedInto" not in e]
+
+    # Systems are assembled AFTER folding so each member keeps the enums declared in its own file.
+    composites, absorbed = build_systems(top_level)
+    absorbed_by = {}
+    for c in composites:
+        for sec in c["systemSections"]:
+            for m in sec["entries"]:
+                absorbed_by[m["id"]] = c["id"]
+        absorbed_by.pop(c["id"], None)
+    if composites:
+        top_level = [e for e in top_level if e["id"] not in absorbed] + composites
+        print(f"build: {len(composites)} system entr(y/ies) absorbed {len(absorbed)} type(s)")
     print(f"build: folded {len(folded)} satellite type(s) into their owner "
           f"({len(entries)} types -> {len(top_level)} entries)")
 
@@ -511,7 +595,9 @@ def main():
             "kind": e["entryKind"],
             "summary": summarise(e),
             "search": (e["name"] + " " + e["src_ns"] + " " + summarise(e)).lower(),
-        }, **({"parent": e["foldedInto"]} if "foldedInto" in e else {})) for e in entries],
+        }, **({"parent": e["foldedInto"]} if "foldedInto" in e
+              else {"parent": absorbed_by[e["id"]]} if e["id"] in absorbed_by
+              else {})) for e in entries],
     }
     with open(os.path.join(REPO, "assets", "catalog.js"), "w", encoding="utf-8") as fh:
         fh.write("window.FM_INDEX = ")

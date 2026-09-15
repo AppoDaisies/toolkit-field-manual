@@ -496,6 +496,36 @@
     flex: 0 0 12px;
   }
 
+  /* ---- a system entry's nested parts -------------------------------------------------------
+     One tool, many scripts: the parts live inside the tool's own dropdown, grouped into the
+     sections a user thinks in. Indented against a rule so the nesting is obvious at a glance. */
+  .sysparts { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .syssec { margin-bottom: 18px; }
+  .syssec:last-child { margin-bottom: 0; }
+  .syssec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 0 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    scroll-margin-top: 78px;
+  }
+  .entry .subentry {
+    margin: 0 0 6px 14px;
+    border-left: 2px solid var(--border);
+    border-radius: 0 6px 6px 0;
+    background: var(--surface-2);
+  }
+  .entry .subentry:last-child { margin-bottom: 0; }
+  .entry .subentry > summary { padding: 9px 12px; }
+  .entry .subentry[open] { border-left-color: var(--accent); }
+  .entry .subentry .entry-name { font-size: 13px; }
+
   /* A [Tooltip] that contains a blank line is one author writing two paragraphs - usually "mode A
      does this / mode B does that". Rendered as separate blocks so the halves do not run together. */
   .tline { display: block; }

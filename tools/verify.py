@@ -319,6 +319,21 @@ def main():
 
     # Ask build.py which types it folds into another entry. A folded type no longer owns a row, so
     # naming it in the group map is now a mistake rather than a harmless no-op.
+    # A system collapses several types into ONE composite entry named after the tool. Its members
+    # are legitimately absent from the top level, and the composite's own name is a valid group
+    # member even though no extracted type is called that.
+    system_names, system_members = set(), {}
+    try:
+        from build import SYSTEMS  # noqa
+        for spec in SYSTEMS:
+            system_names.add(spec["name"])
+            system_members[spec["primary"]] = spec["name"]
+            for _t, names in spec["sections"]:
+                for n in names:
+                    system_members[n] = spec["name"]
+    except Exception as exc:  # noqa: BLE001
+        warn(f"[groups] could not read SYSTEMS from build.py: {exc}")
+
     folded_names = {}
     try:
         from build import fold_satellites, infer_kind  # noqa
@@ -359,16 +374,22 @@ def main():
                         err(f"[GROUPS] {cat}: group '{label_}' lists '{n}', which is now FOLDED into "
                             f"'{folded_names[n]}' and no longer owns a row - remove it from the map.")
                         continue
+                    if n in system_names:
+                        continue  # a composite system entry, assembled rather than extracted
+                    if n in system_members:
+                        err(f"[GROUPS] {cat}: group '{label_}' lists '{n}', which is now part of the "
+                            f"'{system_members[n]}' system entry - remove it from the map.")
+                        continue
                     if n not in real:
                         err(f"[GROUPS] {cat}: group '{label_}' lists '{n}', which is not a type in "
                             f"this category - renamed or deleted?")
-        ungrouped = sorted(real - set(seen) - omitted_names - set(folded_names))
+        ungrouped = sorted(real - set(seen) - omitted_names - set(folded_names) - set(system_members))
         if ungrouped:
             warn(f"[groups] {cat}: {len(ungrouped)} type(s) fall into 'Other' because the group map "
                  f"has not been updated: {', '.join(ungrouped)}")
 
     for cat, names in sorted(by_cat.items()):
-        top = names - omitted_names - set(folded_names)
+        top = names - omitted_names - set(folded_names) - set(system_members)
         if cat not in GROUP_ORDER and len(top) >= GROUP_MIN_ENTRIES:
             warn(f"[groups] {cat} has {len(top)} entries and no group map, so it renders as one "
                  f"flat list - consider adding one")
