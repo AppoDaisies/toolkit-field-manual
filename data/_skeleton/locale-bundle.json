@@ -1,0 +1,33 @@
+{
+  "id": "locale-bundle",
+  "name": "LocaleBundle",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationBundleJson.cs",
+  "src_lines": [
+    39,
+    42
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "List<LocaleBundleEntry>()",
+      "sig": "public List<LocaleBundleEntry> locales = new List<LocaleBundleEntry>()",
+      "kind": "method",
+      "name": "List",
+      "static": false,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

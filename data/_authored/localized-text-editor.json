@@ -1,0 +1,27 @@
+{
+  "id": "localized-text-editor",
+  "summary": "The LocalizedText inspector: previews the key in every language and offers a picker of real keys.",
+  "overview": [
+    "A localisation key is an opaque string, so the one question this inspector has to answer is \"did I spell it right, and what does it actually say?\" — without entering Play mode. Under the normal fields it lists the key's text in every language the project has, warns when a key resolves nowhere, and offers a Pick Key button listing the keys that genuinely exist."
+  ],
+  "useCases": [
+    "Catching a typo now instead of finding #ui.strat_button# in a screenshot later.",
+    "Checking which languages have translated a line, while laying the screen out.",
+    "Finding the right key without opening the sheet."
+  ],
+  "walkthrough": [
+    { "name": "Preview", "what": "One row per language: the text, or \"— not translated —\". Warns if the key is in no locale at all." },
+    { "name": "Pick Key...", "what": "A menu of every key that exists across the registry, with the current one ticked." }
+  ],
+  "gotchas": [
+    {
+      "title": "It previews the registry the SCENE points at, not an arbitrary one",
+      "body": "It looks for a LocalizationManager in the open scene first, because that is the registry the label will actually read from at runtime. Only if there is none — a prefab, or a scene not set up yet — does it fall back to the first LocaleRegistry in the project, which may not be the one that ships."
+    },
+    {
+      "title": "No preview means no registry, not a broken key",
+      "body": "With no LocaleRegistry anywhere it says so and stops, rather than reporting every key as missing."
+    }
+  ],
+  "seeAlso": ["LocalizedText", "Localization"]
+}

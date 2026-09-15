@@ -1,0 +1,59 @@
+{
+  "id": "localized-text",
+  "summary": "Put it on a label, type a key, and the text follows the current language forever after.",
+  "overview": [
+    "The component you actually use. Everything else in the folder exists to feed this one. Add it beside a TextMeshPro label, type a key, and that label shows the key's text in the current language and rewrites itself the moment the language changes — no code, no manual refresh, nothing to subscribe to."
+  ],
+  "useCases": [
+    "Every piece of fixed UI text in the game: menu items, button labels, headings, tooltips.",
+    "A line with a value in it — \"You have {0} coins\" — where the value comes from the game and the wording comes from the language.",
+    "One reusable status label that shows different lines at different times, via SetKey."
+  ],
+  "params": [
+    {
+      "field": "key",
+      "why": "REQUIRED. The lookup key, e.g. \"menu.start\". The same key exists in every language — that is what makes switching work.",
+      "tuning": "Leave it EMPTY and the component does nothing at all: the label keeps whatever text it was authored with, no warning. That is deliberate, so a half-built screen is not covered in markers, but it also means a forgotten key looks exactly like a working one. The inspector's Pick Key button lists the keys that really exist, and previews the text in every language underneath."
+    },
+    {
+      "field": "tmpTarget",
+      "why": "The TextMeshPro label to write into.",
+      "tuning": "Optional. Left empty, the component looks for a TMP_Text on ITS OWN GameObject — not on children. On a Button, that means this component belongs on the Label child, not on the Button."
+    },
+    {
+      "field": "uiTarget",
+      "why": "A legacy UnityEngine.UI.Text target, for a project not on TextMeshPro.",
+      "tuning": "Optional, and only used when there is no TMP target. Auto-found the same way. If neither exists on the GameObject you get one console warning naming the object, rather than silence."
+    },
+    {
+      "field": "applyLocaleFont",
+      "why": "Apply the active language's Font Override to this label, if it has one.",
+      "tuning": "On by default, which is what you want for body text. Turn it OFF for a label whose font is deliberately fixed — a logo, a stylised title — so a CJK font swap does not flatten it."
+    }
+  ],
+  "usage": {
+    "code": "// The normal case needs no code: add the component, type the key.\n\n// A line that takes values. Set them ONCE — they are remembered and re-applied\n// on every language change, so you never call this again just because the\n// player switched language:\ngreetingLabel.SetArguments(playerName);\nscoreLabel.SetArguments(coinsHeld, coinsTotal);\n\n// Reuse one label for different lines:\nstatusLabel.SetKey(\"status.saved\");\nstatusLabel.SetKey(\"status.failed\");",
+    "codeNote": "The key's text in that language must contain {0}, {1} and so on for the arguments to land anywhere. If a translator breaks the placeholders, the raw template is shown and the key is named in the console."
+  },
+  "apiNotes": {
+    "SetArguments(params object[])": "Stored, not applied once. That is the difference that matters: a formatted label survives a language switch without the caller doing anything, because Refresh re-formats from the stored values every time.",
+    "SetKey(string)": "Swaps which line this label shows and refreshes immediately. Useful for one reusable status or prompt label.",
+    "Refresh()": "Re-reads the current language. Called for you on enable and on every language change; you only need it after changing something the component cannot see.",
+    "Key": "Read-only. Useful for a tool or a test that wants to check what a label is bound to."
+  },
+  "gotchas": [
+    {
+      "title": "It writes to a text component on its OWN GameObject, not a child",
+      "body": "Auto-detection is GetComponent, not GetComponentInChildren — deliberately, so a panel full of labels cannot accidentally all bind to the first one. On a Button, put this on the Label child."
+    },
+    {
+      "title": "An empty key is silent",
+      "body": "No key means no work and no warning, so a label you forgot to fill in looks identical to one that is working. Use the inspector preview to check: it shows the text in every language, and warns when a key resolves nowhere."
+    },
+    {
+      "title": "Arguments live on the component, not in the key",
+      "body": "Two labels showing the same key can hold different arguments. Equally, a label whose key has no placeholders ignores its arguments entirely rather than erroring."
+    }
+  ],
+  "seeAlso": ["Localization", "LocaleAsset"]
+}

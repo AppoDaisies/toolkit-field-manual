@@ -7,7 +7,7 @@
   "src_file": "Data/Localization/LocalizationFileLoader.cs",
   "src_lines": [
     10,
-    14
+    15
   ],
   "src_base": null,
   "src_implements": [],
@@ -20,7 +20,8 @@
   "src_members": [],
   "src_enumValues": [
     "Csv",
-    "Json"
+    "Json",
+    "JsonBundle"
   ],
   "src_selfTest": null,
   "src_demoScene": []

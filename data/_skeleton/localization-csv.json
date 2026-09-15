@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.Data.Localization",
   "src_file": "Data/Localization/LocalizationCsv.cs",
   "src_lines": [
-    45,
-    164
+    46,
+    221
   ],
   "src_base": null,
   "src_implements": [],
@@ -51,12 +51,12 @@
       "comment": "The round trip: hand a translator back a sheet containing every key that currently exists, with the translations already done filled in and the rest blank. This is how new keys reach them without anyone diffing asset files by hand."
     },
     {
-      "id": "ToCsv(LocalizationTable, string)",
-      "sig": "public static string ToCsv(LocalizationTable table, string keyColumnName = DefaultKeyColumnName)",
+      "id": "ToCsv(LocalizationTable, string, bool)",
+      "sig": "public static string ToCsv(LocalizationTable table, string keyColumnName = DefaultKeyColumnName, bool alignColumns = false)",
       "kind": "method",
       "name": "ToCsv",
       "static": true,
-      "comment": null
+      "comment": "alignColumns pads each column to a common width so the file reads as a TABLE in a plain text editor instead of a wall of commas — which is the difference between a file you can proofread and one you can only load into a spreadsheet. The padding is plain spaces placed AFTER each comma, so the result is still valid CSV and ParseRows trims it straight back off.  The trade-off, stated plainly: open an aligned file in Excel and the padding shows up as leading spaces inside the cells. Export unaligned when the file is going straight to a translator working in a spreadsheet; export aligned when a person is going to READ it."
     }
   ],
   "src_enumValues": [],

@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.Data.Localization",
   "src_file": "Data/Localization/LocalizationFileLoader.cs",
   "src_lines": [
-    26,
-    26
+    27,
+    27
   ],
   "src_base": "UnityEvent<int>",
   "src_implements": [],

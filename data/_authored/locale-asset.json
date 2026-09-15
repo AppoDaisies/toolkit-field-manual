@@ -1,0 +1,67 @@
+{
+  "id": "locale-asset",
+  "summary": "One language, as an asset: a locale code, a display name, and its key-to-text table.",
+  "overview": [
+    "ONE ASSET PER LANGUAGE — not one per string. An English game with 400 lines and three translations is four assets, not sixteen hundred. Create one with Assets ▸ Create ▸ Toolkit ▸ Localization ▸ Locale, or let the Localization Importer create them from a sheet, which is the normal way.",
+    "It extends GameDataAsset, and that is where the locale code lives: THE INHERITED Id FIELD IS THE CODE. It is drawn at the very top of the Inspector, above everything listed here, which is exactly why it gets left blank. It is also the reason LocaleRegistry can be a plain GameDataRegistry<LocaleAsset> with no lookup code of its own."
+  ],
+  "useCases": [
+    "Holding one language's translations as a versioned asset rather than a loose file.",
+    "Giving a language a font of its own, for a script the project font cannot draw.",
+    "Letting a language be auto-selected on a device set to that language."
+  ],
+  "params": [
+    {
+      "field": "displayName",
+      "why": "What a language picker shows the player. Write it IN that language — \"Français\", not \"French\" — because the person who needs to find it cannot yet read the current one.",
+      "tuning": "Optional. Left blank, DisplayName falls back to the Id, so a picker shows \"fr\" rather than an empty row. A CSV import fills it with the code; a JSON bundle import fills it properly, because a bundle has a field for it."
+    },
+    {
+      "field": "systemLanguage",
+      "why": "Which UnityEngine.SystemLanguage this locale serves. Set it and the manager can pick this language on a player's first launch, with no picker involved.",
+      "tuning": "Optional, and Unknown (the default) means \"never auto-select this one\" — which is the correct setting for a joke or test locale. The code is never guessed from the Id, deliberately: that is what stops a made-up code like \"en-PT\" being matched to a real device language by accident."
+    },
+    {
+      "field": "fontOverride",
+      "why": "A TMP_FontAsset to swap in while this locale is active. LocalizedText applies it automatically.",
+      "tuning": "Optional, and the answer to the most common surprise in localisation: Unity's default LiberationSans SDF is a STATIC atlas of about 250 characters, so Latin-1 languages render and Chinese, Japanese, Korean, Arabic, Hebrew, Thai and Cyrillic come out as empty boxes. Build a font asset with the right character set, drop it here, done. No import ever touches this field."
+    },
+    {
+      "field": "entries",
+      "why": "The translation table: one key plus its text per row.",
+      "tuning": "Normally written by the Localization Importer rather than typed. Editing by hand is fine — OnValidate drops the cached lookup so a change takes effect immediately. A row with an EMPTY text is treated as untranslated and skipped entirely, so the fallback locale answers instead of a blank label rendering; a duplicated key keeps the first row and warns."
+    }
+  ],
+  "apiNotes": {
+    "DisplayName": "Falls back to the Id when the display name is blank, so a language picker never shows an empty row.",
+    "TargetSystemLanguage": "Named Target-, not SystemLanguage, because a property with the same name as its type shadows that type inside the class. Unknown means this locale opts out of auto-detection.",
+    "Count": "Counts what is actually USABLE — entries with empty text and duplicate keys are excluded, so this is the number a translation-progress readout wants.",
+    "ToDictionary()": "Returns a COPY. That is what lets LocalizationManager layer runtime-loaded text on top of a language without dirtying the .asset on disk and committing a runtime patch into source control."
+  },
+  "gotchas": [
+    {
+      "title": "The locale code is the INHERITED Id field, not something on this component",
+      "body": "It is drawn above Display Name in the Inspector and belongs to GameDataAsset, so it reads as boilerplate and gets left blank. A locale with no Id is skipped at startup — the language simply will not appear, and the only sign is one console warning naming the asset."
+    },
+    {
+      "title": "Empty text means untranslated, not empty string",
+      "body": "Blank entries are excluded from the lookup so the fallback locale can answer. If you genuinely want a key to render as nothing, give it a single space — an empty cell will always defer to the fallback."
+    },
+    {
+      "title": "Creating the asset is not enough — it has to be in the registry",
+      "body": "LocalizationManager only ever reads the LocaleRegistry it was given. An orphan LocaleAsset sitting in the project is invisible to the game."
+    }
+  ],
+  "seeAlso": [
+    "LocaleRegistry",
+    "GameData",
+    "Localization"
+  ],
+  "walkthrough": [
+    {
+      "group": "Inherited from GameDataAsset — drawn ABOVE the fields in the Parameters table",
+      "name": "Id",
+      "what": "REQUIRED, and the field people miss. This is the locale CODE — \"en\", \"fr\", \"pt-BR\" — and it is what SetLocale(\"fr\") matches and what the registry looks up. Any string works; stick to the usual ISO codes unless you have a reason not to. A blank Id means the language is skipped at startup, with one console warning naming the asset. Two assets sharing a code: the first wins, also with a warning."
+    }
+  ]
+}

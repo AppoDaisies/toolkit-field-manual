@@ -3,16 +3,38 @@
   "summary": "Key-to-text localisation: one CSV or JSON in, every label in the game switches language.",
   "overview": [
     "Your UI stops holding text and starts holding KEYS. A label says \"menu.start\", and what the player reads comes from whichever language is active — so adding a language is a spreadsheet column, not a pass over every scene. It is a lookup table you or a translator fill in ahead of time, not machine translation: nothing is generated at runtime.",
-    "Built on the pieces that were already here — a language is a GameDataAsset and the list of them is a GameDataRegistry, so looking one up by code is the registry's existing GetById; the sheet is read by CsvUtility, so a comma inside a translated sentence survives."
+    "Built on the pieces that were already here — a language is a GameDataAsset and the list of them is a GameDataRegistry, so looking one up by code is the registry's existing GetById; the sheet is read by CsvUtility, so a comma inside a translated sentence survives.",
+    "Start with the setup steps below. Each script's own settings are documented on its section further down — LocaleAsset for what a language asset needs, LocalizedText for what goes on a label, and LocalizationCsv / LocalizationBundleJson / LocalizationJson for the exact shape of each file format."
   ],
   "features": [
-    { "name": "Locale assets", "what": "one asset per language, holding its key-to-text table, display name and an optional font." },
-    { "name": "LocalizedText", "what": "drop it next to any TMP_Text or UI.Text, type a key, and it rewrites itself whenever the language changes." },
-    { "name": "Fallback chain", "what": "a key missing from the current language is answered by the fallback language instead of rendering blank." },
-    { "name": "Format arguments", "what": "\"You have {0} coins\" takes its values once and keeps them across every language switch." },
-    { "name": "CSV / JSON import", "what": "one sheet with a column per language, or one flat JSON file per language, turned into assets in one click." },
-    { "name": "CSV export", "what": "the round trip back out — every key, translations filled in, gaps blank, ready to hand back to a translator." },
-    { "name": "Runtime loading", "what": "an optional loader reads a CSV or JSON at Play time and layers it over the shipped languages, or adds one that has no asset at all." }
+    {
+      "name": "Locale assets",
+      "what": "one asset per language, holding its key-to-text table, display name and an optional font."
+    },
+    {
+      "name": "LocalizedText",
+      "what": "drop it next to any TMP_Text or UI.Text, type a key, and it rewrites itself whenever the language changes."
+    },
+    {
+      "name": "Fallback chain",
+      "what": "a key missing from the current language is answered by the fallback language instead of rendering blank."
+    },
+    {
+      "name": "Format arguments",
+      "what": "\"You have {0} coins\" takes its values once and keeps them across every language switch."
+    },
+    {
+      "name": "Three file formats",
+      "what": "a CSV sheet for translators, a readable JSON bundle for humans and source control, and flat per-language JSON for files that arrive that way."
+    },
+    {
+      "name": "Import and export",
+      "what": "one click each way, so new keys reach a translator and returned work reaches the game without editing a scene."
+    },
+    {
+      "name": "Runtime loading",
+      "what": "an optional loader reads a file at Play time and layers it over the shipped languages, or adds one that has no asset at all."
+    }
   ],
   "useCases": [
     "Shipping a game in more than one language without duplicating a scene per language.",
@@ -91,6 +113,14 @@
       "body": "A second import writes to the same assets, so their GUIDs survive and every scene reference keeps working. Display Name, Target System Language and Font Override are deliberately left alone — they are authored once per language, not re-sent with every sheet a translator returns."
     },
     {
+      "title": "Three formats, and which one to reach for",
+      "body": "CSV is what you hand a translator: every language side by side in a spreadsheet, unfinished cells visibly blank. JSON BUNDLE is what you read and edit yourself: one indented file, every language, and the only format that can also carry a display name and an auto-detect language. Flat JSON is for files that arrive in that shape from a web translation tool. They all import to the same assets, and the importer converts between them — import one, export another."
+    },
+    {
+      "title": "CSV trims leading and trailing spaces; the JSON bundle does not",
+      "body": "The exporter can pad a CSV's columns into a readable table, and that padding is leading whitespace on the next value, so values are trimmed on import. The consequence is real: a translation cannot begin or end with a space in a CSV. If one genuinely needs to, keep that language in a JSON bundle, which stores every character exactly as written."
+    },
+    {
       "title": "Runtime loading is a coroutine, so its text lands a frame or two late",
       "body": "LocalizationFileLoader reads through UnityWebRequest rather than File.ReadAllText, because on Android StreamingAssets lives inside the compressed APK where System.IO cannot open it at all. The cost is that the file arrives after Start. Labels do not need handling for this — the merge fires OnLocaleChanged and every LocalizedText re-reads itself — but code that samples a string in Start may see the pre-patch text."
     },
@@ -111,6 +141,41 @@
     "CsvUtility",
     "GameData",
     "CsvToScriptableObjectImporter",
-    "Singleton<T>"
+    "Singleton<T>",
+    "JsonHelper"
+  ],
+  "walkthrough": [
+    {
+      "step": "Write a translation file. The quickest start is a CSV: a header row reading key,en,fr then one row per line of text. The exact shape of all three formats is documented on the File formats sections below.",
+      "whatYouSee": "a file with one column per language"
+    },
+    {
+      "step": "Open Toolkit > Localization Importer, pick the Source Format, Browse to your file, set Output Folder (anywhere under Assets) and press Import.",
+      "whatYouSee": "one Locale_<code>.asset per language plus a LocaleRegistry, and a report of how much of each language is translated"
+    },
+    {
+      "step": "Open each new LocaleAsset and fill in Display Name (what a language picker shows) and, if you want first-launch auto-detection, Target System Language. A JSON bundle import fills both for you; a CSV import cannot, because a CSV has nowhere to state them.",
+      "whatYouSee": "\"Français\" instead of \"fr\" in a picker"
+    },
+    {
+      "step": "Add a LocalizationManager to your first scene and drag the LocaleRegistry onto its Registry field. Set Default Locale Code and Fallback Locale Code to the language the game was written in.",
+      "whatYouSee": "nothing yet — but leave Registry empty and every key in the game renders as #key#"
+    },
+    {
+      "step": "On each label, add a LocalizedText component and type its key. The inspector previews the text in every language and has a Pick Key button listing the keys that really exist.",
+      "whatYouSee": "the preview showing the line in each language, or a warning that the key resolves nowhere"
+    },
+    {
+      "step": "For a line with a value in it — \"You have {0} coins\" — call SetArguments once from your own code. The values are remembered and re-applied on every later language change.",
+      "whatYouSee": "the number surviving a language switch without any further calls"
+    },
+    {
+      "step": "Switch language from a button with LocalizationManager.Instance.SetLocale(\"fr\"). Every LocalizedText in the scene updates itself.",
+      "whatYouSee": "the whole UI re-reading at once"
+    },
+    {
+      "step": "When keys have been added, press Export CSV in the importer and send that sheet out. It contains every key, with what exists filled in and the rest blank.",
+      "whatYouSee": "exactly what the translator still owes you"
+    }
   ]
 }

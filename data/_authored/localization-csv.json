@@ -1,0 +1,54 @@
+{
+  "id": "localization-csv",
+  "summary": "The translator's sheet: one column per language, one row per key. Read, written and aligned here.",
+  "overview": [
+    "THE FORMAT, in full — a header row naming the key column and then ONE COLUMN PER LANGUAGE, whose header cell is that language's locale code, followed by one row per key:\n\nkey,          en,                          fr,                              de\ndemo.title,   Localization,                Localisation,                    Lokalisierung\nhud.greeting, \"Welcome back, {0}!\",        \"Bon retour, {0} !\",             \"Willkommen zurück, {0}!\"\nmenu.quit,    Quit,                        Quitter,                         Beenden\nmenu.options, Options,                     Options,\n\nThat is the whole specification. The last row shows the one rule that is not obvious: German has no text for menu.options, so the cell is blank — which means NOT TRANSLATED YET, not \"empty string\". It is skipped entirely, and the fallback language answers instead of a blank label appearing in the game.",
+    "This is the shape to hand a translator, because every language sits side by side in a spreadsheet and an unfinished cell is visibly blank. It is a poor shape to read in a text editor, which is what the alignment above is for, and it has nowhere to record a language's display name or its auto-detect language — the JSON bundle format exists for both of those."
+  ],
+  "useCases": [
+    "Sending a sheet out for translation and importing what comes back.",
+    "Reviewing at a glance how much of each language is done.",
+    "Loading a translation at runtime from StreamingAssets, via LocalizationFileLoader."
+  ],
+  "walkthrough": [
+    { "name": "Header row", "what": "REQUIRED. A key column (named \"key\" by default, case-insensitive) plus one column per language." },
+    { "name": "Language columns", "what": "The header cell IS the locale code — en, fr, pt-BR. Whatever you write there becomes the LocaleAsset's Id. Blank headers are skipped, so a stray trailing comma is harmless." },
+    { "name": "Key column", "what": "One key per row. If no column is named \"key\", column 0 is used and a warning says so — a sheet headed \"ID\" still imports." },
+    { "name": "Blank cell", "what": "Not translated. Skipped, so the fallback language answers." },
+    { "name": "Row starting with #", "what": "A comment. Skipped entirely, so you can park a line without deleting it." },
+    { "name": "Blank row", "what": "Skipped. Spacer rows in a hand-edited sheet are fine." },
+    { "name": "Short row", "what": "Fine. Most spreadsheet exports drop trailing empty cells, and the missing ones read as untranslated." },
+    { "name": "Duplicate key", "what": "The first row wins, with a warning naming the key and the row number." },
+    { "name": "Commas and quotes in text", "what": "Handled — the parsing is CsvUtility, so a quoted field carrying commas, quotes or newlines survives intact." }
+  ],
+  "usage": {
+    "code": "// Read a sheet.\nLocalizationTable table = LocalizationCsv.Parse(File.ReadAllText(path));\n\nforeach (string code in table.LocaleCodes)\n    Debug.Log(code + \": \" + table.TranslatedCount(code) + \"/\" + table.Keys.Count);\n\n// Write one back out. alignColumns pads the columns into a readable table;\n// leave it off for a file going straight into Excel.\nstring readable = LocalizationCsv.ToCsv(table, \"key\", true);",
+    "codeNote": "Parse takes the file's text, not its path. LocalizationFileLoader is the component that actually reads a file at runtime, because StreamingAssets on Android cannot be opened with System.IO at all."
+  },
+  "apiNotes": {
+    "Parse(string, string)": "Strips a leading byte-order mark before parsing. That matters more than it sounds: the exporter writes a BOM because Excel needs one to read UTF-8, and without stripping it the first header cell would come back as \"\\uFEFFkey\" and fail to match the key column.",
+    "ParseRows(IReadOnlyList<string[]>, string)": "The same logic against rows already parsed by CsvUtility. Use it when the text has been read for you, or to build a table from rows constructed in code.",
+    "BuildRows(LocalizationTable, string)": "The union of every key across every language, so a key only the newest language has still reaches the translator working on the others.",
+    "ToCsv(LocalizationTable, string, bool)": "The third argument aligns the columns. Read the gotcha below before turning it on for a file bound for Excel.",
+    "DefaultKeyColumnName": "\"key\". Pass something else to Parse if your sheet heads that column differently."
+  },
+  "gotchas": [
+    {
+      "title": "A translation cannot begin or end with a space",
+      "body": "Values are trimmed on import. They have to be: the padding that lines the columns up in an aligned file is leading whitespace on the next value, and it has to come back off. If edge whitespace genuinely matters for a string, use the JSON bundle format, which stores every character exactly as written."
+    },
+    {
+      "title": "Aligned files show their padding in Excel",
+      "body": "Alignment is plain spaces after each comma, so the file stays valid CSV and re-imports identically. But Excel does not trim them, so an aligned file opened there shows leading spaces inside the cells. Export aligned for a file a person will READ; export unaligned for a file going to someone working in a spreadsheet."
+    },
+    {
+      "title": "There is nowhere to put a display name",
+      "body": "A CSV has the locale code in the header and nothing else, so a language INTRODUCED by a CSV can only show its own code in a language picker. This is visible in the demo scene, where the runtime-loaded \"sv\" appears as \"sv\". The JSON bundle format carries display names and auto-detect languages; that is what it is for."
+    },
+    {
+      "title": "This is NOT the shape CsvToScriptableObjectImporter reads",
+      "body": "That tool's columns are FIELDS of one asset per row. A translation sheet is transposed — columns are languages, rows are keys — so the two cannot read each other's files. What they share is CsvUtility, which is the part that actually matters."
+    }
+  ],
+  "seeAlso": ["CsvUtility", "LocalizationBundleJson", "Localization", "CsvToScriptableObjectImporter"]
+}

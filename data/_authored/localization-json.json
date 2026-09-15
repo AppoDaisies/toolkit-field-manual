@@ -1,0 +1,36 @@
+{
+  "id": "localization-json",
+  "summary": "One flat { key: text } file holding ONE language. Zero dependencies, nested objects flattened with dots.",
+  "overview": [
+    "THE FORMAT, in full — a flat object of key to text, and nothing else:\n\n{\n  \"menu.start\": \"Start Game\",\n  \"menu.quit\": \"Quit\",\n  \"hud.greeting\": \"Welcome back, {0}!\"\n}\n\nOne file is ONE language; the importer asks you which locale code it belongs to, because the file does not say. Nested objects are flattened with dots, so the equally common\n\n{ \"menu\": { \"start\": \"Start Game\", \"quit\": \"Quit\" } }\n\nproduces exactly the same keys — which is what lets a file exported from a web translation tool drop straight in.",
+    "Use this when a file arrives in this shape from somewhere else. When you are choosing the shape yourself, the JSON bundle carries every language in one file along with their display names, and the CSV is what a translator wants."
+  ],
+  "useCases": [
+    "Importing a per-language file produced by a web translation service.",
+    "Shipping a single extra language as a runtime patch file.",
+    "Keeping a project dependency-free while still using JSON."
+  ],
+  "usage": {
+    "code": "Dictionary<string, string> strings = LocalizationJson.Parse(File.ReadAllText(path));\nstring text = LocalizationJson.ToJson(strings);",
+    "codeNote": "Written flat and sorted, one key per line, whatever nesting it was read from — a localisation file lives in source control and gets re-exported constantly, so a stable line order is what keeps its diffs readable."
+  },
+  "apiNotes": {
+    "Parse(string)": "Degrades rather than throwing. A malformed file stops at the break, KEEPS everything read before it, and logs the character position — a stray comma at the end of a 400-line file should not cost you the other 399 while you find it.",
+    "ToJson(IReadOnlyDictionary<string, string>, bool)": "Always flat, even for keys containing dots — it never re-nests. Non-ASCII is written through as-is rather than escaped, so a translator opening the file sees their own language and not a wall of \\u00e9."
+  },
+  "gotchas": [
+    {
+      "title": "Strings only — a number or an array stops the parse",
+      "body": "A localisation file is a string-to-string map and nothing else, so a non-string value is treated as an error, keeping what was read and logging where. If your file has numbers, arrays or booleans it is a data file rather than a localisation file: JsonHelper is the tool for that, and it has full Newtonsoft behind it."
+    },
+    {
+      "title": "The file does not know which language it is",
+      "body": "There is no locale code in the format, so the importer and LocalizationFileLoader both ask you for one. Point them at the wrong file and the text lands in the wrong language with no complaint. The JSON bundle format does not have this problem — each entry names its own code."
+    },
+    {
+      "title": "Dotted and nested keys collide silently",
+      "body": "Because nesting flattens with dots, { \"ui\": { \"start\": \"A\" } } and { \"ui.start\": \"B\" } are the same key. In one file the later one wins."
+    }
+  ],
+  "seeAlso": ["LocalizationBundleJson", "LocalizationCsv", "JsonHelper", "Localization"]
+}

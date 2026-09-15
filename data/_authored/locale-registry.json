@@ -1,0 +1,34 @@
+{
+  "id": "locale-registry",
+  "summary": "The list of every language the game ships with. A GameDataRegistry<LocaleAsset> and nothing more.",
+  "overview": [
+    "The single asset you hand LocalizationManager. It holds every LocaleAsset, and looking a language up by its code is the base class's own GetById — there is no code in this file at all beyond the [CreateAssetMenu] line, which is the point: GameDataRegistry<T> already solved this, and a language keyed by a locale code is exactly the shape it solves."
+  ],
+  "useCases": [
+    "Giving the manager one reference instead of a list of language assets.",
+    "Adding a language to a shipped game by dropping its asset into this list.",
+    "Keeping a language out of a build by removing it here, without deleting its asset."
+  ],
+  "gotchas": [
+    {
+      "title": "The registry is the only place the manager looks",
+      "body": "A LocaleAsset that exists in the project but is not listed here does not exist as far as the game is concerned. This is the most common reason a language you just imported does not show up."
+    },
+    {
+      "title": "Create it via the importer, not by hand, unless you want to wire it yourself",
+      "body": "Toolkit > Localization Importer creates the registry and fills it as part of an import. Assets > Create > Toolkit > Localization > Locale Registry makes an empty one you then populate by dragging."
+    }
+  ],
+  "seeAlso": [
+    "LocaleAsset",
+    "GameData",
+    "Localization"
+  ],
+  "walkthrough": [
+    {
+      "group": "Inherited from GameDataRegistry<LocaleAsset> — this asset declares no fields of its own",
+      "name": "Entries",
+      "what": "ORDER MATTERS in two places: AvailableLocaleCodes returns this order, so it is the order a language picker will show; and first-run system-language detection scans it top to bottom, so the first matching locale wins. An empty slot or a duplicate code is warned about and skipped, not thrown on. A re-import appends new languages and never reorders or removes existing ones."
+    }
+  ]
+}

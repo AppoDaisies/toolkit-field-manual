@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.Data.Localization",
   "src_file": "Data/Localization/LocalizationCsv.cs",
   "src_lines": [
-    10,
-    27
+    11,
+    28
   ],
   "src_base": null,
   "src_implements": [],

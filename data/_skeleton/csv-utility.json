@@ -7,7 +7,7 @@
   "src_file": "Data/Csv/CsvUtility.cs",
   "src_lines": [
     11,
-    84
+    87
   ],
   "src_base": null,
   "src_implements": [],
@@ -33,6 +33,14 @@
       "name": "ToCsv",
       "static": true,
       "comment": null
+    },
+    {
+      "id": "EscapeField(string)",
+      "sig": "public static string EscapeField(string field)",
+      "kind": "method",
+      "name": "EscapeField",
+      "static": true,
+      "comment": "Public because a caller that lays fields out itself - the localisation exporter pads its columns so the file reads as a table in a plain text editor - has to know how wide each field will be AFTER escaping. Re-implementing the quoting rules there would be a second copy to keep in sync."
     },
     {
       "id": "ReadFile(string)",

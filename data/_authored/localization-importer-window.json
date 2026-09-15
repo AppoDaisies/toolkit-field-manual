@@ -1,0 +1,49 @@
+{
+  "id": "localization-importer-window",
+  "summary": "Turns a sheet or a bundle into LocaleAssets plus the registry that lists them — and exports the round trip back.",
+  "overview": [
+    "The one-off step between a translation file and a working game. Point it at a CSV, a flat JSON file or a JSON bundle, press Import, and it creates or updates one LocaleAsset per language plus the LocaleRegistry that lists them. Export writes the round trip back out: every key that exists, translations filled in, the rest blank — the sheet you hand a translator so they can see exactly what is left.",
+    "Re-importing UPDATES the existing assets in place rather than replacing them, so their GUIDs survive and every scene reference to the registry keeps working. That is the whole reason this goes through the AssetDatabase instead of writing .asset files directly."
+  ],
+  "useCases": [
+    "Setting a project up: one sheet in, a working registry out.",
+    "Taking a returned translation and re-importing it without touching a scene.",
+    "Sending a translator a fresh sheet containing the keys added since last time.",
+    "Converting between the CSV and JSON bundle formats — import one, export the other."
+  ],
+  "whereToFind": "Toolkit ▸ Localization Importer",
+  "walkthrough": [
+    { "group": "Import", "name": "Source Format", "what": "Csv (a sheet, a column per language), Json (one flat file, ONE language) or Json Bundle (every language in one readable file)." },
+    { "group": "Import", "name": "Source File", "what": "The file to read. Browse filters to .csv or .json to match the format." },
+    { "group": "Import", "name": "Key Column Name", "what": "Csv only. Which header cell holds the keys; defaults to \"key\". If no column matches, column 0 is used and a warning says so." },
+    { "group": "Import", "name": "Locale Code", "what": "Json only. Which language the file's text belongs to, since a flat JSON file does not say. Json Bundle does not ask — each entry names its own." },
+    { "group": "Import", "name": "Output Folder", "what": "Where the assets are written. Must be inside Assets. Created if missing, nested levels included." },
+    { "group": "Import", "name": "Registry Asset Name", "what": "File name for the LocaleRegistry, created alongside the locales. Point a re-import at the same name to keep the same asset." },
+    { "group": "Import", "name": "Import", "what": "Runs it. Disabled until the file exists and the output folder is inside the project. The result lists each language and how much of it is translated." },
+    { "group": "Export", "name": "Registry", "what": "The LocaleRegistry to export. Every language it lists, and the union of every key across them." },
+    { "group": "Export", "name": "Align CSV Columns", "what": "Pads the exported CSV into a readable table. Still valid CSV, and the padding is trimmed back off on import. Turn it OFF for a file going straight into Excel, which shows the padding as leading spaces." },
+    { "group": "Export", "name": "Export CSV...", "what": "The format to send someone working in a spreadsheet. Written with a BOM, which is what Excel needs to read UTF-8." },
+    { "group": "Export", "name": "Export JSON Bundle...", "what": "The format to read or edit yourself. Also carries each language's display name and auto-detect language, which a CSV has nowhere to put." },
+    { "group": "Export", "name": "Last Result", "what": "What the previous import or export did, per language — kept on screen rather than only in the console." }
+  ],
+  "apiNotes": {
+    "Import(LocalizationTable, string, string, LocaleBundle)": "Public and static so it can run without a window open — which is exactly what the demo scene builder does, producing the demo's locale assets through the real importer so a broken import path stops the build rather than leaving a stale asset. The LocaleBundle argument is the metadata a bundle carries and a CSV cannot; pass null for a CSV.",
+    "BuildTableFromRegistry(LocaleRegistry)": "The union of every key across every language, sorted — so a key only the newest language has still reaches the translator working on the others, and two exports of unchanged data produce identical files.",
+    "EnsureFolder(string)": "Walks a nested path creating each level, because AssetDatabase.CreateFolder only makes one at a time."
+  },
+  "gotchas": [
+    {
+      "title": "A CSV import never touches Display Name, System Language or Font Override",
+      "body": "They are authored once per language, and a re-import happens every time a translator sends a new sheet — overwriting them would lose hand-set values on every round trip. A JSON BUNDLE import does write the first two, because the file states them explicitly. Font Override is never written by any import."
+    },
+    {
+      "title": "Re-import into the same folder and registry name, or you get a second set",
+      "body": "The assets are matched by path — Locale_<code>.asset in the output folder. Import the same sheet into a different folder and you get a parallel set of assets and a second registry, with the scene still pointing at the first."
+    },
+    {
+      "title": "Import does not add the registry to a scene",
+      "body": "It creates the assets and the registry. Assigning that registry to a LocalizationManager is still a manual step — and until you do it, every key in the game renders as a missing-key marker."
+    }
+  ],
+  "seeAlso": ["Localization", "LocalizationCsv", "LocalizationBundleJson", "LocaleRegistry"]
+}

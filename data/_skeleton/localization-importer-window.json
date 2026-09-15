@@ -7,7 +7,7 @@
   "src_file": "Data/Localization/Editor/LocalizationImporterWindow.cs",
   "src_lines": [
     16,
-    287
+    372
   ],
   "src_base": "EditorWindow",
   "src_implements": [],
@@ -31,12 +31,12 @@
       "comment": null
     },
     {
-      "id": "Import(LocalizationTable, string, string)",
-      "sig": "public static string Import(LocalizationTable table, string outputFolder, string registryName)",
+      "id": "Import(LocalizationTable, string, string, LocaleBundle)",
+      "sig": "public static string Import(LocalizationTable table, string outputFolder, string registryName, LocaleBundle metadata = null)",
       "kind": "method",
       "name": "Import",
       "static": true,
-      "comment": "Public and static so the self-test can drive the whole import without a window open."
+      "comment": "Public and static so the self-test can drive the whole import without a window open.  `metadata` is supplied only by a JSON bundle import. It is the reason a bundle CAN set a language's display name and system language while a CSV cannot: the bundle states them explicitly, so writing them is honouring the file, whereas a CSV import that touched them would be silently clobbering hand-set values with nothing."
     },
     {
       "id": "BuildTableFromRegistry(LocaleRegistry)",

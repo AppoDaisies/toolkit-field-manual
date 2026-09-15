@@ -1,0 +1,57 @@
+{
+  "id": "localization-bundle-json",
+  "name": "LocalizationBundleJson",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationBundleJson.cs",
+  "src_lines": [
+    71,
+    157
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": true,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "THE READABLE FORMAT. Every language in one indented JSON file, each with its code, its display name, the system language it serves, and its strings:  { \"locales\": [ { \"code\": \"fr\", \"displayName\": \"Français\", \"systemLanguage\": \"French\", \"strings\": { \"menu.start\": \"Démarrer\" } } ] }  Why this exists alongside CSV: a CSV is the right shape to HAND A TRANSLATOR (every language side by side in a spreadsheet) but a poor shape to read or edit by hand, and it has nowhere to put a display name or a system language — which is why a CSV-loaded language can only show its own code in a picker. This format has somewhere to put both, preserves leading and trailing spaces exactly (the CSV reader trims them), and diffs one line per string.  THIS IS THE ONE FILE IN THE FOLDER THAT NEEDS THE NEWTONSOFT PACKAGE (com.unity.nuget.newtonsoft-json). That is deliberate and it is why it is its own file: a flat string -> string map is served fine by the dependency-free LocalizationJson, and a project that does not want the package can delete this one script and lose nothing else. Newtonsoft is here because a nested object holding a Dictionary is exactly what Unity's own JsonUtility cannot deserialize.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "Parse(string)",
+      "sig": "public static LocaleBundle Parse(string json)",
+      "kind": "method",
+      "name": "Parse",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ToJson(LocaleBundle)",
+      "sig": "public static string ToJson(LocaleBundle bundle)",
+      "kind": "method",
+      "name": "ToJson",
+      "static": true,
+      "comment": null
+    },
+    {
+      "id": "ToTable(LocaleBundle)",
+      "sig": "public static LocalizationTable ToTable(LocaleBundle bundle)",
+      "kind": "method",
+      "name": "ToTable",
+      "static": true,
+      "comment": "Converted to the same LocalizationTable a CSV produces, so importing a bundle and importing a sheet go down ONE code path rather than two that can drift apart."
+    },
+    {
+      "id": "FromTable(LocalizationTable)",
+      "sig": "public static LocaleBundle FromTable(LocalizationTable table,",
+      "kind": "method",
+      "name": "FromTable",
+      "static": true,
+      "comment": "The export direction. displayNames/systemLanguages are looked up per code and may be null — a bundle built from a plain CSV simply has nothing to put there."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

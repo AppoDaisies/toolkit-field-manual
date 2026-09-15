@@ -1,0 +1,43 @@
+{
+  "id": "localization-bundle-json",
+  "summary": "The readable format: every language in one indented JSON file, display names and all.",
+  "overview": [
+    "THE FORMAT, in full — one object with a \"locales\" array, one entry per language:\n\n{\n  \"locales\": [\n    {\n      \"code\": \"fr\",\n      \"displayName\": \"Français\",\n      \"systemLanguage\": \"French\",\n      \"strings\": {\n        \"hud.greeting\": \"Bon retour, {0} !\",\n        \"menu.quit\": \"Quitter\",\n        \"menu.start\": \"Démarrer\"\n      }\n    }\n  ]\n}\n\nFour fields per language. `code` becomes the LocaleAsset's Id. `displayName` is what a language picker shows. `systemLanguage` is the NAME of a UnityEngine.SystemLanguage value — \"French\", \"ChineseSimplified\" — used to auto-pick this language on a matching device; leave it empty to opt out. `strings` is the key-to-text table.",
+    "Reach for this over CSV when a person is going to read or edit the file. It is the only format that can set a display name or an auto-detect language, it preserves leading and trailing spaces exactly where CSV trims them, and it diffs one line per string instead of one line per key across every language at once. CSV is still the right thing to hand a translator working in a spreadsheet."
+  ],
+  "useCases": [
+    "Keeping translations in source control where every change diffs as one readable line.",
+    "Hand-editing a language without loading a spreadsheet.",
+    "Moving a set of languages between projects with their display names and auto-detect settings intact.",
+    "Shipping a runtime translation file where the language needs a proper name in the picker."
+  ],
+  "usage": {
+    "code": "// Read a bundle and turn it into the same table a CSV produces.\nLocaleBundle bundle = LocalizationBundleJson.Parse(File.ReadAllText(path));\nLocalizationTable table = LocalizationBundleJson.ToTable(bundle);\n\n// Write one out, carrying the two things a table cannot hold.\nLocaleBundle exported = LocalizationBundleJson.FromTable(table, displayNames, systemLanguages);\nFile.WriteAllText(path, LocalizationBundleJson.ToJson(exported));",
+    "codeNote": "Normally you never call any of this: Toolkit > Localization Importer imports and exports bundles through these methods, and LocalizationFileLoader reads one at runtime when its Format is set to Json Bundle."
+  },
+  "apiNotes": {
+    "Parse(string)": "Returns an empty bundle rather than throwing if the file is malformed, and logs Newtonsoft's message — which names the line and position, the single most useful thing to print for a file a person edits by hand.",
+    "ToJson(LocaleBundle)": "Always indented, and always with keys sorted, so re-exporting unchanged data produces a byte-identical file and source control stays quiet.",
+    "ToTable(LocaleBundle)": "Flattens to the same LocalizationTable a CSV produces, which is why importing a bundle and importing a sheet go down one code path rather than two that can drift apart.",
+    "FromTable(LocalizationTable)": "The export direction. The displayNames and systemLanguages arguments are optional — a bundle built from a plain CSV simply has nothing to put in those fields."
+  },
+  "gotchas": [
+    {
+      "title": "This is the one file in the folder that needs the Newtonsoft package",
+      "body": "com.unity.nuget.newtonsoft-json, which this project already has. It is isolated in its own script deliberately: a flat string-to-string map is served fine by the dependency-free LocalizationJson, and a project that does not want the package can delete this single file and lose nothing else. Newtonsoft is here because a nested object holding a Dictionary is exactly what Unity's own JsonUtility cannot deserialize."
+    },
+    {
+      "title": "A bundle import DOES overwrite display name and system language — a CSV import does not",
+      "body": "That asymmetry is deliberate, not an inconsistency. A bundle states both explicitly, so writing them is honouring the file. A CSV has nowhere to state them, so touching them would mean clobbering hand-set values with nothing. Font Override is never written by either."
+    },
+    {
+      "title": "A bad systemLanguage costs one language its auto-detect, not the import",
+      "body": "The value is a SystemLanguage name and is parsed leniently: an unrecognised one logs a warning naming the locale and resolves to Unknown, which just means that language is never auto-selected. The strings still import."
+    },
+    {
+      "title": "Key order in the file is not preserved",
+      "body": "Keys are always written sorted, whatever order they arrived in. That is what makes a re-export diff-free, and it groups \"menu.*\" together, but it does mean a hand-arranged file gets reordered the first time you export over it."
+    }
+  ],
+  "seeAlso": ["LocalizationCsv", "LocalizationJson", "JsonHelper", "Localization"]
+}

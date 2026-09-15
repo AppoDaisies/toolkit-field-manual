@@ -1,0 +1,76 @@
+{
+  "id": "localization-file-loader",
+  "summary": "Optional: reads a translation file at Play time and layers it over the languages the game shipped with.",
+  "overview": [
+    "The answer to \"we found a typo in the German text\" and \"a player translated it into Polish\" without a rebuild. Drop it in the scene, point it at a file, and its text is merged into the same lookup the shipped LocaleAssets use. Keys the file does not mention are left alone, so a patch file only needs the lines it actually changes — and a file can introduce a language that has no asset at all.",
+    "Entirely optional. Delete the script if you only ever want the languages in the registry; nothing else in the folder depends on it."
+  ],
+  "useCases": [
+    "Patching wording in a shipped build without shipping a new build.",
+    "Accepting a community translation as a file the player drops in.",
+    "Downloading a language pack after install, into persistentDataPath.",
+    "Iterating on wording during development without re-importing assets."
+  ],
+  "params": [
+    {
+      "field": "format",
+      "why": "Which of the three file shapes this is.",
+      "tuning": "Csv reads a sheet with a column per language. Json reads one flat { key: text } file holding ONE language. JsonBundle reads every language from one readable file and is the only option that can also supply display names — a language introduced by a CSV can only show its own code in a picker."
+    },
+    {
+      "field": "location",
+      "why": "Which folder the path is relative to.",
+      "tuning": "StreamingAssets ships inside the build and is read-only — right for a file you author. PersistentDataPath is writable after install — right for a download or a file the player supplies. AbsolutePath is mostly for desktop while authoring."
+    },
+    {
+      "field": "filePath",
+      "why": "REQUIRED. The path within that location, including the file name.",
+      "tuning": "Forward slashes, e.g. \"Localization/extra.csv\". A missing or unreadable file is NOT fatal: it logs a warning, leaves the shipped languages untouched, fires OnLoaded with 0, and records why in LastError."
+    },
+    {
+      "field": "jsonLocaleCode",
+      "why": "Json format ONLY: which language this file's text belongs to, since a flat JSON file does not say.",
+      "tuning": "Ignored by Csv (the header names the languages) and by JsonBundle (each entry names its own). Point it at the wrong file and the text lands in the wrong language without complaint."
+    },
+    {
+      "field": "jsonDisplayName",
+      "why": "Json format ONLY: the picker name to use if this file introduces a brand-new language.",
+      "tuning": "Ignored by the other two formats. Leave it empty for a file that only patches a language that already exists."
+    },
+    {
+      "field": "loadOnStart",
+      "why": "Read the file as soon as this component starts.",
+      "tuning": "On by default. Turn it off and call Load() yourself when you want control over the moment — after a download completes, or once the player has picked a file."
+    },
+    {
+      "field": "activateAfterLoad",
+      "why": "Switch the game to the first language the file provided, once it has loaded.",
+      "tuning": "Off by default, which is right for a patch file: it should change the wording of whatever language is already active, not yank the player into a different one. Turn it on when the file IS the language the player asked for."
+    }
+  ],
+  "usage": {
+    "code": "// Normally nothing: set the fields and leave Load On Start on.\n\n// Controlled timing instead:\nloader.Load();\n\n// Or feed it text you already have — a web response, a paste box, a test.\n// This is the same merge path a real file takes.\nloader.Apply(downloadedText);",
+    "codeNote": "OnLoaded fires with the number of keys applied, including 0 when the file was missing — so a UI can report the outcome either way rather than only the happy path."
+  },
+  "apiNotes": {
+    "Apply(string)": "The merge half, split out so text fetched any other way goes through exactly the same path as a file on disk. It is also how the self-test covers this component without a player loop.",
+    "Load()": "Starts the coroutine. Safe to call repeatedly; a later file simply layers over an earlier one.",
+    "LastError": "Empty after a successful load, otherwise the reason — check this rather than guessing when nothing appeared.",
+    "LoadedKeyCount": "How many keys the file actually applied. A file that parsed but contained nothing useful reports 0 here with no error."
+  },
+  "gotchas": [
+    {
+      "title": "It is a coroutine, so the text lands a frame or two after Start",
+      "body": "Reading goes through UnityWebRequest rather than File.ReadAllText, because on Android StreamingAssets lives inside the compressed APK where System.IO cannot open it at all. Labels do not need handling for this — the merge fires OnLocaleChanged and every LocalizedText re-reads itself — but code that samples a string in its own Start may see the pre-patch text."
+    },
+    {
+      "title": "LocalizationManager.Rebuild() discards everything this loaded",
+      "body": "Rebuild re-reads the registry from scratch. If you call it, re-apply your runtime files afterwards."
+    },
+    {
+      "title": "It never writes to the LocaleAssets",
+      "body": "The merge happens in the manager's in-memory copy, so a runtime patch cannot dirty an asset and end up committed to source control by accident. The flip side is that nothing persists: the file is re-read every run."
+    }
+  ],
+  "seeAlso": ["Localization", "LocalizationBundleJson", "StreamingAssetLoader"]
+}

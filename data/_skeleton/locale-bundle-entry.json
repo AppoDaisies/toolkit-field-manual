@@ -1,0 +1,65 @@
+{
+  "id": "locale-bundle-entry",
+  "name": "LocaleBundleEntry",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.Localization",
+  "src_file": "Data/Localization/LocalizationBundleJson.cs",
+  "src_lines": [
+    15,
+    37
+  ],
+  "src_base": null,
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": true,
+  "src_attributes": {},
+  "src_typeComment": "One language inside a bundle file. These are plain data carriers for the JSON reader, NOT Unity serialized types — no [Serializable], no [SerializeField], nothing shows in an Inspector. The field names ARE the format, so they are deliberately plain and they are half the documentation: code            the locale code, \"en\" / \"fr\" / \"en-PT\". Becomes the LocaleAsset's Id. displayName     what a language picker shows, written in that language. systemLanguage  the NAME of a UnityEngine.SystemLanguage value, e.g. \"French\". Empty = no auto-detect. strings         the key -> text table.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "code",
+      "sig": "public string code = \"\"",
+      "kind": "field",
+      "name": "code",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "displayName",
+      "sig": "public string displayName = \"\"",
+      "kind": "field",
+      "name": "displayName",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "systemLanguage",
+      "sig": "public string systemLanguage = \"\"",
+      "kind": "field",
+      "name": "systemLanguage",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SortedDictionary<string, string>(StringComparer.Ordinal)",
+      "sig": "public SortedDictionary<string, string> strings = new SortedDictionary<string, string>(StringComparer.Ordinal)",
+      "kind": "method",
+      "name": "SortedDictionary",
+      "static": false,
+      "comment": "SortedDictionary, not Dictionary: this decides the ORDER THE KEYS ARE WRITTEN IN, and a file that lives in source control and gets re-exported constantly needs that order to be stable or every export produces a meaningless whole-file diff. Sorting also groups \"menu.*\" together, which is how a person wants to read it anyway."
+    },
+    {
+      "id": "ResolveSystemLanguage()",
+      "sig": "public SystemLanguage ResolveSystemLanguage()",
+      "kind": "method",
+      "name": "ResolveSystemLanguage",
+      "static": false,
+      "comment": "Parsed leniently on purpose: this is a hand-editable file, and a typo in ONE language's systemLanguage should cost that one auto-detect, not the whole import."
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}
