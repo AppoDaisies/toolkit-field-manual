@@ -156,10 +156,22 @@
     // The lead paragraph: what this tool IS and what it is for, before any wiring detail. Everything
     // below it answers "how"; this answers "why would I open this at all".
     if (e.overview) {
-      out.push('<div class="overview">' + (Array.isArray(e.overview) ? e.overview : [e.overview])
+      // The separator rule belongs to whichever of overview/features comes last, or the two stack
+      // two rules on top of each other.
+      out.push('<div class="overview' + (e.features && e.features.length ? " nosep" : "") + '">' +
+        (Array.isArray(e.overview) ? e.overview : [e.overview])
         // A line break inside an overview paragraph is deliberate - it separates a per-feature
         // one-liner list. HTML would otherwise collapse it to a space and run them together.
         .map(function (para) { return "<p>" + multiline(para) + "</p>"; }).join("") + "</div>");
+    }
+
+    // The per-feature lines of a multi-tool entry. Structured rather than a prose string split on
+    // colons: a description is allowed to contain a colon, and parsing would silently mangle it.
+    // Styled like the settings list so a name reads as a name in both places.
+    if (e.features && e.features.length) {
+      out.push('<dl class="features">' + e.features.map(function (f) {
+        return '<dd><code class="featname">' + esc(f.name) + ":</code> " + esc(f.what) + "</dd>";
+      }).join("") + "</dl>");
     }
 
     // Use cases sit directly under the overview: "would I use this at all" is the next question

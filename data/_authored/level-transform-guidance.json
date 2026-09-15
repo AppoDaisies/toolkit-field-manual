@@ -2,8 +2,25 @@
   "id": "level-transform-guidance",
   "summary": "Toolkit/Level Transform Guidance — a HUB for level-design tools, one tab per tool.",
   "overview": [
-    "Level-design tool for dressing and checking a level, featuring a Clipping Inspector, a Heatmap Grid, a Measuring Tape and Snap To Mouse. Four tabs in one window, sharing units, layer filtering and Scene-view drawing. It reports, it never fixes or grades — every tab surfaces information and leaves the call to you.",
-    "Clipping Inspector: scans the level for objects sunk into each other on chosen layers, and paints the buried part.\nHeatmap Grid: colours a movable grid by how much stuff is in each cell, to find over-dressed and barren areas. Doubles as a ruler.\nMeasuring Tape: click points in the Scene view to measure real distances, labelled per segment.\nSnap To Mouse: press a key to teleport the selected object onto whatever surface the mouse points at."
+    "Level-design tool for dressing and checking a level, featuring a Clipping Inspector, a Heatmap Grid, a Measuring Tape and Snap To Mouse. Four tabs in one window, sharing units, layer filtering and Scene-view drawing. It reports, it never fixes or grades — every tab surfaces information and leaves the call to you."
+  ],
+  "features": [
+    {
+      "name": "Clipping Inspector",
+      "what": "scans the level for objects sunk into each other on chosen layers, and paints the buried part."
+    },
+    {
+      "name": "Heatmap Grid",
+      "what": "colours a movable grid by how much stuff is in each cell, to find over-dressed and barren areas. Doubles as a ruler."
+    },
+    {
+      "name": "Measuring Tape",
+      "what": "click points in the Scene view to measure real distances, labelled per segment."
+    },
+    {
+      "name": "Snap To Mouse",
+      "what": "press a key to teleport the selected object onto whatever surface the mouse points at."
+    }
   ],
   "useCases": [
     "Checking nothing is sunk into the floor before art replaces greybox.",
@@ -14,33 +31,126 @@
   ],
   "whereToFind": "Toolkit ▸ Level Transform Guidance",
   "walkthrough": [
-    { "group": "Clipping", "name": "Subjects (get painted)", "what": "Layers that get scanned and highlighted. Only these are painted." },
-    { "group": "Clipping", "name": "Targets (clipped into)", "what": "Layers a subject may be buried in. Keeping floors here and out of Subjects is why architecture never lights up." },
-    { "group": "Clipping", "name": "Mode", "what": "Collider checks what blocks the player; Mesh checks what you see. They disagree often." },
-    { "group": "Clipping", "name": "Overlap Tolerance", "what": "How far things must interpenetrate to count. Raise it to stop normal resting contact being flagged." },
-    { "group": "Clipping", "name": "Highlight Style", "what": "Buried Portion Only paints just the part inside other geometry, so you see how deep. Whole Object tints all of it." },
-    { "group": "Clipping", "name": "Highlight Selection Live", "what": "Highlights as you select, without running a scan." },
-    { "group": "Clipping", "name": "Scan Whole Level / Scan Selection", "what": "Runs the check. Results list has a Select button per row." },
-
-    { "group": "Heatmap", "name": "Region (Center / Size)", "what": "The box the grid covers, draggable in the Scene view. X and Z are the footprint; Y is a height slice, counting only objects whose centre is inside it." },
-    { "group": "Heatmap", "name": "Cell Size + Unit", "what": "Grid square size in your chosen unit. Round numbers make the grid readable as a ruler." },
-    { "group": "Heatmap", "name": "Metric", "what": "Bounds Volume for visual heaviness; Object Count for a plain tally." },
-    { "group": "Heatmap", "name": "Full Red At", "what": "The density that counts as fully red. A fixed scale you set, not auto-fitted to the busiest cell." },
-    { "group": "Heatmap", "name": "Counted Layers", "what": "Which layers contribute to a cell's value." },
-    { "group": "Heatmap", "name": "Drape Onto Floor + Floor Layers", "what": "Raycasts each cell down so the grid follows terrain instead of one flat plane." },
-    { "group": "Heatmap", "name": "Fill Opacity / Draw Through Geometry", "what": "Readability only — how strong the colour is, and whether it draws over occluding geometry." },
-    { "group": "Heatmap", "name": "Build / Refresh Grid", "what": "Rebuilds the grid. It is cached, so do this after moving things." },
-
-    { "group": "Measuring Tape", "name": "Measuring Enabled", "what": "Turns Scene-view click capture on and off." },
-    { "group": "Measuring Tape", "name": "Mode", "what": "3D raycasts real colliders and rejects clicks that hit nothing. 2D projects onto a fixed world plane, for measuring across open space." },
-    { "group": "Measuring Tape", "name": "Fixed Plane", "what": "Which world plane 2D mode projects onto (Z, Y or X). Never the camera's view, so points hold as you orbit." },
-    { "group": "Measuring Tape", "name": "Unit", "what": "Display unit for distances. Shared with the Heatmap tab." },
-    { "group": "Measuring Tape", "name": "Label Style", "what": "Badge is legible on any background. Auto Contrast samples the surface colour and can guess wrong on textured art. Fixed Color is a colour you pick." },
-    { "group": "Measuring Tape", "name": "Clear Points", "what": "Removes all points. Middle-click in the Scene view does the same." },
-
-    { "group": "Snap To Mouse", "name": "Surface Mask", "what": "Layers the object is allowed to land on." },
-    { "group": "Snap To Mouse", "name": "Snap Key", "what": "Key to press while hovering the Scene view. Defaults to V. One press, one jump." },
-    { "group": "Snap To Mouse", "name": "Align rotation to surface normal", "what": "Also rotates the object's up axis to match the surface, for props that should sit flush on a slope." }
+    {
+      "group": "Clipping",
+      "name": "Subjects (get painted)",
+      "what": "Layers that get scanned and highlighted. Only these are painted."
+    },
+    {
+      "group": "Clipping",
+      "name": "Targets (clipped into)",
+      "what": "Layers a subject may be buried in. Keeping floors here and out of Subjects is why architecture never lights up."
+    },
+    {
+      "group": "Clipping",
+      "name": "Mode",
+      "what": "Collider checks what blocks the player; Mesh checks what you see. They disagree often."
+    },
+    {
+      "group": "Clipping",
+      "name": "Overlap Tolerance",
+      "what": "How far things must interpenetrate to count. Raise it to stop normal resting contact being flagged."
+    },
+    {
+      "group": "Clipping",
+      "name": "Highlight Style",
+      "what": "Buried Portion Only paints just the part inside other geometry, so you see how deep. Whole Object tints all of it."
+    },
+    {
+      "group": "Clipping",
+      "name": "Highlight Selection Live",
+      "what": "Highlights as you select, without running a scan."
+    },
+    {
+      "group": "Clipping",
+      "name": "Scan Whole Level / Scan Selection",
+      "what": "Runs the check. Results list has a Select button per row."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Region (Center / Size)",
+      "what": "The box the grid covers, draggable in the Scene view. X and Z are the footprint; Y is a height slice, counting only objects whose centre is inside it."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Cell Size + Unit",
+      "what": "Grid square size in your chosen unit. Round numbers make the grid readable as a ruler."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Metric",
+      "what": "Bounds Volume for visual heaviness; Object Count for a plain tally."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Full Red At",
+      "what": "The density that counts as fully red. A fixed scale you set, not auto-fitted to the busiest cell."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Counted Layers",
+      "what": "Which layers contribute to a cell's value."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Drape Onto Floor + Floor Layers",
+      "what": "Raycasts each cell down so the grid follows terrain instead of one flat plane."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Fill Opacity / Draw Through Geometry",
+      "what": "Readability only — how strong the colour is, and whether it draws over occluding geometry."
+    },
+    {
+      "group": "Heatmap",
+      "name": "Build / Refresh Grid",
+      "what": "Rebuilds the grid. It is cached, so do this after moving things."
+    },
+    {
+      "group": "Measuring Tape",
+      "name": "Measuring Enabled",
+      "what": "Turns Scene-view click capture on and off."
+    },
+    {
+      "group": "Measuring Tape",
+      "name": "Mode",
+      "what": "3D raycasts real colliders and rejects clicks that hit nothing. 2D projects onto a fixed world plane, for measuring across open space."
+    },
+    {
+      "group": "Measuring Tape",
+      "name": "Fixed Plane",
+      "what": "Which world plane 2D mode projects onto (Z, Y or X). Never the camera's view, so points hold as you orbit."
+    },
+    {
+      "group": "Measuring Tape",
+      "name": "Unit",
+      "what": "Display unit for distances. Shared with the Heatmap tab."
+    },
+    {
+      "group": "Measuring Tape",
+      "name": "Label Style",
+      "what": "Badge is legible on any background. Auto Contrast samples the surface colour and can guess wrong on textured art. Fixed Color is a colour you pick."
+    },
+    {
+      "group": "Measuring Tape",
+      "name": "Clear Points",
+      "what": "Removes all points. Middle-click in the Scene view does the same."
+    },
+    {
+      "group": "Snap To Mouse",
+      "name": "Surface Mask",
+      "what": "Layers the object is allowed to land on."
+    },
+    {
+      "group": "Snap To Mouse",
+      "name": "Snap Key",
+      "what": "Key to press while hovering the Scene view. Defaults to V. One press, one jump."
+    },
+    {
+      "group": "Snap To Mouse",
+      "name": "Align rotation to surface normal",
+      "what": "Also rotates the object's up axis to match the surface, for props that should sit flush on a slope."
+    }
   ],
   "gotchas": [
     {
@@ -84,5 +194,9 @@
       "body": "A prop whose pivot is at its centre ends up half-buried. Prefabs for this want their pivot at the foot of the model."
     }
   ],
-  "seeAlso": ["GreyboxPlacerWindow", "BulkHierarchyToolsWindow", "MeasurementUnits"]
+  "seeAlso": [
+    "GreyboxPlacerWindow",
+    "BulkHierarchyToolsWindow",
+    "MeasurementUnits"
+  ]
 }
