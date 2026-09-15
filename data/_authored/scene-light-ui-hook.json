@@ -1,0 +1,32 @@
+{
+  "id": "scene-light-ui-hook",
+  "summary": "Publishes the scene's main directional light direction as a global shader value, for UI lighting.",
+  "overview": [
+    "Drop it anywhere in the scene, once. It publishes the main Directional Light's direction globally, which the UI lighting effect's Scene Light mode reads to shade UI as if it were flat cards facing the camera. Without it, that mode falls back to a default direction."
+  ],
+  "useCases": [
+    "UI that visually agrees with the scene's time of day.",
+    "Inventory cards catching the same light as the world.",
+    "A day-night cycle whose direction reaches the UI."
+  ],
+  "params": [
+    {
+      "field": "directionalLight",
+      "tuning": "Leave empty to auto-find the first enabled directional light, which is right in most scenes and wrong in one with several."
+    },
+    {
+      "field": "updateEveryFrame",
+      "tuning": "Turn off when the light never rotates, to skip the per-frame publish entirely."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Once per scene, not once per element",
+      "body": "It publishes a global value. A second one just overwrites the first."
+    }
+  ],
+  "seeAlso": [
+    "UILightingEffect",
+    "FakeLight"
+  ]
+}

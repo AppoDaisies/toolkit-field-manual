@@ -1,0 +1,28 @@
+{
+  "id": "highlight-toggle",
+  "summary": "Toggleable outline for either a mesh or a sprite, using whichever renderer is present.",
+  "overview": [
+    "An outline you can switch on and off, working with a MeshRenderer or a SpriteRenderer depending on what is on the object — assign the matching outline material. The outline material is appended to the renderer rather than replacing the existing one."
+  ],
+  "useCases": [
+    "Highlighting a selected unit or interactable.",
+    "Showing what is under the cursor.",
+    "Marking a quest target."
+  ],
+  "params": [
+    {
+      "field": "outlineMaterial",
+      "tuning": "There are two shaders — one for 3D meshes, one for sprites. The wrong one produces no visible outline rather than an error."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Appending a material adds a draw call",
+      "body": "Which is how it outlines without replacing the object's look. Highlighting hundreds of objects at once is not free."
+    }
+  ],
+  "seeAlso": [
+    "ClickToSelect",
+    "MaterialPropertyBlockHelper"
+  ]
+}

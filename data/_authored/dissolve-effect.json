@@ -1,0 +1,32 @@
+{
+  "id": "dissolve-effect",
+  "summary": "Animates a dissolve shader's amount for a spawn or death transition.",
+  "overview": [
+    "Drop it alongside a Renderer using the dissolve shader and call the play methods to animate the effect over time. It uses .material rather than .sharedMaterial so each instance animates independently without affecting everything sharing that material."
+  ],
+  "useCases": [
+    "Enemies dissolving on death instead of vanishing.",
+    "Spawning something in rather than popping it in.",
+    "A teleport or phase transition."
+  ],
+  "params": [
+    {
+      "field": "destroyOnDissolveOut",
+      "tuning": "Convenient for a death effect, and wrong for a pooled object — it destroys rather than releasing."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": ".material instances the material",
+      "body": "That is what makes instances independent, and it means a new material per object and an extra draw call. Unavoidable for per-instance animation."
+    },
+    {
+      "title": "It needs the dissolve shader",
+      "body": "On any other material the property does not exist and nothing happens."
+    }
+  ],
+  "seeAlso": [
+    "ShaderTransitionManager",
+    "HologramEffect"
+  ]
+}

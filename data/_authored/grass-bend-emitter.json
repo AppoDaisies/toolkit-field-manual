@@ -1,0 +1,32 @@
+{
+  "id": "grass-bend-emitter",
+  "summary": "Publishes its position globally so every grass-shaded renderer bends away, with no per-patch wiring.",
+  "overview": [
+    "Drop it on a character walking through grass. It publishes its position into a GLOBAL array that every grass-shaded renderer reads, so any number of grass patches react with zero wiring per patch — a deliberate divergence from the ripple emitter, which drives its own material's block instead."
+  ],
+  "useCases": [
+    "A character parting grass as they walk.",
+    "Vehicles or creatures flattening vegetation.",
+    "Many grass patches reacting without connecting each one."
+  ],
+  "params": [
+    {
+      "field": "bendRadius",
+      "tuning": "How far the influence reaches. Too large and a whole field leans at once, which reads as wind rather than footsteps."
+    },
+    {
+      "field": "bendStrength",
+      "tuning": "The push on a blade standing right at the object. Extreme values lay grass flat and look broken."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "A fixed-size global array caps the emitters",
+      "body": "Beyond the limit, extra emitters are dropped. Put it on the player and a few key creatures, not on everything."
+    }
+  ],
+  "seeAlso": [
+    "RippleEmitter",
+    "FakeLight"
+  ]
+}

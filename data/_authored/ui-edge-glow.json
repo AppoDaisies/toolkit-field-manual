@@ -1,0 +1,53 @@
+{
+  "id": "ui-edge-glow",
+  "summary": "Animated electric, flame or fluid glow around a UI element's edge, with an optional chase.",
+  "overview": [
+    "An elaborate animated edge glow for item frames, achievement icons and rarity borders — deliberately a separate tool from the lighting effect's Rim mode, which stays the cheap static edge light for ordinary buttons and panels.",
+    "Pattern decides what the mask looks like; Chase is an orthogonal toggle that sends comets travelling the perimeter, and can be combined with any pattern."
+  ],
+  "useCases": [
+    "Rarity borders on inventory items.",
+    "Drawing attention to an achievement or reward.",
+    "A charged or powered-up state on a UI element."
+  ],
+  "params": [
+    {
+      "field": "pattern",
+      "tuning": "The big choice: what the mask actually looks like. Each pattern computes its mask differently rather than just tinting the same shape."
+    },
+    {
+      "field": "chaseModeEnabled",
+      "tuning": "Orthogonal to pattern — you can chase any of them. It is not a pattern of its own."
+    },
+    {
+      "field": "chaseInstanceCount",
+      "tuning": "Comets travelling at once, evenly spaced. More than three or four reads as a solid moving band rather than distinct comets."
+    },
+    {
+      "field": "electricUseRawTexture",
+      "tuning": "A debugging aid as much as a look: it shows the noise mask directly, which is how the Electric pattern's real bug was originally found."
+    },
+    {
+      "field": "glowBloomWidth",
+      "tuning": "Multiples of Edge Width. Large values soften the effect into a haze and stop reading as an edge."
+    },
+    {
+      "field": "noiseMask",
+      "tuning": "Leave empty to auto-generate a turbulent mask, which is tuned for these patterns."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It has a lot of settings, most pattern-specific",
+      "body": "The Electric, Flame and Fluid groups only affect their own pattern. Changing a flame setting while on Electric does nothing."
+    },
+    {
+      "title": "It instances the material",
+      "body": "Each component gets its own material instance so settings do not bleed between elements. That is correct and means more draw calls with many of them on screen."
+    }
+  ],
+  "seeAlso": [
+    "UILightingEffect",
+    "UIRippleEffect"
+  ]
+}

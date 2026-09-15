@@ -1,0 +1,22 @@
+{
+  "id": "glitch-effect",
+  "summary": "Punches a glitch shader's amount up and eases it back down.",
+  "overview": [
+    "Drop it alongside a Renderer using the glitch shader. TriggerGlitch punches the amount up then eases it back to zero — for taking damage, or a corrupted story beat."
+  ],
+  "useCases": [
+    "A damage or interference reaction.",
+    "A corrupted or malfunctioning object.",
+    "Punctuating a narrative moment."
+  ],
+  "gotchas": [
+    {
+      "title": "Retriggering restarts rather than stacking",
+      "body": "Rapid triggers hold it near full rather than compounding. For escalating intensity, drive the amount directly."
+    }
+  ],
+  "seeAlso": [
+    "DissolveEffect",
+    "CameraShake"
+  ]
+}

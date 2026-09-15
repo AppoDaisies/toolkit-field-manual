@@ -1,0 +1,39 @@
+{
+  "id": "decal-projector",
+  "summary": "Defines a projection box; the decal mesh is built from the geometry inside it.",
+  "overview": [
+    "Position, rotate and scale an empty object to define the box. Local -Y is the projection direction — down onto the surface — local X and Z are the footprint, and the scale sets the box size. The decal is then generated from the receiving geometry inside that box."
+  ],
+  "useCases": [
+    "Bullet holes, scorch marks and blood splatter.",
+    "Painted markings on curved or uneven ground.",
+    "Signage that follows the surface it lands on."
+  ],
+  "params": [
+    {
+      "field": "maxSurfaceAngle",
+      "tuning": "Rejects triangles facing too far from the projection direction, which is what stops a decal smearing down a wall it only grazes."
+    },
+    {
+      "field": "surfaceOffset",
+      "tuning": "A small push along each vertex normal to avoid z-fighting. Too much and the decal visibly floats."
+    },
+    {
+      "field": "surfaceMask",
+      "tuning": "Which colliders can receive it. Include the ground and walls; exclude characters unless you want decals on them."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It generates geometry, it does not render a quad",
+      "body": "The decal is built from the receiving surface's own triangles, which is why it follows curves correctly and why a complex surface produces more vertices."
+    },
+    {
+      "title": "It is generated, not live",
+      "body": "Moving the receiving geometry afterwards leaves the decal where it was. Regenerate if the surface moves."
+    }
+  ],
+  "seeAlso": [
+    "DecalMeshBuilder"
+  ]
+}

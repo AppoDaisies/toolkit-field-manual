@@ -1,0 +1,36 @@
+{
+  "id": "weapon-trail",
+  "summary": "Centralises TrailRenderer's scattered settings into a few fields, plus on/off control.",
+  "overview": [
+    "Drop it on a thin child transform near the blade's edge, since a TrailRenderer draws from wherever ITS OWN transform has physically moved. The component gathers TrailRenderer's many scattered settings into a few clean fields with sensible defaults and adds explicit activation."
+  ],
+  "useCases": [
+    "A sword or claw trail during a swing.",
+    "A projectile or dash trail.",
+    "Turning a trail on only during active frames."
+  ],
+  "params": [
+    {
+      "field": "trailTime",
+      "tuning": "How long the trail persists. Long values on a fast swing leave a ribbon hanging in the air after the attack ends."
+    },
+    {
+      "field": "activeOnStart",
+      "tuning": "Usually off — a weapon trail that is always on removes the emphasis of the swing."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It trails the transform it is ON",
+      "body": "Put it on a child at the blade's edge, not on the weapon root, or the trail comes from the hilt."
+    },
+    {
+      "title": "Toggling off leaves the existing trail fading",
+      "body": "Clear it explicitly if a teleport should not drag a trail across the screen."
+    }
+  ],
+  "seeAlso": [
+    "MeleeAttack",
+    "Hitbox"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ripple-emitter",
+  "summary": "Drives the shared ripple array so any water shader reacts, without knowing which shader it is.",
+  "overview": [
+    "Drop it on any object whose Renderer uses a shader including the ripple include — every water shader in the toolkit already does. It drives the shared impacts array through a MaterialPropertyBlock, so it never needs to know which specific water shader is on the surface."
+  ],
+  "useCases": [
+    "Footsteps or raindrops disturbing water.",
+    "Impact ripples where something enters the water.",
+    "Any surface shader that wants expanding rings."
+  ],
+  "params": [
+    {
+      "field": "rippleLifetime",
+      "tuning": "Together with the array size this decides how many ripples can overlap before the oldest is replaced."
+    },
+    {
+      "field": "rippleSpeed",
+      "tuning": "World units per second. Slow ripples on a large lake look right; the same value on a puddle looks frozen."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "The shader must include the ripple header",
+      "body": "On a material that does not, the emitter runs and nothing appears. That is the first thing to check."
+    },
+    {
+      "title": "Impacts are a fixed-size array",
+      "body": "Beyond the limit, the oldest ripple is replaced. Rapid emission means short-lived ripples."
+    }
+  ],
+  "seeAlso": [
+    "WaterInstanceOverrides",
+    "UIRippleEffect",
+    "GrassBendEmitter"
+  ]
+}

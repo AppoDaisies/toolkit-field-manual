@@ -1,0 +1,39 @@
+{
+  "id": "ui-blur-source",
+  "summary": "Captures and blurs the camera's view once into a shared low-res texture every glass material samples.",
+  "overview": [
+    "Drop it on the camera that renders the scene behind the UI. It captures and blurs that view into ONE shared, deliberately low-resolution RenderTexture published globally, so every glass-blur material samples the same texture with no per-element setup and no per-element cost."
+  ],
+  "useCases": [
+    "Frosted-glass panels over gameplay.",
+    "A blurred pause-menu backdrop.",
+    "Any glass effect where a per-element blur would be too expensive."
+  ],
+  "params": [
+    {
+      "field": "resolutionScale",
+      "tuning": "Low is the point — a quarter is usually indistinguishable once blurred, and costs a sixteenth of the pixels."
+    },
+    {
+      "field": "blurPasses",
+      "tuning": "Repeated box blur cheaply approximates a Gaussian. Two or three passes is usually enough; more costs more for little visible gain."
+    },
+    {
+      "field": "captureEveryNFrames",
+      "tuning": "The main cost control. A static pause menu can capture once and never again."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "One source for the whole scene",
+      "body": "It is a global texture, so every glass material shares it. Two cameras needing different blurred backdrops is not something this supports."
+    },
+    {
+      "title": "It captures the camera's view, so UI drawn over it is not included",
+      "body": "Which is correct — otherwise the blur would feed back on itself."
+    }
+  ],
+  "seeAlso": [
+    "UILightingEffect"
+  ]
+}

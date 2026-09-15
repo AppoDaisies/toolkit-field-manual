@@ -1,0 +1,28 @@
+{
+  "id": "ui-fake-light",
+  "summary": "The Screen Space Overlay equivalent of FakeLight, working in screen pixels.",
+  "overview": [
+    "A separate tool rather than a mode of the 3D FakeLight, because overlay UI has no 3D world position to sample from at all. It publishes real SCREEN-PIXEL coordinates into a shared global array each frame, using the same technique the 3D version uses in world space."
+  ],
+  "useCases": [
+    "A glow that appears to light UI panels and icons.",
+    "A torch or scanner effect over a menu.",
+    "Lighting flat UI without moving it into world space."
+  ],
+  "params": [
+    {
+      "field": "radius",
+      "tuning": "In PIXELS, not world units — so the same value covers different amounts of UI at different resolutions."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Overlay only",
+      "body": "A Screen Space Camera or World Space canvas has a real position, so the 3D FakeLight applies there instead. Mixing them up is the usual reason nothing lights."
+    }
+  ],
+  "seeAlso": [
+    "FakeLight",
+    "UILightingEffect"
+  ]
+}

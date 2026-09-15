@@ -1,0 +1,22 @@
+{
+  "id": "force-field-effect",
+  "summary": "Flashes a force-field shader brightly on impact.",
+  "overview": [
+    "Drop it alongside a Renderer using the force-field shader and call TriggerHitFlash on impact — typically from a Health damage event — for a brief bright pulse."
+  ],
+  "useCases": [
+    "A shield bubble reacting to being shot.",
+    "A barrier the player can see is being hit.",
+    "Any surface that should flash where it is struck."
+  ],
+  "gotchas": [
+    {
+      "title": "The flash is global to the material, not at the hit point",
+      "body": "The whole field brightens rather than rippling from where it was hit. The ripple emitter is the tool for a positioned reaction."
+    }
+  ],
+  "seeAlso": [
+    "Health",
+    "RippleEmitter"
+  ]
+}

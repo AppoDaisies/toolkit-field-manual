@@ -1,0 +1,32 @@
+{
+  "id": "ui-ripple-effect",
+  "summary": "Click a UI element and a shockwave ripple expands from the click point.",
+  "overview": [
+    "Drop it on any UI Graphic. Clicking fires an expanding ripple from the click point, warping the sampled UVs and pulsing a highlight along the ring. One ripple at a time — clicking again mid-ripple restarts it at the new point rather than layering."
+  ],
+  "useCases": [
+    "Material-style touch feedback on buttons and cards.",
+    "Making a large flat panel feel responsive to touch.",
+    "A hit or impact pulse on a UI element."
+  ],
+  "params": [
+    {
+      "field": "distortStrength",
+      "tuning": "Subtle is the point. High values visibly tear the image rather than reading as a ripple."
+    },
+    {
+      "field": "rippleDuration",
+      "tuning": "Long durations mean a second click cancels the first mid-flight, which can read as unresponsive."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "One ripple at a time, by design",
+      "body": "Rapid clicking restarts rather than accumulating. That keeps the shader cheap and is a visual limitation to know about."
+    }
+  ],
+  "seeAlso": [
+    "UIEdgeGlow",
+    "RippleEmitter"
+  ]
+}

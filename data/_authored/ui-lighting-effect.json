@@ -1,0 +1,40 @@
+{
+  "id": "ui-lighting-effect",
+  "summary": "Three UI lighting looks in one component: sweeping shine, rim glow, and normal-mapped shading.",
+  "overview": [
+    "Drop it on any UI Graphic and pick a mode. One shared shader implements all three, so switching mode is a dropdown rather than a different material. Scene Light mode reacts to the real directional light, via the scene hook."
+  ],
+  "useCases": [
+    "A shine sweeping across a button to draw attention.",
+    "A rim glow marking a selected or equipped item.",
+    "Normal-mapped UI that catches the scene's light."
+  ],
+  "params": [
+    {
+      "field": "mode",
+      "tuning": "Shine, Rim and Scene Light are mutually exclusive. Most of the other settings only apply to one of them."
+    },
+    {
+      "field": "sweepAngle",
+      "tuning": "45 matches the conventional diagonal shine. Zero sweeps horizontally, which reads as a scanline."
+    },
+    {
+      "field": "normalMap",
+      "tuning": "Scene Light mode needs a real normal map to look like anything other than flat shading."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Most settings are mode-specific",
+      "body": "Adjusting a rim setting in Shine mode changes nothing. Expected, and confusing in a long Inspector."
+    },
+    {
+      "title": "Scene Light mode needs the hook in the scene",
+      "body": "Without SceneLightUIHook the direction is a default, so the shading will not match the world."
+    }
+  ],
+  "seeAlso": [
+    "SceneLightUIHook",
+    "UIEdgeGlow"
+  ]
+}

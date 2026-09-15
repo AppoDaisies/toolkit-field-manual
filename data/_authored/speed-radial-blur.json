@@ -1,0 +1,36 @@
+{
+  "id": "speed-radial-blur",
+  "summary": "Full-screen radial blur that eases in with speed. Drop it on the main camera.",
+  "overview": [
+    "A \"going fast\" radial blur driven by a normalised speed you feed it each frame — typically velocity magnitude over top speed. A camera image effect using OnRenderImage, which is the classic Built-in RP approach."
+  ],
+  "useCases": [
+    "Racing games where speed should be felt.",
+    "A sprint or dash effect.",
+    "A boost or overdrive state."
+  ],
+  "params": [
+    {
+      "field": "maxBlurAmount",
+      "tuning": "Subtle works. Enough blur to notice consciously is usually enough to induce motion sickness."
+    },
+    {
+      "field": "smoothing",
+      "tuning": "Stops the blur snapping on and off with speed changes. Higher reacts faster."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "You must feed it the speed",
+      "body": "It has no idea how fast anything is going. Without a per-frame SetSpeed01 it does nothing."
+    },
+    {
+      "title": "Built-in RP only",
+      "body": "OnRenderImage is not how URP or HDRP do post-processing. This project is Built-in RP throughout."
+    }
+  ],
+  "seeAlso": [
+    "CameraShake",
+    "PlayerCameraRig"
+  ]
+}

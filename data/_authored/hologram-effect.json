@@ -1,0 +1,22 @@
+{
+  "id": "hologram-effect",
+  "summary": "Tweens a hologram shader's alpha for a materialise or dematerialise transition.",
+  "overview": [
+    "Drop it alongside a Renderer using the hologram shader. SetVisible tweens the alpha through the tween engine so the object fades in or out rather than snapping."
+  ],
+  "useCases": [
+    "A projected hologram appearing and disappearing.",
+    "A sci-fi UI element materialising in world space.",
+    "A ghostly or phased-out enemy state."
+  ],
+  "gotchas": [
+    {
+      "title": "It fades the shader, not the object",
+      "body": "The renderer stays enabled at zero alpha. Disable it yourself if invisible should also mean free."
+    }
+  ],
+  "seeAlso": [
+    "DissolveEffect",
+    "Tween"
+  ]
+}

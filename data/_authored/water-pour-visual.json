@@ -1,0 +1,32 @@
+{
+  "id": "water-pour-visual",
+  "summary": "Two combinable ways to show a pour: particles, a shader stream, or both.",
+  "overview": [
+    "Particles alone are cheap and read clearly as droplets. The shader stream alone is smoother and stays continuous even at very low pour rates, where sparse particles would look broken. Both together give the densest look — they are independent toggles, not modes."
+  ],
+  "useCases": [
+    "A watering can, jug or tap.",
+    "A low pour rate where particles would look like separate drops.",
+    "Matching a stylised art direction by choosing one or the other."
+  ],
+  "params": [
+    {
+      "field": "maxEmissionRate",
+      "tuning": "At full pour rate. The actual rate scales with how far the can is tilted."
+    },
+    {
+      "field": "scrollSpeed",
+      "tuning": "Higher reads as faster-moving water. Too high and the texture blurs into a flat band."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It shows the pour, it does not decide it",
+      "body": "The controller computes the rate and hands it over. This component has no opinion about when water flows."
+    }
+  ],
+  "seeAlso": [
+    "WateringCanController",
+    "PlantWaterLevel"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "planar-reflection",
+  "summary": "Real mirrored reflections for a flat surface, rendered by a second camera into a low-res texture.",
+  "overview": [
+    "A second camera renders the scene mirrored across this object's plane into a low-resolution RenderTexture, which the water shader samples in screen space. Real reflections rather than a cubemap approximation, at the cost of a second render of the scene."
+  ],
+  "useCases": [
+    "Water that genuinely reflects the level.",
+    "Mirrors and polished floors.",
+    "Wet surfaces in a scene where a cubemap would look obviously wrong."
+  ],
+  "params": [
+    {
+      "field": "reflectionMask",
+      "tuning": "Exclude UI, the water itself, and anything that does not need reflecting. This is the main cost control — everything included is rendered a second time."
+    },
+    {
+      "field": "textureSize",
+      "tuning": "Reflections tolerate low resolution remarkably well. Halving this is usually invisible and much cheaper."
+    },
+    {
+      "field": "updateEveryNFrames",
+      "tuning": "Still water can update every few frames with nobody noticing."
+    },
+    {
+      "field": "clipPlaneOffset",
+      "tuning": "Pushes the clip plane slightly along the normal to stop artefacts right at the waterline. Too much and objects float visibly above their reflection."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "It renders the scene twice",
+      "body": "That is the whole technique. The mask and the resolution are the levers — there is no way to make it free."
+    },
+    {
+      "title": "It only works for a FLAT plane",
+      "body": "Planar means planar. A rippling surface still reflects as if flat, which is why the normal perturbation carries the illusion."
+    }
+  ],
+  "seeAlso": [
+    "WaterDepthTextureEnabler",
+    "WaterInstanceOverrides"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "decal-mesh-builder",
+  "summary": "The clipping technique itself: source triangles clipped against the projection box.",
+  "overview": [
+    "Clips each candidate source triangle against a unit projection box, one pass per box face, rather than rendering a flat quad on top or splatting into a render texture. Building the decal FROM the receiving geometry is what makes it follow curves and corners exactly."
+  ],
+  "useCases": [
+    "Generating decal meshes from your own tooling.",
+    "Understanding or adapting the clipping approach.",
+    "Building decals at import time rather than at runtime."
+  ],
+  "gotchas": [
+    {
+      "title": "Cost scales with the receiving geometry's density",
+      "body": "A decal on a high-poly surface clips many more triangles than one on a flat plane. Keep projection boxes tight."
+    }
+  ],
+  "seeAlso": [
+    "DecalProjector"
+  ]
+}

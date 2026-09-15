@@ -1,0 +1,37 @@
+{
+  "id": "water-instance-overrides",
+  "summary": "Per-instance water settings without a second material asset.",
+  "overview": [
+    "Override a water surface's visual settings on THIS INSTANCE only — two ponds sharing one material, where one has gentler waves and a murkier tint. It works through a MaterialPropertyBlock, so it costs no extra material and does not break batching."
+  ],
+  "useCases": [
+    "Several ponds or pools with one material between them.",
+    "A calm inlet beside a choppy sea.",
+    "Tuning one water surface without touching the others."
+  ],
+  "params": [
+    {
+      "field": "foamAmount",
+      "tuning": "Crest foam is Stylized only — it does nothing on Realistic or 2D."
+    },
+    {
+      "field": "foamDistance",
+      "tuning": "Shoreline foam, and this one works on all three shaders."
+    },
+    {
+      "field": "overrideWaves",
+      "tuning": "Each override group is gated by its own toggle, so you can override waves and leave colour to the material."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "Some settings apply to only one of the three shaders",
+      "body": "Crest foam is Stylized-only. Changing it on a Realistic surface does nothing, and the Inspector does not say so."
+    }
+  ],
+  "seeAlso": [
+    "RippleEmitter",
+    "PlanarReflection",
+    "WaterDepthTextureEnabler"
+  ]
+}

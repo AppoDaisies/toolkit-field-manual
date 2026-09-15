@@ -1,0 +1,22 @@
+{
+  "id": "water-depth-texture-enabler",
+  "summary": "Makes the camera generate the depth texture that shoreline foam needs.",
+  "overview": [
+    "A water shader sampling the camera depth texture for shoreline foam needs the CAMERA to actually generate it, and a shader cannot request that itself. Drop this on whatever camera sees the water."
+  ],
+  "useCases": [
+    "Shoreline foam where water meets terrain.",
+    "Any depth-based water effect such as depth-tinted shallows.",
+    "Fixing foam that works in one scene and not another."
+  ],
+  "gotchas": [
+    {
+      "title": "Missing it looks like a broken shader, not a missing setting",
+      "body": "Foam simply does not appear, with no error anywhere. If shoreline foam is absent, this is almost always the reason."
+    }
+  ],
+  "seeAlso": [
+    "PlanarReflection",
+    "WaterInstanceOverrides"
+  ]
+}

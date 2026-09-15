@@ -1,0 +1,58 @@
+{
+  "id": "fake-light",
+  "summary": "A light-looking effect with no real Light: a glow sprite, a beam, and tinting of nearby renderers.",
+  "overview": [
+    "A stand-in for a real Light where a full Light component's cost is not wanted — Built-in RP has no cheap built-in \"fake light\". Three independent parts, each switchable: a glow sprite, a volumetric-looking beam, and influence, which actually affects nearby geometry."
+  ],
+  "features": [
+    {
+      "name": "Sprite",
+      "what": "a soft radial glow billboard. Auto-generated if you assign no texture."
+    },
+    {
+      "name": "Beam",
+      "what": "a cone of light for a torch or spotlight look."
+    },
+    {
+      "name": "Influence",
+      "what": "tints nearby renderers so the light appears to affect the world."
+    }
+  ],
+  "useCases": [
+    "Dozens of torches or lamps where real lights would cost too much.",
+    "A stylised glow that does not need to obey real lighting.",
+    "Mobile or low-end targets where per-pixel lights are scarce."
+  ],
+  "params": [
+    {
+      "field": "influenceMode",
+      "tuning": "UniformTint works on ANY material with zero setup but tints a whole renderer evenly, which shows on large surfaces. PerPixel gives real falloff but requires the material's shader to sample the toolkit's include."
+    },
+    {
+      "field": "influenceRescanInterval",
+      "tuning": "UniformTint only. Re-scanning every frame is wasted work for a light that never moves — raise it for static lamps."
+    },
+    {
+      "field": "spotAngle",
+      "tuning": "The FULL cone angle, matching Unity's own Light.spotAngle. Only used in Spot mode."
+    },
+    {
+      "field": "glowSprite",
+      "tuning": "Leave empty and it generates a soft radial texture, which is usually better than a hand-made one."
+    }
+  ],
+  "gotchas": [
+    {
+      "title": "PerPixel needs a cooperating shader",
+      "body": "The material must sample the FakeLight include. On a standard material, PerPixel simply does nothing — which reads as the light being broken."
+    },
+    {
+      "title": "There is a hard limit on per-pixel lights",
+      "body": "They publish into a fixed-size global array. Beyond the limit, extra lights are dropped rather than queued."
+    }
+  ],
+  "seeAlso": [
+    "UIFakeLight",
+    "SceneLightUIHook"
+  ]
+}
