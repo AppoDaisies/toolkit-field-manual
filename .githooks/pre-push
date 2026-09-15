@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# Blocks a push when tools/verify.py fails.
+#
+# This repo is PUBLIC and GitHub Pages republishes the moment master moves, so the two things worth
+# stopping a push for are (a) a personal filesystem path becoming permanent in history, and (b) the
+# site going live with invented API or a broken cross-link. verify.py checks both; this just makes
+# running it non-optional.
+#
+# Lives in .githooks/ rather than .git/hooks/ so it is versioned and survives a fresh clone. It is
+# wired up with:   git config core.hooksPath .githooks
+#
+# To push anyway in a genuine emergency:   git push --no-verify
+
+repo_root=$(git rev-parse --show-toplevel) || exit 0
+cd "$repo_root" || exit 0
+
+if [ ! -f tools/verify.py ]; then
+    exit 0
+fi
+
+# Prefer the launcher on Windows, fall back to whatever python is on PATH.
+if command -v py >/dev/null 2>&1; then
+    PY="py -3"
+elif command -v python >/dev/null 2>&1; then
+    PY=python
+elif command -v python3 >/dev/null 2>&1; then
+    PY=python3
+else
+    echo "pre-push: no python found, skipping verify" >&2
+    exit 0
+fi
+
+echo "pre-push: running tools/verify.py ..."
+if ! $PY tools/verify.py; then
+    echo >&2
+    echo "pre-push: BLOCKED - verify.py failed." >&2
+    echo "  This repo is public and Pages republishes on push, so fix the errors above first." >&2
+    echo "  Override only if you are certain:  git push --no-verify" >&2
+    exit 1
+fi
+
+echo "pre-push: verify.py passed."
+exit 0

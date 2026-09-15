@@ -20,6 +20,8 @@ Checks:
   8. house style         - spaced em dash for prose parentheticals, never '--' or a spaced hyphen
   9. sub-group map       - every name in build.py's GROUP_ORDER resolves to a real type in that
                            category, no type is in two groups, and nothing silently falls to "Other"
+ 10. privacy            - no personal filesystem path (C:/Users/<name>, /home/<name>, /Users/<name>)
+                           appears anywhere in the repo. This one is public; history is forever.
 
 Exit code is non-zero if any ERROR is found. Warnings do not fail the run.
 
@@ -53,6 +55,39 @@ _ARITH = re.compile(r"[0-9()\[\]*/%^=+]|\bmin\b|\bmax\b|\bexp\b")
 
 
 _QUOTED = re.compile(r"'[^']{0,60}'|\"[^\"]{0,60}\"")
+
+
+# Anything matching these is a personal filesystem path and must never reach a public repo. The
+# patterns are deliberately GENERIC rather than a list of known usernames: the point is to catch the
+# next one too, on whatever machine it is authored from.
+_PERSONAL_PATH = re.compile(
+    r"[A-Za-z]:[\\/]+Users[\\/]+(?!Public\b|Default\b)[A-Za-z0-9._-]+"  # a Windows home dir
+    r"|/home/(?!runner\b)[A-Za-z0-9._-]+"                                  # a Linux home dir
+    r"|/Users/(?!Shared\b)[A-Za-z0-9._-]+",                                # a macOS home dir
+    re.IGNORECASE,
+)
+
+# Everything git publishes, minus what is never served or read.
+_PRIVACY_SKIP_DIRS = {".git", "__pycache__", "node_modules"}
+
+
+def scan_for_personal_paths(repo):
+    """Yield (relative path, line number, offending text) for every personal path in the repo."""
+    for root, dirs, files in os.walk(repo):
+        dirs[:] = [d for d in dirs if d not in _PRIVACY_SKIP_DIRS]
+        for fn in sorted(files):
+            full = os.path.join(root, fn)
+            rel = os.path.relpath(full, repo).replace("\\", "/")
+            try:
+                if os.path.getsize(full) > 8 * 1024 * 1024:
+                    continue
+                text = open(full, encoding="utf-8", errors="ignore").read()
+            except OSError:
+                continue
+            for i, line in enumerate(text.splitlines(), start=1):
+                m = _PERSONAL_PATH.search(line)
+                if m:
+                    yield rel, i, m.group(0)
 
 
 def _walk_strings(obj, path=()):
@@ -319,6 +354,15 @@ def main():
         if missing:
             warn(f"[coverage] {len(missing)} extracted types are neither authored nor omitted "
                  f"(expected while authoring is in progress)")
+
+    # 10 - privacy. The repo is PUBLIC, so a hardcoded personal path would be permanent in history.
+    # Deliberately an error rather than a warning: a warning still lets the push happen.
+    leaks = list(scan_for_personal_paths(REPO))
+    for rel, line_no, hit in leaks[:20]:
+        err(f"[PRIVACY] {rel}:{line_no} contains a personal filesystem path '{hit}' - this repo is "
+            f"public. Use a repo-relative default or an environment variable.")
+    if len(leaks) > 20:
+        err(f"[PRIVACY] ...and {len(leaks) - 20} more personal-path occurrence(s)")
 
     print(f"verify: checked {checked} authored entries")
     for w in warnings:
