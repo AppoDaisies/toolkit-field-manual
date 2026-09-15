@@ -699,6 +699,16 @@ def main():
             t["id"] = f"{slugify(t['cat'])}-{t['id']}"
         seen[t["id"]] = True
 
+    # Delete skeletons for types that no longer exist. Without this a renamed or removed type lingers
+    # as a ghost entry forever - the TaskRecaller rename left SessionRecorderWindow and
+    # SessionRecorderService behind, and they still rendered as real tools.
+    current = {f"{t['id']}.json" for t in all_types}
+    stale = [f for f in os.listdir(out_dir) if f.endswith(".json") and f not in current]
+    for f in stale:
+        os.remove(os.path.join(out_dir, f))
+    if stale:
+        print(f"extract: removed {len(stale)} stale skeleton(s): {', '.join(sorted(stale))}")
+
     for t in all_types:
         with open(os.path.join(out_dir, f"{t['id']}.json"), "w", encoding="utf-8") as fh:
             json.dump(t, fh, indent=2, ensure_ascii=False)

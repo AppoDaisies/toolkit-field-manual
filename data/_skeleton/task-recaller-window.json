@@ -1,0 +1,37 @@
+{
+  "id": "task-recaller-window",
+  "name": "TaskRecallerWindow",
+  "cat": "EditorTools",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.EditorTools.TaskRecaller",
+  "src_file": "EditorTools/TaskRecaller/Editor/TaskRecallerWindow.cs",
+  "src_lines": [
+    12,
+    163
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Task Recaller"
+    ]
+  },
+  "src_typeComment": "\"Task Recaller\" — shows itself automatically after a real gap away (TaskRecallerService decides when that is), or open it anytime from the menu. Top: a note field for your own future reference — the one thing this tool can't infer on its own. Below: a timeline of what you had selected and which scripts you opened, most recent first, with a one-click jump back to each.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow()",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

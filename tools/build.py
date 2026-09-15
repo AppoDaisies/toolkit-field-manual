@@ -86,7 +86,7 @@ CATS = [
     ("Input",                "Touch Input",           "Touch gesture recognition."),
     ("Data",                 "Data / CSV",            "CSV parsing and conversion utilities."),
     ("BackgroundMatte",      "Background Matte",      "Editor-time texture background removal."),
-    ("EditorTools",          "Editor Tools",          "Windows and wizards: level guidance, renamers, CSV tables, session recall."),
+    ("EditorTools",          "Editor Tools",          "Windows and wizards: level guidance, renamers, CSV tables, task recall."),
 ]
 CAT_ORDER = {name: i for i, (name, _t, _b) in enumerate(CATS)}
 CAT_META = {name: (title, blurb) for name, title, blurb in CATS}
@@ -146,7 +146,7 @@ GROUP_ORDER = {
             "ReadOnlyAttribute", "ReadOnlyDrawer", "TagAttribute", "TagDrawer"]),
         ("Data & Assets", ["CsvTableWindow", "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow",
             "PlayerPrefsEditorWindow", "BatchAssetRenamerWindow"]),
-        ("Scene & Project Tools", ["LevelTransformGuidance", "SessionRecorder", "BulkHierarchyToolsWindow", "FindReferencesWindow",
+        ("Scene & Project Tools", ["LevelTransformGuidance", "TaskRecaller", "BulkHierarchyToolsWindow", "FindReferencesWindow",
             "TodoScannerWindow", "GreyboxPlacerWindow", "GreyboxBlockMarker",
             "LocomotionAnimatorGeneratorWindow"]),
     ],
@@ -344,12 +344,12 @@ SYSTEMS = [
     {
         # A SMALL system: one window, no tabs, two supporting scripts. No sub-tool sections to make -
         # one plain "Supporting scripts" heading is the whole structure it needs.
-        "name": "SessionRecorder",
+        "name": "TaskRecaller",
         "cat": "EditorTools",
-        "primary": "SessionRecorderWindow",
+        "primary": "TaskRecallerWindow",
         "group": "Scene & Project Tools",
         "sections": [
-            ("Supporting scripts", ["SessionRecorderService", "SessionHistoryStorage"]),
+            ("Supporting scripts", ["TaskRecallerService", "SessionHistoryStorage"]),
         ],
     },
     {

@@ -3,8 +3,8 @@
   "name": "SessionEntry",
   "cat": "EditorTools",
   "src_typeKind": "class",
-  "src_ns": "Toolkit.EditorTools.SessionRecorder",
-  "src_file": "EditorTools/SessionRecorder/Editor/SessionHistoryData.cs",
+  "src_ns": "Toolkit.EditorTools.TaskRecaller",
+  "src_file": "EditorTools/TaskRecaller/Editor/SessionHistoryData.cs",
   "src_lines": [
     12,
     22
