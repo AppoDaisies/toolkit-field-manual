@@ -2,58 +2,6 @@
   "id": "ltg-heatmap-tab",
   "summary": "Heatmap tab: a movable density grid over a region of the level, doubling as a measuring grid.",
   "overview": [
-    "Answers a whole-level question rather than a per-object one: is my level evenly built. Over-decorated clusters and barren dead zones are near-impossible to notice while you are zoomed in placing individual props, and both matter — barren patches read as unfinished, and dense clusters hurt readability and are exactly where draw calls concentrate.",
-    "It also does double duty as a ruler, on purpose. Cell size is entered in a unit you pick, shared with the Measuring Tape tab, so a corridor spanning three 2-metre cells reads as 6 metres wide without measuring anything."
-  ],
-  "walkthrough": [
-    {
-      "step": "Select something in the area you want to inspect and press Center Region On Selection.",
-      "whatYouSee": "A sized box snaps over it with a Scene-view move handle, so you position the region by dragging rather than guessing at extents."
-    },
-    {
-      "step": "Set the region's X and Z for the footprint, and Y for the height slice.",
-      "whatYouSee": "Only objects whose CENTRE sits inside that height are counted, which is how you isolate one storey of a stacked level. The grid itself draws at the BOTTOM of the region, so put the box on the floor you are inspecting."
-    },
-    {
-      "step": "Press Build / Refresh Grid.",
-      "whatYouSee": "The whole rectangle fills in, empty cells included, so it reads as one continuous grid rather than scattered patches."
-    },
-    {
-      "step": "Pick a metric: Bounds Volume or Object Count.",
-      "whatYouSee": "Bounds Volume answers 'how visually heavy is this area', which is usually the more meaningful question — one large building and one pebble are not the same amount of level. Object Count is a plain tally."
-    },
-    {
-      "step": "Set Density Max to the density that should count as fully red.",
-      "whatYouSee": "A fixed scale you chose, not one auto-fitted to the busiest cell. Auto-fitting would paint the single busiest cell red in an almost-empty level and tell you nothing."
-    },
-    {
-      "step": "Turn on Drape On Floor for uneven ground.",
-      "whatYouSee": "Each cell raycasts down so the grid follows terrain instead of sitting on one flat plane. It costs one raycast per cell, on rebuild only."
-    }
-  ],
-  "useCases": [
-    "Finding the wing of a level that is visibly under-dressed compared to the rest.",
-    "Spotting prop clusters that will concentrate draw calls before they become a performance problem.",
-    "Using round cell sizes as an on-screen ruler while blocking out corridors and rooms.",
-    "Inspecting one floor of a multi-storey building without the floors above and below confusing the reading."
-  ],
-  "gotchas": [
-    {
-      "title": "The grid is cached, not live",
-      "body": "It rebuilds on demand and when the hierarchy actually changes — never per repaint, and it never forces continuous Scene-view redraws. Moving objects does not continuously recolour it; press Build / Refresh Grid for the current picture."
-    },
-    {
-      "title": "Density Max changes the story the colours tell",
-      "body": "Set it once for a given level's scale and leave it alone, or two readings taken on different days are not comparable. Too high and a genuinely dense area reads as mild; too low and everything saturates to red."
-    },
-    {
-      "title": "The Y size is a filter, not just a box height",
-      "body": "An object is counted only if its centre falls inside the region's height. A very tall object whose centre sits above the slice will not be counted even though it passes through the area."
-    }
-  ],
-  "seeAlso": [
-    "HeatmapGrid",
-    "MeasurementUnits",
-    "LevelTransformGuidance"
+    "The Heatmap Grid's tab UI. Owns the region box and its Scene-view handle, and asks HeatmapGrid to do the counting. Settings and gotchas are documented on LevelTransformGuidance."
   ]
 }

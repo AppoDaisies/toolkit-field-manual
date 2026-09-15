@@ -522,6 +522,34 @@
   }
   .syssec-title { letter-spacing: 0.08em; }
 
+  /* Settings reference: the controls as they are labelled in the window, one line each. A
+     definition list rather than prose - the reader is looking one thing up, not reading. */
+  .settings { margin: 2px 0 0; }
+  .settings dd {
+    margin: 0 0 5px;
+    padding-left: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+  .settings dd:last-child { margin-bottom: 0; }
+  .setname {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--mono-accent);
+    margin-right: 5px;
+  }
+  .setgroup, .caveat-group {
+    margin: 14px 0 6px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .settings dt.setgroup:first-child { margin-top: 2px; }
+
   /* ---- a system entry's nested parts -------------------------------------------------------
      One tool, many scripts: the parts live inside the tool's own dropdown, grouped into the
      sections a user thinks in. Indented against a rule so the nesting is obvious at a glance. */

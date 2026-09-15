@@ -1,54 +1,7 @@
 {
   "id": "ltg-clipping-tab",
-  "summary": "Clipping tab: finds objects sunk into each other and paints the buried part, without judging whether it was intended.",
+  "summary": "Clipping tab: scans for objects sunk into each other and paints the buried part.",
   "overview": [
-    "Answers one question: is this particular thing placed wrong. A crate half inside the floor, a post buried in a wall, a barrel intersecting the stairs — all of it invisible while you are zoomed in placing the next prop, and all of it obvious to a player.",
-    "It is built around a limitation it refuses to hide: nothing can tell whether an intersection was intended. A post sunk into a wall may be exactly right. So it finds candidates cheaply, paints what is actually buried, and leaves the call to you — it never reports an error and never fixes anything."
-  ],
-  "walkthrough": [
-    {
-      "step": "Set Subject Mask to the things you are checking, and Target Mask to what they might be buried in.",
-      "whatYouSee": "Only SUBJECTS get painted. That asymmetry is the point: you want the crate reddened where it is buried, not the floor it is buried in, so floors and architecture never light up."
-    },
-    {
-      "step": "Choose Collider or Mesh for the display mode.",
-      "whatYouSee": "Collider checks the shapes that actually block the player — right for a traversal or metrics pass. Mesh checks the visual model — right for a visual-quality pass. They disagree often, and which one is correct depends entirely on what you are checking for."
-    },
-    {
-      "step": "Press Scan Whole Level, or Scan Selection for just what you have highlighted.",
-      "whatYouSee": "A result list with a Select button per row, and the flagged objects tinted in the Scene view."
-    },
-    {
-      "step": "Leave Highlight Style on Buried Portion Only.",
-      "whatYouSee": "Only the part of the object that is inside other geometry gets painted, via a ZTest Greater shader pass. You see how DEEP something is sunk, not merely that it is. Whole Object tints the entire thing instead, which is easier to spot from a distance but tells you less."
-    },
-    {
-      "step": "Raise Overlap Tolerance if ordinary resting contact keeps appearing.",
-      "whatYouSee": "Fewer results. An object must interpenetrate by more than the tolerance to be flagged, which is what keeps a crate merely sitting on a floor out of the list."
-    },
-    {
-      "step": "Press Clear All Highlights when you are done.",
-      "whatYouSee": "The Scene view returns to normal. Switching away from the tab also stops its drawing."
-    }
-  ],
-  "useCases": [
-    "A pre-art pass over a greybox level, catching props pushed through the floor by a careless drag.",
-    "Checking a kitbashed set piece where many meshes were deliberately overlapped, to find the ones that overlap by more than you meant.",
-    "Verifying that collision, rather than just the visual mesh, is clean along a route the player walks."
-  ],
-  "gotchas": [
-    {
-      "title": "Candidates, not errors",
-      "body": "An empty result list means 'nothing obvious at this tolerance and these masks', not 'the level is correct'. And a full list is not a list of bugs — deliberate intersections are extremely common in level art."
-    },
-    {
-      "title": "Collider mode and Mesh mode will disagree",
-      "body": "A prop whose collider is a simple box can read as clean in Collider mode while its visual mesh is clearly poking through a wall, and vice versa. Pick the mode that matches the question you are asking rather than treating either as the truth."
-    }
-  ],
-  "seeAlso": [
-    "ClippingCandidateFinder",
-    "ClippingHighlightRenderer",
-    "LevelTransformGuidance"
+    "The Clipping Inspector's tab UI. Drives the scan, owns its settings, and asks ClippingCandidateFinder for candidates and ClippingHighlightRenderer to paint them. Settings and gotchas are documented on LevelTransformGuidance."
   ]
 }

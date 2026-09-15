@@ -2,89 +2,87 @@
   "id": "level-transform-guidance",
   "summary": "Toolkit/Level Transform Guidance — a HUB for level-design tools, one tab per tool.",
   "overview": [
-    "A window you keep open while you dress a level. It answers the four questions that come up constantly once geometry is roughly in place and nothing about them is visible from the Scene view alone: is this prop sunk into the floor, is this wing of the level under-built compared to the rest, how wide is that gap actually, and can I drop this thing exactly where my mouse is.",
-    "It is called Guidance rather than Validator on purpose, and that distinction runs through every tab. None of them make the call for you. The clipping check refuses to guess whether an intersection was intended — it finds candidates cheaply, paints the part that is actually buried, and leaves the judgement to you. The heatmap shows you density against a scale you chose and lets you decide whether it is wrong. Nothing here auto-fixes anything, and nothing reports a pass or a fail.",
-    "The four tools share one window because level design is a mode of working rather than a single action: measuring a gap, checking a crate is not buried in the stairs, and stepping back to see whether a wing is under-dressed all happen in the same sitting. Three separate menu items would fight that flow, and the hub lets the tabs share their plumbing — unit conversion, layer filtering and Scene-view drawing are the same code in all of them, so a cell size and a measured distance are always expressed in the same units."
-  ],
-  "whereToFind": "Toolkit ▸ Level Transform Guidance. It docks like any other window and the tab strip runs across the top, showing an icon and the active tab's name in text. Nothing needs adding to the scene and nothing is left behind when you close it.",
-  "walkthrough": [
-    {
-      "step": "Open Toolkit ▸ Level Transform Guidance and pick the Clipping tab.",
-      "whatYouSee": "Subject and Target layer masks, a display mode (Collider or Mesh), and an overlap tolerance. Only SUBJECTS get painted, which is why floors and architecture never light up — you want the crate reddened where it is buried, not the floor it is buried in."
-    },
-    {
-      "step": "Press Scan Whole Level, or Scan Selection to check just what you have highlighted.",
-      "whatYouSee": "A result list, and flagged objects tinted in the Scene view. The default highlight style paints only the buried PORTION of the object (a ZTest Greater pass), so you see exactly how deep it is sunk rather than just that something is wrong. Each result has a Select button to jump to it."
-    },
-    {
-      "step": "Raise Overlap Tolerance if ordinary resting contact is being flagged.",
-      "whatYouSee": "Fewer results. An object has to interpenetrate by MORE than the tolerance to count, which is what keeps a crate sitting on a floor out of the list."
-    },
-    {
-      "step": "Switch to the Heatmap tab and press Center Region On Selection.",
-      "whatYouSee": "A sized, movable box snaps over your selection with a Scene-view move handle. X and Z set the grid's footprint; Y is a height slice, so only objects whose centre sits inside that height are counted — that is how you isolate one storey of a stacked level. The grid draws at the BOTTOM of the region, so put the box on the floor you are inspecting."
-    },
-    {
-      "step": "Press Build / Refresh Grid.",
-      "whatYouSee": "The whole rectangle fills in, empty cells included, so it reads as one continuous grid rather than scattered patches. Red is dense, and Density Max is a fixed scale YOU choose rather than being auto-fitted to the busiest cell — auto-fitting would paint the single busiest cell red in an almost-empty level and tell you nothing."
-    },
-    {
-      "step": "Set Cell Size to a round number in your chosen unit and read the grid as a ruler.",
-      "whatYouSee": "The heatmap doing double duty: with 2-metre cells, a corridor spanning three cells is 6 metres wide at a glance, no measuring needed. The unit is shared with the Measuring Tape tab."
-    },
-    {
-      "step": "Switch to Measuring Tape and left-click two points in the Scene view.",
-      "whatYouSee": "A line with the distance labelled at its midpoint. Keep clicking to chain A-B-C-D and get a label per segment. In 3D mode a click that misses real geometry is REJECTED rather than guessed at, so every recorded point is a true world position that does not move when you orbit."
-    },
-    {
-      "step": "Middle-click in the Scene view to clear the points.",
-      "whatYouSee": "Everything resets. Middle-click is used deliberately: left stays the normal camera orbit and right stays Unity's own context menu and fly-look, so the tape never steals a button you need."
-    },
-    {
-      "step": "Select a GameObject, switch to Snap To Mouse, hover the Scene view and press V.",
-      "whatYouSee": "The object teleports once to whatever real geometry the mouse points at. It is a one-shot action, not a held-key drag and not click-to-place. Tick the rotation option and it also rotates its up axis to match the surface it lands on, which is what you want for a prop that should sit flush on a slope."
-    }
+    "Level-design tool for dressing and checking a level, featuring a Clipping Inspector, a Heatmap Grid, a Measuring Tape and Snap To Mouse. Four tabs in one window, sharing units, layer filtering and Scene-view drawing. It reports, it never fixes or grades — every tab surfaces information and leaves the call to you.",
+    "Clipping Inspector: scans the level for objects sunk into each other on chosen layers, and paints the buried part.\nHeatmap Grid: colours a movable grid by how much stuff is in each cell, to find over-dressed and barren areas. Doubles as a ruler.\nMeasuring Tape: click points in the Scene view to measure real distances, labelled per segment.\nSnap To Mouse: press a key to teleport the selected object onto whatever surface the mouse points at."
   ],
   "useCases": [
-    "A dressing pass over a greybox level, checking nothing is sunk into the floor before the art goes in.",
-    "Finding the barren patches and the over-decorated clusters in a level that reads as uneven but you cannot say why while zoomed in placing props.",
-    "Sanity-checking that a doorway, corridor or jump gap is actually the width your design document says it is.",
-    "Scattering props onto uneven terrain without hand-editing Y positions for every one of them.",
-    "Isolating one storey of a stacked level and inspecting its density without the floors above and below confusing the picture."
+    "Checking nothing is sunk into the floor before art replaces greybox.",
+    "Finding the wing of a level that is under-dressed, or the cluster that is overloaded.",
+    "Confirming a doorway, corridor or jump gap is the width the design calls for.",
+    "Scattering props onto uneven terrain without hand-editing Y values.",
+    "Inspecting one storey of a stacked level in isolation."
+  ],
+  "whereToFind": "Toolkit ▸ Level Transform Guidance",
+  "walkthrough": [
+    { "group": "Clipping", "name": "Subjects (get painted)", "what": "Layers that get scanned and highlighted. Only these are painted." },
+    { "group": "Clipping", "name": "Targets (clipped into)", "what": "Layers a subject may be buried in. Keeping floors here and out of Subjects is why architecture never lights up." },
+    { "group": "Clipping", "name": "Mode", "what": "Collider checks what blocks the player; Mesh checks what you see. They disagree often." },
+    { "group": "Clipping", "name": "Overlap Tolerance", "what": "How far things must interpenetrate to count. Raise it to stop normal resting contact being flagged." },
+    { "group": "Clipping", "name": "Highlight Style", "what": "Buried Portion Only paints just the part inside other geometry, so you see how deep. Whole Object tints all of it." },
+    { "group": "Clipping", "name": "Highlight Selection Live", "what": "Highlights as you select, without running a scan." },
+    { "group": "Clipping", "name": "Scan Whole Level / Scan Selection", "what": "Runs the check. Results list has a Select button per row." },
+
+    { "group": "Heatmap", "name": "Region (Center / Size)", "what": "The box the grid covers, draggable in the Scene view. X and Z are the footprint; Y is a height slice, counting only objects whose centre is inside it." },
+    { "group": "Heatmap", "name": "Cell Size + Unit", "what": "Grid square size in your chosen unit. Round numbers make the grid readable as a ruler." },
+    { "group": "Heatmap", "name": "Metric", "what": "Bounds Volume for visual heaviness; Object Count for a plain tally." },
+    { "group": "Heatmap", "name": "Full Red At", "what": "The density that counts as fully red. A fixed scale you set, not auto-fitted to the busiest cell." },
+    { "group": "Heatmap", "name": "Counted Layers", "what": "Which layers contribute to a cell's value." },
+    { "group": "Heatmap", "name": "Drape Onto Floor + Floor Layers", "what": "Raycasts each cell down so the grid follows terrain instead of one flat plane." },
+    { "group": "Heatmap", "name": "Fill Opacity / Draw Through Geometry", "what": "Readability only — how strong the colour is, and whether it draws over occluding geometry." },
+    { "group": "Heatmap", "name": "Build / Refresh Grid", "what": "Rebuilds the grid. It is cached, so do this after moving things." },
+
+    { "group": "Measuring Tape", "name": "Measuring Enabled", "what": "Turns Scene-view click capture on and off." },
+    { "group": "Measuring Tape", "name": "Mode", "what": "3D raycasts real colliders and rejects clicks that hit nothing. 2D projects onto a fixed world plane, for measuring across open space." },
+    { "group": "Measuring Tape", "name": "Fixed Plane", "what": "Which world plane 2D mode projects onto (Z, Y or X). Never the camera's view, so points hold as you orbit." },
+    { "group": "Measuring Tape", "name": "Unit", "what": "Display unit for distances. Shared with the Heatmap tab." },
+    { "group": "Measuring Tape", "name": "Label Style", "what": "Badge is legible on any background. Auto Contrast samples the surface colour and can guess wrong on textured art. Fixed Color is a colour you pick." },
+    { "group": "Measuring Tape", "name": "Clear Points", "what": "Removes all points. Middle-click in the Scene view does the same." },
+
+    { "group": "Snap To Mouse", "name": "Surface Mask", "what": "Layers the object is allowed to land on." },
+    { "group": "Snap To Mouse", "name": "Snap Key", "what": "Key to press while hovering the Scene view. Defaults to V. One press, one jump." },
+    { "group": "Snap To Mouse", "name": "Align rotation to surface normal", "what": "Also rotates the object's up axis to match the surface, for props that should sit flush on a slope." }
   ],
   "gotchas": [
     {
-      "title": "It tells you where to look, never what is wrong",
-      "body": "Nothing can tell whether an intersection was intended — a post sunk into a wall may be exactly right. Every tab is built around that honest limitation: the clipping scan produces candidates, not errors, and there is no pass/fail anywhere in the window. Treat an empty result list as 'nothing obvious', not as 'the level is correct'."
+      "group": "General",
+      "title": "It reports, it does not grade",
+      "body": "Nothing can tell whether an intersection was intended. An empty result list means 'nothing obvious at these settings', not 'the level is correct'."
     },
     {
-      "title": "Only the active tab is doing anything",
-      "body": "Switching tabs deactivates the old one and activates the new one, and closing the window deactivates all four. That is deliberate: otherwise the Measuring Tape's click handling would fight the Clipping tab's highlight drawing, and you would pay for tools you are not looking at. It also means a tab's Scene-view drawing disappears when you switch away from it — the points and highlights are not gone, just not being drawn."
+      "group": "General",
+      "title": "Only the active tab runs",
+      "body": "Switching tabs deactivates the old one; closing the window deactivates all four. A tab's Scene-view drawing disappears when you switch away — the data is still there, it just is not being drawn."
     },
     {
-      "title": "The heatmap grid is cached, not live",
-      "body": "It rebuilds on demand and when the hierarchy actually changes, never per repaint and never forcing continuous Scene-view redraws. So moving objects around does not continuously recolour the grid — press Build / Refresh Grid when you want the current picture."
+      "group": "Clipping",
+      "title": "Collider and Mesh modes will disagree",
+      "body": "A box collider can read as clean while the visual mesh clearly pokes through a wall, and the reverse. Pick the mode that matches the question."
     },
     {
-      "title": "Density Max is a scale you set, and it changes what you see",
-      "body": "It is the density that counts as fully red. Leave it too high and a genuinely dense area reads as mild; too low and everything saturates. It is worth setting once for a given level's scale and then leaving it alone, so that readings stay comparable between sessions."
+      "group": "Heatmap",
+      "title": "The grid is cached, not live",
+      "body": "It rebuilds on demand and when the hierarchy changes, never per frame. Moving objects does not recolour it — press Build / Refresh Grid."
     },
     {
-      "title": "Measuring Tape 3D mode rejects clicks that miss geometry",
-      "body": "That is the feature, not a bug: it guarantees every point is a real camera-independent world position. If you need to measure across open space where there is nothing to hit, switch to 2D mode, which projects onto a fixed world plane — note it is a FIXED plane, never the camera's current view, so points stay put as you orbit between clicks."
+      "group": "Heatmap",
+      "title": "Full Red At changes the story",
+      "body": "Set it once for a level's scale and leave it, or two readings are not comparable. Too high and dense areas read as mild; too low and everything saturates."
     },
     {
-      "title": "Snap To Mouse is 3D-only by design",
-      "body": "It always raycasts real colliders and has no fixed-plane fallback. A measuring point can be abstract, but a snapped prop should not float in space — a fallback would let the snap land somewhere with no real surface under it, which defeats the point of a placement tool. If nothing is selected, the tab says so rather than silently doing nothing."
+      "group": "Heatmap",
+      "title": "The height slice filters by centre",
+      "body": "A tall object whose centre sits above the slice is not counted, even though it passes through the area."
     },
     {
-      "title": "Badge is the only label style guaranteed to stay legible",
-      "body": "Auto Contrast samples the material colour under a label and picks black or white text, which works on flat-coloured greybox but guesses wrong on finished art — a material's base colour often is not what you actually see once textures and lighting apply. Badge draws a dark backing so the text never sits directly on the scene, which is why it is the default."
+      "group": "Measuring Tape",
+      "title": "3D mode rejects clicks that miss geometry",
+      "body": "That is what guarantees every point is a real world position. Use 2D mode to measure across open space."
+    },
+    {
+      "group": "Snap To Mouse",
+      "title": "It snaps the pivot, not the base",
+      "body": "A prop whose pivot is at its centre ends up half-buried. Prefabs for this want their pivot at the foot of the model."
     }
   ],
-  "seeAlso": [
-    "GreyboxPlacerWindow",
-    "BulkHierarchyToolsWindow",
-    "MeasurementUnits"
-  ]
+  "seeAlso": ["GreyboxPlacerWindow", "BulkHierarchyToolsWindow", "MeasurementUnits"]
 }

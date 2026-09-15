@@ -80,9 +80,17 @@
   }
   function callouts(arr) {
     if (!arr || !arr.length) return "";
+    // A gotcha may declare which sub-tool it belongs to. On a window with four tabs an ungrouped
+    // list forces the reader to work out which warning applies to what they are doing.
+    var lastGroup = null;
     return arr.map(function (g) {
+      var head = "";
+      if (g.group && g.group !== lastGroup) {
+        head = '<div class="caveat-group">' + esc(g.group) + "</div>";
+        lastGroup = g.group;
+      }
       var title = g.title ? "<strong>" + esc(g.title) + "</strong> — " : "";
-      return '<div class="caveat">' + title + esc(g.body || g) + "</div>";
+      return head + '<div class="caveat">' + title + esc(g.body || g) + "</div>";
     }).join("");
   }
   function paramTable(params, serialized) {
@@ -149,14 +157,22 @@
     // below it answers "how"; this answers "why would I open this at all".
     if (e.overview) {
       out.push('<div class="overview">' + (Array.isArray(e.overview) ? e.overview : [e.overview])
-        .map(function (para) { return "<p>" + esc(para) + "</p>"; }).join("") + "</div>");
+        // A line break inside an overview paragraph is deliberate - it separates a per-feature
+        // one-liner list. HTML would otherwise collapse it to a space and run them together.
+        .map(function (para) { return "<p>" + multiline(para) + "</p>"; }).join("") + "</div>");
     }
+
+    // Use cases sit directly under the overview: "would I use this at all" is the next question
+    // after "what is it", and it was previously buried below the walkthrough.
+    if (e.useCases && e.useCases.length) { out.push(label("Use cases")); out.push(bullets(e.useCases)); }
 
     if (e.src_attributes && e.src_attributes.addComponentMenu) {
       out.push('<div class="tool-menu"><span class="mlabel">Add Component:</span> <code>' +
         esc(e.src_attributes.addComponentMenu) + "</code></div>");
     }
-    if (e.src_attributes && e.src_attributes.menuItem) {
+    // When an entry states where to find it in its own words, the auto-derived Menu chip is the
+    // same fact twice on consecutive lines.
+    if (e.src_attributes && e.src_attributes.menuItem && !e.whereToFind) {
       // A class can register several menu items (a window plus an Assets/ context-menu variant), so the
       // extractor hoists them from the decorated static methods into a list.
       var menus = e.src_attributes.menuItem;
@@ -164,8 +180,6 @@
       out.push('<div class="tool-menu"><span class="mlabel">Menu:</span> ' +
         menus.map(function (m) { return "<code>" + esc(m) + "</code>"; }).join(" ") + "</div>");
     }
-    out.push('<div class="tool-ns">' + esc(e.src_ns || "") +
-      ' <span class="tool-path">— ' + esc(e.src_file || "") + "</span></div>");
 
     if (e.problem) { out.push(label("Problem it solves")); out.push(prose(e.problem)); }
     if (kind === "contract" && e.purpose) { out.push(label("What this contract is for")); out.push(prose(e.purpose)); }
@@ -236,12 +250,28 @@
 
     if (e.workedExample) { out.push(label("Worked example")); out.push(worked(e.workedExample)); }
     if (e.walkthrough && e.walkthrough.length) {
-      out.push(label("Walkthrough"));
-      out.push("<ol>" + e.walkthrough.map(function (s) {
-        return "<li>" + esc(s.step) + (s.whatYouSee ? " — <em>" + esc(s.whatYouSee) + "</em>" : "") + "</li>";
-      }).join("") + "</ol>");
+      // Two shapes share this section. An item with a `name` is a SETTING - the control as it is
+      // labelled in the window, and what it does, one line each. An item with a `step` is an
+      // ordered instruction. Settings won out for multi-tool windows: a numbered tour of nine
+      // steps read as filler next to a plain list of what each control actually does.
+      var isSettings = e.walkthrough[0] && e.walkthrough[0].name;
+      out.push(label(isSettings ? "Settings" : "Walkthrough"));
+      if (isSettings) {
+        var lastSet = null;
+        out.push('<dl class="settings">' + e.walkthrough.map(function (v) {
+          var head = "";
+          if (v.group && v.group !== lastSet) {
+            head = '<dt class="setgroup">' + esc(v.group) + "</dt>";
+            lastSet = v.group;
+          }
+          return head + '<dd><code class="setname">' + esc(v.name) + "</code> " + esc(v.what) + "</dd>";
+        }).join("") + "</dl>");
+      } else {
+        out.push("<ol>" + e.walkthrough.map(function (s) {
+          return "<li>" + esc(s.step) + (s.whatYouSee ? " — <em>" + esc(s.whatYouSee) + "</em>" : "") + "</li>";
+        }).join("") + "</ol>");
+      }
     }
-    if (e.useCases && e.useCases.length) { out.push(label("Use cases")); out.push(bullets(e.useCases)); }
 
     if (e.usage) { out.push(label("How to use")); out.push(code(e.usage.code, e.usage.codeNote)); }
     if (e.minimalImpl) { out.push(label("Minimal implementation")); out.push(code(e.minimalImpl.code, e.minimalImpl.note)); }
@@ -286,6 +316,9 @@
           "</section>";
       }).join("") + "</div>");
     }
+
+    out.push('<div class="tool-ns">' + esc(e.src_ns || "") +
+      ' <span class="tool-path">— ' + esc(e.src_file || "") + "</span></div>");
 
     var demos = e.src_demoScene;
     if (typeof demos === "string") demos = [demos];
