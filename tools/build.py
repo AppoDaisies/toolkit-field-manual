@@ -101,7 +101,7 @@ CAT_META = {name: (title, blurb) for name, title, blurb in CATS}
 GROUP_ORDER = {
     "Math": [
         ("Randomness & Probability", ["ProbabilityUtils", "SeededRandom", "RandomBag<T>", "PityTimer"]),
-        ("Curves & Easing", ["EasingFunctions", "EaseType", "StatCurves"]),
+        ("Curves & Easing", ["EasingFunctions", "StatCurves"]),
         ("Splines & Geometry", ["BezierUtils", "SplineUtils", "GeometryUtils2D"]),
         ("Scalars & Noise", ["MathUtils", "NoiseUtils"]),
     ],
@@ -112,87 +112,78 @@ GROUP_ORDER = {
         ("Extensions", ["ExtensionMethods"]),
     ],
     "Rendering": [
-        ("Lighting", ["FakeLight", "FakeLightType", "FakeLightInfluenceMode", "UIFakeLight",
-                      "UIFakeLightType", "SceneLightUIHook", "UILightingEffect", "UILightingMode"]),
-        ("Water", ["RippleEmitter", "PlanarReflection", "WaterDepthTextureEnabler",
-                   "WaterInstanceOverrides", "WaterPourVisual"]),
-        ("UI Effects", ["UIEdgeGlow", "EdgeGlowPattern", "EdgeGlowShape", "UIBlurSource",
-                        "UIRippleEffect"]),
-        ("Object Effects", ["DissolveEffect", "ForceFieldEffect", "GlitchEffect", "HologramEffect",
-                            "HighlightToggle", "WeaponTrail"]),
-        ("Decals & Surfaces", ["DecalProjector", "DecalMeshBuilder", "DecalVertex", "GrassBendEmitter"]),
+        ("Lighting", ["FakeLight", "UIFakeLight", "SceneLightUIHook", "UILightingEffect"]),
+        ("Water", ["RippleEmitter", "PlanarReflection", "WaterDepthTextureEnabler", "WaterInstanceOverrides",
+            "WaterPourVisual"]),
+        ("UI Effects", ["UIEdgeGlow", "UIBlurSource", "UIRippleEffect"]),
+        ("Object Effects", ["DissolveEffect", "ForceFieldEffect", "GlitchEffect", "HologramEffect", "HighlightToggle",
+            "WeaponTrail"]),
+        ("Decals & Surfaces", ["DecalProjector", "DecalMeshBuilder", "GrassBendEmitter"]),
         ("Post-processing & Plumbing", ["SpeedRadialBlur", "MaterialPropertyBlockHelper"]),
     ],
     "UI": [
         ("Layout & Fitting", ["AccordionPanel", "CardCarousel", "MasonryLayoutGroup", "RadialLayoutGroup",
-                              "AspectRatioImageFitter", "TextAutoShrinkFitter", "ImageFitMode",
-                              "DeferredLayoutRebuilder", "LayoutRebuildHelper", "SafeAreaHandler"]),
-        ("Scrolling", ["FancyScrollView", "FancyScrollViewCurve", "ScrollSnap", "PullToRefresh",
-                       "RefreshIndicatorAnchor", "TimedLineScrollView", "TimedLine"]),
-        ("Navigation", ["ScreenStackNavigator", "TabGroup", "TabEntry", "PaginationDots",
-                        "AsyncSceneLoader"]),
-        ("Input & Controls", ["DraggableItem", "DropZone", "DraggableUIPanel", "HoldToConfirmButton",
-                              "ToggleSwitch"]),
-        ("Feedback & Overlays", ["ToastNotification", "ModalDialog", "TooltipSystem", "TooltipTrigger",
-                                 "LoadingBarUI", "RadialProgressBar"]),
-        ("Motion & Effects", ["FlyToUIEffect", "AnimatedNumberCounter", "NumberDisplayFormat",
-                              "MarqueeText", "WorldSpaceUIFollow"]),
-        ("Floating Combat Text", ["FloatingCombatText", "FloatingCombatTextSpawner", "CombatTextMotion",
-                                  "CombatTextPreset", "CombatTextStyle"]),
-        ("Device & Platform", ["InputGlyphSwapper", "InputDeviceMonitor", "InputDeviceMonitorRunner",
-                               "InputDeviceKind"]),
-        ("Undo / Redo", ["CommandHistory", "ActionCommand", "ICommand"]),
+            "AspectRatioImageFitter", "TextAutoShrinkFitter", "DeferredLayoutRebuilder",
+            "LayoutRebuildHelper", "SafeAreaHandler"]),
+        ("Scrolling", ["FancyScrollView", "ScrollSnap", "PullToRefresh", "TimedLineScrollView"]),
+        ("Navigation", ["ScreenStackNavigator", "TabGroup", "PaginationDots", "AsyncSceneLoader"]),
+        ("Input & Controls", ["DraggableItem", "DropZone", "DraggableUIPanel", "HoldToConfirmButton", "ToggleSwitch"]),
+        ("Feedback & Overlays", ["ToastNotification", "ModalDialog", "TooltipSystem", "TooltipTrigger", "LoadingBarUI",
+            "RadialProgressBar"]),
+        ("Motion & Effects", ["FlyToUIEffect", "AnimatedNumberCounter", "MarqueeText", "WorldSpaceUIFollow"]),
+        ("Floating Combat Text", ["FloatingCombatText", "FloatingCombatTextSpawner"]),
+        ("Device & Platform", ["InputGlyphSwapper", "InputDeviceMonitor", "InputDeviceMonitorRunner"]),
+        ("Undo / Redo", ["CommandHistory", "ICommand"]),
     ],
     "EditorTools": [
-        ("Level Transform Guidance", ["LevelTransformGuidanceWindow", "ILtgTab", "LtgClippingTab",
-                                      "LtgHeatmapTab", "LtgMeasuringTapeTab", "LtgSnapToMouseTab",
-                                      "LtgGuiUtility", "ClippingCandidate", "ClippingCandidateFinder",
-                                      "ClippingDisplayMode", "ClippingHighlightRenderer",
-                                      "ClippingHighlightStyle", "FixedPlaneAxis", "HeatmapCell",
-                                      "HeatmapGrid", "HeatmapMetric", "MeasurementMode",
-                                      "MeasurementUnit", "MeasurementUnits", "TapeLabelStyle"]),
-        ("Inspector Attributes", ["ButtonAttribute", "ButtonAttributeEditor", "LayerAttribute",
-                                  "LayerDrawer", "ReadOnlyAttribute", "ReadOnlyDrawer", "TagAttribute",
-                                  "TagDrawer"]),
+        # One window with four tabs, so the manual says so: the shell first, then a
+        # section per tab holding that tab plus the machinery only it uses.
+        ("Level Transform Guidance", [
+            ("Window & tab framework", ["LevelTransformGuidanceWindow", "ILtgTab", "LtgGuiUtility"]),
+            ("Heatmap tab", ["LtgHeatmapTab", "HeatmapGrid"]),
+            ("Clipping tab", ["LtgClippingTab", "ClippingCandidateFinder", "ClippingHighlightRenderer"]),
+            ("Measuring tape tab", ["LtgMeasuringTapeTab", "MeasurementUnits"]),
+            ("Snap to mouse tab", ["LtgSnapToMouseTab"]),
+        ]),
+        ("Inspector Attributes", ["ButtonAttribute", "ButtonAttributeEditor", "LayerAttribute", "LayerDrawer",
+            "ReadOnlyAttribute", "ReadOnlyDrawer", "TagAttribute", "TagDrawer"]),
         ("Data & Assets", ["CsvTableWindow", "CsvToScriptableObjectImporter", "ScriptableObjectTableWindow",
-                           "PlayerPrefsEditorWindow", "PlayerPrefsEntry", "PlayerPrefsValueType",
-                           "BatchAssetRenamerWindow"]),
+            "PlayerPrefsEditorWindow", "BatchAssetRenamerWindow"]),
         ("Scene & Project Tools", ["BulkHierarchyToolsWindow", "FindReferencesWindow", "TodoScannerWindow",
-                                   "GreyboxPlacerWindow", "GreyboxBlockMarker",
-                                   "LocomotionAnimatorGeneratorWindow"]),
-        ("Session Recorder", ["SessionRecorderWindow", "SessionRecorderService", "SessionHistory",
-                              "SessionHistoryStorage", "SessionEntry"]),
+            "GreyboxPlacerWindow", "GreyboxBlockMarker", "LocomotionAnimatorGeneratorWindow"]),
+        ("Session Recorder", ["SessionRecorderWindow", "SessionRecorderService", "SessionHistoryStorage"]),
     ],
     "AI": [
-        ("Pathfinding", ["NavMeshAIController", "NavMeshAIState", "DijkstraPathfinder", "GraphNode",
-                         "GraphEdge", "FlowField", "FlowFieldGrid", "FlowFieldAgent"]),
-        ("Visual State Machine", ["VisualStateMachineRunner", "VisualStateMachineAsset",
-                                  "VisualStateMachineEditorWindow", "VSMGraphView", "VSMGraphNode",
-                                  "VSMNode", "VSMTransition", "VSMCondition", "VSMComparison",
-                                  "VSMParameter", "VSMParameterType"]),
-        ("Perception", ["VisionCone", "PerceptionMemory", "PerceptionState", "Blackboard"]),
-        ("Steering", ["SteeringAgent", "SteeringBehaviors", "SteeringMode"]),
+        ("Pathfinding", ["NavMeshAIController", "DijkstraPathfinder", "GraphNode", "FlowField", "FlowFieldGrid",
+            "FlowFieldAgent"]),
+        # Split the way you actually meet it: the thing you put in a scene, the graph
+        # data it reads, and the editor that authors that data.
+        ("Visual State Machine", [
+            ("Runtime", ["VisualStateMachineRunner", "VisualStateMachineAsset"]),
+            ("Graph data", ["VSMNode", "VSMTransition", "VSMCondition", "VSMParameter"]),
+            ("Editor", ["VisualStateMachineEditorWindow", "VSMGraphView", "VSMGraphNode"]),
+        ]),
+        ("Perception", ["VisionCone", "PerceptionMemory", "Blackboard"]),
+        ("Steering", ["SteeringAgent", "SteeringBehaviors"]),
         ("Racing", ["RacingAIController", "RaceProgressTracker"]),
     ],
     "Combat": [
-        ("Hitboxes & Attacks", ["Hitbox", "Hurtbox", "HitData", "MeleeAttack", "RangedAttack",
-                                "RangedAttackMode", "CombatProjectile", "IKnockbackReceiver"]),
-        ("Turn-Based Combat", ["TurnManager", "TurnBasedActor", "BattleState", "ActionDefinition",
-                               "ActionTargetType", "CandidateAction", "TargetingMode",
-                               "TargetingStrategies", "UtilityAIBrain"]),
+        ("Hitboxes & Attacks", ["Hitbox", "Hurtbox", "HitData", "MeleeAttack", "RangedAttack", "CombatProjectile",
+            "IKnockbackReceiver"]),
+        ("Turn-Based Combat", ["TurnManager", "TurnBasedActor", "ActionDefinition", "TargetingStrategies", "UtilityAIBrain"]),
     ],
     "Kiosk": [
-        ("QR Codes", ["QrCodeGenerator", "QrDataEncoder", "QrMatrixBuilder", "QrFormatInfo",
-                      "QrGaloisField", "QrVersionInfo"]),
-        ("Runtime & Resources", ["StreamingAssetLoader", "VideoPlayerLifecycleManager",
-                                 "MemoryUsageWatchdog", "LruCache<TKey, TValue>"]),
+        ("QR Codes", ["QrCodeGenerator", "QrDataEncoder", "QrMatrixBuilder", "QrFormatInfo", "QrGaloisField",
+            "QrVersionInfo"]),
+        ("Runtime & Resources", ["StreamingAssetLoader", "VideoPlayerLifecycleManager", "MemoryUsageWatchdog",
+            "LruCache<TKey, TValue>"]),
         ("Session & Attract", ["IdleAttractManager", "SessionTimeoutManager"]),
         ("On-Screen Input", ["VirtualKeyboard", "KeyButton"]),
     ],
     "Mechanics": [
-        ("Tower Defense", ["TDGameManager", "TDTower", "TDTowerPlacer", "TDEnemy", "TDProjectile",
-                           "TDProjectileAttack", "TDHitscanAttack", "IAttackBehavior"]),
-        ("Patrol & Spawning", ["WaypointPatrol", "PatrolMode", "WaveSpawner"]),
+        ("Tower Defense", ["TDGameManager", "TDTower", "TDTowerPlacer", "TDEnemy", "TDProjectile", "TDProjectileAttack",
+            "TDHitscanAttack", "IAttackBehavior"]),
+        ("Patrol & Spawning", ["WaypointPatrol", "WaveSpawner"]),
         ("Interaction", ["InteractionDetector", "IInteractable"]),
     ],
     "PageCurl": [
@@ -202,14 +193,11 @@ GROUP_ORDER = {
     ],
     "Gameplay": [
         ("Health & Damage", ["Health", "IDamageable", "ProjectileMover"]),
-        ("Progression & Economy", ["CurrencyWallet", "CurrencyDefinition", "CooldownAbilitySlot",
-                                   "CheckpointRespawn"]),
-        ("World Interaction", ["TriggerEventRelay", "TriggerEventRelay2D", "WateringCanController",
-                               "PlantWaterLevel"]),
+        ("Progression & Economy", ["CurrencyWallet", "CurrencyDefinition", "CooldownAbilitySlot", "CheckpointRespawn"]),
+        ("World Interaction", ["TriggerEventRelay", "TriggerEventRelay2D", "WateringCanController", "PlantWaterLevel"]),
     ],
     "PathBuilder": [
-        ("Spline & Path", ["SplinePath", "SplineFollower", "SplineFollowMode", "PathBuilder",
-                           "PathBuilderMode", "PrefabSpacingMode", "BoundsAxis"]),
+        ("Spline & Path", ["SplinePath", "SplineFollower", "PathBuilder"]),
         ("Editor Integration", ["PathBuilderEditor", "SplinePathEditor", "SplinePathSceneEditing"]),
     ],
     "ScriptableObjects": [
@@ -218,13 +206,12 @@ GROUP_ORDER = {
         ("Runtime Sets", ["GameObjectRuntimeSet", "RuntimeSetRegistrar"]),
     ],
     "Tweening": [
-        ("Tween Core", ["Tween", "TweenRunner", "TweenHandle", "TweenExtensions", "TweenLoopMode"]),
+        ("Tween Core", ["Tween", "TweenRunner", "TweenHandle", "TweenExtensions"]),
         ("Fades & Transitions", ["FadeManager", "ShaderTransitionManager"]),
         ("Punch", ["PunchEffects"]),
     ],
     "Camera": [
-        ("Player Camera Rig", ["PlayerCameraRig", "PlayerCameraMode", "CameraFollowMode",
-                               "PlayerCameraRigSetup"]),
+        ("Player Camera Rig", ["PlayerCameraRig", "PlayerCameraRigSetup"]),
         ("Follow & Effects", ["SmoothFollowCamera", "CursorPanCamera", "CameraShake"]),
     ],
     "Raycasting": [
@@ -233,13 +220,11 @@ GROUP_ORDER = {
     ],
     "Inventory": [
         ("Items", ["ItemDefinition", "ItemRegistry"]),
-        ("Containers & Equipment", ["InventoryContainer", "InventorySlot", "EquipmentManager",
-                                    "EquipSlotType"]),
+        ("Containers & Equipment", ["InventoryContainer", "EquipmentManager"]),
     ],
     "TMPEffects": [
         ("Reveal & Motion", ["TMPTypewriterEffect", "TMPWaveEffect"]),
-        ("Highlighting & Links", ["TMPWordHighlighter", "TMPTimedHighlighter", "WordTiming",
-                                  "TMPLinkHandler"]),
+        ("Highlighting & Links", ["TMPWordHighlighter", "TMPTimedHighlighter", "TMPLinkHandler"]),
     ],
 }
 
@@ -255,15 +240,28 @@ def assign_groups(cat, items):
     bucket for a type the map has not been updated for. Both are reported by verify.py.
     """
     if len(items) < GROUP_MIN_ENTRIES:
-        return [(None, items)]
+        return [(None, items, None)]
 
     by_name = {e["name"]: e for e in items}
     out, placed = [], set()
 
-    for title, names in GROUP_ORDER.get(cat, []):
-        members = [by_name[n] for n in names if n in by_name]
+    for title, spec in GROUP_ORDER.get(cat, []):
+        # A group's members are either a flat list of type names, or - for a system big enough that
+        # a flat list stops being readable - a list of (subtitle, names) pairs.
+        if spec and isinstance(spec[0], tuple):
+            subs, members = [], []
+            for sub_title, names in spec:
+                sub_members = [by_name[n] for n in names if n in by_name]
+                if sub_members:
+                    subs.append((sub_title, sub_members))
+                    members.extend(sub_members)
+            if members:
+                out.append((title, members, subs))
+                placed.update(e["name"] for e in members)
+            continue
+        members = [by_name[n] for n in spec if n in by_name]
         if members:
-            out.append((title, members))
+            out.append((title, members, None))
             placed.update(e["name"] for e in members)
 
     leftover = [e for e in items if e["name"] not in placed]
@@ -280,9 +278,9 @@ def assign_groups(cat, items):
             if folder == "Editor" and len(parts) > 3:
                 folder = parts[2]
             folders.setdefault(folder or "General", []).append(e)
-        return [(k, v) for k, v in sorted(folders.items())]
+        return [(k, v, None) for k, v in sorted(folders.items())]
 
-    out.append(("Other", leftover))
+    out.append(("Other", leftover, None))
     return out
 
 
@@ -331,6 +329,50 @@ def infer_kind(e):
     if not e["src_members"] and e["src_serialized"]:
         return "data"
     return "tool"
+
+
+def fold_satellites(entries):
+    """Collapse same-file helper types into the entry for the type the FILE is named after.
+
+    A single .cs file routinely declares a component plus the enums and small structs it needs -
+    FakeLight.cs holds FakeLight, FakeLightType and FakeLightInfluenceMode. Emitting one entry per
+    public TYPE turned that one file into three sibling rows, which made the toolkit look far more
+    fragmented than it is: 46 files were producing 106 entries. The satellites are now rendered
+    INSIDE their owner's entry, where a reader already is when the enum matters.
+
+    Two deliberate exclusions:
+      - Interfaces never fold. A contract is something you implement, it has its own entry template
+        (member contracts, must-nots, who calls it), and burying it inside a sibling would hide it.
+      - A file whose types are all helpers (no type shares the filename) falls back to the LARGEST
+        type by line span, which is the substantial one rather than an arbitrary pick.
+    """
+    by_file = {}
+    for e in entries:
+        by_file.setdefault(e["src_file"], []).append(e)
+
+    folded = {}
+    for path, group in by_file.items():
+        if len(group) < 2:
+            continue
+        stem = path.split("/")[-1][: -len(".cs")]
+        primary = next((e for e in group if e["name"].split("<")[0] == stem), None)
+        if primary is None:
+            primary = max(group, key=lambda e: e["src_lines"][1] - e["src_lines"][0])
+        for e in group:
+            if e is primary or e["entryKind"] == "contract":
+                continue
+            primary.setdefault("parts", []).append(e)
+            e["foldedInto"] = primary["id"]
+            folded[e["id"]] = primary["id"]
+
+    # Keep a part's own order stable and predictable: enums first (they are what a reader is
+    # usually looking up), then structs, then classes, each alphabetically.
+    rank = {"enum": 0, "data": 1}
+    for e in entries:
+        if e.get("parts"):
+            e["parts"].sort(key=lambda x: (rank.get(x["entryKind"], 2), x["name"].lower()))
+
+    return folded
 
 
 def main():
@@ -403,9 +445,16 @@ def main():
         e["src_usedBy"] = e["src_usedBy"][:8]
         e["src_uses"] = e["src_uses"][:8]
 
+    # Fold same-file helper types into their owner. Done AFTER cross-referencing so a part keeps
+    # its own derived "used by" data, and BEFORE grouping so groups only ever see top-level entries.
+    folded = fold_satellites(entries)
+    top_level = [e for e in entries if "foldedInto" not in e]
+    print(f"build: folded {len(folded)} satellite type(s) into their owner "
+          f"({len(entries)} types -> {len(top_level)} entries)")
+
     # ---- group ----
     groups = collections.defaultdict(list)
-    for e in entries:
+    for e in top_level:
         groups[e["cat"]].append(e)
 
     cats_out = []
@@ -428,11 +477,17 @@ def main():
         grouped = assign_groups(cat, items)
         # Entries stay a FLAT list (deep links, search and "expand all" all index into it); the
         # groups carry ids only, so the renderer can section the same list without duplicating it.
-        item_groups = [{"title": g, "ids": [e["id"] for e in members]}
-                       for g, members in grouped if g]
+        item_groups = []
+        for g, members, subs in grouped:
+            if not g:
+                continue
+            row = {"title": g, "ids": [e["id"] for e in members]}
+            if subs:
+                row["subs"] = [{"title": st, "ids": [e["id"] for e in sm]} for st, sm in subs]
+            item_groups.append(row)
         # Re-order the flat list to match the grouped order, so an ungrouped render still reads right.
         if item_groups:
-            items = [e for _g, members in grouped for e in members]
+            items = [e for _g, members, _s in grouped for e in members]
         payload = {"id": cid, "title": title, "entries": items, "groups": item_groups}
         with open(os.path.join(REPO, "data", f"{cid}.js"), "w", encoding="utf-8") as fh:
             fh.write("window.FM_DATA = window.FM_DATA || {};\n")
@@ -448,12 +503,15 @@ def main():
         # Deliberately lean: this file is loaded by EVERY page, so it carries only what
         # the hub grid, the sidebar nav and global search need. Member-level search lives
         # in the per-category file, where the full detail is already loaded anyway.
-        "entries": [{
+        # Folded satellites stay in the SEARCH index even though they no longer own a row: someone
+        # looking up "FakeLightType" must still find it. "parent" tells the renderer to link at the
+        # owner's entry, where the satellite is rendered with its own anchor.
+        "entries": [dict({
             "id": e["id"], "cat": slug_cat(e["cat"]), "name": e["name"],
             "kind": e["entryKind"],
             "summary": summarise(e),
             "search": (e["name"] + " " + e["src_ns"] + " " + summarise(e)).lower(),
-        } for e in entries],
+        }, **({"parent": e["foldedInto"]} if "foldedInto" in e else {})) for e in entries],
     }
     with open(os.path.join(REPO, "assets", "catalog.js"), "w", encoding="utf-8") as fh:
         fh.write("window.FM_INDEX = ")
@@ -461,9 +519,9 @@ def main():
         fh.write(";\n")
 
     with open(os.path.join(REPO, "index.html"), "w", encoding="utf-8") as fh:
-        fh.write(hub_shell(len(entries), len(cats_out)))
+        fh.write(hub_shell(len(top_level), len(cats_out)))
 
-    print(f"build: {len(entries)} entries / {len(cats_out)} categories "
+    print(f"build: {len(top_level)} entries / {len(cats_out)} categories "
           f"({authored} authored) -> c/*.html, data/*.js, assets/catalog.js, index.html")
 
 

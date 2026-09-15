@@ -182,6 +182,38 @@
       out.push(prose(e.calledBy));
     }
 
+    // Types declared in the SAME .cs file - the enums and small structs a component needs. They
+    // used to be sibling rows, which made one file look like three separate tools. Each keeps its
+    // own id as an anchor so existing deep links and cross-reference chips still land.
+    if (e.parts && e.parts.length) {
+      out.push(label("Defined in the same file"));
+      out.push('<div class="parts">' + e.parts.map(function (p) {
+        var body = "";
+        if (p.src_enumValues && p.src_enumValues.length) {
+          body += '<ul class="partvals">' + p.src_enumValues.map(function (v) {
+            var note = (p.valueNotes || {})[v];
+            return "<li><code>" + esc(v) + "</code>" + (note ? " \u2014 " + esc(note) : "") + "</li>";
+          }).join("") + "</ul>";
+        }
+        if (p.src_serialized && p.src_serialized.length) {
+          body += '<ul class="partvals">' + p.src_serialized.map(function (f) {
+            return "<li><code>" + esc(f.type + " " + f.name) + "</code>" +
+              (f.tooltip ? " \u2014 " + esc(f.tooltip) : "") + "</li>";
+          }).join("") + "</ul>";
+        }
+        if (!body && p.src_members && p.src_members.length) {
+          body += '<ul class="partvals">' + p.src_members.map(function (m) {
+            return '<li><code class="sig">' + esc(m.sig) + "</code></li>";
+          }).join("") + "</ul>";
+        }
+        return '<div class="part" id="' + esc(p.id) + '">' +
+          '<div class="parthead"><code class="partname">' + esc(p.name) + "</code>" +
+          '<span class="partkind">' + esc(p.src_typeKind) + "</span>" +
+          '<a class="entry-anchor" href="#' + esc(p.id) + '" title="Link to this type">#</a></div>' +
+          (p.summary ? '<p class="tool-desc">' + esc(p.summary) + "</p>" : "") + body + "</div>";
+      }).join("") + "</div>");
+    }
+
     if (e.workedExample) { out.push(label("Worked example")); out.push(worked(e.workedExample)); }
     if (e.walkthrough && e.walkthrough.length) {
       out.push(label("Walkthrough"));
@@ -244,9 +276,15 @@
   }
 
   function renderEntry(e) {
+    // A folded satellite no longer owns a row, so its name has to reach the PARENT's search text
+    // or filtering for "FakeLightType" would come back empty.
+    var partText = (e.parts || []).map(function (p) {
+      return p.name + " " + (p.summary || "") + " " + (p.src_enumValues || []).join(" ");
+    }).join(" ");
     var searchText = (e.name + " " + (e.src_ns || "") + " " + (e.summary || "") + " " +
       (e.src_members || []).map(function (m) { return m.id; }).join(" ") + " " +
-      (e.src_serialized || []).map(function (s) { return s.name; }).join(" ")).toLowerCase();
+      (e.src_serialized || []).map(function (s) { return s.name; }).join(" ") + " " +
+      partText).toLowerCase();
     return '<details class="entry" id="' + esc(e.id) + '" data-search="' + esc(searchText) + '">' +
       '<summary><span class="entry-name">' + esc(e.name) + "</span>" +
       '<span class="entry-summary">' + esc(e.summary || e.src_typeComment || "") + "</span>" +
@@ -288,13 +326,23 @@
           '<span class="gcount">' + g.ids.length + "</span></a>";
       }).join("") + "</nav>";
 
+    function rowsFor(ids) {
+      return ids.map(function (id) { return byId[id] ? renderEntry(byId[id]) : ""; }).join("");
+    }
+
     var sections = groups.map(function (g) {
-      var rows = g.ids.map(function (id) {
-        return byId[id] ? renderEntry(byId[id]) : "";
-      }).join("");
+      // A group big enough to need it (one window with four tabs, a runtime/editor split) carries
+      // subs and renders a labelled block per part. Everything else stays a flat list.
+      var body = g.subs && g.subs.length
+        ? g.subs.map(function (sub) {
+            return '<div class="tsub"><h3 class="tsub-head" id="' +
+              groupSlug(g.title + "-" + sub.title) + '">' + esc(sub.title) +
+              '<span class="gcount">' + sub.ids.length + "</span></h3>" + rowsFor(sub.ids) + "</div>";
+          }).join("")
+        : rowsFor(g.ids);
       return '<section class="tgroup" data-group="' + esc(g.title) + '">' +
         '<h2 class="tgroup-head" id="' + groupSlug(g.title) + '">' + esc(g.title) +
-        '<span class="gcount">' + g.ids.length + "</span></h2>" + rows + "</section>";
+        '<span class="gcount">' + g.ids.length + "</span></h2>" + body + "</section>";
     }).join("");
 
     host.innerHTML = strip + sections;
@@ -355,6 +403,8 @@
         if (!q) {
           nodes.forEach(function (n) { n.hidden = false; });
           sections.forEach(function (sec) { sec.hidden = false; });
+          Array.prototype.slice.call(document.querySelectorAll(".tsub"))
+            .forEach(function (sub) { sub.hidden = false; });
           if (jump) jump.hidden = false;
           if (status) status.textContent = "";
           var es = document.getElementById("emptyState");
@@ -368,6 +418,11 @@
           if (match) { n.open = true; hits++; }
         });
         // A group heading left standing over zero visible rows reads as a broken filter.
+        Array.prototype.slice.call(document.querySelectorAll(".tsub")).forEach(function (sub) {
+          var any = Array.prototype.slice.call(sub.querySelectorAll(".entry"))
+            .some(function (n) { return !n.hidden; });
+          sub.hidden = !any;
+        });
         sections.forEach(function (sec) {
           var any = Array.prototype.slice.call(sec.querySelectorAll(".entry"))
             .some(function (n) { return !n.hidden; });
@@ -390,6 +445,7 @@
       }
       results.innerHTML = found.slice(0, 60).map(function (e) {
         return '<a class="sresult" href="' + root + "c/" + e.cat + ".html#" + e.id + '">' +
+          (e.parent ? '<span class="sparent">in ' + esc(e.parent) + "</span>" : "") +
           '<span class="sname">' + esc(e.name) + '</span> <span class="scat">' + esc(e.cat) + "</span>" +
           '<div class="sdesc">' + esc(e.summary || "") + "</div></a>";
       }).join("");
@@ -406,6 +462,21 @@
      Arriving at c/ui.html#scroll-snap must OPEN that entry, not just scroll near it. */
   function openFromHash() {
     var id = decodeURIComponent((location.hash || "").slice(1));
+    // The hash may name a folded satellite, which lives INSIDE an entry rather than being one.
+    // Open its owner and scroll to the part, so old links and cross-reference chips keep working.
+    var part = id && document.getElementById(id);
+    if (part && part.classList && part.classList.contains("part")) {
+      var owner = part.closest("details.entry");
+      if (owner) {
+        owner.open = true;
+        // A setTimeout(0) here fired before the just-opened <details> had laid out, so the scroll
+        // landed on a stale position. Two frames guarantees layout has settled first.
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { part.scrollIntoView({ block: "center" }); });
+        });
+        return;
+      }
+    }
     if (!id) return;
     var target = document.getElementById(id);
     if (!target) return;
@@ -418,9 +489,17 @@
     document.addEventListener("toggle", function (ev) {
       var t = ev.target;
       if (!t || !t.classList || !t.classList.contains("entry")) return;
+      var cur = decodeURIComponent((location.hash || "").slice(1));
+      var curEl = cur ? document.getElementById(cur) : null;
+      var curIsOwnPart = curEl && curEl.classList && curEl.classList.contains("part") &&
+        curEl.closest("details.entry") === t;
       if (t.open) {
+        // Opening an entry normally puts its id in the URL. But if the URL ALREADY points at a
+        // folded type inside this entry, that is the more specific location and coarsening it to
+        // the entry id would silently break the link someone just followed.
+        if (curIsOwnPart) return;
         if (history.replaceState) history.replaceState(null, "", "#" + t.id);
-      } else if (location.hash === "#" + t.id) {
+      } else if (location.hash === "#" + t.id || curIsOwnPart) {
         if (history.replaceState) history.replaceState(null, "", location.pathname + location.search);
       }
     }, true);
@@ -505,7 +584,9 @@
     var t = document.getElementById("totalCount");
     var c = document.getElementById("catCount");
     var w = document.getElementById("writtenCount");
-    if (t) t.textContent = idx.entries.length;
+    // idx.entries deliberately still carries folded satellites so they stay searchable, but the
+    // headline count should say how many ENTRIES there are, not how many public types.
+    if (t) t.textContent = idx.entries.filter(function (e) { return !e.parent; }).length;
     if (c) c.textContent = idx.categories.length;
     if (w) {
       var written = idx.categories.reduce(function (a, x) { return a + (x.written || 0); }, 0);

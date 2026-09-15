@@ -471,6 +471,61 @@
   .entry-anchor:hover { color: var(--mono-accent); }
 
   /* --- parameter table --- */
+  /* A subgroup inside a group: one tab of a tabbed window, or the runtime/editor halves of a
+     system. Quieter than the group heading above it so the hierarchy reads at a glance. */
+  .tsub { margin: 0 0 20px; }
+  .tsub:last-child { margin-bottom: 0; }
+  .tsub-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 0 9px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    scroll-margin-top: 72px;
+  }
+  .tsub-head::before {
+    content: "";
+    width: 12px;
+    height: 1px;
+    background: var(--border);
+    flex: 0 0 12px;
+  }
+
+  /* ---- types declared in the same .cs file -------------------------------------------------
+     Rendered inside their owner rather than as sibling rows. Indented and rule-marked so they read
+     as belonging to the entry, not as a second list of tools. */
+  .parts { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .part {
+    padding: 9px 12px;
+    border-left: 2px solid var(--border);
+    background: var(--surface-2);
+    border-radius: 0 5px 5px 0;
+    scroll-margin-top: 78px;
+  }
+  .part:target { border-left-color: var(--accent); }
+  .parthead { display: flex; align-items: center; gap: 9px; }
+  .partname { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--mono-accent); font-weight: 600; }
+  .partkind {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 1px 7px;
+  }
+  .part .tool-desc { margin: 5px 0 0; }
+  .partvals { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--ink-muted); }
+  .partvals li { margin: 2px 0; }
+  .partvals code { font-family: "IBM Plex Mono", monospace; color: var(--ink); }
+  .sparent { display: block; font-size: 11px; color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; }
+
   /* Lets a wide parameter table scroll on its own instead of being clipped by the entry body. */
   .tablewrap { overflow-x: auto; max-width: 100%; }
 

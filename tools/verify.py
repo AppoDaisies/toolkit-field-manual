@@ -317,31 +317,61 @@ def main():
         _OMIT = {}
     omitted_names = {sk["name"] for sid, sk in skel.items() if sid in _OMIT}
 
+    # Ask build.py which types it folds into another entry. A folded type no longer owns a row, so
+    # naming it in the group map is now a mistake rather than a harmless no-op.
+    folded_names = {}
+    try:
+        from build import fold_satellites, infer_kind  # noqa
+        shadow = []
+        for sid, sk in skel.items():
+            if sid in _OMIT:
+                continue
+            c = dict(sk)
+            c["entryKind"] = infer_kind(c)
+            shadow.append(c)
+        by_id = {c["id"]: c for c in shadow}
+        for sat_id, owner_id in fold_satellites(shadow).items():
+            folded_names[by_id[sat_id]["name"]] = by_id[owner_id]["name"]
+    except Exception as exc:  # noqa: BLE001
+        warn(f"[groups] could not compute the fold map from build.py: {exc}")
+
     for cat, spec in GROUP_ORDER.items():
         real = by_cat.get(cat, set())
         if not real:
             err(f"[GROUPS] category '{cat}' in the group map does not exist in the extracted source")
             continue
         seen = {}
-        for title, names in spec:
-            for n in names:
-                if n in seen:
-                    err(f"[GROUPS] {cat}: '{n}' is in two groups ('{seen[n]}' and '{title}')")
-                seen[n] = title
-                if n not in real:
+        for title, members in spec:
+            # A group's members are either a flat list of names, or (subtitle, names) pairs for a
+            # system big enough to need an inner structure. Flatten so both shapes check the same.
+            if members and isinstance(members[0], tuple):
+                pairs = [(f"{title} > {st}", names) for st, names in members]
+            else:
+                pairs = [(title, members)]
+            for label_, names in pairs:
+                for n in names:
+                    if n in seen:
+                        err(f"[GROUPS] {cat}: '{n}' is in two groups ('{seen[n]}' and '{label_}')")
+                    seen[n] = label_
                     if n in omitted_names:
                         continue  # deliberately omitted from the manual, fine to leave in the map
-                    err(f"[GROUPS] {cat}: group '{title}' lists '{n}', which is not a type in "
-                        f"this category - renamed or deleted?")
-        ungrouped = sorted(real - set(seen) - omitted_names)
+                    if n in folded_names:
+                        err(f"[GROUPS] {cat}: group '{label_}' lists '{n}', which is now FOLDED into "
+                            f"'{folded_names[n]}' and no longer owns a row - remove it from the map.")
+                        continue
+                    if n not in real:
+                        err(f"[GROUPS] {cat}: group '{label_}' lists '{n}', which is not a type in "
+                            f"this category - renamed or deleted?")
+        ungrouped = sorted(real - set(seen) - omitted_names - set(folded_names))
         if ungrouped:
             warn(f"[groups] {cat}: {len(ungrouped)} type(s) fall into 'Other' because the group map "
                  f"has not been updated: {', '.join(ungrouped)}")
 
     for cat, names in sorted(by_cat.items()):
-        if cat not in GROUP_ORDER and len(names - omitted_names) >= GROUP_MIN_ENTRIES:
-            warn(f"[groups] {cat} has {len(names - omitted_names)} entries and no group map, so it "
-                 f"renders as one flat list - consider adding one")
+        top = names - omitted_names - set(folded_names)
+        if cat not in GROUP_ORDER and len(top) >= GROUP_MIN_ENTRIES:
+            warn(f"[groups] {cat} has {len(top)} entries and no group map, so it renders as one "
+                 f"flat list - consider adding one")
 
     # 5 - coverage ledger
     try:
