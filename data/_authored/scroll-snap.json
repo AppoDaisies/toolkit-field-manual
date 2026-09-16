@@ -1,29 +1,91 @@
 {
   "id": "scroll-snap",
-  "summary": "Adds snap-to-nearest-item to an ordinary ScrollRect.",
+  "summary": "Drag-and-release snapping for a ScrollRect, with Next/Previous stepping and a live item index.",
   "overview": [
-    "Drop it beside a ScrollRect whose content uses a layout group with evenly sized items. Dragging behaves exactly like a normal ScrollRect; releasing eases to the nearest item."
+    "Add it beside a ScrollRect whose content is a layout group of evenly-sized items. Dragging behaves exactly like a normal ScrollRect; let go and it eases the nearest item to the centre of the viewport. Next/Previous buttons drag straight into its Inspector, and CurrentIndex tells you which item you are on at any moment.",
+    "HOW IT WORKS — worth reading once, because the maths is the whole tool and it is also where every home-made snap goes wrong.",
+    "A ScrollRect does not have a concept of items. It exposes normalizedPosition: a 0-1 value describing how far along the SCROLLABLE RANGE you are, and the scrollable range is (content size − viewport size), NOT the content size. So an item's index has no direct relationship to a normalized position, and the tempting `index / (itemCount - 1)` is only ever correct when the viewport is exactly one item wide.",
+    "To CENTRE item i: take that item's centre measured from the content's leading edge, subtract half a viewport — that is what moves it from the edge to the middle — and divide by the scrollable range. To find which item you are ON: express the VIEWPORT's centre in the content's own coordinates and pick the item whose centre is nearest. Releasing a drag does the second, then the first, then eases there over a few frames."
   ],
   "useCases": [
-    "A horizontal page or level selector.",
-    "An onboarding carousel.",
-    "Any list where items should land centred rather than anywhere."
+    "A horizontal card or level picker that settles on one card.",
+    "A paged settings or tutorial strip with Next/Previous buttons.",
+    "Anything needing a 'page 3 of 7' readout — read CurrentIndex.",
+    "Pairing with PaginationDots, which binds to it in one call."
   ],
   "params": [
     {
+      "field": "horizontal",
+      "why": "Which axis snaps.",
+      "tuning": "Match it to the ScrollRect's own enabled axis. Only that axis is ever written, so a two-axis ScrollRect keeps its other position when this snaps."
+    },
+    {
       "field": "snapSpeed",
-      "tuning": "Too slow feels unresponsive; too fast removes the sense of momentum entirely."
+      "why": "How quickly the scroll eases into the snapped position.",
+      "tuning": "Higher is snappier. It is a lerp factor per second, so very high values arrive within a frame or two and effectively become a jump."
+    },
+    {
+      "field": "nextButton",
+      "why": "Optional. A Button that moves one step forward.",
+      "tuning": "Drag any Button here and it is wired in Awake — no code and no demo-only glue. Leave it empty and call Next() yourself."
+    },
+    {
+      "field": "previousButton",
+      "why": "Optional. A Button that moves one step back.",
+      "tuning": "Same deal as nextButton."
+    },
+    {
+      "field": "stepMode",
+      "why": "How far one Next/Previous press travels.",
+      "tuning": "Items moves a fixed number, set by Step Size. Page moves by however many WHOLE items currently fit in the viewport, so each press advances roughly one screenful and the count adapts if the viewport resizes."
+    },
+    {
+      "field": "stepSize",
+      "why": "Items per press, in Items mode.",
+      "tuning": "This is the 'jump 5 places' number. Clamped to at least 1, so a stray 0 cannot silently freeze the buttons. Ignored entirely in Page mode, where the viewport decides."
+    },
+    {
+      "field": "wrapAround",
+      "why": "Loop from the last item back to the first instead of stopping.",
+      "tuning": "Off, Next at the end and Previous at the start simply clamp. On, they wrap — which suits a carousel and confuses a linear tutorial."
     }
   ],
+  "usage": {
+    "code": "// Nothing at all, for the common case: drag Buttons into Next Button and\n// Previous Button and set Step Mode.\n\n// A \"3 / 7\" readout needs no events — CurrentIndex tracks a drag live:\nlabel.text = $\"{snap.CurrentIndex + 1} / {snap.ItemCount}\";\n\n// Jumping straight to an item, e.g. from a menu:\nsnap.SnapTo(4);\n\n// Switching how far a press travels at runtime:\nsnap.SetStepMode(ScrollSnapStep.Page);\n\n// Dots that stay in sync, in one call:\npaginationDots.BindToScrollSnap(snap);",
+    "codeNote": "The content needs a Horizontal or Vertical Layout Group with evenly-sized items, and the ScrollRect's Viewport field must be assigned — left empty, ScrollRect falls back to guessing and the measurements have nothing reliable to measure against."
+  },
+  "apiNotes": {
+    "CurrentIndex": "Which item you are on. Updated live WHILE you drag as well as on every snap, so a readout can simply poll it each frame rather than subscribing to anything.",
+    "GetNearestItemIndex()": "The same question answered from scratch, with no stored state — the item whose centre is nearest the viewport's centre right now. This is what OnEndDrag uses to decide where to snap.",
+    "ComputeCenteredNormalizedPosition(int)": "The centring maths on its own, returned as a normalized scroll position. Public because it is the part worth reading to understand the tool, and because it is what the self-test asserts hand-derived pixel values against.",
+    "Next()": "Moves forward by CurrentStepSize. Clamps at the last item unless Wrap Around is on.",
+    "Previous()": "The mirror of Next.",
+    "CurrentStepSize()": "How many items one press will actually move, including Page mode's answer for the viewport's current size. Useful for a label that says what the button will do.",
+    "SetStepMode(ScrollSnapStep, int)": "Changes the step behaviour at runtime — for a 'jump by page' toggle in an options menu.",
+    "OnSnapped": "Fires when a snap BEGINS, with the index being snapped to — not when the easing finishes. Deliberate and depended upon: PaginationDots binds to it, and a dot that lit up only after the animation settled would feel broken.",
+    "ItemCount": "The content's child count, for anything that wants the page count without reaching into the ScrollRect."
+  },
   "gotchas": [
     {
-      "title": "Items must be evenly sized",
-      "body": "The snap target is computed from uniform spacing. Mixed sizes land in the wrong places."
+      "title": "It measured every item half a width out — fixed, and this is why it looked broken",
+      "body": "The previous version computed an item's centre as `anchoredPosition + size * 0.5`, believing a layout group leaves anchoredPosition relative to the content's leading edge. It does not. A layout group positions children with SetInsetAndSizeFromParentEdge, which sets the child's ANCHOR to that edge and then sets anchoredPosition to `inset + size * pivot`. So at Unity's DEFAULT pivot of 0.5 — what every item built by the toolkit's own helpers has — anchoredPosition was ALREADY the centre, and adding another half size put every measurement half an item too far. Items landed half a width off-centre and the nearest-item search was biased the same way, so releasing a drag could select a neighbour of the item under the middle. It was only ever correct at a pivot of 0. Both measurements now transform a real point instead, which cannot be wrong about pivots, anchors or stretched rects."
+    },
+    {
+      "title": "Assign the ScrollRect's Viewport field",
+      "body": "Left empty, ScrollRect falls back to guessing which rect is the viewport, and every measurement here is taken against it. The component falls back to its own RectTransform, which is usually right but not always."
+    },
+    {
+      "title": "The first and last items usually cannot be centred",
+      "body": "Not a bug — there is no scroll range left to put them in the middle with. They clamp to the ends of the range instead, which is what you want. It does mean that snapping to item 0 and then asking GetNearestItemIndex can legitimately answer 1."
+    },
+    {
+      "title": "Page mode moves whole items, not exactly one viewport",
+      "body": "A viewport 3.4 items wide advances by 3. Advancing by 3.4 would land mid-item on every press, which defeats the point of snapping."
+    },
+    {
+      "title": "Items must be evenly sized for Page mode",
+      "body": "It measures the FIRST item to work out how many fit. Mixed-size items make that number meaningless — use Items mode there."
     }
   ],
-  "seeAlso": [
-    "PaginationDots",
-    "FancyScrollView",
-    "CardCarousel"
-  ]
+  "seeAlso": ["PaginationDots", "FancyScrollView", "CardCarousel", "PullToRefresh"]
 }

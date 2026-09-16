@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.UI",
   "src_file": "UI/ScrollSnap/ScrollSnap.cs",
   "src_lines": [
-    12,
-    145
+    35,
+    255
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [
@@ -23,7 +23,7 @@
     ],
     "addComponentMenu": "Toolkit/Scroll Snap"
   },
-  "src_typeComment": "Drop on the same GameObject as a ScrollRect whose Content uses a Horizontal or Vertical Layout Group with evenly-sized items. Dragging works exactly like a normal ScrollRect; releasing the drag eases to the nearest item automatically.",
+  "src_typeComment": "Drop on the same GameObject as a ScrollRect whose Content uses a Horizontal or Vertical Layout Group with evenly-sized items. Dragging works exactly like a normal ScrollRect; releasing the drag eases to the nearest item automatically.  HOW IT WORKS, because the maths is the whole tool:  1. A ScrollRect does not expose \"which item am I on\". It exposes normalizedPosition, a 0..1 value describing how far along the SCROLLABLE RANGE you are — and the scrollable range is (content size - viewport size), NOT the content size. An item's index therefore has no direct relationship to a normalized position, which is where most snap implementations go wrong. 2. To CENTRE item i: take that item's centre measured from the content's leading edge, subtract half a viewport (that is what moves it from the leading edge to the middle), and divide by the scrollable range. See ComputeCenteredNormalizedPosition. 3. To find which item you are ON: express the VIEWPORT's centre in the content's coordinates and pick the item whose centre is nearest it. See GetNearestItemIndex. 4. Releasing a drag runs step 3, then step 2, then eases there over a few frames in LateUpdate.  Both measurements find a rect's centre by TRANSFORMING A REAL POINT rather than reconstructing it from anchoredPosition — see the comment on ItemCenterAlongAxis for why that is not a stylistic choice.",
   "src_serialized": [
     {
       "name": "horizontal",
@@ -44,6 +44,56 @@
       "range": null,
       "order": 1,
       "comment": null
+    },
+    {
+      "name": "nextButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": "Optional. Drag a Button here and it moves one step forward — no code needed.",
+      "header": "Next / Previous",
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "previousButton",
+      "type": "Button",
+      "default": null,
+      "tooltip": "Optional. Drag a Button here and it moves one step back — no code needed.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "stepMode",
+      "type": "ScrollSnapStep",
+      "default": "ScrollSnapStep.Items",
+      "tooltip": "Items = move a fixed number of items per press (Step Size). Page = move by however many WHOLE items currently fit in the viewport, so each press advances one screenful.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "stepSize",
+      "type": "int",
+      "default": "1",
+      "tooltip": "How many items one Next/Previous press moves, when Step Mode is Items. Ignored in Page mode.",
+      "header": null,
+      "range": null,
+      "order": 5,
+      "comment": null
+    },
+    {
+      "name": "wrapAround",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "Wrap from the last item back to the first (and vice versa) instead of stopping at the ends.",
+      "header": null,
+      "range": null,
+      "order": 6,
+      "comment": null
     }
   ],
   "src_members": [
@@ -53,19 +103,27 @@
       "kind": "event",
       "name": "OnSnapped",
       "static": false,
-      "comment": null
+      "comment": "Fires when a snap BEGINS, with the index being snapped to — not when the easing finishes. That is deliberate and depended upon: PaginationDots binds to it, and a dot that lit up only after the animation settled would feel broken."
     },
     {
       "id": "ItemCount",
-      "sig": "public int ItemCount => scrollRect != null ? scrollRect.content.childCount : 0",
+      "sig": "public int ItemCount => scrollRect != null && scrollRect.content != null ? scrollRect.content.childCount : 0",
       "kind": "property",
       "name": "ItemCount",
       "static": false,
       "comment": "For anything that wants to know the page count without reaching into the ScrollRect itself — e.g. Toolkit.UI.PaginationDots.BindToScrollSnap()."
     },
     {
+      "id": "CurrentIndex",
+      "sig": "public int CurrentIndex { get; private set; }",
+      "kind": "property",
+      "name": "CurrentIndex",
+      "static": false,
+      "comment": "WHICH ITEM YOU ARE ON. Updated live while you drag as well as on every snap, so a \"3 / 7\" readout can simply read it each frame. For a one-off answer without any state, call GetNearestItemIndex()."
+    },
+    {
       "id": "OnBeginDrag(PointerEventData)",
-      "sig": "public void OnBeginDrag(PointerEventData eventData) => isSnapping = false",
+      "sig": "public void OnBeginDrag(PointerEventData eventData)",
       "kind": "method",
       "name": "OnBeginDrag",
       "static": false,
@@ -85,15 +143,47 @@
       "kind": "method",
       "name": "SnapTo",
       "static": false,
-      "comment": "Call this directly for a \"next/previous\" button instead of dragging."
+      "comment": null
+    },
+    {
+      "id": "Next()",
+      "sig": "public void Next() => SnapTo(CurrentIndex + CurrentStepSize())",
+      "kind": "method",
+      "name": "Next",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Previous()",
+      "sig": "public void Previous() => SnapTo(CurrentIndex - CurrentStepSize())",
+      "kind": "method",
+      "name": "Previous",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetStepMode(ScrollSnapStep, int)",
+      "sig": "public void SetStepMode(ScrollSnapStep mode, int itemsPerStep = 1)",
+      "kind": "method",
+      "name": "SetStepMode",
+      "static": false,
+      "comment": "Change how far a press travels at runtime — e.g. a \"jump by page\" toggle in an options menu. itemsPerStep is ignored in Page mode, where the viewport decides."
+    },
+    {
+      "id": "CurrentStepSize()",
+      "sig": "public int CurrentStepSize()",
+      "kind": "method",
+      "name": "CurrentStepSize",
+      "static": false,
+      "comment": "How many items one press actually moves.  Page mode deliberately advances by a whole number of ITEMS that fit, not by exactly one viewport width: a viewport 2.6 items wide would otherwise land two thirds of the way through an item every press, which defeats the point of a snap. 2.6 items of room moves you 2."
     },
     {
       "id": "ComputeCenteredNormalizedPosition(int)",
-      "sig": "public Vector2 ComputeCenteredNormalizedPosition(int index)",
+      "sig": "public float ComputeCenteredNormalizedPosition(int index)",
       "kind": "method",
       "name": "ComputeCenteredNormalizedPosition",
       "static": false,
-      "comment": "Centres the chosen item in the VIEWPORT.  The old version was `index / (itemCount - 1)`, which only centres an item when the viewport is exactly one item wide. With a viewport several items across it just distributes items along the scroll range, so the selected one lands wherever it happens to fall — the \"does not snap the selected to middle\" bug. The correct mapping accounts for the fact that normalized scroll 0..1 spans (content - viewport), not the whole content: take the item's own centre, subtract half a viewport to put it in the middle, then divide by the actual scrollable distance."
+      "comment": "Centres the chosen item in the VIEWPORT, as a normalized scroll position.  Returns a single float rather than a Vector2 on purpose: the old version returned a Vector2 whose OTHER component was 0, and LateUpdate then wrote both — so a horizontal snap also yanked a two-axis ScrollRect to the bottom of its vertical range on every release."
     },
     {
       "id": "GetNearestItemIndex()",
@@ -101,11 +191,11 @@
       "kind": "method",
       "name": "GetNearestItemIndex",
       "static": false,
-      "comment": "Finds the item whose centre is closest to the VIEWPORT's centre, by measuring actual positions rather than inverting the old normalized-position approximation — which, like SnapTo, only lined up when the viewport was exactly one item wide, so releasing a drag could pick a neighbour of the item actually under the middle."
+      "comment": "Finds the item whose centre is closest to the VIEWPORT's centre."
     }
   ],
   "src_enumValues": [],
-  "src_selfTest": null,
+  "src_selfTest": "UI/ScrollSnap/Editor/ScrollSnapSelfTest.cs",
   "src_demoScene": [
     "MathAndUI_Demo",
     "UIExtras_Demo"
