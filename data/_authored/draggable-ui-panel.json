@@ -1,31 +1,71 @@
 {
   "id": "draggable-ui-panel",
-  "summary": "Makes a panel drag-to-move, optionally clamped to its parent.",
+  "summary": "Makes a panel drag-to-move, with optional axis locking and a limit on how far it may travel.",
   "overview": [
-    "Drop it on a panel, or on a title-bar child, to make it movable — for repositionable HUD elements and floating debug windows."
+    "Drop it on a panel, or on a title-bar child, to make it movable — repositionable HUD elements, floating debug windows, pull-out drawers.",
+    "Three restrictions can apply, and they COMBINE rather than override one another: an axis lock, a limit on distance from the panel's home position, and a clamp to the parent's bounds. Whichever is tightest at any moment is the one you feel."
   ],
   "useCases": [
     "A debug or inspector window the developer can move.",
     "HUD elements the player can reposition.",
-    "A floating tool palette."
+    "A drawer or tray that pulls out only so far, then stops.",
+    "A slider-like handle constrained to one axis."
   ],
   "params": [
     {
       "field": "panelToMove",
+      "why": "The RectTransform that actually moves.",
       "tuning": "Defaults to this object's own RectTransform. Set it to the panel root when the component lives on a title bar."
     },
     {
+      "field": "dragAxis",
+      "why": "Which directions the panel may travel in.",
+      "tuning": "A locked axis receives no movement at all — the delta is zeroed before it is applied, so the panel cannot drift even a pixel. Vertical is what turns this into a drawer; Horizontal suits a handle or a slide-out tray."
+    },
+    {
       "field": "clampToParent",
-      "tuning": "Off, a panel can be dragged completely off screen and become unreachable."
+      "why": "Keeps the panel fully inside its parent's bounds.",
+      "tuning": "Off, a panel can be dragged completely off screen and become unreachable. Works for any anchor and pivot — see the gotcha below if you knew this to be broken before."
+    },
+    {
+      "field": "limitRange",
+      "why": "Limits how far the panel may travel from its HOME position.",
+      "tuning": "Home is captured once, when the component wakes — not per drag. That distinction is the whole feature: measured per drag, you could pull 200px, release, pull 200px again, and the limit would cap nothing. Call SetHomeToCurrentPosition if your own code moves the panel afterwards."
+    },
+    {
+      "field": "minOffset",
+      "why": "Furthest LEFT and DOWN from home, in pixels. Negative values.",
+      "tuning": "Use 0 on an axis to forbid movement that way entirely — a drawer that pulls down but never rises above its rest is minOffset (0, -260), maxOffset (0, 0). Written the wrong way round, min and max are ordered rather than obeyed literally, because the alternative is a silent teleport."
+    },
+    {
+      "field": "maxOffset",
+      "why": "Furthest RIGHT and UP from home, in pixels. Positive values.",
+      "tuning": "Same rules as minOffset. Both are ignored entirely while Limit Range is off."
     }
   ],
+  "apiNotes": {
+    "HomePosition": "The anchoredPosition the range is measured from, captured when the component woke.",
+    "SetHomeToCurrentPosition()": "Re-bases the range on wherever the panel is now. Needed if your code or a layout group repositions the panel after Awake, or the range still refers to a place it no longer occupies.",
+    "FilterDelta(Vector2, DragAxis)": "Pure and static — the axis rule on its own. Public so it is testable without a live EventSystem and reusable by anything that moves the panel itself.",
+    "ClampToConstraints(Vector2)": "Takes a desired anchoredPosition and returns the allowed one, with every enabled restriction applied. This is the whole constraint system as one callable function, which is what lets the self-test exercise it against real RectTransforms with no canvas and no input."
+  },
   "gotchas": [
     {
+      "title": "Clamp To Parent was wrong for anything but a centre-anchored panel — fixed",
+      "body": "It used to assume anchoredPosition was measured from the parent's CENTRE. It is actually measured from the anchor, so a panel anchored anywhere else was clamped to a window offset by the gap between the two. The toolkit's own UIPolish demo anchors at (0.75, 0.75) on a 1280-wide canvas and could be dragged roughly 320px off the right edge with this switched on. It now derives the panel's centre by transforming a real point instead of reconstructing it from anchor maths, which is correct for any anchor, any pivot and a stretched rect alike."
+    },
+    {
+      "title": "The restrictions intersect — they are not applied in order",
+      "body": "Each enabled restriction narrows one allowed window, and the panel is clamped into it once. Applying them one after another would be order-dependent: clamping to the range and then to the parent lets the parent step push the panel back outside the range. If a drag stops sooner than you expect with both on, the other restriction is the tighter one."
+    },
+    {
       "title": "Dragging fights a layout group",
-      "body": "A panel under a layout group has its position overwritten every rebuild. Drag panels that are not laid out."
+      "body": "A panel under a layout group has its position overwritten every rebuild. Drag panels that are not laid out — and if a layout does position it once at startup, call SetHomeToCurrentPosition afterwards so the range is measured from where it actually landed."
+    },
+    {
+      "title": "A panel larger than its parent pins to an edge",
+      "body": "With Clamp To Parent on, an oversized panel produces a genuinely inverted allowed window. The bounds are ordered rather than trusted, so it settles against an edge instead of jumping or producing NaN — but the real fix is not to clamp a panel bigger than the thing containing it."
     }
   ],
-  "seeAlso": [
-    "DraggableItem"
-  ]
+  "seeAlso": ["DraggableItem", "ScrollSnap", "PullToRefresh"]
 }

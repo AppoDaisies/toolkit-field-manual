@@ -6,8 +6,8 @@
   "src_ns": "Toolkit.UI",
   "src_file": "UI/DraggablePanel/DraggableUIPanel.cs",
   "src_lines": [
-    9,
-    43
+    24,
+    166
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [
@@ -20,7 +20,7 @@
   "src_attributes": {
     "addComponentMenu": "Toolkit/UI/Draggable UI Panel"
   },
-  "src_typeComment": "Drop on a UI panel (typically a \"title bar\" child, but works directly on the panel too) to make it drag-to-move — movable HUD elements, debug/inspector-style floating windows.",
+  "src_typeComment": "Drop on a UI panel (typically a \"title bar\" child, but works directly on the panel too) to make it drag-to-move — movable HUD elements, debug/inspector-style floating windows, pull-out drawers.  Three things can restrict the movement, and they combine rather than override each other: * Drag Axis     — horizontal only, vertical only, or free. * Limit Range   — how far it may travel from its HOME position, per side. * Clamp To Parent — it may not leave its parent's bounds. Whichever is most restrictive at any moment is the one you feel.",
   "src_serialized": [
     {
       "name": "panelToMove",
@@ -33,20 +33,76 @@
       "comment": null
     },
     {
+      "name": "dragAxis",
+      "type": "DragAxis",
+      "default": "DragAxis.Both",
+      "tooltip": "Which directions the panel may be dragged in. A locked axis receives no movement at all.",
+      "header": null,
+      "range": null,
+      "order": 1,
+      "comment": null
+    },
+    {
       "name": "clampToParent",
       "type": "bool",
       "default": "true",
       "tooltip": "Keeps the panel fully within its parent's bounds while dragging.",
       "header": null,
       "range": null,
-      "order": 1,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "limitRange",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "Limit how far the panel may travel from where it started. Turn this on for a drawer that pulls out only so far.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "minOffset",
+      "type": "Vector2",
+      "default": "new Vector2(-200f, -200f)",
+      "tooltip": "Furthest it may go LEFT and DOWN from its home position, in pixels. Negative values. Use 0 on an axis to forbid movement that way entirely.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "maxOffset",
+      "type": "Vector2",
+      "default": "new Vector2(200f, 200f)",
+      "tooltip": "Furthest it may go RIGHT and UP from its home position, in pixels. Positive values. Use 0 on an axis to forbid movement that way entirely.",
+      "header": null,
+      "range": null,
+      "order": 5,
       "comment": null
     }
   ],
   "src_members": [
     {
+      "id": "HomePosition",
+      "sig": "public Vector2 HomePosition",
+      "kind": "property",
+      "name": "HomePosition",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetHomeToCurrentPosition()",
+      "sig": "public void SetHomeToCurrentPosition()",
+      "kind": "method",
+      "name": "SetHomeToCurrentPosition",
+      "static": false,
+      "comment": "Re-bases the range on wherever the panel is now. Needed if your own code, or a layout group, moves the panel after Awake — otherwise the range is still measured from a position it no longer occupies."
+    },
+    {
       "id": "OnBeginDrag(PointerEventData)",
-      "sig": "public void OnBeginDrag(PointerEventData eventData) { }",
+      "sig": "public void OnBeginDrag(PointerEventData eventData) => EnsureInitialized()",
       "kind": "method",
       "name": "OnBeginDrag",
       "static": false,
@@ -59,10 +115,26 @@
       "name": "OnDrag",
       "static": false,
       "comment": null
+    },
+    {
+      "id": "FilterDelta(Vector2, DragAxis)",
+      "sig": "public static Vector2 FilterDelta(Vector2 delta, DragAxis axis)",
+      "kind": "method",
+      "name": "FilterDelta",
+      "static": true,
+      "comment": "Pure and public so the axis rule is testable without a live EventSystem, and reusable by anything that wants to move the panel itself."
+    },
+    {
+      "id": "ClampToConstraints(Vector2)",
+      "sig": "public Vector2 ClampToConstraints(Vector2 desiredAnchoredPosition)",
+      "kind": "method",
+      "name": "ClampToConstraints",
+      "static": false,
+      "comment": "Every enabled restriction narrowed into ONE allowed window, then a single clamp into it.  Applying the restrictions one after another would make the result order-dependent: clamp to the range and then to the parent, and the parent step can push the panel back outside the range. An intersection cannot do that, and it is also what \"whichever is most restrictive wins\" actually means."
     }
   ],
   "src_enumValues": [],
-  "src_selfTest": null,
+  "src_selfTest": "UI/DraggablePanel/Editor/DraggableUIPanelSelfTest.cs",
   "src_demoScene": [
     "UIPolish_Demo"
   ]
