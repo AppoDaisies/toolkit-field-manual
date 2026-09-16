@@ -1,0 +1,37 @@
+{
+  "id": "localization-readme-window",
+  "name": "LocalizationReadmeWindow",
+  "cat": "Data",
+  "src_typeKind": "class",
+  "src_ns": "Toolkit.Data.EditorTools",
+  "src_file": "Data/Localization/Editor/LocalizationReadmeWindow.cs",
+  "src_lines": [
+    15,
+    171
+  ],
+  "src_base": "EditorWindow",
+  "src_implements": [],
+  "src_static": false,
+  "src_internal": false,
+  "src_runtime": false,
+  "src_attributes": {
+    "menuItem": [
+      "Toolkit/Localization/How To Use"
+    ]
+  },
+  "src_typeComment": "Toolkit > Localization > How To Use.  Exists because the rest of this folder answers \"what can it do\" and nobody was answering \"what do I actually click\". The three steps below ARE the whole system; everything else in the folder is an optional extra you reach for once you hit the problem it solves.  Every step has a button that performs it, so this is a place to DO the setup from rather than a page to read and then go and find the menus yourself.",
+  "src_serialized": [],
+  "src_members": [
+    {
+      "id": "ShowWindow()",
+      "sig": "public static void ShowWindow()",
+      "kind": "method",
+      "name": "ShowWindow",
+      "static": true,
+      "comment": null
+    }
+  ],
+  "src_enumValues": [],
+  "src_selfTest": null,
+  "src_demoScene": []
+}

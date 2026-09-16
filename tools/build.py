@@ -299,8 +299,8 @@ SYSTEMS = [
             ("Language data", ["LocaleAsset", "LocaleRegistry", "LocalizedStringAsset"]),
             ("In the scene", ["LocalizedText", "LocalizationFileLoader"]),
             ("File formats", ["LocalizationCsv", "LocalizationBundleJson", "LocalizationJson"]),
-            ("Editor integration", ["LocalizationImporterWindow", "LocalizationEditorWindow",
-                "LocalizationSceneSetup", "LocalizedTextEditor"]),
+            ("Editor integration", ["LocalizationReadmeWindow", "LocalizationImporterWindow",
+                "LocalizationEditorWindow", "LocalizationSceneSetup", "LocalizedTextEditor"]),
         ],
     },
     {

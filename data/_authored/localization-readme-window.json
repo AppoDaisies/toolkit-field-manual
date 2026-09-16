@@ -1,0 +1,33 @@
+{
+  "id": "localization-readme-window",
+  "summary": "The three steps, inside the Editor, with a button that performs each one.",
+  "overview": [
+    "Start here. The rest of this system answers \"what can it do\"; this answers \"what do I actually click\". Three steps, in plain words, each with a button that runs it \u2014 so it is a place to DO the setup from rather than a page to read before going to hunt for the menus.",
+    "Below the steps is a short list of the optional extras phrased as the problem each one solves \u2014 \"I keep mistyping keys\", \"I want to change text without rebuilding\", \"my language renders as empty boxes\" \u2014 because that is how you will actually arrive at needing them."
+  ],
+  "useCases": [
+    "Setting localisation up for the first time without reading anything else.",
+    "Coming back months later and needing the three steps again, without leaving Unity.",
+    "Finding which of the optional tools solves the problem you currently have."
+  ],
+  "whereToFind": "Toolkit \u25b8 Localization \u25b8 How To Use",
+  "walkthrough": [
+    { "name": "The flow", "what": "A small text diagram of what feeds what: sheet \u2192 locale assets + registry \u2192 manager \u2192 LocalizedText on each label. The one picture of the system that was missing." },
+    { "name": "1. Wire the scene", "what": "Runs Set Up In This Scene for you." },
+    { "name": "2. Make a label translatable", "what": "Explains the component, and selects the first LocalizedText in the open scene \u2014 including an inactive one \u2014 so you can look at a real example's inspector rather than a description of it." },
+    { "name": "3. Switch language", "what": "The single SetLocale line, and the fact that every label updates itself without being told." },
+    { "name": "Optional extras", "what": "Importer, Localization Editor, key assets, runtime loading and the font problem, each phrased as the symptom that sends you looking." },
+    { "name": "Open the demo scene", "what": "Opens Localization_Demo, offering to save the current scene first." }
+  ],
+  "gotchas": [
+    {
+      "title": "It is documentation, not a dependency",
+      "body": "Nothing in the system reads this window and deleting it breaks nothing. It exists because the demo scene proved the tool works without teaching anyone to use it."
+    },
+    {
+      "title": "The buttons act on the scene that is currently open",
+      "body": "Step 1 wires THIS scene; step 2 selects a label in THIS scene. Open the scene you mean before pressing them."
+    }
+  ],
+  "seeAlso": ["Localization", "LocalizationSceneSetup", "LocalizationImporterWindow", "LocalizationEditorWindow"]
+}
