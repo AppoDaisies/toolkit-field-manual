@@ -1,8 +1,9 @@
 {
   "id": "scroll-snap",
-  "summary": "Drag-and-release snapping for a ScrollRect, with Next/Previous stepping and a live item index.",
+  "summary": "Momentum-preserving snapping for a ScrollRect: it glides, and the snap takes over once it slows.",
   "overview": [
     "Add it beside a ScrollRect whose content is a layout group of evenly-sized items. Dragging behaves exactly like a normal ScrollRect; let go and it eases the nearest item to the centre of the viewport. Next/Previous buttons drag straight into its Inspector, and CurrentIndex tells you which item you are on at any moment.",
+    "WHO OWNS THE MOTION, which is half the tool. While you DRAG, and while the fling is still COASTING, the ScrollRect owns it completely — its inertia, deceleration and elastic bounce all run untouched. Only once the motion has settled does the snap take over, zeroing the ScrollRect's velocity so a single system is writing the position. The previous version snapped from the instant you let go, which is exactly when inertia should be starting, so the fling was overwritten before it could travel.",
     "HOW IT WORKS — worth reading once, because the maths is the whole tool and it is also where every home-made snap goes wrong.",
     "A ScrollRect does not have a concept of items. It exposes normalizedPosition: a 0-1 value describing how far along the SCROLLABLE RANGE you are, and the scrollable range is (content size − viewport size), NOT the content size. So an item's index has no direct relationship to a normalized position, and the tempting `index / (itemCount - 1)` is only ever correct when the viewport is exactly one item wide.",
     "To CENTRE item i: take that item's centre measured from the content's leading edge, subtract half a viewport — that is what moves it from the edge to the middle — and divide by the scrollable range. To find which item you are ON: express the VIEWPORT's centre in the content's own coordinates and pick the item whose centre is nearest. Releasing a drag does the second, then the first, then eases there over a few frames."
@@ -23,6 +24,26 @@
       "field": "snapSpeed",
       "why": "How quickly the scroll eases into the snapped position.",
       "tuning": "Higher is snappier. It is a lerp factor per second, so very high values arrive within a frame or two and effectively become a jump."
+    },
+    {
+      "field": "flickVelocityThreshold",
+      "why": "How fast a release must be to count as a flick.",
+      "tuning": "Single Step mode only. Below it, the release is treated as a gentle let-go and coasts normally. Set it comfortably above Snap When Slower Than or the two rules overlap confusingly."
+    },
+    {
+      "field": "flickMode",
+      "why": "What a hard flick does.",
+      "tuning": "Momentum lets the flick travel its natural distance and the snap tidies up where it lands — a normal scroll view that happens to align, and a hard flick can cross many items. Single Step catches any flick above the threshold and advances exactly one step: the page-turn carousel feel, predictable but it overrides the physics. Switchable at runtime with SetFlickMode."
+    },
+    {
+      "field": "inputQuietTime",
+      "why": "Also wait this long after the last input before snapping.",
+      "tuning": "Exists for the MOUSE WHEEL, which moves the content directly and leaves no velocity to decay — so a speed test alone would be satisfied instantly and snap between wheel notches. A drag is unaffected in practice, because its velocity takes longer than this to decay anyway. Raise it if you spin the wheel in slow bursts."
+    },
+    {
+      "field": "snapWhenSlowerThan",
+      "why": "The speed below which the snap takes over, in units per second.",
+      "tuning": "This is the dial for the whole feel. LOWER and the scroll glides almost to a stop on its own, so the snap is a barely-visible final correction. HIGHER and it grabs control earlier and feels more decisive. Around 200 is a good starting point for a 100px item."
     },
     {
       "field": "nextButton",
@@ -63,12 +84,25 @@
     "CurrentStepSize()": "How many items one press will actually move, including Page mode's answer for the viewport's current size. Useful for a label that says what the button will do.",
     "SetStepMode(ScrollSnapStep, int)": "Changes the step behaviour at runtime — for a 'jump by page' toggle in an options menu.",
     "OnSnapped": "Fires when a snap BEGINS, with the index being snapped to — not when the easing finishes. Deliberate and depended upon: PaginationDots binds to it, and a dot that lit up only after the animation settled would feel broken.",
-    "ItemCount": "The content's child count, for anything that wants the page count without reaching into the ScrollRect."
+    "ItemCount": "The content's child count, for anything that wants the page count without reaching into the ScrollRect.",
+    "IsSettling": "True while the ScrollRect still owns the motion and the snap is waiting its turn — useful to grey something out until the list has stopped.",
+    "SetFlickMode(ScrollSnapFlick)": "Swaps the flick behaviour at runtime, so the two feels can be compared without leaving Play mode.",
+    "FlickMode": "The current flick behaviour, for a label that says which one is active.",
+    "ShouldHandOff(float, float, float, float)": "The handoff rule as one pure function: settled means slow enough AND quiet for long enough. Public and static so it is testable without a pointer, a frame loop or a real fling — none of which exist in batch mode.",
+    "FlickTargetIndex(int, float, int)": "Which item a flick lands on. Positive velocity means the CONTENT is moving forward along the axis, which reveals EARLIER items, so it goes to the previous one. Getting that sign backwards sends a flick precisely the wrong way, which is why it is pulled out and tested."
   },
   "gotchas": [
     {
       "title": "It measured every item half a width out — fixed, and this is why it looked broken",
       "body": "The previous version computed an item's centre as `anchoredPosition + size * 0.5`, believing a layout group leaves anchoredPosition relative to the content's leading edge. It does not. A layout group positions children with SetInsetAndSizeFromParentEdge, which sets the child's ANCHOR to that edge and then sets anchoredPosition to `inset + size * pivot`. So at Unity's DEFAULT pivot of 0.5 — what every item built by the toolkit's own helpers has — anchoredPosition was ALREADY the centre, and adding another half size put every measurement half an item too far. Items landed half a width off-centre and the nearest-item search was biased the same way, so releasing a drag could select a neighbour of the item under the middle. It was only ever correct at a pivot of 0. Both measurements now transform a real point instead, which cannot be wrong about pivots, anchors or stretched rects."
+    },
+    {
+      "title": "The mouse wheel snaps too now — it never used to",
+      "body": "The component only handled drags, so on desktop the wheel left the strip wherever it stopped. It now implements IScrollHandler as well. Both it and the ScrollRect receive the event, because the event system delivers to every handler on the GameObject, so nothing is forwarded and nothing is consumed."
+    },
+    {
+      "title": "The elastic bounce is allowed to finish before the snap moves",
+      "body": "Overshooting past either end drives the normalized position outside 0..1, and while it is out there the snap deliberately waits — cutting the rubber-band short is exactly the feel the ScrollRect is there to provide. The visible consequence is that snapping at the very first or last item happens slightly later than in the middle of the list."
     },
     {
       "title": "Assign the ScrollRect's Viewport field",
@@ -87,5 +121,10 @@
       "body": "It measures the FIRST item to work out how many fit. Mixed-size items make that number meaningless — use Items mode there."
     }
   ],
-  "seeAlso": ["PaginationDots", "FancyScrollView", "CardCarousel", "PullToRefresh"]
+  "seeAlso": [
+    "PaginationDots",
+    "FancyScrollView",
+    "CardCarousel",
+    "PullToRefresh"
+  ]
 }

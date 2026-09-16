@@ -6,13 +6,14 @@
   "src_ns": "Toolkit.UI",
   "src_file": "UI/ScrollSnap/ScrollSnap.cs",
   "src_lines": [
-    35,
-    255
+    52,
+    360
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [
     "IBeginDragHandler",
-    "IEndDragHandler"
+    "IEndDragHandler",
+    "IScrollHandler"
   ],
   "src_static": false,
   "src_internal": false,
@@ -23,7 +24,7 @@
     ],
     "addComponentMenu": "Toolkit/Scroll Snap"
   },
-  "src_typeComment": "Drop on the same GameObject as a ScrollRect whose Content uses a Horizontal or Vertical Layout Group with evenly-sized items. Dragging works exactly like a normal ScrollRect; releasing the drag eases to the nearest item automatically.  HOW IT WORKS, because the maths is the whole tool:  1. A ScrollRect does not expose \"which item am I on\". It exposes normalizedPosition, a 0..1 value describing how far along the SCROLLABLE RANGE you are — and the scrollable range is (content size - viewport size), NOT the content size. An item's index therefore has no direct relationship to a normalized position, which is where most snap implementations go wrong. 2. To CENTRE item i: take that item's centre measured from the content's leading edge, subtract half a viewport (that is what moves it from the leading edge to the middle), and divide by the scrollable range. See ComputeCenteredNormalizedPosition. 3. To find which item you are ON: express the VIEWPORT's centre in the content's coordinates and pick the item whose centre is nearest it. See GetNearestItemIndex. 4. Releasing a drag runs step 3, then step 2, then eases there over a few frames in LateUpdate.  Both measurements find a rect's centre by TRANSFORMING A REAL POINT rather than reconstructing it from anchoredPosition — see the comment on ItemCenterAlongAxis for why that is not a stylistic choice.",
+  "src_typeComment": "Drop on the same GameObject as a ScrollRect whose Content uses a Horizontal or Vertical Layout Group with evenly-sized items. Dragging, flinging and the elastic bounce all behave exactly as a plain ScrollRect does; the snap waits until the motion has SETTLED and then eases the nearest item to centre.  HOW IT WORKS, because the maths is the whole tool:  1. A ScrollRect does not expose \"which item am I on\". It exposes normalizedPosition, a 0..1 value describing how far along the SCROLLABLE RANGE you are — and the scrollable range is (content size - viewport size), NOT the content size. An item's index therefore has no direct relationship to a normalized position, which is where most snap implementations go wrong. 2. To CENTRE item i: take that item's centre measured from the content's leading edge, subtract half a viewport (that is what moves it from the leading edge to the middle), and divide by the scrollable range. See ComputeCenteredNormalizedPosition. 3. To find which item you are ON: express the VIEWPORT's centre in the content's coordinates and pick the item whose centre is nearest it. See GetNearestItemIndex.  WHO OWNS THE MOTION, which is the other half of the tool:  Dragging   the ScrollRect. We only watch. Settling   STILL the ScrollRect — its inertia, deceleration and elastic bounce run untouched. We wait. Snapping   us. The ScrollRect's velocity is zeroed every frame so only one system writes the position.  The previous version snapped from the instant you let go, which is exactly when inertia should be starting — so the fling was overwritten before it could travel, and because nothing zeroed the ScrollRect's velocity the two systems wrote the position on the same frames and fought.",
   "src_serialized": [
     {
       "name": "horizontal",
@@ -39,10 +40,50 @@
       "name": "snapSpeed",
       "type": "float",
       "default": "10f",
-      "tooltip": "How quickly the scroll eases into the snapped position.",
+      "tooltip": "How quickly the scroll eases into the snapped position once the snap has taken over.",
       "header": null,
       "range": null,
       "order": 1,
+      "comment": null
+    },
+    {
+      "name": "snapWhenSlowerThan",
+      "type": "float",
+      "default": "200f",
+      "tooltip": "The scroll keeps its own momentum until it slows below this many units per second, then the snap takes over. LOWER = the scroll glides longer and the snap is a barely-visible final correction. HIGHER = the snap grabs control earlier and feels more decisive.",
+      "header": "When the snap takes over",
+      "range": null,
+      "order": 2,
+      "comment": null
+    },
+    {
+      "name": "inputQuietTime",
+      "type": "float",
+      "default": "0.12f",
+      "tooltip": "Also wait this long after the last input before snapping. Mostly for the mouse wheel, which moves the content directly and leaves NO velocity to decay — without a short quiet time the snap would fire between wheel notches and fight you.",
+      "header": null,
+      "range": null,
+      "order": 3,
+      "comment": null
+    },
+    {
+      "name": "flickMode",
+      "type": "ScrollSnapFlick",
+      "default": "ScrollSnapFlick.Momentum",
+      "tooltip": "Momentum = a flick travels its natural distance and the snap tidies up where it lands. Single Step = any flick above the threshold below advances exactly one step, however hard it was thrown.",
+      "header": null,
+      "range": null,
+      "order": 4,
+      "comment": null
+    },
+    {
+      "name": "flickVelocityThreshold",
+      "type": "float",
+      "default": "500f",
+      "tooltip": "How fast a release must be to count as a flick, in units per second. Only used in Single Step mode.",
+      "header": null,
+      "range": null,
+      "order": 5,
       "comment": null
     },
     {
@@ -52,7 +93,7 @@
       "tooltip": "Optional. Drag a Button here and it moves one step forward — no code needed.",
       "header": "Next / Previous",
       "range": null,
-      "order": 2,
+      "order": 6,
       "comment": null
     },
     {
@@ -62,7 +103,7 @@
       "tooltip": "Optional. Drag a Button here and it moves one step back — no code needed.",
       "header": null,
       "range": null,
-      "order": 3,
+      "order": 7,
       "comment": null
     },
     {
@@ -72,7 +113,7 @@
       "tooltip": "Items = move a fixed number of items per press (Step Size). Page = move by however many WHOLE items currently fit in the viewport, so each press advances one screenful.",
       "header": null,
       "range": null,
-      "order": 4,
+      "order": 8,
       "comment": null
     },
     {
@@ -82,7 +123,7 @@
       "tooltip": "How many items one Next/Previous press moves, when Step Mode is Items. Ignored in Page mode.",
       "header": null,
       "range": null,
-      "order": 5,
+      "order": 9,
       "comment": null
     },
     {
@@ -92,7 +133,7 @@
       "tooltip": "Wrap from the last item back to the first (and vice versa) instead of stopping at the ends.",
       "header": null,
       "range": null,
-      "order": 6,
+      "order": 10,
       "comment": null
     }
   ],
@@ -119,7 +160,15 @@
       "kind": "property",
       "name": "CurrentIndex",
       "static": false,
-      "comment": "WHICH ITEM YOU ARE ON. Updated live while you drag as well as on every snap, so a \"3 / 7\" readout can simply read it each frame. For a one-off answer without any state, call GetNearestItemIndex()."
+      "comment": "WHICH ITEM YOU ARE ON. Updated live while you drag AND while the scroll is still coasting, so a \"3 / 7\" readout can simply read it each frame. For a one-off answer, call GetNearestItemIndex()."
+    },
+    {
+      "id": "IsSettling",
+      "sig": "public bool IsSettling => isSettling",
+      "kind": "property",
+      "name": "IsSettling",
+      "static": false,
+      "comment": "True while the ScrollRect still owns the motion and the snap is waiting its turn. Useful if you want to grey something out until the list has settled."
     },
     {
       "id": "OnBeginDrag(PointerEventData)",
@@ -136,6 +185,30 @@
       "name": "OnEndDrag",
       "static": false,
       "comment": null
+    },
+    {
+      "id": "OnScroll(PointerEventData)",
+      "sig": "public void OnScroll(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnScroll",
+      "static": false,
+      "comment": "The mouse wheel never snapped at all before, because the component only handled drags. Both this and the ScrollRect receive the event — the event system delivers to every handler on the GameObject — so this does not have to forward anything, and must not consume it."
+    },
+    {
+      "id": "FlickTargetIndex(int, float, int)",
+      "sig": "public static int FlickTargetIndex(int currentIndex, float velocity, int step)",
+      "kind": "method",
+      "name": "FlickTargetIndex",
+      "static": true,
+      "comment": "Which item a flick lands on. Positive velocity means the CONTENT is moving forward along the axis, which reveals EARLIER items — so it goes to the previous one."
+    },
+    {
+      "id": "ShouldHandOff(float, float, float, float)",
+      "sig": "public static bool ShouldHandOff(float velocity, float secondsSinceInput, float speedThreshold, float quietTime)",
+      "kind": "method",
+      "name": "ShouldHandOff",
+      "static": true,
+      "comment": "The handoff rule, as one testable function: the motion has settled when it is slow enough AND the user has stopped feeding it input."
     },
     {
       "id": "SnapTo(int)",
@@ -168,6 +241,22 @@
       "name": "SetStepMode",
       "static": false,
       "comment": "Change how far a press travels at runtime — e.g. a \"jump by page\" toggle in an options menu. itemsPerStep is ignored in Page mode, where the viewport decides."
+    },
+    {
+      "id": "SetFlickMode(ScrollSnapFlick)",
+      "sig": "public void SetFlickMode(ScrollSnapFlick mode) => flickMode = mode",
+      "kind": "method",
+      "name": "SetFlickMode",
+      "static": false,
+      "comment": "Swap the flick behaviour at runtime, so the two feels can be compared without re-entering Play mode."
+    },
+    {
+      "id": "FlickMode",
+      "sig": "public ScrollSnapFlick FlickMode => flickMode",
+      "kind": "property",
+      "name": "FlickMode",
+      "static": false,
+      "comment": null
     },
     {
       "id": "CurrentStepSize()",
