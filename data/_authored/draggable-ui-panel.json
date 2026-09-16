@@ -20,7 +20,7 @@
     {
       "field": "dragAxis",
       "why": "Which directions the panel may travel in.",
-      "tuning": "A locked axis receives no movement at all — the delta is zeroed before it is applied, so the panel cannot drift even a pixel. Vertical is what turns this into a drawer; Horizontal suits a handle or a slide-out tray."
+      "tuning": "A locked axis is held at the value the panel had when the drag BEGAN, so it cannot drift by even a pixel. Vertical is what turns this into a drawer; Horizontal suits a handle or a slide-out tray."
     },
     {
       "field": "clampToParent",
@@ -46,10 +46,19 @@
   "apiNotes": {
     "HomePosition": "The anchoredPosition the range is measured from, captured when the component woke.",
     "SetHomeToCurrentPosition()": "Re-bases the range on wherever the panel is now. Needed if your code or a layout group repositions the panel after Awake, or the range still refers to a place it no longer occupies.",
-    "FilterDelta(Vector2, DragAxis)": "Pure and static — the axis rule on its own. Public so it is testable without a live EventSystem and reusable by anything that moves the panel itself.",
-    "ClampToConstraints(Vector2)": "Takes a desired anchoredPosition and returns the allowed one, with every enabled restriction applied. This is the whole constraint system as one callable function, which is what lets the self-test exercise it against real RectTransforms with no canvas and no input."
+    "ClampToConstraints(Vector2)": "Takes a desired anchoredPosition and returns the allowed one, with every enabled restriction applied. This is the whole constraint system as one callable function, which is what lets the self-test exercise it against real RectTransforms with no canvas and no input.",
+    "TryGetLocalPoint(Vector2, out Vector2)": "Converts a screen point into the parent's local coordinates using the Canvas's own camera — null for Overlay, which is what Unity wants there. Public because it is the conversion the sensitivity bug lived in, and the self-test asserts 1:1 screen tracking through it on a real Screen Space Camera canvas.",
+    "ApplyAxisLock(Vector2, Vector2, DragAxis)": "Pure and static — the axis rule on its own. It pins the locked axis to a supplied position rather than zeroing a delta, because the drag now computes an absolute position; zeroing would let a locked axis jump to the pointer on the first frame."
   },
   "gotchas": [
+    {
+      "title": "It was wildly over-sensitive on a Screen Space Camera canvas — fixed",
+      "body": "The drag used to convert pointer movement with `eventData.delta / panelToMove.lossyScale.x`. That is correct ONLY for Screen Space Overlay, where the canvas's transform scale is its scale factor. Under Screen Space Camera the canvas scales itself to fill the camera's frustum at its plane distance, so lossyScale is typically a small fraction — a canvas 1080px tall in front of an orthographic camera of size 5 has a scale near 0.009, and dividing 100px of pointer travel by that moves the panel about 10,800 units. It now uses RectTransformUtility.ScreenPointToLocalPointInRectangle with the Canvas's own camera, which is correct in all three render modes because it asks the camera to do the projection instead of guessing a scale from a transform. Every demo scene in this toolkit is Overlay, which is exactly why this was never caught here."
+    },
+    {
+      "title": "It tracks the grab point, not accumulated deltas",
+      "body": "The drag remembers where the panel sat relative to the pointer when you grabbed it, and puts it back there each frame. Two consequences worth knowing: the spot you grabbed stays under the cursor, and dragging past a clamp and back resumes exactly at your cursor instead of having silently lost the travel the clamp absorbed."
+    },
     {
       "title": "Clamp To Parent was wrong for anything but a centre-anchored panel — fixed",
       "body": "It used to assume anchoredPosition was measured from the parent's CENTRE. It is actually measured from the anchor, so a panel anchored anywhere else was clamped to a window offset by the gap between the two. The toolkit's own UIPolish demo anchors at (0.75, 0.75) on a 1280-wide canvas and could be dragged roughly 320px off the right edge with this switched on. It now derives the panel's centre by transforming a real point instead of reconstructing it from anchor maths, which is correct for any anchor, any pivot and a stretched rect alike."
@@ -67,5 +76,13 @@
       "body": "With Clamp To Parent on, an oversized panel produces a genuinely inverted allowed window. The bounds are ordered rather than trusted, so it settles against an edge instead of jumping or producing NaN — but the real fix is not to clamp a panel bigger than the thing containing it."
     }
   ],
-  "seeAlso": ["DraggableItem", "ScrollSnap", "PullToRefresh"]
+  "seeAlso": [
+    "DraggableItem",
+    "ScrollSnap",
+    "PullToRefresh"
+  ],
+  "usage": {
+    "code": "// SETUP, the whole thing:\n//   1. Add the component to the panel you want to move — or to its title bar,\n//      and drag the panel root into Panel To Move.\n//   2. The panel (or title bar) needs a RAYCAST TARGET to receive drags: an\n//      Image with Raycast Target ticked, which a panel background already is.\n//      A bare label or an empty RectTransform receives nothing.\n//   3. The Canvas needs a GraphicRaycaster and the scene an EventSystem —\n//      both are added automatically when you create UI from the menu.\n//   4. Set Drag Axis, and Limit Range if it should only travel so far.\n// No code at all for the normal case.\n\n// Only if your own code moves the panel afterwards, so the range is measured\n// from where it actually ended up:\npanel.SetHomeToCurrentPosition();",
+    "codeNote": "Works on all three Canvas render modes. Screen Space Camera and World Space need the Canvas's Render Camera assigned, which they require anyway to display at all."
+  }
 }

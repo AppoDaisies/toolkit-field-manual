@@ -15,7 +15,7 @@
   "src_internal": false,
   "src_runtime": true,
   "src_attributes": {},
-  "src_typeComment": "Which way the panel is allowed to travel. Applied to the pointer delta, so a locked axis simply never receives movement — the panel cannot drift on it even by a pixel.",
+  "src_typeComment": "Which way the panel is allowed to travel. A locked axis is held at the value the panel had when the drag began, so it cannot drift on that axis even by a pixel.",
   "src_serialized": [],
   "src_members": [],
   "src_enumValues": [

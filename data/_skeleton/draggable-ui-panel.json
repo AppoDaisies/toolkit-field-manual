@@ -7,7 +7,7 @@
   "src_file": "UI/DraggablePanel/DraggableUIPanel.cs",
   "src_lines": [
     24,
-    166
+    234
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [
@@ -102,7 +102,7 @@
     },
     {
       "id": "OnBeginDrag(PointerEventData)",
-      "sig": "public void OnBeginDrag(PointerEventData eventData) => EnsureInitialized()",
+      "sig": "public void OnBeginDrag(PointerEventData eventData)",
       "kind": "method",
       "name": "OnBeginDrag",
       "static": false,
@@ -117,10 +117,18 @@
       "comment": null
     },
     {
-      "id": "FilterDelta(Vector2, DragAxis)",
-      "sig": "public static Vector2 FilterDelta(Vector2 delta, DragAxis axis)",
+      "id": "TryGetLocalPoint(Vector2, out Vector2)",
+      "sig": "public bool TryGetLocalPoint(Vector2 screenPoint, out Vector2 localPoint)",
       "kind": "method",
-      "name": "FilterDelta",
+      "name": "TryGetLocalPoint",
+      "static": false,
+      "comment": "THE FIX FOR \"SENSITIVITY IS TOO HIGH\", and it only ever misbehaved outside Screen Space - Overlay.  The previous version converted the pointer delta with `eventData.delta / panelToMove.lossyScale.x`. That holds for Screen Space - Overlay, where the canvas's transform scale IS its scale factor. It is badly wrong for SCREEN SPACE - CAMERA and World Space, where the canvas scales itself to fill the camera's frustum at its plane distance — lossyScale there is a small number like 0.01, so dividing by it MULTIPLIES the drag by a hundred. Every demo scene in this toolkit uses Overlay, which is exactly why it was never caught here.  RectTransformUtility.ScreenPointToLocalPointInRectangle is Unity's own answer and is correct for all three render modes, because it asks the canvas's camera to do the projection rather than guessing a scale factor from a transform."
+    },
+    {
+      "id": "ApplyAxisLock(Vector2, Vector2, DragAxis)",
+      "sig": "public static Vector2 ApplyAxisLock(Vector2 desired, Vector2 lockedTo, DragAxis axis)",
+      "kind": "method",
+      "name": "ApplyAxisLock",
       "static": true,
       "comment": "Pure and public so the axis rule is testable without a live EventSystem, and reusable by anything that wants to move the panel itself."
     },
