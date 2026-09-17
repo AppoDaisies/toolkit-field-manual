@@ -89,7 +89,10 @@
     "SetFlickMode(ScrollSnapFlick)": "Swaps the flick behaviour at runtime, so the two feels can be compared without leaving Play mode.",
     "FlickMode": "The current flick behaviour, for a label that says which one is active.",
     "ShouldHandOff(float, float, float, float)": "The handoff rule as one pure function: settled means slow enough AND quiet for long enough. Public and static so it is testable without a pointer, a frame loop or a real fling — none of which exist in batch mode.",
-    "FlickTargetIndex(int, float, int)": "Which item a flick lands on. Positive velocity means the CONTENT is moving forward along the axis, which reveals EARLIER items, so it goes to the previous one. Getting that sign backwards sends a flick precisely the wrong way, which is why it is pulled out and tested."
+    "FlickTargetIndex(int, float, int)": "Which item a flick lands on. Positive velocity means the CONTENT is moving forward along the axis, which reveals EARLIER items, so it goes to the previous one. Getting that sign backwards sends a flick precisely the wrong way, which is why it is pulled out and tested.",
+    "CurrentItem": "The RectTransform you are actually on, not just its index — for when the answer is \"read the data off the card I am looking at\".",
+    "CurrentItemObject": "The same thing as a GameObject, for GetComponent.",
+    "GetItem(int)": "Any index, not only the current one. Out of range returns null rather than throwing, because a list still being populated is a normal state rather than a bug at the call site."
   },
   "gotchas": [
     {
@@ -119,6 +122,10 @@
     {
       "title": "Items must be evenly sized for Page mode",
       "body": "It measures the FIRST item to work out how many fit. Mixed-size items make that number meaningless — use Items mode there."
+    },
+    {
+      "title": "An index is a position, not an identity",
+      "body": "CurrentIndex and CurrentItem are both index-based, so inserting, removing or reordering the content makes a given index mean a different object. If you need something that survives that — saving which card the player was on, say — put your own component on each item and read it off CurrentItem, rather than remembering an index."
     }
   ],
   "seeAlso": [

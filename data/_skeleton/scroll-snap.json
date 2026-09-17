@@ -7,7 +7,7 @@
   "src_file": "UI/ScrollSnap/ScrollSnap.cs",
   "src_lines": [
     52,
-    360
+    386
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [
@@ -161,6 +161,30 @@
       "name": "CurrentIndex",
       "static": false,
       "comment": "WHICH ITEM YOU ARE ON. Updated live while you drag AND while the scroll is still coasting, so a \"3 / 7\" readout can simply read it each frame. For a one-off answer, call GetNearestItemIndex()."
+    },
+    {
+      "id": "CurrentItem",
+      "sig": "public RectTransform CurrentItem => GetItem(CurrentIndex)",
+      "kind": "property",
+      "name": "CurrentItem",
+      "static": false,
+      "comment": "THE OBJECT, not just the number. CurrentIndex is a position in the content's child list, so on its own it tells you nothing about what is actually there — these hand you the item itself, which is what you want when the answer is \"read the data off the card I am looking at\".  Index-based, which is the honest limitation: insert, remove or reorder the content and a given index now means a different object. If you need an identity that survives that, put your own component on each item and read it off CurrentItem rather than trying to remember an index."
+    },
+    {
+      "id": "CurrentItemObject",
+      "sig": "public GameObject CurrentItemObject",
+      "kind": "property",
+      "name": "CurrentItemObject",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "GetItem(int)",
+      "sig": "public RectTransform GetItem(int index)",
+      "kind": "method",
+      "name": "GetItem",
+      "static": false,
+      "comment": null
     },
     {
       "id": "IsSettling",

@@ -7,12 +7,13 @@
   "src_file": "UI/DraggablePanel/DraggableUIPanel.cs",
   "src_lines": [
     24,
-    234
+    392
   ],
   "src_base": "MonoBehaviour",
   "src_implements": [
     "IBeginDragHandler",
-    "IDragHandler"
+    "IDragHandler",
+    "IEndDragHandler"
   ],
   "src_static": false,
   "src_internal": false,
@@ -81,6 +82,46 @@
       "range": null,
       "order": 5,
       "comment": null
+    },
+    {
+      "name": "snapOnRelease",
+      "type": "bool",
+      "default": "false",
+      "tooltip": "On release, settle to either fully closed or fully open rather than staying where you let go. Needs Limit Range on and a locked Drag Axis — a drawer is a one-dimensional thing, and its two ends are the ends of the range you already set.",
+      "header": "Snap on release (drawer)",
+      "range": null,
+      "order": 6,
+      "comment": null
+    },
+    {
+      "name": "openThreshold",
+      "type": "float",
+      "default": "0.5f",
+      "tooltip": "How far along the range you must have dragged for a release to OPEN rather than fall closed. 0.5 is halfway.",
+      "header": null,
+      "range": "0f, 1f",
+      "order": 7,
+      "comment": null
+    },
+    {
+      "name": "flickVelocityThreshold",
+      "type": "float",
+      "default": "600f",
+      "tooltip": "A release faster than this OPENS or CLOSES on direction alone, whatever the threshold says — so a quick flick works without dragging most of the way. Units per second. Set to 0 to use distance only.",
+      "header": null,
+      "range": null,
+      "order": 8,
+      "comment": null
+    },
+    {
+      "name": "releaseSpeed",
+      "type": "float",
+      "default": "12f",
+      "tooltip": "How quickly it settles to open or closed after release. Higher is snappier.",
+      "header": null,
+      "range": null,
+      "order": 9,
+      "comment": null
     }
   ],
   "src_members": [
@@ -117,6 +158,14 @@
       "comment": null
     },
     {
+      "id": "OnEndDrag(PointerEventData)",
+      "sig": "public void OnEndDrag(PointerEventData eventData)",
+      "kind": "method",
+      "name": "OnEndDrag",
+      "static": false,
+      "comment": null
+    },
+    {
       "id": "TryGetLocalPoint(Vector2, out Vector2)",
       "sig": "public bool TryGetLocalPoint(Vector2 screenPoint, out Vector2 localPoint)",
       "kind": "method",
@@ -139,6 +188,70 @@
       "name": "ClampToConstraints",
       "static": false,
       "comment": "Every enabled restriction narrowed into ONE allowed window, then a single clamp into it.  Applying the restrictions one after another would make the result order-dependent: clamp to the range and then to the parent, and the parent step can push the panel back outside the range. An intersection cannot do that, and it is also what \"whichever is most restrictive wins\" actually means."
+    },
+    {
+      "id": "CanSnapOnRelease()",
+      "sig": "public bool CanSnapOnRelease()",
+      "kind": "method",
+      "name": "CanSnapOnRelease",
+      "static": false,
+      "comment": "The drawer's two detents are the ends of the range you already configured: CLOSED is home, and OPEN is whichever of Min/Max Offset sits further from home along the locked axis. That is why this needs Limit Range and a locked axis — without them there is no second position to snap to, and no single direction for \"open\" to mean."
+    },
+    {
+      "id": "NormalizedProgress",
+      "sig": "public float NormalizedProgress",
+      "kind": "property",
+      "name": "NormalizedProgress",
+      "static": false,
+      "comment": "0 = fully closed (at home), 1 = fully open. Named to match HoldToConfirmButton.NormalizedProgress, which is the toolkit's existing word for this shape of value."
+    },
+    {
+      "id": "IsOpen",
+      "sig": "public bool IsOpen => NormalizedProgress >= 0.5f",
+      "kind": "property",
+      "name": "IsOpen",
+      "static": false,
+      "comment": "Derived rather than stored, so it can never disagree with where the panel actually is. It does flip partway through a release animation, which is the honest answer to \"is it open right now\"."
+    },
+    {
+      "id": "Open()",
+      "sig": "public void Open() => SetOpen(true)",
+      "kind": "method",
+      "name": "Open",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Close()",
+      "sig": "public void Close() => SetOpen(false)",
+      "kind": "method",
+      "name": "Close",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "Toggle()",
+      "sig": "public void Toggle() => SetOpen(!IsOpen)",
+      "kind": "method",
+      "name": "Toggle",
+      "static": false,
+      "comment": null
+    },
+    {
+      "id": "SetOpen(bool)",
+      "sig": "public void SetOpen(bool open)",
+      "kind": "method",
+      "name": "SetOpen",
+      "static": false,
+      "comment": "Also the entry point a button can call, so a drawer can have a handle AND a menu item that opens it."
+    },
+    {
+      "id": "ShouldOpenOnRelease(float, float, float, float)",
+      "sig": "public static bool ShouldOpenOnRelease(float normalizedProgress, float velocityTowardOpen, float openThreshold, float flickVelocityThreshold)",
+      "kind": "method",
+      "name": "ShouldOpenOnRelease",
+      "static": true,
+      "comment": "The release rule, pulled out as a pure function so both halves are testable without a pointer. A flick WINS over the distance threshold — that is the difference between \"I have to drag it most of the way\" and \"a quick flick just works\", and it is what every phone drawer does. Kept on ONE line deliberately: the Field Manual's extractor reads a signature from a single line, so wrapping this would publish a truncated two-argument version of it."
     }
   ],
   "src_enumValues": [],

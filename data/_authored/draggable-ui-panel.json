@@ -1,9 +1,10 @@
 {
   "id": "draggable-ui-panel",
-  "summary": "Makes a panel drag-to-move, with optional axis locking and a limit on how far it may travel.",
+  "summary": "Makes a panel drag-to-move, with axis locking, travel limits, and optional drawer-style snapping on release.",
   "overview": [
     "Drop it on a panel, or on a title-bar child, to make it movable — repositionable HUD elements, floating debug windows, pull-out drawers.",
-    "Three restrictions can apply, and they COMBINE rather than override one another: an axis lock, a limit on distance from the panel's home position, and a clamp to the parent's bounds. Whichever is tightest at any moment is the one you feel."
+    "Three restrictions can apply, and they COMBINE rather than override one another: an axis lock, a limit on distance from the panel's home position, and a clamp to the parent's bounds. Whichever is tightest at any moment is the one you feel.",
+    "SNAP ON RELEASE turns it into a drawer. Its two detents are the ends of Limit Range you already set — home is closed, the far end is open — so releasing past a threshold settles fully open, and below it falls shut. A fast flick wins over the threshold in either direction, which is the difference between a drawer that feels responsive and one you have to drag most of the way."
   ],
   "useCases": [
     "A debug or inspector window the developer can move.",
@@ -41,6 +42,26 @@
       "field": "maxOffset",
       "why": "Furthest RIGHT and UP from home, in pixels. Positive values.",
       "tuning": "Same rules as minOffset. Both are ignored entirely while Limit Range is off."
+    },
+    {
+      "field": "snapOnRelease",
+      "why": "Settle to fully open or fully closed when you let go, instead of staying put.",
+      "tuning": "Needs Limit Range ON and Drag Axis set to Horizontal or Vertical. A drawer is one-dimensional, so a free axis has no single meaning for \"open\" — it refuses and says so once rather than half-working."
+    },
+    {
+      "field": "openThreshold",
+      "why": "How far along the range a release must be to open rather than fall shut.",
+      "tuning": "0.5 is halfway. Lower it for a drawer that wants to open, raise it for one that resists. Exactly at the threshold counts as open, so there is no dead spot."
+    },
+    {
+      "field": "flickVelocityThreshold",
+      "why": "A release faster than this decides on DIRECTION alone, ignoring the threshold.",
+      "tuning": "This is what makes a quick flick work without dragging most of the way. Set it to 0 to use distance only. Measured in the panel's own units per second, from the position actually APPLIED — so a drag held against a clamp correctly reads as still, not as a fast flick going nowhere."
+    },
+    {
+      "field": "releaseSpeed",
+      "why": "How quickly it settles after release.",
+      "tuning": "Higher is snappier. This is the ONLY smoothing in the component, deliberately: a drag tracks the pointer 1:1, because easing direct manipulation puts the panel behind your finger and reads as lag rather than weight. A release has no finger to lag behind, which is why smoothing belongs here and nowhere else."
     }
   ],
   "apiNotes": {
@@ -48,7 +69,15 @@
     "SetHomeToCurrentPosition()": "Re-bases the range on wherever the panel is now. Needed if your code or a layout group repositions the panel after Awake, or the range still refers to a place it no longer occupies.",
     "ClampToConstraints(Vector2)": "Takes a desired anchoredPosition and returns the allowed one, with every enabled restriction applied. This is the whole constraint system as one callable function, which is what lets the self-test exercise it against real RectTransforms with no canvas and no input.",
     "TryGetLocalPoint(Vector2, out Vector2)": "Converts a screen point into the parent's local coordinates using the Canvas's own camera — null for Overlay, which is what Unity wants there. Public because it is the conversion the sensitivity bug lived in, and the self-test asserts 1:1 screen tracking through it on a real Screen Space Camera canvas.",
-    "ApplyAxisLock(Vector2, Vector2, DragAxis)": "Pure and static — the axis rule on its own. It pins the locked axis to a supplied position rather than zeroing a delta, because the drag now computes an absolute position; zeroing would let a locked axis jump to the pointer on the first frame."
+    "ApplyAxisLock(Vector2, Vector2, DragAxis)": "Pure and static — the axis rule on its own. It pins the locked axis to a supplied position rather than zeroing a delta, because the drag now computes an absolute position; zeroing would let a locked axis jump to the pointer on the first frame.",
+    "NormalizedProgress": "0 fully closed, 1 fully open, along the locked axis. Named to match HoldToConfirmButton.NormalizedProgress, the toolkit's existing word for this shape. Signed by the direction the drawer OPENS, so a drawer that pulls downward still reads 1 when open despite its offset being negative.",
+    "IsOpen": "Derived from NormalizedProgress rather than stored, so it can never disagree with where the panel actually is. It does flip partway through a release animation, which is the honest answer to \"is it open right now\".",
+    "Open()": "Animate to fully open. Also what a menu button calls, so a drawer can have both a handle and a button.",
+    "Close()": "Animate to fully closed.",
+    "Toggle()": "Whichever of the two the panel is not currently at.",
+    "SetOpen(bool)": "The single entry point the other three use.",
+    "CanSnapOnRelease()": "Whether this panel is configured to BE a drawer — Limit Range on, a locked axis, and a non-zero range. Worth checking before you rely on Open/Close doing anything.",
+    "ShouldOpenOnRelease(float, float, float, float)": "The release rule as one pure function: a flick wins over the distance threshold, otherwise distance decides. Public and static so both halves are testable without a pointer or a frame loop."
   },
   "gotchas": [
     {
@@ -74,6 +103,14 @@
     {
       "title": "A panel larger than its parent pins to an edge",
       "body": "With Clamp To Parent on, an oversized panel produces a genuinely inverted allowed window. The bounds are ordered rather than trusted, so it settles against an edge instead of jumping or producing NaN — but the real fix is not to clamp a panel bigger than the thing containing it."
+    },
+    {
+      "title": "A drawer needs Limit Range AND a locked axis",
+      "body": "Snap On Release does nothing without both, and warns once explaining why rather than failing silently. Without a range there is no second position to snap to; with a free axis there is no single direction for \"open\" to mean. The open end is whichever of Min/Max Offset sits further from home, so the usual drawer — min (0, -260), max (0, 0) — opens downward."
+    },
+    {
+      "title": "Dragging is deliberately NOT smoothed",
+      "body": "There is no drag-smoothing setting and that is a decision, not an omission. Direct manipulation should track the pointer 1:1; easing it puts the panel behind your finger, which reads as lag rather than weight. Release Speed smooths the one movement that has no finger to lag behind."
     }
   ],
   "seeAlso": [
